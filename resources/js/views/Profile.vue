@@ -17,7 +17,7 @@
         <div class="mx-auto mt-6 flex 2xl:mt-12">
           <h2
             class="mx-auto flex text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
-            {{ user.first_name }} {{ user.last_name }}
+            {{ user.name }}
             <svg
               v-if="user.is_verified"
               xmlns="http://www.w3.org/2000/svg"
@@ -42,26 +42,20 @@
           </a>
         </p>
       </div>
-      <div class="mt-2 2xl:mt-8" v-if="user.creator_profile">
+      <div class="mt-2 2xl:mt-8" v-if="user.contact.social_links_with_followers">
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
           <div
             class="flex grid-cols-3 items-center justify-between gap-2 sm:grid-cols-6">
-            <template v-for="network in networks" :key="network">
-              <div
-                v-if="
-                  user[`show_${network}`] &&
-                  user.creator_profile[`${network}_handler`]
-                "
-                class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-slate-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
-                <a
-                  class
-                  :href="user.creator_profile[`${network}_handler`]"
-                  target="_blank">
-                  <SocialIcons groupHover height="24px" :icon="network" />
-                  <span class="sr-only">{{ network }}</span>
-                </a>
-              </div>
+            <template v-for="socialLink in user.contact.social_links_with_followers" :key="socialLink.network">
+                <SocialIcons
+                    :countsVisible="true"
+                    :linkDisabled="!socialLink.url"
+                    class="mx-auto"
+                    height="14px"
+                    :followers="socialLink.followers ? formatCount(socialLink.followers) : socialLink.followers"
+                    :link="socialLink.url ?? '#'"
+                    :icon="socialLink.network" />
             </template>
           </div>
         </fieldset>
@@ -105,7 +99,7 @@ import router from '../router';
 import SocialIcons from '../components/SocialIcons';
 
 export default {
-  name: 'CreatorProfile',
+  name: 'ContactProfile',
   components: { JovieLogo, ButtonGroup, EnvelopeOpenIcon, SocialIcons },
   props: ['profile', 'socialNetworks'],
   data() {
@@ -124,8 +118,8 @@ export default {
         vCard += 'N:' + user.first_name + ' ' + user.last_name + '\n';
         vCard += 'FN:' + user.first_name + ' ' + user.last_name + '\n';
       } else {
-        vCard += 'N:' + user.name + '\n';
-        vCard += 'FN:' + user.name + '\n';
+        vCard += 'N:' + user.full_name + '\n';
+        vCard += 'FN:' + user.full_name + '\n';
       }
       //if creator has a title
       if (user.title) {
@@ -154,61 +148,14 @@ export default {
       //add a note Saved from Jovie
       vCard += 'NOTE:Saved from Jovie\n';
       //if creator has a twitter
-      if (user.creator_profile.twitter_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=twitter:' +
-          user.creator_profile.twitter_handler +
-          '\n';
-      }
-      //if creator has a instagram
-      if (user.creator_profile.instagram_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=instagram:' +
-          user.creator_profile.instagram_handler +
-          '\n';
-      }
-      //if creator has a facebook
-      if (user.creator_profile.facebook_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=facebook:' +
-          user.creator_profile.facebook_handler +
-          '\n';
-      }
-      //if creator has a linkedin
-      if (user.creator_profile.linkedin_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=linkedin:' +
-          user.creator_profile.linkedin_handler +
-          '\n';
-      }
-      //if creator has a youtube
-      if (user.creator_profile.youtube_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=youtube:' +
-          user.creator_profile.youtube_handler +
-          '\n';
-      }
-      //if creator has a tiktok
-      if (user.creator_profile.tiktok_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=tiktok:' +
-          user.creator_profile.tiktok_handler +
-          '\n';
-      }
-      //if creator has a twitch
-      if (user.creator_profile.twitch_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=twitch:' +
-          user.creator_profile.twitch_handler +
-          '\n';
-      }
-      //if creator has a snapchat
-      if (user.creator_profile.snapchat_handler) {
-        vCard +=
-          'X-SOCIALPROFILE;TYPE=snapchat:' +
-          user.creator_profile.snapchat_handler +
-          '\n';
-      }
+        user.contact.social_links_with_followers.forEach(val => {
+            if (val.url) {
+                vCard +=
+                    `X-SOCIALPROFILE;TYPE=${val.network}:` +
+                    val.url +
+                    '\n';
+            }
+        })
       console.log(vCard);
       vCard += 'END:VCARD';
       //download the vcard

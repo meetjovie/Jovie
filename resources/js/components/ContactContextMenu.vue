@@ -37,7 +37,7 @@
             class="z-10 mt-2 w-48 origin-top-right py-1 px-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
             <div class="py-1">
               <ContactContextMenuItem
-                :creator="creator"
+                :contact="contact"
                 :contactMethods="[
                   'email',
                   'sms',
@@ -56,7 +56,7 @@
                                       v-slot="{ active }"
                                       class="cursor-pointer items-center">
                                       <button
-                                        @click="downloadVCF(this.creator)"
+                                        @click="downloadVCF(this.contact)"
                                         :class="[
                                           active
                                             ? 'bg-slate-100 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
@@ -95,7 +95,7 @@ export default {
     EllipsisVerticalIcon,
   },
   props: {
-    creator: {
+    contact: {
       type: Object,
       required: true,
     },

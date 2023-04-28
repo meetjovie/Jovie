@@ -12,21 +12,12 @@
       <template #triggerButton>
         <div class="w-full">
           <div
-            class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider"
-            :class="[
-              {
-                ' cursor-pointer hover:bg-slate-200 active:bg-slate-300 dark:hover:bg-jovieDark-800':
-                  sortable,
-              },
-            ]">
+            class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider">
             <div
               @contextmenu.prevent="openMenu()"
               class="text-medium flex w-full items-center tracking-wider">
               <component
                 class="mr-1 h-4 w-4 text-slate-400 dark:text-jovieDark-200"
-                :class="{
-                  'text-slate-600 dark:text-jovieDark-200': sortable,
-                }"
                 :is="column.icon"></component>
               <span
                 class="text-medium tracking-wider line-clamp-1 dark:text-jovieDark-200">

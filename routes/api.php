@@ -59,12 +59,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/update-password', [\App\Http\Controllers\UserController::class, 'updatePassword']);
     Route::put('/set-password', [\App\Http\Controllers\UserController::class, 'setPassword']);
 
+    //  TEAM SETTING
+    Route::get('/team-setting', [\App\Http\Controllers\TeamSettingController::class, 'index']);
+    Route::post('/team-setting', [\App\Http\Controllers\TeamSettingController::class, 'update']);
+
 //    Route::group(['middleware' => 'subscribed'], function () {
 
     //
     //IMPORT CREATORS
     Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
     Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
+    Route::post('/import-contact', [\App\Http\Controllers\ImportController::class, 'importContact']);
 
     //      USER LISTS
     Route::get('/user-lists', [\App\Http\Controllers\UserListsController::class, 'getLists']);
@@ -76,29 +81,34 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/create-list', [\App\Http\Controllers\UserListsController::class, 'createList']);
     Route::put('/update-list/{id}', [\App\Http\Controllers\UserListsController::class, 'updateList']);
 
-    //      CRM
-    Route::get('/crm-creators', [\App\Http\Controllers\CrmController::class, 'crmCreators']);
+    // CRM CONTACTS
+    Route::get('/crm-contacts', [\App\Http\Controllers\CrmController::class, 'crmContacts']);
+    Route::post('/update-contact/{id}', [\App\Http\Controllers\CrmController::class, 'updateContact']);
+    Route::post('/toggle-contacts-from-list', [\App\Http\Controllers\CrmController::class, 'toggleContactsFromList']);
+    Route::post('/toggle-archive-contacts', [\App\Http\Controllers\CrmController::class, 'toggleArchiveContacts']);
     Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);
-    Route::put('/update-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmCreator']);
-    Route::post('/update-crm-meta/{id}', [\App\Http\Controllers\CrmController::class, 'updateCrmMeta']);
+    Route::post('/mark-enriched-viewed/{contact}', [\App\Http\Controllers\CrmController::class, 'markEnrichedViewed']);
+    Route::post('/check-contacts-enrichable', [\App\Http\Controllers\CrmController::class, 'checkContactEnrichable']);
+    Route::post('/enrich-contacts', [\App\Http\Controllers\CrmController::class, 'enrichContacts']);
+    Route::post('/check-lists-enrichable', [\App\Http\Controllers\CrmController::class, 'checkListsEnrichable']);
+    Route::post('/enrich-lists', [\App\Http\Controllers\CrmController::class, 'enrichLists']);
+    Route::get('/contact-change-log/{id}', [\App\Http\Controllers\CrmController::class, 'contactChangeLog']);
+    Route::post('/suggest-merge', [\App\Http\Controllers\CrmController::class, 'suggestMerge']);
+    Route::post('/merge-contacts', [\App\Http\Controllers\CrmController::class, 'mergeContacts']);
 
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
-
-    Route::post('/toggle-creators-from-list', [\App\Http\Controllers\CrmController::class, 'toggleCreatorsFromList']);
-    Route::post('/toggle-archive-creators', [\App\Http\Controllers\CrmController::class, 'toggleArchiveCreators']);
 
     Route::get('/get-extension-creator', [\App\Http\Controllers\CrmController::class, 'getExtensionCreator'])->withoutMiddleware('state.csrf');
     Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm'])->withoutMiddleware('state.csrf');
 
     //      OVERVIEW
-    Route::get('/creators-overview/{id}', [\App\Http\Controllers\CrmController::class, 'overview']);
+    Route::post('/contacts-overview', [\App\Http\Controllers\CrmController::class, 'overview']);
     Route::post('/add-comment', [\App\Http\Controllers\CrmController::class, 'addComment']);
     Route::get('/get-comments/{id}', [\App\Http\Controllers\CrmController::class, 'getComments']);
-    Route::put('/update-overview-creator/{id}', [\App\Http\Controllers\CrmController::class, 'updateOverviewCreator']);
 
-    Route::get('/next-creator/{id}', [\App\Http\Controllers\CrmController::class, 'nextCreator']);
-    Route::get('/previous-creator/{id}', [\App\Http\Controllers\CrmController::class, 'previousCreator']);
+    Route::get('/next-contact/{id}', [\App\Http\Controllers\CrmController::class, 'nextContact']);
+    Route::get('/previous-contact/{id}', [\App\Http\Controllers\CrmController::class, 'previousContact']);
 
     // DISCOVERY
     Route::post('/add-to-crm', [\App\Http\Controllers\CrmController::class, 'addCreatorToCreator']);

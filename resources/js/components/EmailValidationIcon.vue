@@ -75,10 +75,7 @@ export default {
   },
   data() {
     return {
-      passesValidation: null,
       passedValidationMethods: [],
-      errorMessage: '',
-      validatingEmail: false,
       open: true,
     };
   },

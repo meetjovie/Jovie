@@ -9,8 +9,7 @@
 
       { 'group-hover:opacity-100': groupHover },
     ]">
-    <Float portal placement="bottom">
-      <a class="" :href="link" target="blank">
+    <a class="" :href="link" target="blank">
         <svg
           v-if="icon == 'linkedin'"
           role="img"
@@ -128,17 +127,10 @@
           {{ followers || '-' }}
         </div>
       </a>
-    </Float>
   </div>
 </template>
 <script>
-import JovieTooltip from '../components/JovieTooltip.vue';
-import { Float } from '@headlessui-float/vue';
 export default {
-  compoennts: {
-    JovieTooltip,
-    Float,
-  },
   props: {
     color: {
       type: String,

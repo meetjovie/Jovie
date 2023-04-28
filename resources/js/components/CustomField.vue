@@ -16,6 +16,16 @@
       @input="$emit('update:modelValue', $event.target.value)"
       @blur="$emit('blur')" />
   </template>
+  <template v-if="type === 'phone'">
+    <DataInputGroup
+      type="tel"
+      :placeholder="name"
+      :label="name"
+      :icon="'PhoneIcon'"
+      v-model="customFieldModel"
+      @input="$emit('update:modelValue', $event.target.value)"
+      @blur="$emit('blur')" />
+  </template>
   <template v-if="type === 'currency'">
     <!--        use datagrid cell for input currency design-->
     <DataInputGroup

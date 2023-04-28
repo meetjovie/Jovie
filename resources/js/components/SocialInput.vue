@@ -136,6 +136,10 @@
         <p v-if="network && errors[network]" class="mt-2 text-xs text-red-600">
           {{ errors[network][0] }}
         </p>
+          <div>
+              <CheckboxInput v-model="override" />
+              marking this will override data for all the contacts that match any of social handle given or extracted from this social network.
+          </div>
         <button
           :disabled="adding"
           @click="add()"
@@ -208,9 +212,11 @@ import {
 import SocialIcons from './SocialIcons';
 import ImportService from '../services/api/import.service';
 import JovieSpinner from './JovieSpinner.vue';
+import CheckboxInput from "./CheckboxInput.vue";
 
 export default {
   components: {
+      CheckboxInput,
     UserIcon,
     MagnifyingGlassIcon,
     XMarkIcon,
@@ -236,6 +242,7 @@ export default {
       loader: false,
       network: null,
       errors: {},
+      override: false,
     };
   },
   props: {
@@ -347,6 +354,7 @@ export default {
       this.errors = [];
       var form = new FormData();
       form.append(this.network, this.socialMediaProfileUrl);
+      form.append('override', this.override);
       const listId = this.list && this.list != 'null' ? this.list : '';
       if (listId) {
         form.append('list', listId);

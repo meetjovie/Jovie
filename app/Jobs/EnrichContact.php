@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Jobs;
+
+use App\Events\ContactEnriched;
+use App\Events\ContactImported;
+use App\Models\Contact;
+use App\Models\Creator;
+use App\Models\Team;
+use App\Models\UserList;
+use Illuminate\Bus\Batch;
+use Illuminate\Bus\Batchable;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
+
+class EnrichContact implements ShouldQueue
+{
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
+
+    protected $contact;
+    private $params;
+
+    /**
+     * Create a new job instance.
+     *
+     * @return void
+     */
+    public function __construct($contact, $params)
+    {
+        $this->contact = $contact;
+        $this->params = $params;
+        $this->params['enrich'] = true;
+        $this->params['contact_id'] = $contact->id;
+    }
+
+    /**
+     * Execute the job.
+     *
+     * @return void
+     */
+    public function handle()
+    {
+        $enriching = 0;
+        $batch = $this->getEnrichContactBatch();
+        if ($twitter = $this->contact->getRawOriginal('twitter')) {
+            $enriching = true;
+            $batch->add([
+                (new ImportFromSocialAndAddTOCrm($twitter, 'twitter', $this->params))->onQueue(config('import.twitter_queue'))
+            ]);
+        }
+        if ($instagram = $this->contact->getRawOriginal('instagram')) {
+            $enriching = true;
+            $batch->add([
+                (new ImportFromSocialAndAddTOCrm($instagram, 'instagram', $this->params))->onQueue(config('import.instagram_queue'))
+            ]);
+        }
+        if ($twitch = $this->contact->getRawOriginal('twitch')) {
+            $enriching = true;
+            $batch->add([
+                (new ImportFromSocialAndAddTOCrm($twitch, 'twitch', $this->params))->onQueue(config('import.twitch_queue'))
+            ]);
+        }
+        if ($tiktok = $this->contact->getRawOriginal('tiktok')) {
+            $enriching = true;
+            $batch->add([
+                (new ImportFromSocialAndAddTOCrm($tiktok, 'tiktok', $this->params))->onQueue(config('import.tiktok_queue'))
+            ]);
+        }
+        Contact::query()->where('id', $this->contact->id)->update(['enriching' => $enriching]);
+    }
+
+    public function getEnrichContactBatch()
+    {
+        $batch = DB::table('job_batches')
+            ->where('cancelled_at', null)
+            ->where('finished_at', null)
+            ->where('contact_id', $this->contact->id)->first();
+        $listId = $this->params['list_id'] ?? null;
+        $teamId = $this->params['team_id'] ?? null;
+        if (is_null($batch)) {
+            $batch = Bus::batch([])->then(function (Batch $batch) {
+                // All jobs completed successfully...
+            })->catch(function (Batch $batch, Throwable $e) {
+                // First batch job failure detected...
+            })->finally(function (Batch $batch) use ($listId, $teamId) {
+                // The batch has finished executing...
+                $batch = DB::table('job_batches')
+                    ->where('id', $batch->id)->first();
+                if ($batch) {
+                    if ($batch->failed_jobs == $batch->total_jobs) {
+                        if ($teamId) {
+                            Team::addCreditsToTeam($teamId);
+                        }
+                    }
+                    $contact = Contact::query()->where('id', $batch->contact_id)->first();
+                    $contact->enriching = false;
+                    $contact->save();
+                    ContactEnriched::dispatch($contact->id, $contact->team_id, $listId);
+                }
+            })->dispatch();
+            DB::table('job_batches')->where('id', $batch->id)->update([
+                'contact_id' => $this->contact->id,
+            ]);
+        } else {
+            $batch = Bus::findBatch($batch->id);
+        }
+
+        return $batch;
+    }
+}

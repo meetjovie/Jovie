@@ -2,9 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Crm;
 use App\Models\Import;
+use App\Models\Team;
 use App\Models\User;
 use App\Models\UserList;
 use App\Notifications\ImportNotification;
@@ -26,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class TiktokImport implements ShouldQueue
@@ -47,10 +50,13 @@ class TiktokImport implements ShouldQueue
     private $userId;
 
     private $platformUser;
+    private $platformUserTeam;
 
     private $importId;
 
     private $teamId = null;
+
+    private $contactId;
 
     /**
      * Create a new job instance.
@@ -61,26 +67,10 @@ class TiktokImport implements ShouldQueue
         $username,
         $tags = [],
         $meta = null,
-        $listId = null,
-        $userId = null,
-        $importId = null,
-        $teamId = null
     ) {
         $this->username = $username;
         $this->tags = $tags;
         $this->meta = $meta;
-        $this->listId = $listId;
-        $this->userId = $userId;
-        $this->importId = $importId;
-        if (is_null($teamId) && $listId) {
-            $list = UserList::where('id', $listId)->first();
-            if ($list) {
-                $this->teamId = $list->team_id;
-            }
-        } elseif ($teamId) {
-            $this->teamId = $teamId;
-        }
-        $this->platformUser = User::with('currentTeam')->where('id', $this->userId)->first();
     }
     /**
      * Get the middleware the job should pass through.
@@ -98,52 +88,24 @@ class TiktokImport implements ShouldQueue
      */
     public function handle()
     {
-        if (($this->userId && !is_null($this->platformUser)) && $this->platformUser->currentTeam->credits <= 0) {
-            if ($this->batch()) {
-                $this->batch()->cancel();
-                DB::table('job_batches')->where('id', $this->batch()->id)->update(
-                    ['error_code' => Import::ERROR_OUT_OF_CREDITS]
-                );
-            }
-
-            return;
-        }
-
-        if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
-            Import::markImport($this->importId, ['tiktok']);
-            if ($this->batch() && !$this->batch()->cancelled()) {
-                $this->batch()->cancel();
-            }
-
-            return;
-        }
-
         $creator = Creator::where('tiktok_handler', $this->username)->first();
         // 30 days diff
-        if ($creator && !is_null($creator->tiktok_last_scrapped_at) && (is_null(
-                    $this->platformUser
-                ) || !$this->platformUser->is_admin)) {
+        if ($creator && !is_null($creator->tiktok_last_scrapped_at)) {
             $lastScrappedDate = Carbon::parse($creator->tiktok_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
-                Import::markImport($this->importId, ['tiktok']);
-
-                return;
+                return $creator;
             }
         }
 
         try {
             $response = self::scrapTiktok($this->username);
             if (isset($response->username)) {
-                $creator = $this->insertIntoDatabase($response);
-                Import::markImport($this->importId, ['tiktok']);
-                Log::info('imported user.', ['username' => $this->username, 'network' => 'tiktok']);
                 Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'tiktok']);
+                return $this->insertIntoDatabase($response);
             } elseif ($response->getStatusCode() == 429) {
                 $this->release(5);
                 Cache::put('tiktok_lock', 1, now()->addMinutes(5));
             }  else {
-                Log::info(json_encode($response), ['username' => $this->username, 'network' => 'tiktok']);
                 Log::channel('slack_warning')->info(
                     ('NOOOO RESSPONSEE ' . $this->batch()->id),
                     [
@@ -158,7 +120,6 @@ class TiktokImport implements ShouldQueue
             if ($this->attempts() < $this->tries) {
                 $this->release(10);
             } else {
-                Import::markImport($this->importId, ['tiktok']);
                 if ($this->batch()) {
                     Log::channel('slack_warning')->info(
                         ('internal error from with in batch ' . $this->batch()->id),
@@ -203,8 +164,8 @@ class TiktokImport implements ShouldQueue
                 }
             }
         }
-        $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
-        $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
+        $creator->first_name = ucfirst(strtolower(($this->meta['firstName'] ?? null) ?: $creator->first_name)) ?: null;
+        $creator->last_name = ucfirst(strtolower(($this->meta['lastName'] ?? null) ?: $creator->last_name)) ?: null;
         $creator->city = $this->meta['city'] ?? $creator->city;
         $creator->country = $this->meta['country'] ?? $creator->country;
         $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
@@ -244,7 +205,6 @@ class TiktokImport implements ShouldQueue
         $creator->tiktok_meta = ($meta);
         $creator->tiktok_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
         return $creator;
     }
 

@@ -13,9 +13,8 @@
         ? 'bg-slate-500'
         : '',
       //design seconday then bg color white
-      design === 'secondary' ? 'bg-white' : '',
+      design === 'secondary' ? 'bg-white' : (design === 'toolbar' ? 'bg-white' : ''),
       //if toolbar then bg color white
-      toolbar ? 'bg-white' : '',
 
       { 'py-0 px-2 text-xs': size == 'xs' },
       { 'py-1 px-2 text-sm': size == 'sm' },
@@ -118,15 +117,17 @@
 
 <script>
 import {
-  EnvelopeIcon,
-  MagnifyingGlassIcon,
-  NoSymbolIcon,
-  PlusCircleIcon,
-  MinusCircleIcon,
-  MinusIcon,
-  AdjustmentsHorizontalIcon,
-  PlusIcon,
-  ChevronRightIcon,
+    EnvelopeIcon,
+    MagnifyingGlassIcon,
+    NoSymbolIcon,
+    PlusCircleIcon,
+    MinusCircleIcon,
+    MinusIcon,
+    AdjustmentsHorizontalIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
+    PlusIcon,
+    ChevronRightIcon,
 } from '@heroicons/vue/24/solid';
 import { XCircleIcon, CheckCircleIcon } from '@heroicons/vue/24/solid';
 
@@ -203,6 +204,8 @@ export default {
   components: {
     EnvelopeIcon,
     MagnifyingGlassIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
     NoSymbolIcon,
     PlusIcon,
     CheckCircleIcon,

@@ -18,7 +18,7 @@
         <div class="grid grid-cols-3">
           <div class="px-1">
             <!--  <svg
-                      v-if="creator.verified"
+                      v-if="contact.verified"
                       xmlns="http://www.w3.org/2000/svg"
                       class="relative top-8 left-20 h-4 w-4 text-slate-600"
                       viewBox="0 0 20 20"
@@ -29,16 +29,16 @@
                         clip-rule="evenodd" />
                     </svg> -->
             <img
-              v-if="imageLoaded && creator.profile_pic_url"
+              v-if="imageLoaded"
               id="profile-img-jovie"
               @error="switchToDefaultImage"
               class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"
-              :src="creator.profile_pic_url" />
+              :src="contact.profile_pic_url ?? 'image'" />
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
-              @blur="$emit('updateCrmMeta')"
-              v-model="creator.meta.name"
+              @blur="$emit('updateContact')"
+              v-model="contact.full_name"
               placeholder="Name"
               class="w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-300 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800" />
             <!-- <div class="">
@@ -52,7 +52,7 @@
                         placeholder="Company"
                         class="w-full rounded-md border border-slate-300 dark:border-jovieDark-border border-slate-700 border-opacity-0 px-1 text-2xs font-semibold text-slate-400 transition line-clamp-1 placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500" />
                     </div> -->
-            <div v-if="creator.category" class="">
+            <div v-if="contact.category" class="">
               <span
                 class="inline-flex items-center rounded-md bg-indigo-100 px-2.5 py-0.5 text-2xs font-medium text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
                 <svg
@@ -67,7 +67,7 @@
                     stroke-linejoin="round"
                     d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                 </svg>
-                {{ creator.category }}
+                {{ contact.category }}
               </span>
             </div>
 
@@ -78,30 +78,30 @@
                 'h-12 line-clamp-5': expandBio,
                 'h-8 line-clamp-2': !expandBio,
               }">
-              {{ creator.biography }}
+              {{ contact.biography }}
             </div>
           </div>
         </div>
         <div class="overflow-y-scoll grid grid-cols-6 py-2 px-4">
           <div>
             <SocialIcons
-              v-if="creator.instagram_handler || creator.meta.instagram_handler"
-              @click="editSocialNetworkURL('instagram', creator)"
+              v-if="contact.instagram || contact.instagram"
+              @click="editSocialNetworkURL('instagram', contact)"
               icon="instagram"
               :linkDisabled="
-                !creator.instagram_handler || !creator.meta.instagram_handler
+                !contact.instagram || !contact.instagram
               "
               :link="
-                creator.instagram_handler || creator.meta.instagram_handler
+                contact.instagram || contact.instagram
               "
-              :followers="formatCount(creator.instagram_followers)"
+              :followers="formatCount(contact.instagram_followers)"
               height="14"
               width="14"
               class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
               aria-hidden="true"
               :countsVisible="false" />
             <div
-              @click="editSocialNetworkURL('instagram', creator)"
+              @click="editSocialNetworkURL('instagram', contact)"
               class="group cursor-pointer text-center"
               v-else>
               <SocialIcons
@@ -112,7 +112,7 @@
                   'group-hover:block': socialURLEditing,
                 }"
                 :link="
-                  creator.instagram_handler || creator.meta.instagram_handler
+                  contact.instagram || contact.instagram
                 "
                 height="14"
                 width="14"
@@ -129,21 +129,21 @@
           </div>
           <div>
             <SocialIcons
-              v-if="creator.twitter_handler || creator.meta.twitter_handler"
-              @click="editSocialNetworkURL('twitter', creator)"
+              v-if="contact.twitter || contact.twitter"
+              @click="editSocialNetworkURL('twitter', contact)"
               icon="twitter"
               :linkDisabled="
-                !creator.twitter_handler || !creator.meta.twitter_handler
+                !contact.twitter || !contact.twitter
               "
-              :link="creator.twitter_handler || creator.meta.twitter_handler"
-              :followers="formatCount(creator.twitter_followers)"
+              :link="contact.twitter || contact.twitter"
+              :followers="formatCount(contact.twitter_followers)"
               height="14"
               width="14"
               class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
               aria-hidden="true"
               :countsVisible="false" />
             <div
-              @click="editSocialNetworkURL('twitter', creator)"
+              @click="editSocialNetworkURL('twitter', contact)"
               class="group cursor-pointer text-center"
               v-else>
               <SocialIcons
@@ -153,7 +153,7 @@
                   'group-hover:hidden': !socialURLEditing,
                   'group-hover:block': socialURLEditing,
                 }"
-                :link="creator.twitter_handler || creator.meta.twitter_handler"
+                :link="contact.twitter || contact.twitter"
                 height="14"
                 width="14"
                 class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
@@ -170,33 +170,33 @@
           </div>
           <div>
             <SocialIcons
-              v-if="creator.twitch_handler || creator.meta.twitch_handler"
-              @click="editSocialNetworkURL('twitch', creator)"
+              v-if="contact.twitch || contact.twitch"
+              @click="editSocialNetworkURL('twitch', contact)"
               icon="twitch"
               :linkDisabled="
-                !creator.twitch_handler || !creator.meta.twitch_handler
+                !contact.twitch || !contact.twitch
               "
-              :link="creator.twitch_handler || creator.meta.twitch_handler"
-              :followers="formatCount(creator.twitch_followers)"
+              :link="contact.twitch || contact.twitch"
+              :followers="formatCount(contact.twitch_followers)"
               height="14"
               width="14"
               class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
               aria-hidden="true"
               :countsVisible="false" />
             <div
-              @click="editSocialNetworkURL('twitch', creator)"
+              @click="editSocialNetworkURL('twitch', contact)"
               class="group cursor-pointer text-center"
               v-else>
               <SocialIcons
                 icon="twitch"
                 :linkDisabled="
-                  !creator.twitch_handler || !creator.meta.twitch_handler
+                  !contact.twitch || !contact.twitch
                 "
                 :class="{
                   'group-hover:hidden': !socialURLEditing,
                   'group-hover:block': socialURLEditing,
                 }"
-                :link="creator.twitch_handler || creator.meta.twitch_handler"
+                :link="contact.twitch || contact.twitch"
                 height="14"
                 width="14"
                 class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
@@ -212,21 +212,21 @@
           </div>
           <div>
             <SocialIcons
-              v-if="creator.tiktok_handler || creator.meta.tiktok_handler"
-              @click="editSocialNetworkURL('tiktok', creator)"
+              v-if="contact.tiktok || contact.tiktok"
+              @click="editSocialNetworkURL('tiktok', contact)"
               icon="tiktok"
               :linkDisabled="
-                !creator.tiktok_handler || !creator.meta.tiktok_handler
+                !contact.tiktok || !contact.tiktok
               "
-              :link="creator.tiktok_handler || creator.meta.tiktok_handler"
-              :followers="formatCount(creator.tiktok_followers)"
+              :link="contact.tiktok || contact.tiktok"
+              :followers="formatCount(contact.tiktok_followers)"
               height="14"
               width="14"
               class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
               aria-hidden="true"
               :countsVisible="false" />
             <div
-              @click="editSocialNetworkURL('tiktok', creator)"
+              @click="editSocialNetworkURL('tiktok', contact)"
               class="group cursor-pointer text-center"
               v-else>
               <SocialIcons
@@ -236,7 +236,7 @@
                   'group-hover:hidden': !socialURLEditing,
                   'group-hover:block': socialURLEditing,
                 }"
-                :link="creator.tiktok_handler || creator.meta.tiktok_handler"
+                :link="contact.tiktok || contact.tiktok"
                 height="14"
                 width="14"
                 class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
@@ -252,21 +252,21 @@
           </div>
           <div>
             <SocialIcons
-              @click="editSocialNetworkURL('youtube', creator)"
-              v-if="creator.youtube_handler || creator.meta.youtube_handler"
+              @click="editSocialNetworkURL('youtube', contact)"
+              v-if="contact.youtube || contact.youtube"
               icon="youtube"
               :linkDisabled="
-                !creator.youtube_handler || !creator.meta.youtube_handler
+                !contact.youtube || !contact.youtube
               "
-              :link="creator.youtube_handler || creator.meta.youtube_handler"
-              :followers="formatCount(creator.youtube_followers)"
+              :link="contact.youtube || contact.youtube"
+              :followers="formatCount(contact.youtube_followers)"
               height="14"
               width="14"
               class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
               aria-hidden="true"
               :countsVisible="false" />
             <div
-              @click="editSocialNetworkURL('youtube', creator)"
+              @click="editSocialNetworkURL('youtube', contact)"
               class="group cursor-pointer text-center"
               v-else>
               <SocialIcons
@@ -276,7 +276,7 @@
                   'group-hover:hidden': !socialURLEditing,
                   'group-hover:block': socialURLEditing,
                 }"
-                :link="creator.youtube_handler || creator.meta.youtube_handler"
+                :link="contact.youtube || contact.youtube"
                 height="14"
                 width="14"
                 class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
@@ -292,21 +292,21 @@
           </div>
           <div>
             <SocialIcons
-              @click="editSocialNetworkURL('linkedin', creator)"
-              v-if="creator.linkedin_handler || creator.meta.linkedin_handler"
+              @click="editSocialNetworkURL('linkedin', contact)"
+              v-if="contact.linkedin || contact.linkedin"
               icon="linkedin"
               :linkDisabled="
-                !creator.linkedin_handler || !creator.meta.linkedin_handler
+                !contact.linkedin || !contact.linkedin
               "
-              :link="creator.linkedin_handler || creator.meta.linkedin_handler"
-              :followers="formatCount(creator.linkedin_followers)"
+              :link="contact.linkedin || contact.linkedin"
+              :followers="formatCount(contact.linkedin_followers)"
               height="14"
               width="14"
               class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
               aria-hidden="true"
               :countsVisible="false" />
             <div
-              @click="editSocialNetworkURL('linkedin', creator)"
+              @click="editSocialNetworkURL('linkedin', contact)"
               class="group cursor-pointer text-center"
               v-else>
               <SocialIcons
@@ -317,7 +317,7 @@
                   'group-hover:block': socialURLEditing,
                 }"
                 :link="
-                  creator.linkedin_handler || creator.meta.linkedin_handler
+                  contact.linkedin || contact.linkedin
                 "
                 height="14"
                 width="14"
@@ -356,10 +356,10 @@
 
         <div class="px-4 py-2">
           <ButtonGroup
-            v-if="!creator.id"
+            v-if="!contact.id"
             :text="buttonText"
             :loading="saving"
-            :success="creator.saved ?? false"
+            :success="contact.saved ?? false"
             @click="saveToCrm()"
             class="w-full rounded-md py-2 px-4 font-bold text-white hover:bg-indigo-600" />
           <div class="flex" v-else>
@@ -386,7 +386,7 @@
                     class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                     <div class="py-1">
                       <ContactContextMenuItem
-                        :creator="creator"
+                        :contact="contact"
                         :contactMethods="[
                           'email',
                           'sms',
@@ -407,11 +407,11 @@
         <div class="px-2">
           <!--  <h2 class="text-xs font-semibold text-slate-600 dark:text-jovieDark-400">Lists</h2> -->
           <InputLists
-            v-if="creator.id"
-            @updateLists="updateCreatorLists"
-            :creatorId="creator.id ?? 0"
-            :lists="creator.lists"
-            :currentList="creator.current_list" />
+            v-if="contact.id"
+            @updateLists="updateContactLists"
+            :contactId="contact.id ?? 0"
+            :lists="contact.user_lists"
+            :currentList="contact.current_list" />
         </div>
       </div>
       <div class="grow overflow-y-scroll">
@@ -427,13 +427,13 @@
             <span class="sr-only">Add custom field</span>
             <PlusIcon
               class="h-4 w-4 cursor-pointer text-slate-700"
-              @click="$store.state.crmPage.showCustomFieldsModal = true"
+              @click="openCustomFieldModal()"
               aria-hidden="true" />
           </div>
         </div>
         <div
           class="h-full items-center px-2 text-center"
-          v-if="jovie && !creator.id">
+          v-if="jovie && !contact.id">
           <div
             class="mx-auto text-center text-slate-400 dark:text-jovieDark-600">
             No contact selected
@@ -441,7 +441,7 @@
         </div>
         <div
           class="h-full items-center px-2 text-center"
-          v-if="!jovie && !creator.id">
+          v-if="!jovie && !contact.id">
           <div
             class="mx-auto text-center text-slate-400 dark:text-jovieDark-600">
             Save this profile to edit contact details
@@ -451,7 +451,7 @@
           <div
             class="flex h-full flex-col justify-between"
             :class="{
-              ' blur-sm saturate-150 ': !creator.id,
+              ' blur-sm saturate-150 ': !contact.id,
             }">
             <div class="mt-2 h-full space-y-6 overflow-y-scroll px-2">
               <draggable
@@ -459,10 +459,10 @@
                 class="select-none space-y-4"
                 group="lists"
                 ghost-class="ghost-card"
-                :creator="creator"
+                :contact="contact"
                 @end="sortFields"
                 :list="fields">
-                <!-- v-if for element.model check for default field as they would already be modeled-->
+                <!-- v-if for contact[element.model] check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
                   v-for="(element, index) in fields"
@@ -472,40 +472,80 @@
                   <template v-if="element.custom">
                     <CustomField
                       @blur="
-                        $emit('updateCreator', {
-                          id: creator.id,
-                          index: creator.index,
-                          key: `crm_record_by_user.${element.code}`,
-                          value: creator.crm_record_by_user[element.code],
+                        $emit('updateContact', {
+                          id: contact.id,
+                          index: contact.index,
+                          key: `${element.code}`,
+                          value: contact[element.code],
                         })
                       "
                       :name="element.name"
                       :description="element.description"
                       :type="element.type"
                       :options="element.custom_field_options"
-                      v-model="creator.crm_record_by_user[element.code]" />
+                      v-model="contact[element.code]" />
                   </template>
                   <template v-else>
-                    <DataInputGroup
-                      @copy="copyToClipboard(creator.meta[element.model])"
-                      class="group/draggable"
-                      @actionMethod="
+                      <template v-if="element.name == 'Address'">
+                          <template v-for="addressKey in Object.keys(contact[element.model])">
+                              <DataInputGroup
+                                  @copy="copyToClipboard(contact[element.model][addressKey])"
+                                  class="group/draggable"
+                                  @actionMethod="
                         actionMethod(element.method, element.params)
                       "
-                      @actionMethod2="
+                                  @actionMethod2="
                         actionMethod(element.method2, element.params2)
                       "
-                      v-model="creator.meta[element.model]"
-                      @blur="updateCrmMeta"
-                      :id="element.name"
-                      :icon="element.icon"
-                      :socialicon="element.socialicon"
-                      :label="element.name"
-                      :disabled="!creator.id"
-                      :action="element.actionIcon"
-                      :action2="element.actionIcon2"
-                      :isCopyable="element.isCopyable"
-                      :placeholder="element.location" />
+                                  v-model="contact[element.model][addressKey]"
+                                  @blur="
+                        $emit('updateContact', {
+                          id: contact.id,
+                          index: contact.index,
+                          key: `${element.model}`,
+                          value: contact[element.model],
+                        })
+                      "
+                                  :id="addressKey"
+                                  :icon="element.icon"
+                                  :socialicon="element.socialicon"
+                                  :label="addressKey.split(/(?=[A-Z])/).join(' ')"
+                                  :disabled="!contact.id"
+                                  :action="element.actionIcon"
+                                  :action2="element.actionIcon2"
+                                  :isCopyable="element.isCopyable"
+                                  :placeholder="addressKey.split(/(?=[A-Z])/).join(' ')" />
+                          </template>
+                      </template>
+                      <template v-else>
+                          <DataInputGroup
+                              @copy="copyToClipboard(contact[element.model])"
+                              class="group/draggable"
+                              @actionMethod="
+                        actionMethod(element.method, element.params)
+                      "
+                              @actionMethod2="
+                        actionMethod(element.method2, element.params2)
+                      "
+                              v-model="contact[element.model]"
+                              @blur="
+                        $emit('updateContact', {
+                          id: contact.id,
+                          index: contact.index,
+                          key: `${element.model}`,
+                          value: contact[element.model],
+                        })
+                      "
+                              :id="element.name"
+                              :icon="element.icon"
+                              :socialicon="element.socialicon"
+                              :label="element.name"
+                              :disabled="!contact.id"
+                              :action="element.actionIcon"
+                              :action2="element.actionIcon2"
+                              :isCopyable="element.isCopyable"
+                              :placeholder="element.placeholder" />
+                      </template>
                   </template>
                 </div>
               </draggable>
@@ -520,7 +560,7 @@
             </div>
           </div>
           <div
-            v-if="!creator.id"
+            v-if="!contact.id"
             class="absolute top-24 z-30 mx-auto w-full text-center text-sm font-semibold text-slate-800 dark:text-jovieDark-200">
             Save this profile to edit contact details
           </div>
@@ -557,19 +597,19 @@
                 src="data:image/jpeg;base64,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"
               />
             </div> -->
-      <div class="mt-2 bg-white py-2 px-2 dark:bg-jovieDark-900" v-if="creator.id">
+      <div class="mt-2 bg-white py-2 px-2 dark:bg-jovieDark-900" v-if="contact.id">
         <TextAreaInput
           ref="noteInput"
-          v-model="creator.crm_record_by_user.description"
+          v-model="contact.description"
           @blur="
-          $emit('updateCreator', {
-          id: creator.id,
-          index: creator.index,
-          key: `crm_record_by_user.description`,
-          value: creator.crm_record_by_user.description,
+          $emit('updateContact', {
+          id: contact.id,
+          index: contact.index,
+          key: `description`,
+          value: contact.description,
           })
           " />
-          <span v-if="creator.crm_record_by_user.description_updated_by">Last update by: {{ creator.crm_record_by_user.description_updated_by }}</span>
+          <span v-if="contact.description_updated_by">Last update by: {{ contact.description_updated_by }}</span>
       </div>
     </div>
     <div class="mx-auto h-full items-center py-2" v-else-if="sidebarLoading">
@@ -750,11 +790,9 @@ export default {
     SocialIcons,
   },
   watch: {
-    creatorsData: function (val) {
-      console.log('this.creator');
-      this.setCreatorData();
+    contactData: function (val) {
+      this.setContactData();
       this.resetImage();
-      console.log(val);
     },
   },
   async mounted() {
@@ -768,15 +806,15 @@ export default {
       if (document.readyState == 'complete') {
         console.log('Page completed with image and files!');
         // fetch to next page or some code
-        // this.setCreatorData();
+        // this.setContactData();
       }
     };
-    this.setCreatorData();
+    this.setContactData();
 
     await this.getFields();
   },
   props: {
-    creatorsData: {
+    contactData: {
       type: Object,
       default: {
         meta: {},
@@ -794,7 +832,7 @@ export default {
       sidebarLoading: false,
       socialURLEditing: false,
       dragging: false,
-      instagram_handler: '',
+      instagram: '',
       loader: false,
       expandBio: false,
       savedToJovie: false,
@@ -810,7 +848,7 @@ export default {
         passwordConfirm: '',
         errors: [],
       },
-      creator: {
+      contact: {
         meta: {},
       },
       beFields: [],
@@ -818,6 +856,9 @@ export default {
     };
   },
   methods: {
+      openCustomFieldModal() {
+          this.$store.commit('setShowCustomFieldModal');
+      },
     sortFields(e, listId = '') {
       this.$store.dispatch('sortFields', {
         self: this,
@@ -829,7 +870,7 @@ export default {
       });
     },
     getFields() {
-      FieldService.getFields(this.creator.id)
+      FieldService.getFields(this.contact.id)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -871,13 +912,13 @@ export default {
           this.fieldsLoaded = true;
         });
     },
-    updateCreatorLists({ list, add = false }) {
+    updateContactLists({ list, add = false }) {
       if (add) {
-        if (!this.creator.lists.filter((l) => l.id == list.id).length) {
-          this.creator.lists.push(list);
+        if (!this.contact.user_lists.filter((l) => l.id == list.id).length) {
+          this.contact.user_lists.push(list);
         }
       } else {
-        this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
+        this.contact.user_lists = this.contact.user_lists.filter((l) => l.id != list.id);
       }
     },
     focusNoteInput() {
@@ -886,8 +927,8 @@ export default {
     openURL(url) {
       window.open(url, '_blank');
     },
-    updateCrmMeta() {
-      this.$emit('updateCrmMeta');
+    updateContact() {
+      this.$emit('updateContact');
     },
     fallback() {},
     actionMethod(method, data) {
@@ -928,24 +969,6 @@ export default {
         text: 'The new social link has not been saved',
       });
     },
-    emailCreator(email) {
-      console.log('email');
-      email = this.creator.meta.emails[0];
-      //go to the url mailto:creator.emails[0]
-      //if email is not null
-      if (email.length > 0) {
-        window.open('mailto:' + email);
-        //else log no email found
-      } else {
-        console.log('No email found');
-        this.$notify({
-          title: 'No email found',
-          message: 'This contact does not have an email address',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
     openLink(url) {
       console.log('url');
       //go to the url
@@ -963,89 +986,13 @@ export default {
         });
       }
     },
-    callCreator(phone) {
-      //go to the url tel:creator.meta.phone
-      //if phone is not null
-      phone = this.creator.meta.phone || this.creator.phone;
-      console.log('Calling contact at:' + phone);
-      if (phone) {
-        window.open('tel:' + phone);
-        //else log no phone found
-      } else {
-        console.log('No phone number found');
-        this.$notify({
-          title: 'No phone number found',
-          message: 'This contact does not have a phone number',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
-    instagramDMContact(username) {
-      //go to the url https://ig.me/m/USERNAME
-      //if username is not null
-      //else notify the user
-      username =
-        this.creator.meta.instagram_handler || this.creator.instagram_handler;
-      //if username is an instagram link, extract the username
-      if (username.includes('instagram.com')) {
-        username = username.split('instagram.com/')[1];
-      }
-      if (username) {
-        window.open('https://ig.me/m/' + username);
-      } else {
-        console.log('No instagram username found');
-        this.$notify({
-          title: 'No instagram username found',
-          message: 'This contact does not have an instagram username',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
-    whatsappCreator(phone) {
-      //go to the url tel:creator.meta.phone
-      //if phone is not null
-      phone = this.creator.meta.phone || this.creator.phone;
-      if (phone) {
-        console.log('whatsapp');
-        //open whatsapp://send?text=Hello World!&phone=+phone
-        window.open('whatsapp://send?text=Hey!&phone=+' + phone);
-        //else log no phone found
-      } else {
-        console.log('No phone number found');
-        this.$notify({
-          title: 'No phone number found',
-          message: 'This contact does not have a phone number',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
-    textCreator(phone) {
-      //go to the url sms:creator.meta.phone
-      //if phone is not null
-      phone = this.creator.meta.phone || this.creator.phone;
-      if (phone) {
-        window.open('sms:' + phone);
-        //else log no phone found
-      } else {
-        console.log('No phone number found');
-        this.$notify({
-          title: 'No phone number found',
-          message: 'This contact does not have a phone number',
-          type: 'warning',
-          group: 'user',
-        });
-      }
-    },
     saveToCrm() {
       this.saving = true;
-      UserService.saveToCrm(this.creator)
+      UserService.saveToCrm(this.contact)
         .then((response) => {
           response = response.data;
           if (response.status) {
-            this.creator.saved = true;
+            this.contact.saved = true;
           } else {
             this.$notify({
               group: 'user',
@@ -1077,9 +1024,9 @@ export default {
     resetImage() {
       this.imageLoaded = true;
     },
-    editSocialNetworkURL(network, creator) {
+    editSocialNetworkURL(network, contact) {
       console.log(network);
-      console.log(creator);
+      console.log(contact);
       this.setNetwork(network);
       this.socialURLEditing = true;
       //focus on  id="social_network_url"
@@ -1091,9 +1038,9 @@ export default {
 
             this.activeSocialNetworkURLEdit = {
               network: network,
-              creator: creator,
+              contact: contact,
             };
-            this.$emit('editSocialNetworkURL', network, creator); */
+            this.$emit('editSocialNetworkURL', network, contact); */
     },
     setNetwork(network) {
       console.log(network);
@@ -1117,27 +1064,27 @@ export default {
       //turn off the sidebar
       this.$store.state.ContactSidebarOpen = false;
     },
-    setCreatorData() {
+    setContactData() {
       ///listen for an object from the content script
       try {
-        if (this.creatorsData.id) {
-          this.creator = this.creatorsData;
+        if (this.contactData.id) {
+          this.contact = this.contactData;
         } else {
           let queryParameters = store.state.extensionQuery;
           let image = queryParameters.split('image=')[1];
           const urlParameters = new URLSearchParams(queryParameters);
-          let creator = urlParameters.get('creator');
-          creator = JSON.parse(decodeURIComponent(creator));
+          let contact = urlParameters.get('contact');
+          contact = JSON.parse(decodeURIComponent(contact));
 
           let cPromise = new Promise(async (resolve, reject) => {
-            UserService.getCrmCreatorByHandler({
-              network: creator.network,
-              username: creator[`${creator.network}_handler`],
+            UserService.getCrmContactByHandler({
+              network: contact.network,
+              username: contact[`${contact.network}`],
             }).then((response) => {
               response = response.data;
               if (response.status) {
-                response.creator.network = creator.network;
-                resolve(response.creator);
+                response.contact.network = contact.network;
+                resolve(response.contact);
               } else {
                 reject();
               }
@@ -1146,38 +1093,38 @@ export default {
 
           cPromise.then(
             (value) => {
-              this.creator = value;
-              console.log('creator from iframe DB');
-              console.log(this.creator);
+              this.contact = value;
+              console.log('contact from iframe DB');
+              console.log(this.contact);
             },
             () => {
               let promise = new Promise(async (resolve, reject) => {
-                if (image && creator.network == 'instagram') {
+                if (image && contact.network == 'instagram') {
                   await this.$store
                     .dispatch('uploadTempFileFromUrl', image)
                     .then((response) => {
                       image = response.url;
-                      creator.profile_pic_url = image;
+                      contact.profile_pic_url = image;
                       resolve();
                     });
                 } else {
-                  creator.profile_pic_url = decodeURIComponent(image);
+                  contact.profile_pic_url = decodeURIComponent(image);
                   resolve();
                 }
               });
               promise.then((response) => {
-                if (creator.meta == undefined) {
-                  creator.meta = {};
+                if (contact== undefined) {
+                  contact= {};
                 }
-                // for (const property in creator) {
+                // for (const property in contact) {
                 //   if (property == 'website') {
-                //     creator[property] = decodeURIComponent(creator[property]);
+                //     contact[property] = decodeURIComponent(contact[property]);
                 //   }
                 // }
 
-                this.creator = creator;
-                console.log('creator from iframe');
-                console.log(this.creator);
+                this.contact = contact;
+                console.log('contact from iframe');
+                console.log(this.contact);
               });
             }
           );

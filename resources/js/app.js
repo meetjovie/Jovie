@@ -23,11 +23,19 @@ app.mixin({
     currentUser() {
       return store.state.AuthState.user;
     },
-    creators() {
+    contacts() {
       return this.$store.state.crmRecords;
     },
   },
   methods: {
+      generateUniqueNumericString(length = 10) {
+          let timestamp = new Date().getTime().toString();
+          let random = '';
+          for (let i = 0; i < length - timestamp.length; i++) {
+              random += Math.floor(Math.random() * 10);
+          }
+          return timestamp + random;
+      },
     async reconnectPusher() {
       return new Promise(async (resolve, reject) => {
         await Echo.disconnect();
@@ -107,6 +115,8 @@ app.mixin({
       return time.format('ddd MMM DD, YYYY [at] HH:mm a');
     },
     switchToDefaultImage(e) {
+        console.log(this.asset('img/noimage.webp'))
+        console.log(e)
       e.target.src = this.asset('img/noimage.webp');
     },
   },

@@ -158,12 +158,12 @@
                 {{ item.full_name }}
               </div>
               <div class="pt-.05 pb-1 text-xs font-medium text-slate-900">
-                <CreatorTags size="xs" color="none" text="Category" />
-                <CreatorTags size="xs" color="purple" text="Fashion" />
-                <CreatorTags size="xs" color="blue" text="Music" />
-                <CreatorTags size="xs" color="pink" text="Other" />
+                <ContactTags size="xs" color="none" text="Category" />
+                <ContactTags size="xs" color="purple" text="Fashion" />
+                <ContactTags size="xs" color="blue" text="Music" />
+                <ContactTags size="xs" color="pink" text="Other" />
               </div>
-              <CreatorSocialLinks class="mt-1" />
+              <ContactSocialLinks class="mt-1" />
             </div>
           </div>
         </td>
@@ -299,8 +299,8 @@ import {
   CheckIcon,
   MagnifyingGlassCircleIcon,
 } from '@heroicons/vue/24/solid';
-import CreatorTags from '../Creator/CreatorTags';
-import CreatorSocialLinks from '../Creator/CreatorSocialLinks';
+import ContactTags from '../Contact/ContactTags.vue';
+import ContactSocialLinks from '../Contact/ContactSocialLinks.vue';
 
 const people = [
   { id: 1, name: 'Wade Cooper' },
@@ -336,8 +336,8 @@ export default {
     ChevronDownIcon,
     CheckIcon,
     MagnifyingGlassCircleIcon,
-    CreatorTags,
-    CreatorSocialLinks,
+    ContactTags,
+    ContactSocialLinks,
     ChevronUpIcon,
   },
   data() {

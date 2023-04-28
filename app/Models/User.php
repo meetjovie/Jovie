@@ -60,7 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $user = self::with('teams', 'teams.users', 'teams.invites', 'currentTeam', 'ownedTeams')
             ->where('id', $userId ?? Auth::id())->first();
-        if ($user->currentSubscription) {
+        if ($user->currentTeam && $user->currentTeam->currentSubscription()) {
             $user->currentTeam->current_subscription = $user->currentTeam->currentSubscription();
             $user->isCurrentTeamOwner = $user->currentTeam->owner_id == $user->id;
             $user->currentTeam->subscribed = false;
@@ -79,9 +79,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Team::class, 'owner_id', 'id')->with('users');
     }
 
-    public function creatorProfile()
+    public function contactProfile()
     {
-        return $this->hasOne(Creator::class);
+        return $this->hasOne(Contact::class, 'owner_id');
     }
 
     public function crms()

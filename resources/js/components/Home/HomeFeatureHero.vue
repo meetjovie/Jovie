@@ -35,12 +35,12 @@
           </div>
         </div>
       </div>
-    </div> 
+    </div>
   <div class="py-12">
     <div class="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
       <h2
         class="bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 bg-clip-text text-center text-xs font-semibold uppercase tracking-wide text-transparent">
-        Creator data
+        Contact data
       </h2>
       <p
         class="mt-2 text-center text-3xl font-extrabold leading-8 tracking-tight text-slate-900 sm:text-4xl">

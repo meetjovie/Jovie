@@ -8,7 +8,7 @@
         ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-800'
         : '',
 
-      freezeColumn && currentContact.id == creator.id
+      freezeColumn && currentContact.id == contact.id
         ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
         : 'text-slate-600 dark:text-slate-200',
       cellActive
@@ -29,43 +29,37 @@
         class="mx-auto px-2"
         :star-size="12"
         :increment="0.5"
-        v-model:rating="creator.crm_record_by_user.rating"
+        v-model:rating="contact.rating"
         @update:rating="
-          $emit('updateCreator', {
-            id: creator.id,
+          $emit('updateContact', {
+            id: contact.id,
             index: row,
-            key: `crm_record_by_user.rating`,
-            value: creator.crm_record_by_user.rating,
+            key: column.key,
+            value: contact.rating,
           })
         " />
 
       <DataGridCellTextInput
         v-else-if="
-          ['text', 'email', 'currency', 'number', 'url'].includes(column.type)
+          ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(column.type)
         "
         :ref="cellActive"
         :fieldId="fieldId"
         @blur="updateData"
         :dataType="column.type"
-        v-model="localModelValue" />
-
-      <DataGridSocialLinksCell
-        :creator="creator"
-        :networks="networks"
-        :show-count="true"
-        v-else-if="column.type == 'socialLinks'" />
+        v-model="localModelValue"
+      />
       <ContactStageMenu
         v-else-if="column.type == 'select' && column.name == 'Stage'"
-        :creator="creator"
-        :key="row"
-        :open="showContactStageMenu[row]"
+        :contact="contact"
+        :key="row ?? 0"
+        :open="showContactStageMenu[row] ?? false"
         @close="toggleContactStageMenu(row)"
         :stages="stages"
         :index="row"
-        @updateCreator="$emit('updateCreator', $event)" />
+        @updateContact="$emit('updateContact', $event)" />
       <DataGridSocialLinksCell
-        :creator="creator"
-        :networks="networks"
+          :socialLinks="contact.social_links_with_followers"
         :show-count="showFollowersCount"
         v-else-if="column.type == 'socialLinks'" />
       <div v-else-if="column.type == 'date'">
@@ -95,14 +89,20 @@
         v-else-if="column.type == 'multi_select' && column.name == 'Lists'">
         <template #default>
           <InputLists
-            @updateLists="$emit('updateCreatorLists', $event)"
-            :creatorId="creator.id ?? 0"
+            @updateLists="$emit('updateContactLists', $event)"
+            :contactId="contact.id ?? 0"
             :listItems="userLists"
-            :lists="creator.lists"
-            :currentList="creator.current_list" />
+            :lists="contact.user_lists"
+            :currentList="contact.current_list" />
         </template>
         <template #fallback> Loading... </template>
       </Suspense>
+        <CheckboxInput
+            v-else-if="column.type == 'checkbox'"
+            :name="`checkbox_${fieldId}_${contact.id}`"
+            v-model="localModelValue"
+            :checked="localModelValue"
+            @markCheck="updateData" />
       <CustomField
         v-else-if="
           (column.type == 'multi_select' || column.type == 'select') &&
@@ -111,7 +111,7 @@
         @blur="updateData"
         :type="column.type"
         :options="column.custom_field_options"
-        v-model="creator.crm_record_by_user[column.code]" />
+        v-model="contact[column.code]" />
       <span v-else
         >Data Type:
         {{ column.type }}
@@ -155,7 +155,7 @@ export default {
     };
   },
   watch: {
-    creator: {
+    contact: {
       deep: true,
       handler: function (val) {
         this.rerenderKey += 1;
@@ -168,22 +168,15 @@ export default {
   },
   methods: {
     updateData(value = null) {
-      this.$nextTick(() => {
+        this.$nextTick(() => {
         this.$emit('update:modelValue', this.localModelValue);
-        if (this.column.meta) {
-          this.$emit('updateCrmMeta', this.creator);
-        } else {
           let key = this.column.key;
-          if (this.column.custom) {
-            key = `crm_record_by_user.${key}`;
-          }
-          this.$emit('updateCreator', {
-            id: this.creator.id,
+          this.$emit('updateContact', {
+            id: this.contact.id,
             index: this.row,
             key: key,
-            value: value ?? this.localModelValue,
+            value: this.localModelValue ?? value,
           });
-        }
       });
     },
     handleInput(event) {
@@ -251,7 +244,7 @@ export default {
   props: {
     userLists: Array,
     currentContact: Object,
-    creator: Object,
+    contact: Object,
     selectedCreators: Array,
     freezeColumn: Boolean,
     fieldId: String,
@@ -263,9 +256,9 @@ export default {
       type: Object,
       default: {},
     },
-    modelValue: String,
+    modelValue: {},
     currentCell: Object,
-    cellActive: Boolean,
+    cellActive: Boolean|String,
     networks: Array,
     stages: Array,
   },

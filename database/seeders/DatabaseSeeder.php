@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $team = $teamModel::create([
             'name' => $user->first_name,
             'owner_id' => $user->id,
+            'credits' => 10000000
         ]);
         $user->attachTeam($team);
     }

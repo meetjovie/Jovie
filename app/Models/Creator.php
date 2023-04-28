@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\CreatorImported;
+use App\Events\ContactImported;
 use App\Traits\CustomFieldsTrait;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
@@ -103,16 +103,34 @@ class Creator extends Model
         return $this->full_name ?? ($this->first_name ? ($this->first_name.' '.$this->last_name) : null) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name ?? $this->tiktok_name;
     }
 
+    public function getFirstName($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        return $creator->first_name ?: ($creator->name ? explode(' ', $creator->name)[0] : null);
+    }
+
+    public function getLastName($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        return $creator->last_name ?: ($creator->name ? (explode(' ', $creator->name)[1] ?? null) : null);
+    }
+
     public function getName($creator = null)
     {
         if (is_null($creator)) {
             $creator = $this;
         }
 
-        return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name ?? $creator->tiktok_name;
+        return $creator->full_name ?: ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name ?? $creator->tiktok_name;
     }
 
-    public function getBiographyAttribute($creator)
+    public function getBiographyAttribute($creator = null)
     {
         if (is_null($creator)) {
             $creator = $this;
@@ -956,7 +974,7 @@ class Creator extends Model
                 $crm->source = $source;
                 $crm->save();
             }
-            CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
+            ContactImported::dispatch($creator->id, $userId, $teamId, $listId);
         }
     }
 

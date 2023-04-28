@@ -5,20 +5,48 @@
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div class="">
-              <div class="mt-2 w-full px-4">
-                <div
-                  @click="showCreatorModal = true"
-                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
-                  <div class="flex items-center text-xs">
-                    <PlusIcon
-                      class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
-                      aria-hidden="true" />
-                    New Contact
-                  </div>
-                  <div class="items-center">
-                    <KBShortcut shortcutKey="C"></KBShortcut>
-                  </div>
-                </div>
+
+                <div class="flex items-center text-xs">
+                  <Menu>
+                    <Float portal :offset="2" placement="bottom-start">
+                      <MenuButton
+                       class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        <PlusIcon
+                          class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                          aria-hidden="true" />
+                        <span class="line-clamp-1 px-2 text-center"
+                          >New Contact</span
+                        >
+                        <div class="items-center">
+                          <KBShortcut :shortcutKey="['C']"></KBShortcut>
+                        </div>
+                      </MenuButton>
+                      <transition
+                        enter-active-class="transition duration-100 ease-out"
+                        enter-from-class="transform scale-95 opacity-0"
+                        enter-to-class="transform scale-100 opacity-100"
+                        leave-active-class="transition duration-75 ease-in"
+                        leave-from-class="transform scale-100 opacity-100"
+                        leave-to-class="transform scale-95 opacity-0">
+                        <MenuItems
+                          class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                          <div class="py-1">
+                            <DropdownMenuItem
+                              @click="openImportContactModal()"
+                              name="New Contact"
+                              color="text-blue-600 dark:text-blue-400"
+                              icon="PhoneIcon" />
+                            <DropdownMenuItem
+                              @click="openImportContactModal(true)"
+                              name="Import contact from social"
+                              color="text-blue-600 dark:text-blue-400"
+                              icon="PhoneIcon" />
+                          </div>
+                        </MenuItems>
+                      </transition>
+                    </Float>
+                  </Menu>
+
               </div>
 
               <Menu v-slot="{ open }">
@@ -142,6 +170,7 @@
                           @updateUserList="updateUserList($event)"
                           @setFilterList="setFilterList"
                           @updateMenuItems="pinnedUserLists = $event"
+                          @setListUpdating="setListUpdating"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
                       <template #fallback> Loading... </template>
@@ -150,6 +179,7 @@
                     <Suspense>
                       <template #default>
                         <MenuList
+                          :key="listKey"
                           ref="menuListAll"
                           @getUserLists="getUserLists"
                           @setFiltersType="setFiltersType"
@@ -161,6 +191,7 @@
                           @onListDrop="onListDrop($event)"
                           @end="sortLists"
                           @updateMenuItems="filteredUsersLists = $event"
+                          @setListUpdating="setListUpdating"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
                       <template #fallback> Loading... </template>
@@ -186,7 +217,7 @@
               </div>
 
               <div
-                class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-jovieDark-border">
+                class="flex-shrink-0 border-t border-slate-200 px-2 py-2 dark:border-jovieDark-border">
                 <Menu>
                   <MenuItems static>
                     <MenuItem as="div" v-slot="{ active }">
@@ -204,7 +235,7 @@
                             aria-hidden="true" />Upload A CSV
                         </div>
                         <div class="items-center">
-                          <CreatorTags
+                          <ContactTags
                             v-if="
                               !currentUser.current_team.current_subscription
                             "
@@ -234,7 +265,7 @@
                 <div class="mt-1 flex items-center justify-between py-1">
                   <div
                     @click="openUpgradeModal()"
-                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-2 px-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
+                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 px-2 py-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
                     <div class="flex items-center">
                       <ArrowUpCircleIcon class="mr-1 h-4 w-4 text-slate-500" />
                       <span
@@ -351,7 +382,7 @@
                                               class="mx-auto w-full" />
                                           </div>
                                           <div
-                                            class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -412,7 +443,7 @@
                                             </p>
                                           </div>
                                           <div
-                                            class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -472,9 +503,16 @@
                 <div class="mx-auto h-full w-full p-0">
                   <div class="inline-block h-full w-full align-middle">
                     <div class="h-full w-full dark:bg-jovieDark-900">
-                      <!--  Show import screen if no creators -->
+                      <AlertBanner
+                        v-if="limitExceedBy > 0 && totalAvailable"
+                        design="primary"
+                        :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+                        :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+                        :cta="`Upgrade`"
+                        ctaLink="Billing" />
+                      <!--  Show import screen if no contacts -->
                       <!--  <div
-                        v-if="!loading && !creators.length && !showImporting"
+                        v-if="!loading && !contacts.length && !showImporting"
                         class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
@@ -493,7 +531,7 @@
                             <SocialInput
                               class="py-12"
                               :list="filters.list"
-                              @finishImport="closeImportCreatorModal" />
+                              @finishImport="closeImportContactModal" />
                             <InternalMarketingChromeExtension class="mt-24" />
                           </div>
                         </div>
@@ -501,7 +539,7 @@
 
 
                       <div
-                        v-else-if="showImporting && !creators.length"
+                        v-else-if="showImporting && !contacts.length"
                         class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
                         <div class="mx-auto max-w-xl">
                           <div
@@ -513,21 +551,20 @@
                                 You've just initated an import.
                               </h1>
                               <span class="text-sm font-medium text-slate-900"
-                                >You'll see creators populate this space
+                                >You'll see contacts populate this space
                                 soon.</span
                               >
                             </div>
                           </div>
                         </div>
                       </div> -->
-                      <!-- Show the crm if there are creators -->
+                      <!-- Show the crm if there are contacts -->
                       <div>
                         <!--  <CrmTable
                           class="overflow-hidden"
                           ref="crmTable"
                           @addContact="showCreatorModal = true"
-                          @updateCreator="updateCreator"
-                          @updateCrmMeta="updateCrmMeta"
+                          @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"
                           @updateListCount="updateListCount"
@@ -540,46 +577,43 @@
                           :subheader="counts"
                           :filters="filters"
                           :userLists="userLists"
-                          :creators="creators"
+                          :contacts="contacts"
                           :networks="networks"
                           :stages="stages"
-                          :creatorsMeta="creatorsMeta"
+                          :contactsMeta="contactsMeta"
                           :loading="loading">
                           <slot header="header"></slot>
                         </CrmTable> -->
                         <DataGrid
                           v-if="columns.length"
-                          class="overflow-hidden"
                           ref="crmTableGrid"
                           @addContact="showCreatorModal = true"
-                          @updateCreator="updateCreator"
-                          @updateCrmMeta="updateCrmMeta"
+                          @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"
                           @updateListCount="updateListCount"
                           @pageChanged="pageChanged"
-                          @getCrmCreators="getCrmCreators"
+                          @getCrmContacts="getCrmContacts"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
                           @getHeaders="getHeaders"
-                          @getFields="getFields"
+                          @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
+                          @getUserLists="getUserLists"
                           :header="
                             filters.type === 'list'
                               ? filters.currentList.name
                               : filters.type
                           "
-                          @importCSV="importCSV"
                           :subheader="counts"
                           :filters="filters"
                           :userLists="userLists"
-                          :creators="creators"
                           :networks="networks"
                           :stages="stages"
-                          :creatorsMeta="creatorsMeta"
                           :columns="columns"
                           :loading="loading"
                           :taskLoading="taskLoading"
+                          :contactsMeta="contactsMeta"
                           :headersLoaded="headersLoaded">
                           <slot header="header"></slot>
                         </DataGrid>
@@ -603,26 +637,36 @@
           <aside
             class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
-              @updateCrmMeta="updateCrmMeta"
-              @updateCreator="updateCreator"
+              @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
-              :creatorsData="currentContact" />
+              :contactData="currentContact" />
           </aside>
         </TransitionRoot>
       </div>
       <JovieUpgradeModal
         @close="closeUpgradeModal()"
         :open="showUpgradeModal" />
-      <ImportCreatorModal
-        :open="showCreatorModal"
+      <ImportContactModal
+        :open="showContactModal"
+        :fromSocial="importFromSocial"
         :list="filters.list"
-        @closeModal="closeImportCreatorModal()" />
+        @contactImported="contactImported($event)"
+        @closeModal="closeImportContactModal()" />
 
       <SupportModal
         @close="toggleShowSupportModal()"
         @message="launchSupportChat()"
         :open="showSupportModal" />
+
+      <ModalPopup
+        :loading="enrichContactsPopup.loading"
+        @primaryButtonClick="enrichContactsPopup.confirmationMethod"
+        @cancelButtonClick="resetPopup()"
+        :open="enrichContactsPopup.open"
+        :primaryButtonText="enrichContactsPopup.primaryButtonText"
+        :description="enrichContactsPopup.description"
+        :title="enrichContactsPopup.title" />
     </div>
   </div>
 </template>
@@ -682,13 +726,14 @@ import {
   ChatBubbleLeftIcon,
   SparklesIcon,
   ComputerDesktopIcon,
+  FaceSmileIcon,
 } from '@heroicons/vue/24/solid';
 import DataGrid from '../components/DataGrid.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
 import UserService from '../services/api/user.service';
 import CrmTable from '../components/Crm/CrmTable';
-import ImportCreatorModal from '../components/ImportCreatorModal';
+import ImportContactModal from '../components/ImportContactModal.vue';
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
 
@@ -698,17 +743,22 @@ import SwitchTeams from '../components/SwitchTeams';
 
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
-import CreatorTags from '../components/Creator/CreatorTags.vue';
+import ContactTags from '../components/Contact/ContactTags.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import ImportService from '../services/api/import.service';
 import KBShortcut from '../components/KBShortcut.vue';
 import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
 import FieldService from '../services/api/field.service';
+import DropdownMenuItem from '../components/DropdownMenuItem.vue';
+import ModalPopup from '../components/ModalPopup.vue';
 
 export default {
   name: 'CRM',
   components: {
+    FaceSmileIcon,
+    ModalPopup,
+    DropdownMenuItem,
     CreditCardIcon,
     JovieSidebar,
     UserIcon,
@@ -742,12 +792,11 @@ export default {
     Tab,
     DarkModeToggle,
     InternalMarketingChromeExtension,
-    ImportCreatorModal,
+    ImportContactModal,
     SocialInput,
     TransitionRoot,
     TabPanels,
     TabPanel,
-    MenuList,
     ChevronRightIcon,
     Combobox,
     EllipsisVerticalIcon,
@@ -755,10 +804,7 @@ export default {
     ComboboxButton,
     ComboboxOptions,
     ComboboxOption,
-    Menu,
     MenuButton,
-    MenuItems,
-    MenuItem,
     KBShortcut,
     ChevronDownIcon,
     CheckIcon,
@@ -766,10 +812,9 @@ export default {
     ArrowLeftOnRectangleIcon,
     UserGroupIcon,
     CloudArrowUpIcon,
-    SupportModal,
     CrmTable,
     vueMousetrapPlugin: VueMousetrapPlugin,
-    CreatorTags,
+    ContactTags,
     TransitionChild,
     JovieDropdownMenu,
     BellIcon,
@@ -802,7 +847,7 @@ export default {
       showUpgradeModal: false,
       loading: false,
       taskLoading: false,
-      creatorsMeta: {},
+      contactsMeta: {},
       /*  activeCreator: [], */
       currentContact: [],
       innerWidth: window.innerWidth,
@@ -825,6 +870,21 @@ export default {
       currentSortOrder: 'desc',
       columns: [],
       crmCounting: false,
+      listKey: 0,
+      showContactModal: false,
+      importFromSocial: false,
+      limitExceedBy: 0,
+      totalAvailable: 0,
+      enrichContactsPopup: {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        primaryButtonText: null,
+        description: '',
+        loading: false,
+      },
+      notifications: [],
+      newNotification: false,
     };
   },
   watch: {
@@ -835,10 +895,10 @@ export default {
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
-    creators: {
+    contacts: {
       deep: true,
       handler: function () {
-        this.crmCounts();
+        // this.crmCounts();
       },
     },
   },
@@ -851,13 +911,13 @@ export default {
       if (this.userLists.length && this.filters.type == 'list') {
         let list = this.userLists.find((list) => list.id == this.filters.list);
         if (list) {
-          return list.updating_list;
+          return list.updating;
         }
       }
       return false;
     },
     sortedCreators() {
-      return this.creators.sort((a, b) => {
+      return this.contacts.sort((a, b) => {
         let modifier = 1;
         if (this.currentSortDir === 'desc') modifier = -1;
         if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
@@ -882,7 +942,7 @@ export default {
   async mounted() {
     await this.getUserLists();
     await this.getHeaders();
-    this.getCrmCreators();
+    this.getCrmContacts();
     this.crmCounts();
     //c sets openCreatorModal to true
     this.$mousetrap.bind(['c'], () => {
@@ -917,14 +977,13 @@ export default {
         `userListDuplicated.${this.currentUser.current_team.id}`,
         'UserListDuplicated',
         async (data) => {
-          await this.getUserLists();
-          setTimeout(() => {
+          this.getUserLists().then(() => {
             let list = this.userLists.find((list) => list.id == data.list);
             if (list) {
-              list.updating_list = null;
+              list.updating = null;
               this.setFilterList(list.id);
             }
-          }, 200);
+          });
         }
       );
 
@@ -932,13 +991,12 @@ export default {
         `importListCreated.${this.currentUser.current_team.id}`,
         'ImportListCreated',
         async (data) => {
-          await this.getUserLists();
-          setTimeout(() => {
+          this.getUserLists().then(() => {
             let list = this.userLists.find((list) => list.id == data.list);
             if (list) {
               this.setFilterList(list.id);
             }
-          }, 200);
+          });
         }
       );
 
@@ -946,14 +1004,12 @@ export default {
         `userListImported.${this.currentUser.current_team.id}`,
         'UserListImported',
         (data) => {
-          let index = this.userLists.findIndex((list) => list.id == data.list);
-          if (index >= 0) {
-            this.userLists[index].updating_list = null;
-          }
-          this.$store.state.showImportProgress = data.remaining;
-          if (!data.remaining) {
-            this.getUserLists();
-          }
+          this.getUserLists().then(() => {
+            this.$store.state.showImportProgress = data.remaining;
+            if (!data.remaining) {
+              this.getUserLists();
+            }
+          });
         }
       );
 
@@ -961,18 +1017,18 @@ export default {
         `userListImportTriggered.${this.currentUser.current_team.id}`,
         'UserListImportTriggered',
         (data) => {
-          let index = this.userLists.findIndex((list) => list.id == data.list);
-          if (index >= 0) {
-            this.userLists[index].updating_list = true;
+          this.getUserLists().then(() => {
             this.$store.state.showImportProgress = data.remaining;
-          }
+          });
         }
       );
 
       this.listenEvents(
-        `creatorImported.${this.currentUser.current_team.id}`,
-        'CreatorImported',
+        `contactImported.${this.currentUser.current_team.id}`,
+        'ContactImported',
         (data) => {
+          console.log('datadata');
+          console.log(data);
           if (!data.list) {
             this.$store.state.importProgressSingleCount--;
           }
@@ -987,26 +1043,73 @@ export default {
             (data.list && data.list == this.filters.list) ||
             this.filters.type == 'all'
           ) {
-            let newCreator = JSON.parse(window.atob(data.creator));
-            let index = this.creators.findIndex(
-              (creator) => creator.id == newCreator.id
+            let newContact = JSON.parse(window.atob(data.contact));
+            let index = this.contacts.findIndex(
+              (contact) => contact.id == newContact.id
             );
-
+            console.log('indexindexindex');
+            console.log(index);
             if (index >= 0) {
-              this.creators[index] = newCreator;
-            } else {
-              if (this.filters.page === 1 && this.creators.length == 50) {
-                this.creators.pop();
+              this.contacts[index] = newContact;
+            } else if (!data.updating_existing) {
+              if (this.filters.page === 1 && this.contacts.length == 50) {
+                this.contacts.pop();
               }
-              if (this.creators.length) {
-                this.creators.splice(0, 0, newCreator);
+              if (this.contacts.length) {
+                this.contacts.splice(0, 0, newContact);
               } else {
-                this.creators.push(newCreator);
+                this.contacts.push(newContact);
               }
             }
           }
         }
       );
+
+      this.listenEvents(
+        `contactEnriched.${this.currentUser.current_team.id}`,
+        'ContactEnriched',
+        (data) => {
+          let newContact = JSON.parse(window.atob(data.contact));
+          console.log('newContact');
+          console.log(newContact);
+          let index = this.contacts.findIndex(
+            (contact) => contact.id == newContact.id
+          );
+          console.log('index');
+          console.log(index);
+          console.log(this.contacts);
+          if (index >= 0) {
+            this.contacts[index] = newContact;
+          }
+          console.log(this.contacts);
+        }
+      );
+      this.listenEvents(
+        `listEnriched.${this.currentUser.current_team.id}`,
+        'ListEnriched',
+        (data) => {
+          let index = this.userLists.findIndex(
+            (list) => list.id == data.list.id
+          );
+          if (index >= 0) {
+            this.userLists[index] = data.list;
+          }
+        }
+      );
+
+      this.listenEvents(
+        `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
+        'EnrichedContactDataViewed',
+        (data) => {
+          let index = this.contacts.findIndex(
+            (contact) => contact.id == data.contact_id
+          );
+          if (index >= 0) {
+            this.contacts[index].enriched_viewed = true;
+          }
+        }
+      );
+
       this.$store.state.crmEventsRegistered = true;
     }
 
@@ -1017,11 +1120,84 @@ export default {
     });
   },
   methods: {
+    setListUpdating(listIds) {
+      this.userLists
+        .filter((record) => listIds.includes(record.id))
+        .forEach((record) => {
+          record.updating = true;
+        });
+    },
+    resetPopup() {
+      this.enrichContactsPopup = {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        description: null,
+        primaryButtonText: null,
+        loading: false,
+      };
+    },
+    checkContactsEnrichable(ids) {
+      this.$store.dispatch('checkContactsEnrichable', ids).then((response) => {
+        response = response.data;
+        if (response.status) {
+          if (response.data) {
+            this.enrichContactsPopup.confirmationMethod = () => {
+              this.enrichContacts(response.data);
+            };
+            this.enrichContactsPopup.cancelEditMethod = () => {
+              this.enrichContactsPopup.open = false;
+            };
+            this.enrichContactsPopup.open = true;
+            this.enrichContactsPopup.primaryButtonText = 'Enrich';
+            this.enrichContactsPopup.title = 'Enrich Contacts';
+            this.enrichContactsPopup.description = response.message;
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Imported',
+              text: response.message,
+            });
+          }
+        } else {
+          this.$notify({
+            group: 'user',
+            type: 'success',
+            title: 'Imported',
+            text: response.message,
+          });
+        }
+      });
+    },
+    enrichContacts(ids) {
+      let payload = {
+        self: this,
+        contact_ids: ids,
+      };
+      this.$store.dispatch('enrichContacts', payload);
+      this.resetPopup();
+    },
+    openImportContactModal(fromSocial = false) {
+      this.importFromSocial = fromSocial;
+      this.$nextTick(() => {
+        this.showContactModal = true;
+      });
+    },
+    contactImported(data) {
+      // if (
+      //     (data.list && data.list == this.filters.list) ||
+      //     this.filters.type == 'all'
+      // ) {
+      //     if (this.filters.page === 1 && this.contacts.length == 50) {
+      //         this.contacts.pop();
+      //         this.contacts.splice(0, 0, data.contact);
+      //     } else {
+      //         this.contacts.push(data.contact);
+      //     }
+      // }
+    },
     updateUserList(event) {
-      console.log('this.$refs.crmTableGridthis.$refs.crmTableGrid');
-      console.log(this.$refs.crmTableGrid);
-      console.log(this.$refs.crmTableGrid.met);
-      console.log(event);
       this.$refs.crmTableGrid.updateUserList(event);
     },
     getHeaders() {
@@ -1055,8 +1231,8 @@ export default {
         });
     },
     onListDrop(listId) {
-      this.$refs.crmTableGrid.toggleCreatorsFromList(
-        this.$store.state.currentlyDraggedCreator,
+      this.$refs.crmTableGrid.toggleContactsFromList(
+        this.$store.state.currentlyDraggedContact,
         listId,
         false
       );
@@ -1078,8 +1254,8 @@ export default {
         }
       });
     },
-    closeImportCreatorModal() {
-      this.showCreatorModal = false;
+    closeImportContactModal() {
+      this.showContactModal = false;
     },
     closeUpgradeModal() {
       this.showUpgradeModal = !this.showUpgradeModal;
@@ -1104,10 +1280,9 @@ export default {
       this.openEmojis = false;
     },
     openSidebarContact(obj) {
-      console.log('objobj');
-      console.log(obj);
       let { contact, index } = obj;
       //if the sidebar is not open, open it and set the current contact
+      this.$store.dispatch('markEnrichedViewed', contact.id);
       contact.index = index;
       if (!this.$store.state.ContactSidebarOpen) {
         this.$store.state.ContactSidebarOpen = true;
@@ -1133,8 +1308,9 @@ export default {
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
+      this.$store.state.overviewList = null;
       this.filters.currentList = null;
-      this.getCrmCreators();
+      this.getCrmContacts();
       this.loading = false;
     },
     setFilterList(list) {
@@ -1143,11 +1319,13 @@ export default {
       if (this.filters.list) {
         list = this.userLists.find((l) => l.id === list);
         this.filters.currentList = list ?? null;
+        this.$store.state.overviewList = list ?? null;
       } else {
         this.filters.type = 'all';
         this.filters.currentList = null;
+        this.$store.state.overviewList = null;
       }
-      this.getCrmCreators();
+      this.getCrmContacts();
     },
     sortLists(e, listId) {
       UserService.sortLists(
@@ -1195,23 +1373,27 @@ export default {
         .finally((response) => {});
     },
     getUserLists() {
-      UserService.getUserLists().then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.userLists = [];
-          this.userLists = response.lists;
-          if (this.filters.list) {
-            let list = this.userLists.find((l) => l.id === this.filters.list);
-            if (list) {
-              this.filters.currentList = list;
+      return new Promise((resolve, reject) => {
+        UserService.getUserLists().then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.listKey = this.listKey + 1;
+            this.userLists = [];
+            this.userLists = response.lists;
+            if (this.filters.list) {
+              let list = this.userLists.find((l) => l.id === this.filters.list);
+              if (list) {
+                this.filters.currentList = list;
+              }
             }
           }
-        }
+          return resolve();
+        });
       });
     },
     pageChanged({ page }) {
       this.filters.page = page;
-      this.getCrmCreators();
+      this.getCrmContacts();
     },
     changeTab(index) {
       Object.assign(this.$data, this.$options.data());
@@ -1225,7 +1407,7 @@ export default {
       this.filters.sort = sortBy;
       this.filters.order = sortOrder;
     },
-    getCrmCreators(filters = {}) {
+    getCrmContacts(filters = {}) {
       this.taskLoading = true;
       let data = JSON.parse(JSON.stringify(this.filters));
       if (this.abortController) {
@@ -1233,18 +1415,32 @@ export default {
       }
       this.abortController = new AbortController();
       const signal = this.abortController.signal;
-      UserService.getCrmCreators(data, signal).then((response) => {
+      UserService.getCrmContacts(data, signal).then((response) => {
         this.taskLoading = false;
         response = response.data;
         if (response.status) {
-          this.$store.commit('setCrmRecords', response.creators.data);
+          this.$store.commit('setCrmRecords', response.contacts.data);
+          this.limitExceedBy = response.limit_exceeded_by;
+          this.totalAvailable = response.total_available;
           this.networks = response.networks;
           this.stages = response.stages;
           this.counts.archived = response.counts.archived;
           this.counts.favourites = response.counts.favourites;
           this.counts.total = response.counts.total;
-          this.creatorsMeta = response.creators;
-          this.filters.page = response.creators.current_page;
+          this.contactsMeta = {
+            current_page: response.contacts.current_page,
+            first_page_url: response.contacts.first_page_url,
+            from: response.contacts.from,
+            last_page: response.contacts.last_page,
+            last_page_url: response.contacts.last_page_url,
+            next_page_url: response.contacts.next_page_url,
+            path: response.contacts.path,
+            per_page: response.contacts.per_page,
+            prev_page_url: response.contacts.prev_page_url,
+            to: response.contacts.to,
+            total: response.contacts.total,
+          };
+          this.filters.page = response.contacts.current_page;
         }
       });
     },
@@ -1259,7 +1455,7 @@ export default {
           if (response.status) {
             this.counts = response.counts;
             this.userLists.forEach((list) => {
-              this.counts[`list_${list.id}`] = list.creators_count;
+              this.counts[`list_${list.id}`] = list.contacts_count;
             });
           }
         })
@@ -1273,75 +1469,62 @@ export default {
     },
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);
-      let selectedCreators = this.creators.filter((creator) =>
-        params.creatorIds.includes(creator.id)
+      let selectedContacts = this.$store.state.crmRecords.filter((contact) =>
+        params.contactIds.map((id) => parseInt(id)).includes(contact.id)
       );
       if (list) {
         if (params.remove) {
-          selectedCreators.forEach((creator) => {
+          selectedContacts.forEach((contact) => {
             if (
-              creator.lists.filter((list) => list.id != params.list.id).length
+              contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
-              list.creators_count -= 1;
+              list.contacts_count -= 1;
             }
           });
         } else {
-          selectedCreators.forEach((creator) => {
+          selectedContacts.forEach((contact) => {
             if (
-              creator.lists.filter((list) => list.id == params.list.id).length
+              !contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
-              list.creators_count += 1;
+              list.contacts_count += 1;
             }
           });
         }
       }
     },
-    exportCrmCreators() {
+    exportCrmContacts() {
       let obj = JSON.parse(JSON.stringify(this.filters));
       if (obj.list) {
         obj.list = obj.list.id;
       }
-      UserService.exportCrmCreators(obj).then((response) => {
+      UserService.exportCrmContacts(obj).then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
         fileLink.setAttribute(
           'download',
-          `${this.filters.list ? this.filters.list.name : 'creators'}.csv`
+          `${this.filters.list ? this.filters.list.name : 'contacts'}.csv`
         );
         document.body.appendChild(fileLink);
 
         fileLink.click();
       });
     },
-    updateCreator(params) {
-      this.$store.dispatch('updateCreator', params).then((response) => {
+    updateContact(params) {
+      console.log('paramsparams');
+      console.log(params);
+      this.$store.dispatch('updateContact', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {
-            this.creators.splice(params.index, 1);
+            this.contacts.splice(params.index, 1);
           } else {
-            this.creators[params.index] = response.data;
+            this.contacts[params.index] = response.data;
           }
           this.crmCounts();
         }
       });
-    },
-    updateCrmMeta(creator = null) {
-      if (creator == null) {
-        creator = this.currentContact;
-      }
-      if (!creator) return;
-      this.$store
-        .dispatch('updateCrmMeta', { id: creator.crm_id, meta: creator.meta })
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.currentContact = response.data;
-            this.crmCounts();
-          }
-        });
     },
   },
 };

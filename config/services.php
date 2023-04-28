@@ -35,6 +35,15 @@ return [
         'model' => App\Models\Team::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
+        'basic_plan' => [
+            'name' => 'Basic Plan',
+            'amount' => 0,
+            'is_team' => 4,
+            'credits' => 10,
+            'contacts' => 100,
+            'seats' => 34,
+            'type' => 1,
+        ]
     ],
 
     'google' => [

@@ -35,6 +35,7 @@
       ]">
       <div class="items-center justify-center rounded-full bg-white p-0">
         <img
+            @error="switchToDefaultImage"
           class="justify-center rounded-full object-cover object-center"
           :class="[
             { 'h-40 w-40': size == 'md' },
@@ -50,15 +51,15 @@
 </template>
 <script>
 export default {
-  name: 'CreatorAvatar',
+  name: 'ContactAvatar',
   props: {
     imageUrl: {
       type: String,
-      default: 'https://www.aceshowbiz.com/images/photo/keira_knightley.jpg',
+      default: 'image',
     },
     name: {
       type: String,
-      default: 'Creator',
+      default: 'Contact',
     },
     size: {
       type: String,

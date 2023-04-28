@@ -7,7 +7,7 @@
       <ul role="list" class="divide-y divide-slate-200">
         <li v-for="comment in comments" :key="comment.id" class="py-4">
           <div class="flex space-x-3">
-            <CreatorAvatar
+            <ContactAvatar
               :imageUrl="comment.user.profile_pic_url"
               size="xxsm"
               :name="comment.user.full_name" />
@@ -39,11 +39,11 @@
   </div>
 </template>
 <script>
-import CreatorAvatar from './Creator/CreatorAvatar';
+import ContactAvatar from './Contact/ContactAvatar.vue';
 
 export default {
   name: 'CommentThread',
-  components: { CreatorAvatar },
+  components: { ContactAvatar },
   props: ['comments'],
   data() {
     return {};

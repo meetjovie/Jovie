@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Contact;
 use App\Models\Crm;
 use App\Models\CustomField;
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ trait CustomFieldsTrait
     }
 
     // to model
-    public function getInputValues($field, $model, $class = Crm::class)
+    public function getInputValues($field, $model, $class = Contact::class)
     {
         $value = null;
 
@@ -48,20 +49,31 @@ trait CustomFieldsTrait
         return $value;
     }
 
-    // to print
-    public function getFieldValue($field, $model, $class = Crm::class)
+    public function getFieldValueByModel($field, $model, $class = Contact::class)
     {
-        $fieldValue = $field->customFieldValues()->for($model->id, $class)->first();
+        $value = null;
 
-        if (!is_null($fieldValue) && !is_null($fieldValue->value)) {
+        if (is_null($model)) {
+            return $value;
+        }
+
+        $value = $this->getDefaultValue($field);
+
+        $fieldValue = $field->customFieldvalues()->for($model->id, $class)->first();
+
+        if (!is_null($fieldValue)) {
             $value = $fieldValue->value;
 
-            if (in_array($field->type, ['multi_select'])) {
-                $fieldOptions = $field->customFieldOptions->pluck('value', 'id');
+            $fieldOptions = [];
+            if (in_array($field->type, ['multi_select', 'select'])) {
+                $fieldOptions = $field->customFieldOptions->pluck('value', 'id')->toArray();
             }
 
-            if (!is_array($fieldValue->value) && isset($fieldOptions[$fieldValue->value])) {
-                $value = $fieldOptions[$fieldValue->value];
+            // if id is int but is enclosed in string parse it to int unless its uuid
+            $fValue = is_numeric($fieldValue->value) ? $fieldValue->value : (ctype_digit($fieldValue->value) ? intval($fieldValue->value) : $fieldValue->value);
+
+            if (!is_array($fieldValue->value) && isset($fieldOptions[$fValue])) {
+                $value = $fieldOptions[$fValue];
             }
 
             if (is_array($fieldValue->value)) {
@@ -80,25 +92,16 @@ trait CustomFieldsTrait
                 }
             }
 
-//            if ($fieldValue->type == 'radio' && $value == 0) {
-//                $value = trans('general.no');
-//            }
-//
-//            if ($fieldValue->type == 'radio' && $value == 1) {
-//                $value = trans('general.yes');
-//            }
+            if ($field->type == 'checkbox' && $fieldValue->value == 0) {
+                $value = 'No';
+            }
+
+            if ($field->type == 'checkbox' && $fieldValue->value == 1) {
+                $value = 'Yes';
+            }
         }
-
-        // if no date set dont show current date
-
-//        if ($field->type->type == 'date') {
-//            $value = company_date($value);
-//        }
-//
-//        if ($field->type->type == 'dateTime') {
-//            $value = Date::parse($value)->format(company_date_format() . ' H:i');
-//        }
 
         return $value;
     }
+
 }

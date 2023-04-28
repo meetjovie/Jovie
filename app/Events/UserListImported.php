@@ -9,10 +9,11 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserListImported implements ShouldBroadcast
+class UserListImported implements ShouldBroadcast, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -49,14 +50,10 @@ class UserListImported implements ShouldBroadcast
     public function broadcastWith()
     {
         $list = UserList::where('id', $this->listId)->first();
-        $batches = Import::importBatches($this->userId);
-        $batches = !! count(array_filter($batches, function ($batch) {
-            return $batch->is_batch && $batch->progress < 100;
-        }));
         if ($list) {
             return ['status' => true, 'data' => [
                 'list' => $this->listId,
-                'remaining' => $batches
+                'remaining' => UserList::query()->where('updating', 1)->count()
             ], 'message' => "$list->name imported"];
         }
     }

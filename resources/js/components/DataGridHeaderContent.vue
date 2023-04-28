@@ -18,7 +18,7 @@
               {{ headerText + ' Contacts' }}
           </template>
       </h1>
-      <p
+      <p v-if="!taskLoading"
         class="text-2xs font-light text-slate-600">
         {{ contactCount + ' Contacts' }}
       </p>

@@ -2,33 +2,34 @@
 
 namespace App\Events;
 
-use App\Models\Creator;
-use App\Models\Import;
+use App\Models\Contact;
+use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class CreatorImported implements ShouldBroadcast
+class ContactEnriched implements ShouldBroadcast, ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $creatorId;
-    private $userId;
+    private $contactId;
     private $teamId;
     private $listId;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($creatorId, $userId, $teamId, $listId)
+    public function __construct($contactId, $teamId, $listId = null)
     {
-        $this->creatorId = $creatorId;
-        $this->userId = $userId;
+        $this->contactId = $contactId;
         $this->teamId = $teamId;
         $this->listId = $listId;
     }
@@ -40,7 +41,7 @@ class CreatorImported implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('creatorImported.'.$this->teamId);
+        return new PrivateChannel('contactEnriched.'.$this->teamId);
     }
 
     /**
@@ -50,11 +51,16 @@ class CreatorImported implements ShouldBroadcast
      */
     public function broadcastWith()
     {
-        $creator = Creator::getCrmCreators(['id' => $this->creatorId], $this->userId)->first();
-        $creator = base64_encode(json_encode($creator));
+        $contact = Contact::query()->where('id', $this->contactId)->first();
+        $contact->enriching = false;
+        $contact->save();
+        if ($this->listId) {
+            UserList::dispatchEnrichNotificationIfCompleted($this->listId, $contact->team_id);
+        }
+        $contact = Contact::getContacts(['id' => $this->contactId, 'team_id' => $this->teamId])->first();
+        $contact = base64_encode(json_encode($contact));
         return ['status' => true, 'data' => [
-            'creator' => $creator,
-            'list' => $this->listId,
-        ], 'message' => $this->listId ? null : 'Creator Imported'];
+            'contact' => $contact,
+        ], 'message' => !$this->listId ? 'Contact Enriched' : null];
     }
 }

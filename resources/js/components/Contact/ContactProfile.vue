@@ -110,7 +110,7 @@ import ButtonGroup from '../ButtonGroup.vue';
 import { EnvelopeOpenIcon } from '@heroicons/vue/24/solid';
 
 export default {
-  name: 'CreatorProfile',
+  name: 'ContactProfile',
   components: { JovieLogo, ButtonGroup, EnvelopeOpenIcon },
   props: {
     profiles: {

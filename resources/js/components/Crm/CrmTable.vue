@@ -313,7 +313,7 @@
                                 <DropdownMenuItem
                                   v-if="filters.list"
                                   @click="
-                                    toggleCreatorsFromList(
+                                    toggleContactsFromList(
                                       selectedCreators,
                                       filters.list,
                                       true
@@ -324,7 +324,7 @@
                                 <MenuItem
                                   v-slot="{ active }"
                                   @click="
-                                    toggleArchiveCreators(
+                                    toggleArchiveContacts(
                                       this.selectedCreators,
                                       this.filters.type == 'archived'
                                         ? false
@@ -349,7 +349,7 @@
                                     }}
                                   </button>
                                 </MenuItem>
-                                <!-- <DropdownMenuItem @click="toggleArchiveCreators(
+                                <!-- <DropdownMenuItem @click="toggleArchiveContacts(
                               selectedCreators, filters.type == 'archived' ?
                               false : true ) :name="( filters.type == 'archived'
                               ? 'Unarchive' : 'Archive' )"
@@ -552,7 +552,7 @@
                               icon="ArchiveBoxIcon"
                               @blur="$emit('updateCrmMeta')"
                               @click="
-                                toggleArchiveCreators(
+                                toggleArchiveContacts(
                                   creator.id,
                                   !creator.crm_record_by_user.archived
                                 )
@@ -569,7 +569,7 @@
                               icon="TrashIcon"
                               color="text-red-600 dark:text-red-400"
                               @click="
-                                toggleCreatorsFromList(
+                                toggleContactsFromList(
                                   creator.id,
                                   filters.list,
                                   true
@@ -750,7 +750,7 @@
                       class="border-1 relative isolate z-10 table-cell items-center border border-slate-300 dark:border-jovieDark-border">
                       <ContactStageMenu
                         :creator="creator"
-                        :key="key"
+                        :key="index"
                         :open="showContactStageMenu[index]"
                         @close="toggleContactStageMenu(index)"
                         :stages="stages"
@@ -841,7 +841,7 @@
                         <router-link
                           v-if="currentUser.is_admin"
                           :to="{
-                            name: 'Creator Overview',
+                            name: 'Contact Overview',
                             params: { id: creator.id },
                           }"
                           class="hover:dark:text-indigio-300 text-slate-600 hover:text-indigo-900 dark:text-jovieDark-300">
@@ -864,9 +864,9 @@
             <Pagination
               class="z-50 w-full bg-blue-500"
               v-if="creatorRecords.length > 50"
-              :totalPages="creatorsMeta.last_page"
-              :perPage="creatorsMeta.per_page"
-              :currentPage="creatorsMeta.current_page"
+              :totalPages="contactsMeta.last_page"
+              :perPage="contactsMeta.per_page"
+              :currentPage="contactsMeta.current_page"
               :disabled="loading"
               @pagechanged="$emit('pageChanged', $event)" />
           </div>
@@ -1162,7 +1162,7 @@ export default {
     'creators',
     'networks',
     'stages',
-    'creatorsMeta',
+    'contactsMeta',
     'loading',
     'archived',
     'subheader',
@@ -1215,7 +1215,7 @@ export default {
     this.$mousetrap.bind('enter', () => {
       if (this.currentContact.length) {
         this.$router.push({
-          name: 'Creator Overview',
+          name: 'Contact Overview',
           params: { id: this.currentContact[0].id },
         });
       }
@@ -1328,7 +1328,7 @@ export default {
       this.$emit('setOrder', { sortBy, sortOrder });
 
       if (this.creatorRecords.length > 50) {
-        this.$emit('pageChanged', { page: this.creatorsMeta.current_page });
+        this.$emit('pageChanged', { page: this.contactsMeta.current_page });
       } else {
         this.creatorRecords = this.creatorRecords.sort((a, b) => {
           let modifier = 1;
@@ -1530,8 +1530,8 @@ export default {
       } else {
         console.log('No title found');
       };
-      if (Creator.location) {
-        vCard += 'ADR;TYPE=WORK:;;' + Creator.location + '\n';
+      if (Contact.location) {
+        vCard += 'ADR;TYPE=WORK:;;' + Contact.location + '\n';
       }
       //if creator.instagram_handler set instagram else if creator.meta.instagram set instagram else log no instagram found
       if (creator.instagram_handler) {
@@ -1613,9 +1613,9 @@ export default {
       this.currentRow = row;
       console.log(this.currentRow);
     },
-    toggleArchiveCreators(ids, archived) {
+    toggleArchiveContacts(ids, archived) {
       this.$store
-        .dispatch('toggleArchiveCreators', {
+        .dispatch('toggleArchiveContacts', {
           creator_ids: ids,
           archived: archived,
         })
@@ -1662,11 +1662,11 @@ export default {
         .finally((response) => {});
     },
     addCreatorsToList(id) {
-      this.toggleCreatorsFromList(this.selectedCreators, id, false);
+      this.toggleContactsFromList(this.selectedCreators, id, false);
     },
-    toggleCreatorsFromList(ids, list, remove) {
+    toggleContactsFromList(ids, list, remove) {
       this.$store
-        .dispatch('toggleCreatorsFromList', {
+        .dispatch('toggleContactsFromList', {
           creator_ids: ids,
           list: list,
           remove: remove,

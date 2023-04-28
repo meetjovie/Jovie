@@ -30,5 +30,6 @@ export default {
       column: 0,
     },
   },
-  currentlyDraggedCreator: null,
+  currentlyDraggedContact: null,
+  overviewList: null,
 };

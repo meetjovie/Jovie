@@ -4,9 +4,9 @@
       <div class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
         <div v-if="editable" class="relative inline-block">
           <img
-            v-if="creator.profile_pic_url"
+            v-if="contact.profile_pic_url"
             class="rounded-full object-cover object-center"
-            :src="creator.profile_pic_url"
+            :src="contact.profile_pic_url"
             @error="setDefaultImage"
             alt="Profile Image" />
           <img
@@ -23,9 +23,9 @@
         </div>
         <div v-else>
           <img
-            v-if="creator.profile_pic_url"
+            v-if="contact.profile_pic_url"
             class="rounded-full object-cover object-center"
-            :src="creator.profile_pic_url"
+            :src="contact.profile_pic_url"
             @error="setDefaultImage"
             alt="Profile Image" />
           <img
@@ -46,7 +46,7 @@ export default {
     PencilIcon,
   },
   props: {
-    creator: {
+    contact: {
       type: Object,
       required: true,
     },
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     setDefaultImage() {
-      this.creator.profile_pic_url = this.defaultImage;
+      this.contact.profile_pic_url = this.defaultImage;
     },
   },
 };

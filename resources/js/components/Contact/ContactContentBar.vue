@@ -28,7 +28,7 @@ import {
 } from '@heroicons/vue/24/solid';
 
 export default {
-  name: 'CreatorContentBar',
+  name: 'ContactContentBar',
   components: {
     HandThumbUpIcon,
     PlayIcon,

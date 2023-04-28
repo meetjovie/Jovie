@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\ListEnriched;
 use App\Events\Notification;
 use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
+use App\Models\Scopes\TeamScope;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,20 +15,33 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use OwenIt\Auditing\Contracts\Auditable;
 use Throwable;
 
-class UserList extends Model
+class UserList extends Model implements Auditable
 {
     use HasFactory;
+    use \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'name',
         'user_id',
         'emoji',
-        'team_id'
+        'team_id',
+        'updating',
     ];
 
     protected $appends = ['updating_list'];
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::addGlobalScope(new TeamScope());
+    }
 
     public function getEmojiAttribute($value)
     {
@@ -37,7 +52,12 @@ class UserList extends Model
         return $this->belongsToMany(Creator::class)->withTimestamps();
     }
 
-    public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null)
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class)->withTimestamps();
+    }
+
+    public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null, $updating = false)
     {
         $team = null;
         if ($teamId) {
@@ -53,6 +73,8 @@ class UserList extends Model
             $teamUsers = $user->currentTeam->users->pluck('id')->toArray();
             $exists = UserList::whereRaw('TRIM(LOWER(name)) = ?', [strtolower(trim($listName))])->whereIn('user_id', $teamUsers)->first();
             if ($exists) {
+                $exists->updating = $updating;
+                $exists->save();
                 foreach ($teamUsers as $userId) {
                     self::updateSortOrder($userId, 0, 1, $exists->id);
                 }
@@ -65,6 +87,7 @@ class UserList extends Model
             ];
             if ($emoji) {
                 $data['emoji'] = $emoji;
+                $data['updating'] = $updating;
             }
             $list = UserList::create($data);
             $syncData = [];
@@ -128,13 +151,14 @@ class UserList extends Model
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         return UserList::query()
-            ->withCount('creators')
+            ->withCount(['contacts' => function ($query) {
+                $query->where('archived', false);
+            }])
             ->join('user_list_attributes as ula', function ($join) use ($user) {
                 $join->on('ula.user_list_id', '=', 'user_lists.id')
                     ->where('ula.user_id', $user->id)
                     ->where('ula.team_id', $user->currentTeam->id);
             })
-            ->where('user_lists.team_id', $user->currentTeam->id)
             ->addSelect('user_lists.*', 'ula.order', 'ula.pinned')
             ->orderBy('order')->get();
     }
@@ -211,5 +235,16 @@ class UserList extends Model
                         });
                     })->count())
         );
+    }
+
+    public static function dispatchEnrichNotificationIfCompleted($listId, $teamId)
+    {
+        $countEnriching = Contact::query()->whereHas('userLists', function ($query) use ($listId) {
+            $query->where('user_lists.id', $listId);
+        })->where('enriching', 1)->count();
+
+        if (! $countEnriching) {
+            ListEnriched::dispatch($listId, $teamId);
+        }
     }
 }

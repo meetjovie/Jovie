@@ -44,7 +44,7 @@
 
               <p class="mt-5 text-lg font-medium leading-6 text-slate-900">
                 {{ feature.name
-                }}<CreatorTags
+                }}<ContactTags
                   v-if="feature.tag"
                   :color="feature.color"
                   :showX="false"
@@ -70,7 +70,7 @@ import {
   ArrowPathIcon,
   UserGroupIcon,
 } from '@heroicons/vue/24/outline';
-import CreatorTags from '../components/Creator/CreatorTags.vue';
+import ContactTags from '../components/Contact/ContactTags.vue';
 
 const features = [
   {

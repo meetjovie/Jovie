@@ -252,22 +252,22 @@
                                     </div>
                                     <div
                                       class="pt-.05 pb-1 text-xs font-medium text-slate-900 line-clamp-1">
-                                      <CreatorTags
+                                      <ContactTags
                                         v-if="item.instagram_category"
                                         size="xs"
                                         :showX="false"
                                         color="none"
                                         :text="item.instagram_category" />
-                                      <!-- <CreatorTags
+                                      <!-- <ContactTags
                                                                                                           v-if="item.tags > 0"
                                                                                                           size="xs"
                                                                                                           color="purple"
                                                                                                           :text="item.tags[1]" />
-                                                                                                        <CreatorTags
+                                                                                                        <ContactTags
                                                                                                           size="xs"
                                                                                                           color="blue"
                                                                                                           text="Music" />
-                                                                                                        <CreatorTags
+                                                                                                        <ContactTags
                                                                                                           size="xs"
                                                                                                           color="pink"
                                                                                                           text="Other" /> -->
@@ -683,7 +683,7 @@
                     </div>
 
                     <div class="grid grid-cols-5 py-2 px-4">
-                      <CreatorAvatar
+                      <ContactAvatar
                         :imageUrl="
                           selectedCreator.instagram_meta.profile_pic_url ??
                           selectedCreator.twitter_meta.profile_image_url ??
@@ -713,7 +713,7 @@
                           }}
                         </div>
                         <div class="h-8">
-                          <CreatorTags
+                          <ContactTags
                             v-if="selectedCreator.instagram_category"
                             size="sm"
                             :showX="false"
@@ -1045,17 +1045,17 @@ import {
   XMarkIcon,
 } from '@heroicons/vue/24/solid';
 import { BoltIcon } from '@heroicons/vue/24/outline';
-import CreatorTags from '../components/Creator/CreatorTags';
-import CreatorSocialLinks from '../components/Creator/CreatorSocialLinks';
+import ContactTags from '../components/Contact/ContactTags.vue';
+import ContactSocialLinks from '../components/Contact/ContactSocialLinks.vue';
 import DiscoveryStats from '../components/Discovery/DiscoveryStats.vue';
 import DiscoveryToolbar from '../components/Discovery/DiscoveryToolbar.vue';
 import { createInfiniteHitsSessionStorageCache } from 'instantsearch.js/es/lib/infiniteHitsCache';
 import JovieSpinner from '../components/JovieSpinner.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import JovieTooltip from '../components/JovieTooltip.vue';
-import CreatorMediaItem from '../components/TimelineMedia/CreatorMediaItem.vue';
+import ContactMediaItem from '../components/TimelineMedia/ContactMediaItem.vue';
 import VerifiedBadge from '../components/VerifiedBadge.vue';
-import CreatorAvatar from '../components/Creator/CreatorAvatar.vue';
+import ContactAvatar from '../components/Contact/ContactAvatar.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import UserService from '../services/api/user.service';
 import AppDebouncedSearchBox from '../components/AppDebouncedSearchBox.vue';
@@ -1066,8 +1066,8 @@ export default {
     AppDebouncedSearchBox,
     InputGroup,
     VerifiedBadge,
-    CreatorAvatar,
-    CreatorSocialLinks,
+    ContactAvatar,
+    ContactSocialLinks,
     JovieSpinner,
     XMarkIcon,
     TabGroup,
@@ -1091,12 +1091,12 @@ export default {
     MenuButton,
     MenuItems,
     MenuItem,
-    CreatorMediaItem,
+    ContactMediaItem,
     EllipsisVerticalIcon,
     ChevronDownIcon,
     MagnifyingGlassIcon,
-    CreatorTags,
-    CreatorSocialLinks,
+    ContactTags,
+    ContactSocialLinks,
     ChevronUpIcon,
     BoltIcon,
     Popover,

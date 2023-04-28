@@ -18,11 +18,10 @@
       :placeholder="placeholder"
       :pattern="dataType == 'currency' ? '\\d*' : null"
       :aria-describedby="fieldId"
-      @blur="onBlur"
-      @change="$emit('update:modelValue', $event.target.value)" />
+      @change="onBlur" />
     <div
       tabindex="-1"
-      v-if="dataType == 'email' && modelValue.length > 0"
+      v-if="dataType == 'email' && modelValue && modelValue.length > 0"
       class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 focus-visible:outline-none focus-visible:ring-0">
       <EmailValidationIcon
         tabindex="-1"
@@ -54,8 +53,9 @@ export default {
   props: ['modelValue', 'placeholder', 'fieldId', 'dataType', 'value'],
   emits: ['update:modelValue', 'blur'],
   methods: {
-    onBlur() {
-      this.$emit('blur');
+    onBlur(e) {
+        this.$emit('update:modelValue', e.target.value);
+        this.$emit('blur');
     },
     debouncedEmailCheck(email) {
       // Define the debounce function

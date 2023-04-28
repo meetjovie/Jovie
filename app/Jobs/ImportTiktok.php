@@ -55,7 +55,7 @@ class ImportTiktok implements ShouldQueue
 //            $progress = $this->output->createProgressBar(count($creators));
 //            $progress->start();
 //            foreach ($creators as $record) {
-//                $creator = new Creator();
+//                $creator = new Contact();
 //                $creator->target_id = $record->id ?? '-';
 //                $creator->name = $record->name ?? '-';
 //                $creator->gender = $record->gender ?? 'unknown';

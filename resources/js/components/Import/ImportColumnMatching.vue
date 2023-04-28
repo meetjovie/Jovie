@@ -111,7 +111,7 @@ export default {
         /*   'onlyFans', */
         twitch: 'Twitch',
         /*    'twitchId', */
-        // tiktok: 'Tiktok',
+        tiktok: 'Tiktok',
         /*  'linkedin',
         'snapchat', */
         /*       'instagramFollowersCount',

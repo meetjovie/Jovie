@@ -31,7 +31,7 @@ class AuthController extends Controller
 
         if (auth()->check()) {
             Teamwork::acceptInvite($invite);
-
+            auth()->user()->switchTeam($invite->team);
             return response([
                 'status' => true,
                 'message' => 'Accepted',
