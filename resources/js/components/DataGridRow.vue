@@ -166,7 +166,7 @@
               " />
             <DropdownMenuItem
               name="Contact Overview"
-              icon="ViewFinderCircleIcon"
+              icon="ViewfinderCircleIcon"
               color="text-blue-600 dark:text-blue-400"
               @click="
                 $router.push({

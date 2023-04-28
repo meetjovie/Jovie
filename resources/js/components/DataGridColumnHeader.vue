@@ -20,7 +20,7 @@
                 class="mr-1 h-4 w-4 text-slate-400 dark:text-jovieDark-200"
                 :is="column.icon"></component>
               <span
-                class="text-medium tracking-wider line-clamp-1 dark:text-jovieDark-200">
+                class="text-medium line-clamp-1 w-24 tracking-wider dark:text-jovieDark-200">
                 {{ column.name }}
               </span>
             </div>

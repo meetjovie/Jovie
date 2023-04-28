@@ -37,9 +37,9 @@
                             icon="PlusIcon" />
                           <router-link to="/import">
                             <DropdownMenuItem
-                              name="Import from social"
+                              name="Upload a CSV"
                               color="text-instagram-600 dark:text-instagram-400"
-                              icon="CloudUploadIcon" />
+                              icon="CloudArrowUpIcon" />
                           </router-link>
                         </div>
                       </MenuItems>
