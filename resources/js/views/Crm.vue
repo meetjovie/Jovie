@@ -5,55 +5,48 @@
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div class="">
-              <div class="mt-2 w-full px-4">
-                <div
-                  class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 py-1 px-2 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
-                  <div class="flex items-center text-xs">
-                    <PlusIcon
-                      class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
-                      aria-hidden="true" />
-                      <Menu>
-                          <Float portal :offset="2" placement="bottom-start">
-                              <MenuButton
-                                  class="inline-flex items-center rounded border border-slate-300 py-0.5 px-2 text-2xs font-light text-slate-700 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:border-jovieDark-border dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
-                                  <ChatBubbleLeftIcon
-                                      class="h-3 w-3 text-slate-400 hover:text-slate-500 dark:text-jovieDark-600 dark:hover:text-slate-400"
-                                      aria-hidden="true" />
-                                  <span class="px-2 text-center line-clamp-1">New Contact</span>
-                                  <ChevronDownIcon
-                                      class="-mr-1 h-4 w-4 text-slate-400 hover:text-slate-500 dark:text-jovieDark-600 dark:hover:text-slate-400"
-                                      aria-hidden="true" />
-                              </MenuButton>
-                              <transition
-                                  enter-active-class="transition duration-100 ease-out"
-                                  enter-from-class="transform scale-95 opacity-0"
-                                  enter-to-class="transform scale-100 opacity-100"
-                                  leave-active-class="transition duration-75 ease-in"
-                                  leave-from-class="transform scale-100 opacity-100"
-                                  leave-to-class="transform scale-95 opacity-0">
-                                  <MenuItems
-                                      class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 py-1 px-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
-                                      <div class="py-1">
-                                          <DropdownMenuItem
-                                              @click="openImportContactModal()"
-                                              name="New Contact"
-                                              color="text-blue-600 dark:text-blue-400"
-                                              icon="PhoneIcon" />
-                                          <DropdownMenuItem
-                                              @click="openImportContactModal(true)"
-                                              name="Import contact from social"
-                                              color="text-blue-600 dark:text-blue-400"
-                                              icon="PhoneIcon" />
-                                      </div>
-                                  </MenuItems>
-                              </transition>
-                          </Float>
-                      </Menu>
-                  </div>
-                  <div class="items-center">
-                    <KBShortcut :shortcutKey="['C']"></KBShortcut>
-                  </div>
-                </div>
+
+                <div class="flex items-center text-xs">
+                  <Menu>
+                    <Float portal :offset="2" placement="bottom-start">
+                      <MenuButton
+                       class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        <PlusIcon
+                          class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                          aria-hidden="true" />
+                        <span class="line-clamp-1 px-2 text-center"
+                          >New Contact</span
+                        >
+                        <div class="items-center">
+                          <KBShortcut :shortcutKey="['C']"></KBShortcut>
+                        </div>
+                      </MenuButton>
+                      <transition
+                        enter-active-class="transition duration-100 ease-out"
+                        enter-from-class="transform scale-95 opacity-0"
+                        enter-to-class="transform scale-100 opacity-100"
+                        leave-active-class="transition duration-75 ease-in"
+                        leave-from-class="transform scale-100 opacity-100"
+                        leave-to-class="transform scale-95 opacity-0">
+                        <MenuItems
+                          class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                          <div class="py-1">
+                            <DropdownMenuItem
+                              @click="openImportContactModal()"
+                              name="New Contact"
+                              color="text-blue-600 dark:text-blue-400"
+                              icon="PhoneIcon" />
+                            <DropdownMenuItem
+                              @click="openImportContactModal(true)"
+                              name="Import contact from social"
+                              color="text-blue-600 dark:text-blue-400"
+                              icon="PhoneIcon" />
+                          </div>
+                        </MenuItems>
+                      </transition>
+                    </Float>
+                  </Menu>
+
               </div>
 
               <Menu v-slot="{ open }">
@@ -186,7 +179,7 @@
                     <Suspense>
                       <template #default>
                         <MenuList
-                            :key="listKey"
+                          :key="listKey"
                           ref="menuListAll"
                           @getUserLists="getUserLists"
                           @setFiltersType="setFiltersType"
@@ -198,7 +191,7 @@
                           @onListDrop="onListDrop($event)"
                           @end="sortLists"
                           @updateMenuItems="filteredUsersLists = $event"
-                            @setListUpdating="setListUpdating"
+                          @setListUpdating="setListUpdating"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
                       <template #fallback> Loading... </template>
@@ -224,7 +217,7 @@
               </div>
 
               <div
-                class="flex-shrink-0 border-t border-slate-200 py-2 px-2 dark:border-jovieDark-border">
+                class="flex-shrink-0 border-t border-slate-200 px-2 py-2 dark:border-jovieDark-border">
                 <Menu>
                   <MenuItems static>
                     <MenuItem as="div" v-slot="{ active }">
@@ -272,7 +265,7 @@
                 <div class="mt-1 flex items-center justify-between py-1">
                   <div
                     @click="openUpgradeModal()"
-                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 py-2 px-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
+                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 px-2 py-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
                     <div class="flex items-center">
                       <ArrowUpCircleIcon class="mr-1 h-4 w-4 text-slate-500" />
                       <span
@@ -389,7 +382,7 @@
                                               class="mx-auto w-full" />
                                           </div>
                                           <div
-                                            class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -450,7 +443,7 @@
                                             </p>
                                           </div>
                                           <div
-                                            class="mx-auto px-2 font-bold text-slate-300 line-clamp-2">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -510,13 +503,13 @@
                 <div class="mx-auto h-full w-full p-0">
                   <div class="inline-block h-full w-full align-middle">
                     <div class="h-full w-full dark:bg-jovieDark-900">
-                        <AlertBanner
-                            v-if="limitExceedBy > 0 && totalAvailable"
-                            design="primary"
-                            :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                            :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                            :cta="`Upgrade`"
-                            ctaLink="Billing" />
+                      <AlertBanner
+                        v-if="limitExceedBy > 0 && totalAvailable"
+                        design="primary"
+                        :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+                        :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+                        :cta="`Upgrade`"
+                        ctaLink="Billing" />
                       <!--  Show import screen if no contacts -->
                       <!--  <div
                         v-if="!loading && !contacts.length && !showImporting"
@@ -607,7 +600,11 @@
                           @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
                           @getUserLists="getUserLists"
-                          :header="filters.type === 'list' ? filters.currentList.name : filters.type"
+                          :header="
+                            filters.type === 'list'
+                              ? filters.currentList.name
+                              : filters.type
+                          "
                           :subheader="counts"
                           :filters="filters"
                           :userLists="userLists"
@@ -662,14 +659,14 @@
         @message="launchSupportChat()"
         :open="showSupportModal" />
 
-        <ModalPopup
-            :loading="enrichContactsPopup.loading"
-            @primaryButtonClick="enrichContactsPopup.confirmationMethod"
-            @cancelButtonClick="resetPopup()"
-            :open="enrichContactsPopup.open"
-            :primaryButtonText="enrichContactsPopup.primaryButtonText"
-            :description="enrichContactsPopup.description"
-            :title="enrichContactsPopup.title" />
+      <ModalPopup
+        :loading="enrichContactsPopup.loading"
+        @primaryButtonClick="enrichContactsPopup.confirmationMethod"
+        @cancelButtonClick="resetPopup()"
+        :open="enrichContactsPopup.open"
+        :primaryButtonText="enrichContactsPopup.primaryButtonText"
+        :description="enrichContactsPopup.description"
+        :title="enrichContactsPopup.title" />
     </div>
   </div>
 </template>
@@ -753,15 +750,15 @@ import ImportService from '../services/api/import.service';
 import KBShortcut from '../components/KBShortcut.vue';
 import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
 import FieldService from '../services/api/field.service';
-import DropdownMenuItem from "../components/DropdownMenuItem.vue";
-import ModalPopup from "../components/ModalPopup.vue";
+import DropdownMenuItem from '../components/DropdownMenuItem.vue';
+import ModalPopup from '../components/ModalPopup.vue';
 
 export default {
   name: 'CRM',
   components: {
-      FaceSmileIcon,
-      ModalPopup,
-      DropdownMenuItem,
+    FaceSmileIcon,
+    ModalPopup,
+    DropdownMenuItem,
     CreditCardIcon,
     JovieSidebar,
     UserIcon,
@@ -878,16 +875,16 @@ export default {
       importFromSocial: false,
       limitExceedBy: 0,
       totalAvailable: 0,
-        enrichContactsPopup: {
-            confirmationMethod: null,
-            title: null,
-            open: false,
-            primaryButtonText: null,
-            description: '',
-            loading: false,
-        },
-        notifications: [],
-        newNotification: false,
+      enrichContactsPopup: {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        primaryButtonText: null,
+        description: '',
+        loading: false,
+      },
+      notifications: [],
+      newNotification: false,
     };
   },
   watch: {
@@ -981,12 +978,12 @@ export default {
         'UserListDuplicated',
         async (data) => {
           this.getUserLists().then(() => {
-              let list = this.userLists.find((list) => list.id == data.list);
-              if (list) {
-                  list.updating = null;
-                  this.setFilterList(list.id);
-              }
-          })
+            let list = this.userLists.find((list) => list.id == data.list);
+            if (list) {
+              list.updating = null;
+              this.setFilterList(list.id);
+            }
+          });
         }
       );
 
@@ -995,11 +992,11 @@ export default {
         'ImportListCreated',
         async (data) => {
           this.getUserLists().then(() => {
-              let list = this.userLists.find((list) => list.id == data.list);
-              if (list) {
-                  this.setFilterList(list.id);
-              }
-          })
+            let list = this.userLists.find((list) => list.id == data.list);
+            if (list) {
+              this.setFilterList(list.id);
+            }
+          });
         }
       );
 
@@ -1008,11 +1005,11 @@ export default {
         'UserListImported',
         (data) => {
           this.getUserLists().then(() => {
-              this.$store.state.showImportProgress = data.remaining;
-              if (!data.remaining) {
-                  this.getUserLists();
-              }
-          })
+            this.$store.state.showImportProgress = data.remaining;
+            if (!data.remaining) {
+              this.getUserLists();
+            }
+          });
         }
       );
 
@@ -1020,9 +1017,9 @@ export default {
         `userListImportTriggered.${this.currentUser.current_team.id}`,
         'UserListImportTriggered',
         (data) => {
-            this.getUserLists().then(() => {
-                this.$store.state.showImportProgress = data.remaining;
-            })
+          this.getUserLists().then(() => {
+            this.$store.state.showImportProgress = data.remaining;
+          });
         }
       );
 
@@ -1030,9 +1027,9 @@ export default {
         `contactImported.${this.currentUser.current_team.id}`,
         'ContactImported',
         (data) => {
-            console.log('datadata');
-            console.log(data);
-            if (!data.list) {
+          console.log('datadata');
+          console.log(data);
+          if (!data.list) {
             this.$store.state.importProgressSingleCount--;
           }
           if (
@@ -1050,11 +1047,11 @@ export default {
             let index = this.contacts.findIndex(
               (contact) => contact.id == newContact.id
             );
-              console.log('indexindexindex');
-              console.log(index);
-              if (index >= 0) {
+            console.log('indexindexindex');
+            console.log(index);
+            if (index >= 0) {
               this.contacts[index] = newContact;
-            } else if (! data.updating_existing) {
+            } else if (!data.updating_existing) {
               if (this.filters.page === 1 && this.contacts.length == 50) {
                 this.contacts.pop();
               }
@@ -1068,50 +1065,50 @@ export default {
         }
       );
 
-        this.listenEvents(
-            `contactEnriched.${this.currentUser.current_team.id}`,
-            'ContactEnriched',
-            (data) => {
-                let newContact = JSON.parse(window.atob(data.contact));
-                console.log('newContact');
-                console.log(newContact);
-                let index = this.contacts.findIndex(
-                    (contact) => contact.id == newContact.id
-                );
-                console.log('index');
-                console.log(index);
-                console.log(this.contacts);
-                if (index >= 0) {
-                    this.contacts[index] = newContact;
-                }
-                console.log(this.contacts);
-            }
-        );
-        this.listenEvents(
-            `listEnriched.${this.currentUser.current_team.id}`,
-            'ListEnriched',
-            (data) => {
-                let index = this.userLists.findIndex(
-                    (list) => list.id == data.list.id
-                );
-                if (index >= 0) {
-                    this.userLists[index] = data.list;
-                }
-            }
-        );
+      this.listenEvents(
+        `contactEnriched.${this.currentUser.current_team.id}`,
+        'ContactEnriched',
+        (data) => {
+          let newContact = JSON.parse(window.atob(data.contact));
+          console.log('newContact');
+          console.log(newContact);
+          let index = this.contacts.findIndex(
+            (contact) => contact.id == newContact.id
+          );
+          console.log('index');
+          console.log(index);
+          console.log(this.contacts);
+          if (index >= 0) {
+            this.contacts[index] = newContact;
+          }
+          console.log(this.contacts);
+        }
+      );
+      this.listenEvents(
+        `listEnriched.${this.currentUser.current_team.id}`,
+        'ListEnriched',
+        (data) => {
+          let index = this.userLists.findIndex(
+            (list) => list.id == data.list.id
+          );
+          if (index >= 0) {
+            this.userLists[index] = data.list;
+          }
+        }
+      );
 
-        this.listenEvents(
-            `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
-            'EnrichedContactDataViewed',
-            (data) => {
-                let index = this.contacts.findIndex(
-                    (contact) => contact.id == data.contact_id
-                );
-                if (index >= 0) {
-                    this.contacts[index].enriched_viewed = true;
-                }
-            }
-        );
+      this.listenEvents(
+        `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
+        'EnrichedContactDataViewed',
+        (data) => {
+          let index = this.contacts.findIndex(
+            (contact) => contact.id == data.contact_id
+          );
+          if (index >= 0) {
+            this.contacts[index].enriched_viewed = true;
+          }
+        }
+      );
 
       this.$store.state.crmEventsRegistered = true;
     }
@@ -1123,84 +1120,86 @@ export default {
     });
   },
   methods: {
-      setListUpdating(listIds) {
-          this.userLists.filter(record => listIds.includes(record.id)).forEach(record => {
-              record.updating = true
-          })
-      },
-      resetPopup() {
-          this.enrichContactsPopup = {
-              confirmationMethod: null,
-              title: null,
-              open: false,
-              description: null,
-              primaryButtonText: null,
-              loading: false,
-          };
-      },
-      checkContactsEnrichable(ids) {
-          this.$store.dispatch('checkContactsEnrichable', ids).then(response => {
-              response = response.data
-              if (response.status) {
-                  if (response.data) {
-                      this.enrichContactsPopup.confirmationMethod = () => {
-                          this.enrichContacts(response.data);
-                      };
-                      this.enrichContactsPopup.cancelEditMethod = () => {
-                          this.enrichContactsPopup.open = false
-                      };
-                      this.enrichContactsPopup.open = true;
-                      this.enrichContactsPopup.primaryButtonText = "Enrich";
-                      this.enrichContactsPopup.title = "Enrich Contacts";
-                      this.enrichContactsPopup.description = response.message
-                  } else {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          title: 'Imported',
-                          text: response.message,
-                      });
-                  }
-              } else {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      title: 'Imported',
-                      text: response.message,
-                  });
-              }
-          })
-      },
-      enrichContacts(ids) {
-          let payload = {
-              self: this,
-              contact_ids: ids
+    setListUpdating(listIds) {
+      this.userLists
+        .filter((record) => listIds.includes(record.id))
+        .forEach((record) => {
+          record.updating = true;
+        });
+    },
+    resetPopup() {
+      this.enrichContactsPopup = {
+        confirmationMethod: null,
+        title: null,
+        open: false,
+        description: null,
+        primaryButtonText: null,
+        loading: false,
+      };
+    },
+    checkContactsEnrichable(ids) {
+      this.$store.dispatch('checkContactsEnrichable', ids).then((response) => {
+        response = response.data;
+        if (response.status) {
+          if (response.data) {
+            this.enrichContactsPopup.confirmationMethod = () => {
+              this.enrichContacts(response.data);
+            };
+            this.enrichContactsPopup.cancelEditMethod = () => {
+              this.enrichContactsPopup.open = false;
+            };
+            this.enrichContactsPopup.open = true;
+            this.enrichContactsPopup.primaryButtonText = 'Enrich';
+            this.enrichContactsPopup.title = 'Enrich Contacts';
+            this.enrichContactsPopup.description = response.message;
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Imported',
+              text: response.message,
+            });
           }
-          this.$store.dispatch('enrichContacts', payload)
-          this.resetPopup()
-      },
-      openImportContactModal(fromSocial = false) {
-          this.importFromSocial = fromSocial;
-          this.$nextTick(() => {
-              this.showContactModal = true;
-          })
-      },
-      contactImported(data) {
-          // if (
-          //     (data.list && data.list == this.filters.list) ||
-          //     this.filters.type == 'all'
-          // ) {
-          //     if (this.filters.page === 1 && this.contacts.length == 50) {
-          //         this.contacts.pop();
-          //         this.contacts.splice(0, 0, data.contact);
-          //     } else {
-          //         this.contacts.push(data.contact);
-          //     }
-          // }
-      },
-      updateUserList(event) {
-          this.$refs.crmTableGrid.updateUserList(event)
-      },
+        } else {
+          this.$notify({
+            group: 'user',
+            type: 'success',
+            title: 'Imported',
+            text: response.message,
+          });
+        }
+      });
+    },
+    enrichContacts(ids) {
+      let payload = {
+        self: this,
+        contact_ids: ids,
+      };
+      this.$store.dispatch('enrichContacts', payload);
+      this.resetPopup();
+    },
+    openImportContactModal(fromSocial = false) {
+      this.importFromSocial = fromSocial;
+      this.$nextTick(() => {
+        this.showContactModal = true;
+      });
+    },
+    contactImported(data) {
+      // if (
+      //     (data.list && data.list == this.filters.list) ||
+      //     this.filters.type == 'all'
+      // ) {
+      //     if (this.filters.page === 1 && this.contacts.length == 50) {
+      //         this.contacts.pop();
+      //         this.contacts.splice(0, 0, data.contact);
+      //     } else {
+      //         this.contacts.push(data.contact);
+      //     }
+      // }
+    },
+    updateUserList(event) {
+      this.$refs.crmTableGrid.updateUserList(event);
+    },
     getHeaders() {
       this.headersLoaded = false;
       FieldService.getHeaderFields(this.filters.list)
@@ -1283,7 +1282,7 @@ export default {
     openSidebarContact(obj) {
       let { contact, index } = obj;
       //if the sidebar is not open, open it and set the current contact
-      this.$store.dispatch('markEnrichedViewed', contact.id)
+      this.$store.dispatch('markEnrichedViewed', contact.id);
       contact.index = index;
       if (!this.$store.state.ContactSidebarOpen) {
         this.$store.state.ContactSidebarOpen = true;
@@ -1309,7 +1308,7 @@ export default {
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
-      this.$store.state.overviewList = null
+      this.$store.state.overviewList = null;
       this.filters.currentList = null;
       this.getCrmContacts();
       this.loading = false;
@@ -1318,13 +1317,13 @@ export default {
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
       if (this.filters.list) {
-          list = this.userLists.find(l => l.id === list)
-          this.filters.currentList = list ?? null
-          this.$store.state.overviewList = list ?? null
+        list = this.userLists.find((l) => l.id === list);
+        this.filters.currentList = list ?? null;
+        this.$store.state.overviewList = list ?? null;
       } else {
-          this.filters.type = 'all';
-          this.filters.currentList = null
-          this.$store.state.overviewList = null
+        this.filters.type = 'all';
+        this.filters.currentList = null;
+        this.$store.state.overviewList = null;
       }
       this.getCrmContacts();
     },
@@ -1374,23 +1373,23 @@ export default {
         .finally((response) => {});
     },
     getUserLists() {
-        return new Promise((resolve, reject) => {
-            UserService.getUserLists().then((response) => {
-                response = response.data;
-                if (response.status) {
-                    this.listKey = this.listKey+1
-                    this.userLists = [];
-                    this.userLists = response.lists;
-                    if (this.filters.list) {
-                        let list = this.userLists.find(l => l.id === this.filters.list)
-                        if (list) {
-                            this.filters.currentList = list
-                        }
-                    }
-                }
-                return resolve()
-            });
-        })
+      return new Promise((resolve, reject) => {
+        UserService.getUserLists().then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.listKey = this.listKey + 1;
+            this.userLists = [];
+            this.userLists = response.lists;
+            if (this.filters.list) {
+              let list = this.userLists.find((l) => l.id === this.filters.list);
+              if (list) {
+                this.filters.currentList = list;
+              }
+            }
+          }
+          return resolve();
+        });
+      });
     },
     pageChanged({ page }) {
       this.filters.page = page;
@@ -1429,17 +1428,17 @@ export default {
           this.counts.favourites = response.counts.favourites;
           this.counts.total = response.counts.total;
           this.contactsMeta = {
-              current_page: response.contacts.current_page,
-              first_page_url: response.contacts.first_page_url,
-              from: response.contacts.from,
-              last_page: response.contacts.last_page,
-              last_page_url: response.contacts.last_page_url,
-              next_page_url: response.contacts.next_page_url,
-              path: response.contacts.path,
-              per_page: response.contacts.per_page,
-              prev_page_url: response.contacts.prev_page_url,
-              to: response.contacts.to,
-              total: response.contacts.total,
+            current_page: response.contacts.current_page,
+            first_page_url: response.contacts.first_page_url,
+            from: response.contacts.from,
+            last_page: response.contacts.last_page,
+            last_page_url: response.contacts.last_page_url,
+            next_page_url: response.contacts.next_page_url,
+            path: response.contacts.path,
+            per_page: response.contacts.per_page,
+            prev_page_url: response.contacts.prev_page_url,
+            to: response.contacts.to,
+            total: response.contacts.total,
           };
           this.filters.page = response.contacts.current_page;
         }
@@ -1455,9 +1454,9 @@ export default {
           response = response.data;
           if (response.status) {
             this.counts = response.counts;
-            this.userLists.forEach(list => {
-                this.counts[`list_${list.id}`] = list.contacts_count
-            })
+            this.userLists.forEach((list) => {
+              this.counts[`list_${list.id}`] = list.contacts_count;
+            });
           }
         })
         .catch((error) => {
@@ -1471,7 +1470,7 @@ export default {
     updateListCount(params) {
       let list = this.userLists.find((list) => list.id == params.list_id);
       let selectedContacts = this.$store.state.crmRecords.filter((contact) =>
-        params.contactIds.map(id => parseInt(id)).includes(contact.id)
+        params.contactIds.map((id) => parseInt(id)).includes(contact.id)
       );
       if (list) {
         if (params.remove) {
@@ -1487,7 +1486,7 @@ export default {
             if (
               !contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
-                list.contacts_count += 1;
+              list.contacts_count += 1;
             }
           });
         }
@@ -1513,9 +1512,9 @@ export default {
       });
     },
     updateContact(params) {
-        console.log('paramsparams');
-        console.log(params);
-        this.$store.dispatch('updateContact', params).then((response) => {
+      console.log('paramsparams');
+      console.log(params);
+      this.$store.dispatch('updateContact', params).then((response) => {
         response = response.data;
         if (response.status) {
           if (response.data == null) {

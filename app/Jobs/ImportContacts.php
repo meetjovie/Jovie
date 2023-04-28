@@ -7,12 +7,14 @@ use App\Models\Contact;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
+use App\Models\Team;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use League\Csv\Reader;
 
 class ImportContacts implements ShouldQueue
@@ -47,7 +49,7 @@ class ImportContacts implements ShouldQueue
             $reader = Reader::createFromStream($stream);
             $records = Import::records($reader, $this->page);
 
-            $usStates = (array) json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
+            $usStates = (array)json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
 
             $mappedColumns = collect($this->payload->mappedColumns);
             $maxColumn = max($mappedColumns->flatten()->toArray());
@@ -89,7 +91,7 @@ class ImportContacts implements ShouldQueue
                 }
                 $contact['first_name'] = isset($this->payload->mappedColumns->firstName) ? $row[$this->payload->mappedColumns->firstName] : null;
                 $contact['last_name'] = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
-                $contact['full_name'] = ($contact['first_name'].' '.$contact['last_name']);
+                $contact['full_name'] = ($contact['first_name'] . ' ' . $contact['last_name']);
                 $contact['nickname'] = isset($this->payload->mappedColumns->nickname) ? $row[$this->payload->mappedColumns->nickname] : null;
                 $contact['suffix'] = isset($this->payload->mappedColumns->suffix) ? $row[$this->payload->mappedColumns->suffix] : null;
                 $contact['company'] = isset($this->payload->mappedColumns->company) ? $row[$this->payload->mappedColumns->company] : null;
@@ -103,7 +105,7 @@ class ImportContacts implements ShouldQueue
                 $contact['country'] = $country;
 
                 $contact['instagram'] = isset($this->payload->mappedColumns->instagram) ? $row[$this->payload->mappedColumns->instagram] : null;
-                if (! empty($contact['instagram']) && $contact['instagram'][0] == '@') {
+                if (!empty($contact['instagram']) && $contact['instagram'][0] == '@') {
                     $contact['instagram'] = substr($contact['instagram'], 1);
                 }
 
@@ -116,6 +118,12 @@ class ImportContacts implements ShouldQueue
                 $contact['snapchat'] = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
                 $contact['wiki'] = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
                 $contact = Contact::saveContact($contact)->first();
+
+                $team = Team::find($contact->team_id);
+                if ($team->autoEnrichImportEnabled()) {
+                    $contact->enrichContact();
+                }
+
                 $contactIds[] = $contact->id;
             }
 
@@ -131,7 +139,7 @@ class ImportContacts implements ShouldQueue
             }
 
         } catch (\Exception $e) {
-            SendSlackNotification::dispatch(('Error in importing contacts. '.$e->getMessage().'----'.$e->getFile().'-----'.$e->getLine()));
+            SendSlackNotification::dispatch(('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine()));
         }
     }
 }

@@ -14,6 +14,7 @@ use App\Jobs\TwitterImport;
 use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Import;
+use App\Models\TeamSetting;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
@@ -119,7 +120,7 @@ class ImportController extends Controller
             return collect([
                 'status' => false,
                 //                'error' => 'Your file is not imported.'
-                'error' => $e->getMessage().$e->getLine(),
+                'error' => $e->getMessage() . $e->getLine(),
             ]);
         }
 
@@ -156,10 +157,10 @@ class ImportController extends Controller
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->input('key')) {
             Storage::disk('s3')->copy(
-                ('tmp/'.$request->input('key')),
-               (Creator::CREATORS_CSV_PATH.$request->input('key'))
+                ('tmp/' . $request->input('key')),
+                (Creator::CREATORS_CSV_PATH . $request->input('key'))
             );
-            $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
+            $filePath = Creator::CREATORS_CSV_PATH . $request->input('key');
             $listName = $request->listName;
             $user = User::currentLoggedInUser();
             SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, $user->id, $user->currentTeam->id, true);
@@ -172,12 +173,17 @@ class ImportController extends Controller
     {
         try {
             $data = $request->all();
-            $data['user_id'] = Auth::id();
-            $data['team_id'] = Auth::user()->currentTeam->id;
+            $user = Auth::user();
+            $data['user_id'] = $user->id;
+            $data['team_id'] = $user->currentTeam->id;
             $contact = Contact::saveContact($data, $request->list_id)->first();
 
-            $params['user_id'] = Auth::id();
-            $params['team_id'] = Auth::user()->currentTeam->id;
+            if ($user->currentTeam->autoEnrichImportEnabled()) {
+                $contact->enrichContact();
+            }
+
+            $params['user_id'] = $user->id;
+            $params['team_id'] = $user->currentTeam->id;
             $params['id'] = $contact->id;
             $params['type'] = 'list';
             $params['list'] = $request->list_id;
@@ -193,7 +199,7 @@ class ImportController extends Controller
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
-                'error' => $e->getMessage().$e->getLine(),
+                'error' => $e->getMessage() . $e->getLine(),
             ]);
         }
     }
@@ -204,7 +210,7 @@ class ImportController extends Controller
         if ($request->has('file')) {
             $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
             $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
-            $filePath = Creator::CREATORS_CSV_PATH.$filename;
+            $filePath = Creator::CREATORS_CSV_PATH . $filename;
             $list = UserList::firstOrCreateList(Auth::user()->id, $request->listName);
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }
