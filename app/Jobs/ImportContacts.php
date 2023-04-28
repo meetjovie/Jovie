@@ -139,7 +139,6 @@ class ImportContacts implements ShouldQueue
             }
 
         } catch (\Exception $e) {
-            Log::info('ENRIRHCHDHD...' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine());
             SendSlackNotification::dispatch(('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine()));
         }
     }
