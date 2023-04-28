@@ -35,10 +35,15 @@
                             name="New Contact"
                             color="text-blue-600 dark:text-blue-400"
                             icon="PlusIcon" />
+                          <DropdownMenuItem
+                            @click="showCreatortModal(true)"
+                            name="Add from social"
+                            color="text-pink-600 dark:text-pink-400"
+                            icon="SparklesIcon" />
                           <router-link to="/import">
                             <DropdownMenuItem
                               name="Upload a CSV"
-                              color="text-instagram-600 dark:text-instagram-400"
+                              color="text-purple-600 dark:text-purple-400"
                               icon="CloudArrowUpIcon" />
                           </router-link>
                         </div>
