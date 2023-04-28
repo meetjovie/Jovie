@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Arr;
+use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -202,6 +203,11 @@ class Contact extends Model implements Auditable
         return $this->belongsTo(User::class);
     }
 
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
+    }
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
@@ -229,7 +235,7 @@ class Contact extends Model implements Auditable
             $socialLinks->push([
                 'url' => $this->{$NETWORK},
                 'network' => $NETWORK,
-                'followers' => $this->{$NETWORK.'_data'}->{$NETWORK.'_followers'} ?? null
+                'followers' => $this->{$NETWORK . '_data'}->{$NETWORK . '_followers'} ?? null
             ]);
         }
         return $socialLinks;
@@ -249,12 +255,12 @@ class Contact extends Model implements Auditable
     {
         $media = [];
         foreach (Creator::NETWORKS as $network) {
-            if (! empty($this->{$network.'_data'}) && !empty($this->{$network.'_data'}->{$network.'_media'})) {
+            if (!empty($this->{$network . '_data'}) && !empty($this->{$network . '_data'}->{$network . '_media'})) {
                 $nMedia = array_map(function ($value) use ($network) {
                     $value->network = $network;
 
                     return $value;
-                }, (array) $this->{$network.'_data'}->{$network.'_media'});
+                }, (array)$this->{$network . '_data'}->{$network . '_media'});
                 $media = array_merge($media, $nMedia);
             }
         }
@@ -555,7 +561,7 @@ class Contact extends Model implements Auditable
             $contact = $this;
         }
 
-        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name.' '.$contact->last_name) : null);
+        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name . ' ' . $contact->last_name) : null);
     }
 
     public static function getContacts($params)
@@ -567,13 +573,13 @@ class Contact extends Model implements Auditable
             $join->on('description_updated.id', '=', 'description_updated_by');
         });
 
-        $contacts = $contacts->when(! (isset($params['type']) && $params['type'] == 'archived'), function ($query) {
+        $contacts = $contacts->when(!(isset($params['type']) && $params['type'] == 'archived'), function ($query) {
             $query->where('archived', 0);
         });
         if (isset($params['type']) && $params['type'] == 'archived') {
             $contacts = $contacts->when(true, function ($query) {
-                    $query->where('archived', 1);
-                });
+                $query->where('archived', 1);
+            });
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
             $contacts = $contacts->where(function ($q) {
                 $q->where('favourite', true);
@@ -599,7 +605,7 @@ class Contact extends Model implements Auditable
         }
 
         if (!empty($orderBy)) {
-            $orderBy = "contacts.".$orderBy;
+            $orderBy = "contacts." . $orderBy;
             $contacts = $contacts->orderByRaw("lower($orderBy) $order");
         } else {
             $contacts = $contacts->orderByDesc('contacts.id');
@@ -776,7 +782,18 @@ class Contact extends Model implements Auditable
                 $contact->full_name = $contact->getName();
             }
         }
+
+        $user = auth()->user();
+        if ($contact->isDirty()) {
+            if (count(array_intersect(Creator::NETWORKS, array_keys($contact->getDirty()))) > 0) {
+                if ($user->currentTeam->autoEnrichUpdateEnabled()) {
+                    $contact->enrichContact();
+                }
+            };
+        }
+
         $contact->save();
+
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
@@ -963,4 +980,13 @@ class Contact extends Model implements Auditable
 
         return $listIds;
     }
+
+    public function enrichContact()
+    {
+        if ($this->team->hasEnoughEnrichingCredits()) {
+            $this->team->deductCredits();
+            Contact::enrichContacts($this->id, ['user_id' => $this->user_id, 'team_id' => $this->team_id]);
+        }
+    }
+
 }
