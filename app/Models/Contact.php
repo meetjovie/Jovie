@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,7 @@ class Contact extends Model implements Auditable
         'gender',
         'dob',
         'profile_pic_url',
+        'tags',
         'last_contacted',
         'offer',
         'archived',
@@ -85,6 +87,7 @@ class Contact extends Model implements Auditable
     const OVERRIDEABLE = [
         'phones',
         'emails',
+        'tags',
         'instagram',
         'instagram_data',
         'twitter',
@@ -218,6 +221,11 @@ class Contact extends Model implements Auditable
         return $this->belongsToMany(UserList::class)->withTimestamps();
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(ContactComment::class);
+    }
+
     /**
      * Get the available social links and followers of contact.
      */
@@ -299,7 +307,7 @@ class Contact extends Model implements Auditable
     {
         return Attribute::make(
             get: fn($value) => $value,
-            set: fn($value) => Carbon::make($value)->toDateString(),
+            set: fn($value) => $value ? Carbon::make($value)->toDateString() : null,
         );
     }
 
@@ -331,6 +339,21 @@ class Contact extends Model implements Auditable
         $existingPhones = $this->phones;
         $newPhones = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
         return json_encode(array_values(array_unique(array_merge($existingPhones, $newPhones))));
+    }
+
+    public function tags(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => json_decode($value ?? '[]'),
+            set: fn($value) => $this->setTags($value),
+        );
+    }
+
+    public function setTags($value)
+    {
+        $existingTags = $this->tags;
+        $newTags = array_values(array_map('trim', array_filter(is_array($value) ? $value : explode(',', $value))));
+        return json_encode(array_values(array_unique(array_merge($existingTags, $newTags))));
     }
 
     public function address(): Attribute
@@ -561,7 +584,7 @@ class Contact extends Model implements Auditable
             $contact = $this;
         }
 
-        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name . ' ' . $contact->last_name) : null);
+        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name.' '.$contact->last_name) : null);
     }
 
     public static function getContacts($params)
@@ -576,6 +599,11 @@ class Contact extends Model implements Auditable
         $contacts = $contacts->when(!(isset($params['type']) && $params['type'] == 'archived'), function ($query) {
             $query->where('archived', 0);
         });
+
+        if (isset($params['comments'])) {
+            $contacts = $contacts->with('comments');
+        }
+
         if (isset($params['type']) && $params['type'] == 'archived') {
             $contacts = $contacts->when(true, function ($query) {
                 $query->where('archived', 1);
@@ -589,6 +617,10 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->whereHas('userLists', function ($query) use ($listId) {
                 $query->where('user_lists.id', $listId);
             });
+        }
+
+        if (isset($params['contact_ids']) && count($params['contact_ids'])) {
+            $contacts = $contacts->whereIn('contacts.id', $params['contact_ids']);
         }
 
         if (isset($params['id'])) {
@@ -769,13 +801,13 @@ class Contact extends Model implements Auditable
         return count($contacts) ? $contacts : false;
     }
 
-    public static function updateContact($data, $id)
+    public static function updateContact($data, $id, $merge = false)
     {
+        $contact = Contact::query()->where('id', $id)->first();
         $contactData = self::getFillableData($data);
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
-        $contact = Contact::query()->where('id', $id)->first();
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
             if (in_array($key, ['first_name', 'last_name'])) {
@@ -797,8 +829,8 @@ class Contact extends Model implements Auditable
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
-        foreach ($customFields as $customField) {
-            if (array_key_exists($customField->code, $data)) {
+        foreach ($customFields as  $customField) {
+            if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];
                 $oldValue = $cc->getFieldValueByModel($customField, $contact);
                 CustomFieldValue::query()->updateOrCreate([
@@ -809,18 +841,17 @@ class Contact extends Model implements Auditable
                     'value' => $value,
                 ]);
 
-                $contact->auditEvent = 'update';
-                $contact->isCustomEvent = true;
+                    $contact->auditEvent = 'update';
+                    $contact->isCustomEvent = true;
 
-                $newValue = $cc->getFieldValueByModel($customField, $contact);
-                $contact->auditCustomOld = [
-                    $customField->code => $oldValue
-                ];
-                $contact->auditCustomNew = [
-                    $customField->code => $newValue
-                ];
-                Event::dispatch(AuditCustom::class, [$contact]);
-
+                    $newValue = $cc->getFieldValueByModel($customField, $contact);
+                    $contact->auditCustomOld = [
+                        $customField->code => $oldValue
+                    ];
+                    $contact->auditCustomNew = [
+                        $customField->code => $newValue
+                    ];
+                    Event::dispatch(AuditCustom::class, [$contact]);
             }
         }
         return $contact;
@@ -979,6 +1010,15 @@ class Contact extends Model implements Auditable
         EnrichList::dispatch($listId, $params);
 
         return $listIds;
+    }
+
+    public static function deleteContact($id)
+    {
+        $contact = Contact::find($id);
+        $contact->userLists()->detach();
+        CustomFieldValue::query()->where('model_id', $id)->delete();
+        ContactComment::query()->where('contact_id', $id)->delete();
+        return $contact->delete();
     }
 
     public function enrichContact()

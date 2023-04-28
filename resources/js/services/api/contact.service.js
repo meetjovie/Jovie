@@ -54,5 +54,13 @@ export default {
     getContactChangeLog(id, page) {
         return axios.get(
             `${baseApiUrl}/contact-change-log/${id}?page=${page}`);
+    },
+    suggestMerge(data = {}) {
+        return axios.post(
+            `${baseApiUrl}/suggest-merge`, data);
+    },
+    mergeContacts(data) {
+        return axios.post(
+            `${baseApiUrl}/merge-contacts`, data);
     }
 };

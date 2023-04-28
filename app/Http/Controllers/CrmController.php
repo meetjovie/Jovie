@@ -9,18 +9,23 @@ use App\Models\ContactComment;
 use App\Models\Creator;
 use App\Models\CreatorComment;
 use App\Models\Crm;
+use App\Models\CustomFieldValue;
 use App\Models\User;
 use App\Models\UserList;
+use App\Services\ContactService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use MeiliSearch\Client;
+use OwenIt\Auditing\Events\AuditCustom;
 
 class CrmController extends Controller
 {
@@ -194,7 +199,9 @@ class CrmController extends Controller
 
     public function nextContact($id)
     {
-        $contact = Contact::where('id', '<', $id)->where('archived', 0)->where('user_id', Auth::id())->orderByDesc('id')->first();
+        $contact = Contact::where('id', '<', $id)->where('archived', 0)->where('user_id', Auth::id())->orderByDesc(
+            'id'
+        )->first();
         if ($contact) {
             return response([
                 'status' => true,
@@ -235,7 +242,6 @@ class CrmController extends Controller
 
         $contacts = Contact::getEnrichableContacts($request->contact_ids);
         if ($count = count($contacts)) {
-
             if (!Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
                 return response([
                     'status' => false,
@@ -290,7 +296,6 @@ class CrmController extends Controller
 
         $count = Contact::getEnrichableContactsFromLists($request->list_ids, true);
         if ($count) {
-
             if (!Auth::user()->currentTeam->hasEnoughEnrichingCredits($count)) {
                 return response([
                     'status' => false,
@@ -368,8 +373,14 @@ class CrmController extends Controller
                             $modificationTexts[] = "contact <b>un-muted</b>.";
                         }
                     } elseif ($key == 'userLists') {
-                        $removedValues = array_diff(array_column($modified['old'], 'id'), array_column($modified['new'], 'id'));
-                        $addedValues = array_diff(array_column($modified['new'], 'id'), array_column($modified['old'], 'id'));
+                        $removedValues = array_diff(
+                            array_column($modified['old'], 'id'),
+                            array_column($modified['new'], 'id')
+                        );
+                        $addedValues = array_diff(
+                            array_column($modified['new'], 'id'),
+                            array_column($modified['old'], 'id')
+                        );
 
                         if (count($removedValues)) {
                             $userLists = array_filter($modified['old'], function ($value) use ($removedValues) {
@@ -395,22 +406,38 @@ class CrmController extends Controller
                                 $modificationTexts[] = "added to list <b class='$class'>$userList[name]</b>";
                             }
                         }
-
                     } elseif ($key == 'customFields') {
                         foreach ($modified['new'] as $field => $value) {
-                            $readableField = Str::replace('_', ' ', $field);
-                            $old = is_array($modified['old'][$field]) ? implode(', ', $modified['old'][$field]) : $modified['old'][$field];
-                            $new = is_array($value) ? implode(', ', $value) : $value;
-                            if (!$old) {
-                                $modificationTexts[] = ("updated $readableField to <b>" . $new . "</b>");
-                            } else {
-                                $modificationTexts[] = ("updated $readableField from <b>" . $old . "</b> to <b>" . $new . "</b>");
+                            if (is_array($value)) {
+                                $customField = array_key_first($value);
+                                $modificationTexts[] = ("updated " . $customField .  ($modified['old'][$field][$customField] ?  " from <b>" . $modified['old'][$field][$customField] : "") . "</b> to <b>" . $modified['new'][$field][$customField] . "</b>");
+                            }
+                            else {
+                                $readableField = Str::replace('_', ' ', $field);
+                                $old = is_array($modified['old'][$field]) ? implode(
+                                    ', ',
+                                    $modified['old'][$field]
+                                ) : $modified['old'][$field];
+                                $new = is_array($value) ? implode(', ', $value) : $value;
+                                if (!$old) {
+                                    $modificationTexts[] = ("updated $readableField to <b>" . $new . "</b>");
+                                } else {
+                                    $modificationTexts[] = ("updated $readableField from <b>" . $old . "</b> to <b>" . $new . "</b>");
+                                }
                             }
                         }
-                    } elseif (isset($modified['old'])) {
+                    } elseif (isset($modified['old']) ) {
+                        $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
                         $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
                     } else {
-                        $modificationTexts[] = ("updated $key to <b>" . $modified['new'] . "</b>");
+                        if (is_array($modified['new']))
+                        {
+                            foreach ($modified['new'] as $new) {
+                                $modificationTexts[] = ("updated $key to <b>" . $new['name'] . "</b>");
+                            }
+                        } else {
+                            $modificationTexts[] = ("updated $key to <b>" . $modified['new'] . "</b>");
+                        }
                     }
                 }
                 $change->modification_texts = $modificationTexts;
@@ -431,6 +458,50 @@ class CrmController extends Controller
             'status' => false,
             'data' => 'Contact does not exist.',
         ]);
+    }
+
+    public function suggestMerge(Request $request, ContactService $contactService)
+    {
+        $request->validate([
+            'contact_ids' => 'sometimes',
+            'contact_ids.*' => 'exists:contacts,id',
+        ]);
+
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $params['type'] = 'list';
+        $params['list'] = $request->listId;
+        $params['contact_ids'] = $request->contact_ids;
+
+        $mergeSuggestions = $contactService->findDuplicates($params);
+
+        $message = 'Here are your merge suggestions.';
+        if (is_null($mergeSuggestions)) {
+            $message = 'There are no merge suggestions.';
+        }
+        return response([
+            'status' => true,
+            'message' => $message,
+            'data' => $mergeSuggestions
+        ]);
+    }
+
+    public function mergeContacts(Request $request, ContactService $contactService)
+    {
+        try {
+            $contact = $contactService->mergeContacts($request);
+
+            return response()->json([
+                'status' => true,
+                'creator' => $contact,
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status' => false,
+                'message' => ($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine())
+            ], 200);
+        }
     }
 
     public function getExtensionCreator(Request $request)
@@ -463,7 +534,10 @@ class CrmController extends Controller
         ]);
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
         $data['team_id'] = $user->currentTeam->id;
-        $crm = Crm::updateOrCreate(['creator_id' => $creatorId, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id], $data);
+        $crm = Crm::updateOrCreate(
+            ['creator_id' => $creatorId, 'user_id' => $user->id, 'team_id' => $user->currentTeam->id],
+            $data
+        );
         Creator::where('id', $creatorId)->searchable();
 
         return response([
@@ -489,7 +563,8 @@ class CrmController extends Controller
         ]);
 
         $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        $crm = Crm::updateOrCreate(['user_id' => $user->id, 'team_id' => $user->currentTeam->id, 'creator_id' => $request->creator_id],
+        $crm = Crm::updateOrCreate(
+            ['user_id' => $user->id, 'team_id' => $user->currentTeam->id, 'creator_id' => $request->creator_id],
             ['user_id' => $user->id, 'team_id' => $user->currentTeam->id, 'creator_id' => $request->creator_id]
         );
 
@@ -605,7 +680,10 @@ class CrmController extends Controller
 
             $data = $request->except('network');
             $data = array_filter($data);
-            $creator = Creator::query()->where(($request->network . '_handler'), $request->{$request->network . '_handler'})->first();
+            $creator = Creator::query()->where(
+                ($request->network . '_handler'),
+                $request->{$request->network . '_handler'}
+            )->first();
             $creator = $creator ?? new Creator();
             if (!empty($data['profile_pic_url']) && $request->network == 'instagram') {
                 $profilePicUrl = $data['profile_pic_url'];
@@ -629,11 +707,15 @@ class CrmController extends Controller
             foreach ($data as $k => $v) {
                 if ($k == 'meta') {
                     foreach ($v as $kk => $vv) {
-                        if (!Schema::hasColumn('creators', $kk)) continue;
+                        if (!Schema::hasColumn('creators', $kk)) {
+                            continue;
+                        }
                         $creator->{$kk} = $vv;
                     }
                 } else {
-                    if (!Schema::hasColumn('creators', $k)) continue;
+                    if (!Schema::hasColumn('creators', $k)) {
+                        continue;
+                    }
                     $creator->{$k} = $v;
                 }
             }
