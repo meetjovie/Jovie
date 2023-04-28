@@ -31,7 +31,7 @@
                 v-model="teamSetting.value"
                 :name="teamSetting.key"
                 :disabled="updating" />
-              <label for="{{teamSetting.key}}">{{ teamSetting.key }}</label>
+              <label :for="teamSetting.key">{{ unSlugify(teamSetting.key) }}</label>
             </div>
           </div>
         </div>

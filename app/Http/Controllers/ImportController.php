@@ -178,16 +178,16 @@ class ImportController extends Controller
             $data['team_id'] = $user->currentTeam->id;
             $contact = Contact::saveContact($data, $request->list_id)->first();
 
+            if ($user->currentTeam->autoEnrichImportEnabled()) {
+                $contact->enrichContact();
+            }
+
             $params['user_id'] = $user->id;
             $params['team_id'] = $user->currentTeam->id;
             $params['id'] = $contact->id;
             $params['type'] = 'list';
             $params['list'] = $request->list_id;
             $contact = Contact::getContacts($params)->first();
-
-            if ($user->currentTeam->autoEnrichImportEnabled()) {
-                $contact->enrichContact();
-            }
 
             return collect([
                 'status' => true,
