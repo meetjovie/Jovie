@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('contact_user_list', function (Blueprint $table) {
-            $table->integer('stage')->default(0);
+            $table->integer('stage')->default(0)->after('user_list_id');
         });
     }
 
