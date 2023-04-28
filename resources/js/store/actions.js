@@ -27,11 +27,12 @@ export default {
         })
     },
 
-    async updateContact(context, { id, index, network, key, value }) {
+    async updateContact(context, { id, index, network, key, value, list_id }) {
         const data = {
             id: id,
         };
         data[key] = value;
+        data['list'] = list_id;
         return await userService.updateContact(data)
     },
 

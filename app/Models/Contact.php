@@ -218,7 +218,7 @@ class Contact extends Model implements Auditable
 
     public function userLists(): BelongsToMany
     {
-        return $this->belongsToMany(UserList::class)->withTimestamps();
+        return $this->belongsToMany(UserList::class)->withTimestamps()->withPivot(['stage', 'comment']);
     }
 
     public function comments(): HasMany
@@ -584,7 +584,7 @@ class Contact extends Model implements Auditable
             $contact = $this;
         }
 
-        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name.' '.$contact->last_name) : null);
+        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name . ' ' . $contact->last_name) : null);
     }
 
     public static function getContacts($params)
@@ -651,6 +651,10 @@ class Contact extends Model implements Auditable
             $customFields = $cc->getFieldsByTeam($params['team_id']);
             foreach ($customFields as $customField) {
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
+            }
+            if (isset($params['list']) && !empty($params['list'])) {
+                $userList = $contact->userLists()->where('user_list_id', $params['list'])->first();
+                $contact->stage = $userList->pivot->stage;
             }
         }
 
@@ -809,9 +813,17 @@ class Contact extends Model implements Auditable
             $contactData['description_updated_by'] = Auth::id();
         }
         foreach ($contactData as $key => $value) {
-            $contact->{$key} = $value;
+
             if (in_array($key, ['first_name', 'last_name'])) {
                 $contact->full_name = $contact->getName();
+            }
+            if ($key == 'stage' && isset($data['list'])) {
+                $userList = $contact->userLists()->where('user_list_id', $data['list'])->first();
+                $pivot = $userList->pivot;
+                $pivot->stage = $value;
+                $pivot->save();
+            } else {
+                $contact->{$key} = $value;
             }
         }
 
@@ -829,7 +841,7 @@ class Contact extends Model implements Auditable
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
-        foreach ($customFields as  $customField) {
+        foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];
                 $oldValue = $cc->getFieldValueByModel($customField, $contact);
@@ -841,17 +853,17 @@ class Contact extends Model implements Auditable
                     'value' => $value,
                 ]);
 
-                    $contact->auditEvent = 'update';
-                    $contact->isCustomEvent = true;
+                $contact->auditEvent = 'update';
+                $contact->isCustomEvent = true;
 
-                    $newValue = $cc->getFieldValueByModel($customField, $contact);
-                    $contact->auditCustomOld = [
-                        $customField->code => $oldValue
-                    ];
-                    $contact->auditCustomNew = [
-                        $customField->code => $newValue
-                    ];
-                    Event::dispatch(AuditCustom::class, [$contact]);
+                $newValue = $cc->getFieldValueByModel($customField, $contact);
+                $contact->auditCustomOld = [
+                    $customField->code => $oldValue
+                ];
+                $contact->auditCustomNew = [
+                    $customField->code => $newValue
+                ];
+                Event::dispatch(AuditCustom::class, [$contact]);
             }
         }
         return $contact;
