@@ -59,6 +59,9 @@
         :index="row"
         @updateContact="$emit('updateContact', $event)" />
       <DataGridSocialLinksCell
+          @updateContact="$emit('updateContact', $event)"
+          :contactId="contact.id"
+          :row="row"
           :socialLinks="contact.social_links_with_followers"
         :show-count="showFollowersCount"
         v-else-if="column.type == 'socialLinks'" />

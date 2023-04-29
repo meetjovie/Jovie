@@ -862,7 +862,6 @@ export default {
       this.setNetwork(network);
       this.socialURLEditing = true;
       //focus on  id="social_network_url"
-      this.$refs.editInput.focus();
       console.log(this.socialURLEditing);
       /*  this.editingSocialNetworkURL = network;
             console.log('editSocialNetworkURL');
