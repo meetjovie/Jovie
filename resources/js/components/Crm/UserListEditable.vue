@@ -1,6 +1,7 @@
 <template>
   <div class="flex items-center">
-    <EmojiPickerModal
+    <JovieSpinner class= spinnerSize='xs' v-if="loading" />
+    <EmojiPickerModal v-else
       class="mr-1"
       @emojiSelected="emojiSelected($event)"
       :currentEmoji="list.emoji" />
@@ -27,16 +28,23 @@
 <script>
 import EmojiPickerModal from '../../components/EmojiPickerModal.vue';
 import UserService from '../../services/api/user.service';
+import JovieSpinner from '../../componenets/JovieSpinner.vue';
 
 export default {
   name: 'UserListEditable',
   components: {
     EmojiPickerModal,
+    JovieSpinner,
   },
   props: {
     list: {
       type: Object,
       required: true,
+    },
+
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
