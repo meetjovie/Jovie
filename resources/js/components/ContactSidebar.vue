@@ -325,6 +325,7 @@
           <div>
             <SocialInput
               v-model="socialMediaProfileUrl"
+              :updating="true"
               @finishImport="saveSocialNetworkURL"
               @saveSocialNetworkURL="saveSocialNetworkURL()"
               @cancelEdit="cancelEdit()"
@@ -873,6 +874,8 @@ export default {
       },
       beFields: [],
       fields: [],
+      socialMediaProfileUrl: '',
+      currentNetwork: '',
     };
   },
   methods: {
@@ -971,15 +974,14 @@ export default {
       console.log(event);
     },
     saveSocialNetworkURL() {
-      console.log('saveSocialURL');
+        this.$emit('updateContact', {
+            id: this.contact.id,
+            index: this.contact.index,
+            key: `${this.currentNetwork}`,
+            value: this.socialMediaProfileUrl,
+        })
       this.socialURLEditing = false;
       //notify the user
-      this.$notify({
-        group: 'user',
-        type: 'success',
-        title: 'Link Saved',
-        text: 'The new social link has been saved',
-      });
     },
     cancelEdit() {
       this.socialURLEditing = false;
@@ -1047,8 +1049,6 @@ export default {
       this.imageLoaded = true;
     },
     editSocialNetworkURL(network, contact) {
-      console.log(network);
-      console.log(contact);
       this.setNetwork(network);
       this.socialURLEditing = true;
       //focus on  id="social_network_url"
@@ -1065,7 +1065,7 @@ export default {
             this.$emit('editSocialNetworkURL', network, contact); */
     },
     setNetwork(network) {
-      console.log(network);
+      this.currentNetwork = network
       if (network == 'instagram') {
         this.socialMediaProfileUrl = 'https://instagram.com/';
       } else if (network == 'twitter') {

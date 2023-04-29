@@ -817,7 +817,7 @@ class Contact extends Model implements Auditable
 
         $user = auth()->user();
         if ($contact->isDirty()) {
-            if (count(array_intersect(Creator::NETWORKS, array_keys($contact->getDirty()))) > 0) {
+            if (count(array_intersect(Creator::NETWORKS, array_keys(array_filter($contact->getDirty())))) > 0) {
                 if ($user->currentTeam->autoEnrichUpdateEnabled()) {
                     $contact->enrichContact();
                 }

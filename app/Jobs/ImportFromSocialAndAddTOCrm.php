@@ -101,10 +101,6 @@ class ImportFromSocialAndAddTOCrm implements ShouldQueue
                     }
                 }
             }
-        } else {
-            if (isset($this->params['team_id'])) {
-                Team::addCreditsToTeam($this->params['team_id']);
-            }
         }
     }
 }

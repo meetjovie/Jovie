@@ -42,7 +42,7 @@ trait GeneralTrait
             Log::error($e->getMessage());
             Log::error('************ Error While Uploading File End **************');
 
-            return $e->getMessage();
+            return null;
         }
     }
 

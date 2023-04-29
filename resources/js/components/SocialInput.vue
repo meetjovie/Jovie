@@ -258,6 +258,10 @@ export default {
     list: {
       type: Number,
     },
+      updating: {
+        type: Boolean,
+          default: false,
+      }
   },
   methods: {
     saveSocialNetworkURL(network, socialMediaProfileUrl) {
@@ -286,7 +290,11 @@ export default {
         });
         return;
       }
-      this.finishImport();
+      if (this.updating) {
+          this.$emit('finishImport', true);
+      } else {
+          this.finishImport();
+      }
     },
     validateNetworkUrl(url) {
       // check for insta
