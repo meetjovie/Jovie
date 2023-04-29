@@ -504,7 +504,7 @@ class Contact extends Model implements Auditable
 
     public function setYoutube($value)
     {
-        $oldYoutube = $this->youtube ?? null;
+        $oldYoutube = json_decode($this->getRawOriginal('youtube')) ?? (object) [];
         if (!count((array)$value)) {
             return !empty($oldYoutube) ? json_encode($oldYoutube) : null;
         }
