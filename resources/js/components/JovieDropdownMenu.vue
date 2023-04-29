@@ -99,7 +99,7 @@
                   disabled
                   as="div"
                   v-slot="{ active }"
-                  v-if="filteredItems.length === 0">
+                  v-if="filteredItems.length === 0 && searchable">
                   <div
                     :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
                     class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
