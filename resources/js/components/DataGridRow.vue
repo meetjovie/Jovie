@@ -89,7 +89,10 @@
         <div
           @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center">
-          <ContactAvatar :loading="loading" :contact="contact" class="mr-2" />
+          <ContactAvatar
+            :loading="!contact.id"
+            :contact="contact"
+            class="mr-2" />
           <div
             v-if="cellActive"
             class="line-clamp-1 items-center text-sm text-slate-900 dark:text-jovieDark-100">
@@ -289,6 +292,7 @@ export default {
     width: String,
     columnName: String,
     neverHide: Boolean,
+    loading: Boolean,
     cellActive: Boolean | String,
     otherColumns: Array,
     columnIndex: Number,

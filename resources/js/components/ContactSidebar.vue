@@ -16,7 +16,7 @@
         </div>
 
         <div class="grid grid-cols-3">
-          <div class="px-1">
+          <div class="mt-2 px-1">
             <!--  <svg
                       v-if="contact.verified"
                       xmlns="http://www.w3.org/2000/svg"
@@ -28,12 +28,17 @@
                         d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
                         clip-rule="evenodd" />
                     </svg> -->
-            <img
+
+            <!--  <img
               v-if="imageLoaded"
               id="profile-img-jovie"
               @error="switchToDefaultImage"
               class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"
               :src="contact.profile_pic_url ?? 'image'" />
+              <div
+              v-else
+              class="h-18 w-18 object-fit mt-2 aspect-square animate-pulse rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"></div> -->
+            <ContactAvatar editable :height="18" :contact="contact" />
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
@@ -84,44 +89,44 @@
         </div>
         <div class="overflow-y-scoll grid grid-cols-6 px-4 py-2">
           <template v-for="social in contact.social_links_with_followers">
-              <div>
-                  <SocialIcons
-                      @click="editSocialNetworkURL(social.network, contact)"
-                      v-if="social.url"
-                      :icon="social.network"
-                      :linkDisabled="!social.url"
-                      :link="social.url"
-                      :followers="formatCount(social.followers)"
-                      height="14"
-                      width="14"
-                      class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
-                      aria-hidden="true"
-                      :countsVisible="false" />
-                  <div
-                      @click="editSocialNetworkURL(social.network, contact)"
-                      class="group cursor-pointer text-center"
-                      v-else>
-                      <SocialIcons
-                          :icon="social.network"
-                          linkDisabled
-                          :class="{
-                  'group-hover:hidden': !socialURLEditing,
-                  'group-hover:block': socialURLEditing,
-                }"
-                          :link="social.url"
-                          height="14"
-                          width="14"
-                          class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
-                          aria-hidden="true"
-                          :countsVisible="false" />
-                      <PlusIcon
-                          :class="{
-                  'group-hover:hidden': socialURLEditing,
-                  'group-hover:block': !socialURLEditing,
-                }"
-                          class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
-                  </div>
+            <div>
+              <SocialIcons
+                @click="editSocialNetworkURL(social.network, contact)"
+                v-if="social.url"
+                :icon="social.network"
+                :linkDisabled="!social.url"
+                :link="social.url"
+                :followers="formatCount(social.followers)"
+                height="14"
+                width="14"
+                class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
+                aria-hidden="true"
+                :countsVisible="false" />
+              <div
+                @click="editSocialNetworkURL(social.network, contact)"
+                class="group cursor-pointer text-center"
+                v-else>
+                <SocialIcons
+                  :icon="social.network"
+                  linkDisabled
+                  :class="{
+                    'group-hover:hidden': !socialURLEditing,
+                    'group-hover:block': socialURLEditing,
+                  }"
+                  :link="social.url"
+                  height="14"
+                  width="14"
+                  class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
+                  aria-hidden="true"
+                  :countsVisible="false" />
+                <PlusIcon
+                  :class="{
+                    'group-hover:hidden': socialURLEditing,
+                    'group-hover:block': !socialURLEditing,
+                  }"
+                  class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
               </div>
+            </div>
           </template>
         </div>
         <TransitionRoot
@@ -575,11 +580,13 @@ import router from '../router';
 import store from '../store';
 import FieldService from '../services/api/field.service';
 import CustomField from './CustomField.vue';
+import ContactAvatar from '../components/ContactAvatar.vue';
 
 export default {
   name: 'ContactSidebar',
   components: {
     CustomField,
+    ContactAvatar,
     JovieDropdownMenu,
     SocialInput,
     draggable: VueDraggableNext,
@@ -784,12 +791,12 @@ export default {
       console.log(event);
     },
     saveSocialNetworkURL() {
-        this.$emit('updateContact', {
-            id: this.contact.id,
-            index: this.contact.index,
-            key: `${this.currentNetwork}`,
-            value: this.socialMediaProfileUrl,
-        })
+      this.$emit('updateContact', {
+        id: this.contact.id,
+        index: this.contact.index,
+        key: `${this.currentNetwork}`,
+        value: this.socialMediaProfileUrl,
+      });
       this.socialURLEditing = false;
       //notify the user
     },
@@ -874,7 +881,7 @@ export default {
             this.$emit('editSocialNetworkURL', network, contact); */
     },
     setNetwork(network) {
-      this.currentNetwork = network
+      this.currentNetwork = network;
       if (network == 'instagram') {
         this.socialMediaProfileUrl = 'https://instagram.com/';
       } else if (network == 'twitter') {
