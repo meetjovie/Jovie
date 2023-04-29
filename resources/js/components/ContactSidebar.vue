@@ -83,236 +83,46 @@
           </div>
         </div>
         <div class="overflow-y-scoll grid grid-cols-6 px-4 py-2">
-          <div>
-            <SocialIcons
-              v-if="contact.instagram || contact.instagram"
-              @click="editSocialNetworkURL('instagram', contact)"
-              icon="instagram"
-              :linkDisabled="!contact.instagram || !contact.instagram"
-              :link="contact.instagram || contact.instagram"
-              :followers="formatCount(contact.instagram_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true"
-              :countsVisible="false" />
-            <div
-              @click="editSocialNetworkURL('instagram', contact)"
-              class="group cursor-pointer text-center"
-              v-else>
-              <SocialIcons
-                icon="instagram"
-                linkDisabled
-                :class="{
+          <template v-for="social in contact.social_links_with_followers">
+              <div>
+                  <SocialIcons
+                      @click="editSocialNetworkURL(social.network, contact)"
+                      v-if="social.url"
+                      :icon="social.network"
+                      :linkDisabled="!social.url"
+                      :link="social.url"
+                      :followers="formatCount(social.followers)"
+                      height="14"
+                      width="14"
+                      class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
+                      aria-hidden="true"
+                      :countsVisible="false" />
+                  <div
+                      @click="editSocialNetworkURL(social.network, contact)"
+                      class="group cursor-pointer text-center"
+                      v-else>
+                      <SocialIcons
+                          :icon="social.network"
+                          linkDisabled
+                          :class="{
                   'group-hover:hidden': !socialURLEditing,
                   'group-hover:block': socialURLEditing,
                 }"
-                :link="contact.instagram || contact.instagram"
-                height="14"
-                width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
-                aria-hidden="true"
-                :countsVisible="false" />
-
-              <PlusIcon
-                :class="{
+                          :link="social.url"
+                          height="14"
+                          width="14"
+                          class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
+                          aria-hidden="true"
+                          :countsVisible="false" />
+                      <PlusIcon
+                          :class="{
                   'group-hover:hidden': socialURLEditing,
                   'group-hover:block': !socialURLEditing,
                 }"
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700 dark:text-jovieDark-300" />
-            </div>
-          </div>
-          <div>
-            <SocialIcons
-              v-if="contact.twitter || contact.twitter"
-              @click="editSocialNetworkURL('twitter', contact)"
-              icon="twitter"
-              :linkDisabled="!contact.twitter || !contact.twitter"
-              :link="contact.twitter || contact.twitter"
-              :followers="formatCount(contact.twitter_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true"
-              :countsVisible="false" />
-            <div
-              @click="editSocialNetworkURL('twitter', contact)"
-              class="group cursor-pointer text-center"
-              v-else>
-              <SocialIcons
-                icon="twitter"
-                linkDisabled
-                :class="{
-                  'group-hover:hidden': !socialURLEditing,
-                  'group-hover:block': socialURLEditing,
-                }"
-                :link="contact.twitter || contact.twitter"
-                height="14"
-                width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
-                aria-hidden="true"
-                :countsVisible="false" />
-
-              <PlusIcon
-                :class="{
-                  'group-hover:hidden': socialURLEditing,
-                  'group-hover:block': !socialURLEditing,
-                }"
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
-            </div>
-          </div>
-          <div>
-            <SocialIcons
-              v-if="contact.twitch || contact.twitch"
-              @click="editSocialNetworkURL('twitch', contact)"
-              icon="twitch"
-              :linkDisabled="!contact.twitch || !contact.twitch"
-              :link="contact.twitch || contact.twitch"
-              :followers="formatCount(contact.twitch_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true"
-              :countsVisible="false" />
-            <div
-              @click="editSocialNetworkURL('twitch', contact)"
-              class="group cursor-pointer text-center"
-              v-else>
-              <SocialIcons
-                icon="twitch"
-                :linkDisabled="!contact.twitch || !contact.twitch"
-                :class="{
-                  'group-hover:hidden': !socialURLEditing,
-                  'group-hover:block': socialURLEditing,
-                }"
-                :link="contact.twitch || contact.twitch"
-                height="14"
-                width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
-                aria-hidden="true"
-                :countsVisible="false" />
-              <PlusIcon
-                :class="{
-                  'group-hover:hidden': socialURLEditing,
-                  'group-hover:block': !socialURLEditing,
-                }"
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
-            </div>
-          </div>
-          <div>
-            <SocialIcons
-              v-if="contact.tiktok || contact.tiktok"
-              @click="editSocialNetworkURL('tiktok', contact)"
-              icon="tiktok"
-              :linkDisabled="!contact.tiktok || !contact.tiktok"
-              :link="contact.tiktok || contact.tiktok"
-              :followers="formatCount(contact.tiktok_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true"
-              :countsVisible="false" />
-            <div
-              @click="editSocialNetworkURL('tiktok', contact)"
-              class="group cursor-pointer text-center"
-              v-else>
-              <SocialIcons
-                icon="tiktok"
-                linkDisabled
-                :class="{
-                  'group-hover:hidden': !socialURLEditing,
-                  'group-hover:block': socialURLEditing,
-                }"
-                :link="contact.tiktok || contact.tiktok"
-                height="14"
-                width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
-                aria-hidden="true"
-                :countsVisible="false" />
-              <PlusIcon
-                :class="{
-                  'group-hover:hidden': socialURLEditing,
-                  'group-hover:block': !socialURLEditing,
-                }"
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
-            </div>
-          </div>
-          <div>
-            <SocialIcons
-              @click="editSocialNetworkURL('youtube', contact)"
-              v-if="contact.youtube || contact.youtube"
-              icon="youtube"
-              :linkDisabled="!contact.youtube || !contact.youtube"
-              :link="contact.youtube || contact.youtube"
-              :followers="formatCount(contact.youtube_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true"
-              :countsVisible="false" />
-            <div
-              @click="editSocialNetworkURL('youtube', contact)"
-              class="group cursor-pointer text-center"
-              v-else>
-              <SocialIcons
-                icon="youtube"
-                linkDisabled
-                :class="{
-                  'group-hover:hidden': !socialURLEditing,
-                  'group-hover:block': socialURLEditing,
-                }"
-                :link="contact.youtube || contact.youtube"
-                height="14"
-                width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
-                aria-hidden="true"
-                :countsVisible="false" />
-              <PlusIcon
-                :class="{
-                  'group-hover:hidden': socialURLEditing,
-                  'group-hover:block': !socialURLEditing,
-                }"
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
-            </div>
-          </div>
-          <div>
-            <SocialIcons
-              @click="editSocialNetworkURL('linkedin', contact)"
-              v-if="contact.linkedin || contact.linkedin"
-              icon="linkedin"
-              :linkDisabled="!contact.linkedin || !contact.linkedin"
-              :link="contact.linkedin || contact.linkedin"
-              :followers="formatCount(contact.linkedin_followers)"
-              height="14"
-              width="14"
-              class="h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true"
-              :countsVisible="false" />
-            <div
-              @click="editSocialNetworkURL('linkedin', contact)"
-              class="group cursor-pointer text-center"
-              v-else>
-              <SocialIcons
-                icon="linkedin"
-                linkDisabled
-                :class="{
-                  'group-hover:hidden': !socialURLEditing,
-                  'group-hover:block': socialURLEditing,
-                }"
-                :link="contact.linkedin || contact.linkedin"
-                height="14"
-                width="14"
-                class="mx-auto block h-4 w-4 cursor-pointer text-slate-400 dark:text-jovieDark-600"
-                aria-hidden="true"
-                :countsVisible="false" />
-              <PlusIcon
-                :class="{
-                  'group-hover:hidden': socialURLEditing,
-                  'group-hover:block': !socialURLEditing,
-                }"
-                class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
-            </div>
-          </div>
+                          class="mx-auto hidden h-4 w-4 cursor-pointer text-slate-700" />
+                  </div>
+              </div>
+          </template>
         </div>
         <TransitionRoot
           :show="socialURLEditing"
