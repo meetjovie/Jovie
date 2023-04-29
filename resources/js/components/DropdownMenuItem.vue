@@ -145,6 +145,7 @@ import {
   ArrowUpCircleIcon,
   ChevronRightIcon,
   ViewfinderCircleIcon,
+  SparklesIcon,
   CloudArrowUpIcon,
   CloudArrowDownIcon,
   AdjustmentsHorizontalIcon,
@@ -193,7 +194,7 @@ export default {
     MagnifyingGlassIcon,
     ChevronUpIcon,
     Bars3BottomLeftIcon,
-
+    SparklesIcon,
     AtSymbolIcon,
     CurrencyDollarIcon,
     LinkIcon,

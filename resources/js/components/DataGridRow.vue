@@ -89,7 +89,7 @@
         <div
           @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center">
-          <ContactAvatar :contact="contact" class="mr-2" />
+          <ContactAvatar :loading="loading" :contact="contact" class="mr-2" />
           <div
             v-if="cellActive"
             class="line-clamp-1 items-center text-sm text-slate-900 dark:text-jovieDark-100">

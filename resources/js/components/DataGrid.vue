@@ -359,7 +359,7 @@
                                           : 'text-slate-700 dark:text-jovieDark-200',
                                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
-                                      <ArchiveBoxIcon
+                                      <SparklesIcon
                                         :active="active"
                                         class="mr-2 h-3 w-3 text-sky-400"
                                         aria-hidden="true" />
@@ -447,6 +447,7 @@
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
+                    :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
                     :currentCell="currentCell"
@@ -563,6 +564,7 @@ import {
   EnvelopeIcon,
   HeartIcon,
   LinkIcon,
+  SparklesIcon,
   ListBulletIcon,
   MagnifyingGlassIcon,
   NoSymbolIcon,
@@ -618,6 +620,7 @@ export default {
     Switch,
     MenuButton,
     Float,
+    SparklesIcon,
     StarIcon,
     ArrowPathIcon,
     MenuItems,
