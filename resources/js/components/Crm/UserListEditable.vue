@@ -1,7 +1,8 @@
 <template>
   <div class="flex items-center">
-    <JovieSpinner class= spinnerSize='xs' v-if="loading" />
-    <EmojiPickerModal v-else
+    <JovieSpinner class="mr-1" spinnerSize="xs" v-if="loading" />
+    <EmojiPickerModal
+      v-else
       class="mr-1"
       @emojiSelected="emojiSelected($event)"
       :currentEmoji="list.emoji" />
@@ -10,7 +11,7 @@
       class="w-full cursor-pointer items-center">
       <span
         v-if="!list.editName"
-        class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:text-slate-200 dark:group-hover/list:text-slate-200"
+        class="line-clamp-1 cursor-pointer text-xs group-hover/list:text-slate-800 dark:text-slate-200 dark:group-hover/list:text-slate-200"
         >{{ list.name }}</span
       >
       <input
@@ -28,7 +29,7 @@
 <script>
 import EmojiPickerModal from '../../components/EmojiPickerModal.vue';
 import UserService from '../../services/api/user.service';
-import JovieSpinner from '../../componenets/JovieSpinner.vue';
+import JovieSpinner from '../../components/JovieSpinner.vue';
 
 export default {
   name: 'UserListEditable',

@@ -10,7 +10,7 @@
             @updateUserList="$emit('updateUserList', $event)" />
         </template>
         <template v-else>
-          <JovieSpinner spinnerSize="xs" v-if="taskLoading" />
+          <JovieSpinner spinnerSize="xs" class="mr-1" v-if="taskLoading" />
           <component
             v-else
             :is="icon"
