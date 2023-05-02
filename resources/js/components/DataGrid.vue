@@ -248,12 +248,13 @@
                 </tr>
                 <draggable
                   v-else
-                  :move="checkIfDraggingAllowed()"
                   v-model="headers"
                   itemKey="key"
                   ghost-class="ghost-header"
                   tag="tr"
                   @end="sortFields"
+                  @start="startHeaderDrag"
+                  handle=".drag-head"
                   class="sticky h-8 items-center">
                   <template #header>
                     <th
@@ -445,7 +446,6 @@
                 :sort="false"
                 itemKey="id"
                 tag="tbody"
-                :disabled="disableDrag"
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
@@ -730,7 +730,7 @@ export default {
       suggestingMerge: false,
       openMergeSuggestion: false,
       contactIds: null,
-      allowDragging: true,
+      disableDragging: false,
     };
   },
   props: [
@@ -969,14 +969,6 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      checkIfDraggingAllowed() {
-          return this.allowDragging
-      },
-      toggleHeaderDragging(allow) {
-          this.allowDragging = allow
-          console.log('this.allowDragging');
-          console.log(this.allowDragging);
-      },
     acceptMerge(data) {
       let contactIds = [];
       if (this.contactIds && this.contactIds.length) {

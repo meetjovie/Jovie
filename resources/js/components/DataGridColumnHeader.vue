@@ -1,10 +1,10 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
     <div class="flex">
-        <div @mousedown="handleMouseDown($event, index)"
+        <div style="background: red; z-index: 99999" @mousedown="handleMouseDown($event, index)"
              @mouseup="handleMouseUp"
              @mousemove="handleMouseMove">||</div>
-        <div class="group/header w-60" :style="`width: ${column.width}px`" v-if="column">
+        <div class="group/header w-60 drag-head" :style="`width: ${column.width}px`" v-if="column">
             <JovieDropdownMenu
                 :items="filteredDropdownItems"
                 size="lg"
@@ -95,7 +95,7 @@
                 </template>
             </JovieDropdownMenu>
         </div>
-        <div @mousedown="handleMouseDown($event, index)"
+        <div style="background: red; z-index: 99999" @mousedown="handleMouseDown($event, index)"
              @mouseup="handleMouseUp"
              @mousemove="handleMouseMove">||</div>
     </div>
@@ -154,8 +154,6 @@ export default {
   data() {
     return {
       open: true,
-
-
         draggingColumn: null,
         initialX: null,
         columnWidth: null,
@@ -182,21 +180,14 @@ export default {
           this.draggingColumn = index
           this.initialX = event.clientX
           this.columnWidth = this.column.width
-          this.$emit('toggleHeaderDragging', false)
-          console.log('resizing');
       },
       handleMouseUp() {
           this.draggingColumn = null
-          this.$emit('toggleHeaderDragging', true)
-          console.log('uppp');
       },
       handleMouseMove(event) {
           if (this.draggingColumn !== null) {
-              console.log('draggingColumn');
               const delta = event.clientX - this.initialX
               this.column.width = Math.max(this.columnWidth + delta, 50)
-              console.log('this.headers[this.draggingColumn].width');
-              console.log(this.column.width);
           }
       },
     openMenu() {
