@@ -182,6 +182,7 @@ export default {
           this.columnWidth = this.column.width
       },
       handleMouseUp() {
+          this.$emit('updateColumnWidth', {columnId: this.column.id, width: this.column.width, custom: this.column.custom})
           this.draggingColumn = null
       },
       handleMouseMove(event) {

@@ -289,5 +289,35 @@ export default {
                 .finally(() => {
                 });
         })
-    }
+    },
+    async updateColumnWidth(context, payload) {
+        UserService.updateColumnWidth(
+            { width: payload.width, custom: payload.custom, listId: payload.listId},
+            payload.columnId
+        )
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'success',
+                        duration: 15000,
+                        title: 'Successful',
+                        text: response.message,
+                    });
+                } else {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'error',
+                        duration: 15000,
+                        title: 'Error',
+                        text: response.message,
+                    });
+                    // show toast error here later
+                }
+            })
+            .catch((error) => {
+            })
+            .finally((response) => {});
+    },
 }

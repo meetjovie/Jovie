@@ -403,7 +403,7 @@
                           class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                           <DataGridColumnHeader
                               class="w-full"
-                              @toggleHeaderDragging="toggleHeaderDragging($event)"
+                              @updateColumnWidth="updateColumnWidth($event)"
                               @editField="editCustomFieldsModal"
                               @sortData="sortData"
                               @hideColumn="toggleFieldHide(element, index, true)"
@@ -969,6 +969,11 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      updateColumnWidth(data) {
+          data.self = this;
+          data.listId = this.filters.list;
+          this.$store.dispatch('updateColumnWidth', data);
+      },
     acceptMerge(data) {
       let contactIds = [];
       if (this.contactIds && this.contactIds.length) {
