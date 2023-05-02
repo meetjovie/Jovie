@@ -130,7 +130,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);
-    Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
+    Route::post('set-field-order/{id}', [FieldsController::class, 'setFieldOrder']);
+    Route::post('set-field-width/{id}', [FieldsController::class, 'setFieldWidth']);
     Route::post('toggle-field-hide/{id}', [FieldsController::class, 'toggleFieldHide']);
     Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
 

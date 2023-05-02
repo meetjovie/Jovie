@@ -52,8 +52,8 @@ class FieldsController extends Controller
 
         foreach ($fields as &$field) {
             $field['hide'] = $headerAttributesKeyed[$field['id']]['hide'] ?? 0;
+            $field['width'] = intval($headerAttributesKeyed[$field['id']]['width'] ?? 60);
         }
-
         $headerFields = $this->orderFields($fields, $headerAttributes->pluck('field_id')->toArray());
         array_unshift($headerFields, FieldAttribute::FULL_NAME_HEADER);
         return response()->json([
@@ -69,7 +69,7 @@ class FieldsController extends Controller
         })->values()->toArray();
     }
 
-    public function setFieldAttributes(Request $request, $id)
+    public function setFieldOrder(Request $request, $id)
     {
         if ($request->custom) {
             $field = CustomField::query()->where('id', $id)->first();
@@ -137,6 +137,29 @@ class FieldsController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Visibility Updated'
+        ], 200);
+    }
+
+    public function setFieldWidth(Request $request, $id)
+    {
+        if ($request->custom) {
+            $field = CustomField::query()->where('id', $id)->first();
+        } elseif ($request->listId) {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_HEADERS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
+        } else {
+            $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
+            $field = (object) $defaultsFields->where('id', $id)->first();
+        }
+
+        if (!$field) {
+            throw ValidationException::withMessages([
+                'field' => ['field does not exists']
+            ]);
+        }
+        FieldAttribute::updateFieldWidth(Auth::user(), $field->id, $request->width, $request->listId);
+        return response()->json([
+            'status' => true,
         ], 200);
     }
 }

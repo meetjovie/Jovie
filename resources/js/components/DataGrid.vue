@@ -253,6 +253,8 @@
                   ghost-class="ghost-header"
                   tag="tr"
                   @end="sortFields"
+                  @start="startHeaderDrag"
+                  handle=".drag-head"
                   class="sticky h-8 items-center">
                   <template #header>
                     <th
@@ -393,21 +395,22 @@
                   </template>
 
                   <template #item="{ element, index }">
-                    <th
-                      :key="element.id"
-                      :id="element.id"
-                      v-show="!element.hide"
-                      scope="col"
-                      :class="'w-40'"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <DataGridColumnHeader
-                        class="w-full"
-                        @editField="editCustomFieldsModal"
-                        @sortData="sortData"
-                        @hideColumn="toggleFieldHide(element, index, true)"
-                        @deleteField="deleteField(element)"
-                        :column="element" />
-                    </th>
+                      <th
+                          :key="element.id"
+                          :id="element.id"
+                          v-show="!element.hide"
+                          scope="col"
+                          class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                          <DataGridColumnHeader
+                              class="w-full"
+                              @updateColumnWidth="updateColumnWidth($event)"
+                              @editField="editCustomFieldsModal"
+                              @sortData="sortData"
+                              @hideColumn="toggleFieldHide(element, index, true)"
+                              @deleteField="deleteField(element)"
+                              :index="index"
+                              :column="element" />
+                      </th>
                   </template>
                   <template #footer>
                     <th
@@ -443,7 +446,6 @@
                 :sort="false"
                 itemKey="id"
                 tag="tbody"
-                :disabled="disableDrag"
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
@@ -731,6 +733,7 @@ export default {
       suggestingMerge: false,
       openMergeSuggestion: false,
       contactIds: null,
+      disableDragging: false,
     };
   },
   props: [
@@ -969,6 +972,11 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      updateColumnWidth(data) {
+          data.self = this;
+          data.listId = this.filters.list;
+          this.$store.dispatch('updateColumnWidth', data);
+      },
     acceptMerge(data) {
       let contactIds = [];
       if (this.contactIds && this.contactIds.length) {

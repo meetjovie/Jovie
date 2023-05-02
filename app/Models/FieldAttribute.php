@@ -302,6 +302,11 @@ class FieldAttribute extends Model
         'type',
         'order',
         'hide',
+        'width',
+    ];
+
+    protected $casts = [
+        'width' => 'integer'
     ];
 
     /**
@@ -416,7 +421,23 @@ class FieldAttribute extends Model
         $fieldAttribute = $fieldAttribute->first();
         if ($fieldAttribute) {
             $fieldAttribute->hide = $hide;
-            $fieldAttribute->save();
+            return $fieldAttribute->save();
+        }
+        return false;
+    }
+
+    public static function updateFieldWidth($user, $fieldId, $width, $listId = null)
+    {
+        $fieldAttribute = FieldAttribute::where('field_id', $fieldId);
+        if (is_null($listId)) {
+            $fieldAttribute = $fieldAttribute->whereNull('user_list_id')->where('user_id', $user->id);
+        } else {
+            $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
+        }
+        $fieldAttribute = $fieldAttribute->first();
+        if ($fieldAttribute) {
+            $fieldAttribute->width = $width;
+            return $fieldAttribute->save();
         }
         return false;
     }
