@@ -248,6 +248,7 @@
                 </tr>
                 <draggable
                   v-else
+                  :move="checkIfDraggingAllowed()"
                   v-model="headers"
                   itemKey="key"
                   ghost-class="ghost-header"
@@ -393,21 +394,22 @@
                   </template>
 
                   <template #item="{ element, index }">
-                    <th
-                      :key="element.id"
-                      :id="element.id"
-                      v-show="!element.hide"
-                      scope="col"
-                      :class="'w-40'"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <DataGridColumnHeader
-                        class="w-full"
-                        @editField="editCustomFieldsModal"
-                        @sortData="sortData"
-                        @hideColumn="toggleFieldHide(element, index, true)"
-                        @deleteField="deleteField(element)"
-                        :column="element" />
-                    </th>
+                      <th
+                          :key="element.id"
+                          :id="element.id"
+                          v-show="!element.hide"
+                          scope="col"
+                          class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                          <DataGridColumnHeader
+                              class="w-full"
+                              @toggleHeaderDragging="toggleHeaderDragging($event)"
+                              @editField="editCustomFieldsModal"
+                              @sortData="sortData"
+                              @hideColumn="toggleFieldHide(element, index, true)"
+                              @deleteField="deleteField(element)"
+                              :index="index"
+                              :column="element" />
+                      </th>
                   </template>
                   <template #footer>
                     <th
@@ -728,6 +730,7 @@ export default {
       suggestingMerge: false,
       openMergeSuggestion: false,
       contactIds: null,
+      allowDragging: true,
     };
   },
   props: [
@@ -966,6 +969,14 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      checkIfDraggingAllowed() {
+          return this.allowDragging
+      },
+      toggleHeaderDragging(allow) {
+          this.allowDragging = allow
+          console.log('this.allowDragging');
+          console.log(this.allowDragging);
+      },
     acceptMerge(data) {
       let contactIds = [];
       if (this.contactIds && this.contactIds.length) {

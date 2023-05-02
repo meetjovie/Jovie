@@ -52,6 +52,7 @@ class FieldsController extends Controller
 
         foreach ($fields as &$field) {
             $field['hide'] = $headerAttributesKeyed[$field['id']]['hide'] ?? 0;
+            $field['width'] = 50;
         }
 
         $headerFields = $this->orderFields($fields, $headerAttributes->pluck('field_id')->toArray());
