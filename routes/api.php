@@ -136,7 +136,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
 
     // Templates
-    Route::get('template-settings/{$userList}', [TemplateSettingController::class, 'index']);
+    Route::get('template-settings/{userList}', [TemplateSettingController::class, 'index']);
 
     // HEADERS
     Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);

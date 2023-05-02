@@ -1,5 +1,4 @@
 const baseApiUrl = '/api';
-const baseUrlWeb = '';
 
 export default {
   getSettings($userList) {

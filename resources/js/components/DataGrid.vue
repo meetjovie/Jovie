@@ -586,7 +586,6 @@ import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
-// import TemplateSettings from '../services/api/templateSettings.service';
 
 export default {
   name: 'DataGrid',
@@ -706,16 +705,15 @@ export default {
       imageLoaded: true,
       open: false,
       subMenuOpen: true,
-
-      settings: [
-        {
-          name: 'Show Follower Counts',
-          key: 'show_follower_count',
-          icon: 'UserGroupIcon',
-          visible: true,
-          type: 'toggle',
-        },
-      ],
+      // settings: [
+      //   {
+      //     name: 'Show Follower Counts',
+      //     key: 'show_follower_count',
+      //     icon: 'UserGroupIcon',
+      //     visible: true,
+      //     type: 'toggle',
+      //   },
+      // ],
       currentSort: 'asc',
       currentSortBy: '',
       headers: [],
@@ -738,17 +736,18 @@ export default {
     'subheader',
     'header',
     'counts',
+    'settings',
     'columns',
     'headersLoaded',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
-    settings: {
-      deep: true,
-      handler: function () {
-        localStorage.setItem('settings', JSON.stringify(this.settings));
-      },
-    },
+    // settings: {
+    //   deep: true,
+    //   handler: function () {
+    //     localStorage.setItem('settings', JSON.stringify(this.settings));
+    //   },
+    // },
     contacts: function (val) {
       this.contactRecords = val;
     },
@@ -894,10 +893,10 @@ export default {
     // if (columns) {
     //   this.columns = columns;
     // }
-    let settings = JSON.parse(localStorage.getItem('settings'));
-    if (settings) {
-      this.settings = settings;
-    }
+    // let settings = JSON.parse(localStorage.getItem('settings'));
+    // if (settings) {
+    //   this.settings = settings;
+    // }
     this.contactRecords = this.contactRecords.length
       ? this.contactRecords
       : this.contacts;
@@ -905,6 +904,7 @@ export default {
     for (let i = 0; i < this.columns.length; i++) {
       this.columns[i].visible = !this.columns[i].hide;
     }
+      console.log('SETTINGS FROM PRO',this.settings);
   },
   computed: {
     sidebarOpen() {

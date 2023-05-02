@@ -609,6 +609,7 @@
                           :networks="networks"
                           :stages="stages"
                           :columns="columns"
+                          :settings="settings"
                           :loading="loading"
                           :taskLoading="taskLoading"
                           :contactsMeta="contactsMeta"
@@ -675,6 +676,7 @@ import SupportModal from '../components/SupportModal.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
 import AlertBanner from '../components/AlertBanner.vue';
 import MenuList from '../components/MenuList.vue';
+import TemplateService from '../services/api/template.service';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
 
@@ -867,6 +869,7 @@ export default {
       currentSortBy: 'id',
       currentSortOrder: 'desc',
       columns: [],
+      settings: [],
       crmCounting: false,
       listKey: 0,
       showContactModal: false,
@@ -1111,6 +1114,7 @@ export default {
       this.$store.state.crmEventsRegistered = true;
     }
 
+    this.settings = this.getSettings();
     this.getNotifications();
 
     this.$nextTick(() => {
@@ -1524,6 +1528,22 @@ export default {
           this.crmCounts();
         }
       });
+    },
+    getSettings() {
+      TemplateService.getSettings(this.filters.list)
+        .then((response) => {
+            response = response.data;
+          if (response.status) {
+              this.settings = response.data;
+            console.log('GOT SETTING', response);
+          }
+        })
+        .catch((error) => {
+          console.log('SEtting Error', error);
+        })
+        .finally((_) => {
+          console.log('Nothing');
+        });
     },
   },
 };
