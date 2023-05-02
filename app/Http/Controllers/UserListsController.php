@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Template;
 use App\Models\User;
 use App\Models\UserList;
 use App\Models\UserListAttribute;
@@ -140,11 +141,19 @@ class UserListsController extends Controller
 
     public function createList(Request $request)
     {
-        $name = 'New List';
+        if (!empty($request->template)) {
+            $template = $request->template;
+            $template = Template::find($request->template);
+        } else {
+            $template = Template::first();
+        }
+
+        $name = $template->name;
         if (!empty($request->name)) {
             $name = $request->name;
         }
-        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $request->emoji);
+
+        $list = UserList::firstOrCreateList(Auth::id(), $name, $template, null, $request->emoji);
         return response()->json([
             'status' => true,
             'message' => 'List Created.',
@@ -161,7 +170,7 @@ class UserListsController extends Controller
             ]);
         }
         $data = $request->validate([
-            'name' => 'sometimes|string|unique:user_lists,name,'.$list->id.',id,team_id,'.$list->team_id,
+            'name' => 'sometimes|string|unique:user_lists,name,' . $list->id . ',id,team_id,' . $list->team_id,
             'emoji' => 'sometimes|nullable|string'
         ]);
         $list->update($data);

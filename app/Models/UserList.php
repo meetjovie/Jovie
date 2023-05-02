@@ -28,6 +28,7 @@ class UserList extends Model implements Auditable
         'user_id',
         'emoji',
         'team_id',
+        'template_id',
         'updating',
     ];
 
@@ -47,6 +48,7 @@ class UserList extends Model implements Auditable
     {
         return $value ?? '📄';
     }
+
     public function creators()
     {
         return $this->belongsToMany(Creator::class)->withTimestamps();
@@ -57,7 +59,12 @@ class UserList extends Model implements Auditable
         return $this->belongsToMany(Contact::class)->withTimestamps();
     }
 
-    public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null, $updating = false)
+    public function template()
+    {
+        return $this->belongsTo(Template::class)->with(['templateFields', 'templateStages', 'templateSettings']);
+    }
+
+    public static function firstOrCreateList($userId, $listName, $template, $teamId = null, $emoji = null, $updating = false)
     {
         $team = null;
         if ($teamId) {
@@ -83,8 +90,10 @@ class UserList extends Model implements Auditable
             $data = [
                 'user_id' => $userId,
                 'name' => $listName,
-                'team_id' => $user->currentTeam->id
+                'team_id' => $user->currentTeam->id,
+                'template_id' => $template->id
             ];
+
             if ($emoji) {
                 $data['emoji'] = $emoji;
                 $data['updating'] = $updating;
@@ -104,7 +113,7 @@ class UserList extends Model implements Auditable
             foreach ($fieldIds as $k => $fieldId) {
                 FieldAttribute::create(['field_id' => $fieldId, 'type' => 'custom', 'order' => $k, 'team_id' => $user->currentTeam->id, 'user_id' => $user->id, 'user_list_id' => $list->id]);
             }
-            return  $list;
+            return $list;
         }
         return new UserList();
     }
@@ -151,6 +160,7 @@ class UserList extends Model implements Auditable
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         return UserList::query()
+            ->with(['template'])
             ->withCount(['contacts' => function ($query) {
                 $query->where('archived', false);
             }])
@@ -175,22 +185,22 @@ class UserList extends Model implements Auditable
 
     public function duplicateList()
     {
-        $newListName = ($this->name.' - copy');
+        $newListName = ($this->name . ' - copy');
         $newList = self::firstOrCreateList($this->user_id, $newListName);
         $totalCreatorsCount = DB::table('creator_user_list')->where('user_list_id', $this->id)->count();
 
         if ($totalCreatorsCount) {
             $jobs = [];
-            for ($i=0; $i<$totalCreatorsCount; $i+=50) {
+            for ($i = 0; $i < $totalCreatorsCount; $i += 50) {
                 $jobs[] = (new DuplicateList($i, 50, $newList->id, $this->id));
             }
             $batch = Bus::batch($jobs)->then(function (Batch $batch) use ($newList) {
                 Log::info('All jobs completed successfully...');
-                UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, true, ('Your list '.$newList->name.' is duplicated successfully'));
+                UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, true, ('Your list ' . $newList->name . ' is duplicated successfully'));
             })->catch(function (Batch $batch, Throwable $e = null) use ($newList) {
                 Log::info('First batch duplicating job failure detected...');
                 Log::channel('slack_warning')->info('User list duplicate fail', ['batch' => $batch->id]);
-                UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, false, ('Your list '.$newList->name.' failed to duplicate. Support has been notified automatically'));
+                UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, false, ('Your list ' . $newList->name . ' failed to duplicate. Support has been notified automatically'));
             })->finally(function (Batch $batch) {
                 Log::info('The batch duplication has finished executing...');
             })->dispatch();
@@ -202,7 +212,7 @@ class UserList extends Model implements Auditable
             ]);
             Notification::dispatch($this->team_id);
         } else {
-            UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, true, ('Your list '.$newList->name.' is duplicated successfully'));
+            UserListDuplicated::dispatch($newList, $this->user_id, $this->team_id, true, ('Your list ' . $newList->name . ' is duplicated successfully'));
         }
 
         return $newList;
@@ -216,7 +226,7 @@ class UserList extends Model implements Auditable
     protected function updatingList(): Attribute
     {
         return Attribute::make(
-            get: fn () => (JobBatch::where('type', 'duplicating')->where('finished_at', null)->where('cancelled_at', null)->where('user_list_id', $this->id)->count() ||
+            get: fn() => (JobBatch::where('type', 'duplicating')->where('finished_at', null)->where('cancelled_at', null)->where('user_list_id', $this->id)->count() ||
                 Import::orderByDesc('created_at')
                     ->where('user_list_id', $this->id)
                     ->where(function ($q) {
@@ -243,7 +253,7 @@ class UserList extends Model implements Auditable
             $query->where('user_lists.id', $listId);
         })->where('enriching', 1)->count();
 
-        if (! $countEnriching) {
+        if (!$countEnriching) {
             ListEnriched::dispatch($listId, $teamId);
         }
     }

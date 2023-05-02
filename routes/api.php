@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomFieldsController;
 use App\Http\Controllers\FieldsController;
+use App\Http\Controllers\TemplateSettingController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
@@ -133,6 +134,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
     Route::post('toggle-field-hide/{id}', [FieldsController::class, 'toggleFieldHide']);
     Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
+
+    // Templates
+    Route::get('template-settings/{$userList}', [TemplateSettingController::class, 'index']);
 
     // HEADERS
     Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomField;
 use App\Models\FieldAttribute;
+use App\Models\Template;
+use App\Models\UserList;
 use App\Traits\CustomFieldsTrait;
 use Cassandra\Custom;
 use Illuminate\Http\Request;
@@ -40,7 +42,8 @@ class FieldsController extends Controller
 
     public function headerFields($listId)
     {
-        $customFields = CustomField::query()->with('customFieldOptions')->get();
+        $customFields = CustomField::query()->with('customFieldOptions')->get()->keyBy('id');
+
         foreach ($customFields as &$customField) {
             $customField->custom = true;
             $customField->key = $customField->code;
@@ -49,13 +52,20 @@ class FieldsController extends Controller
         $fields = array_merge($customFields->toArray(), $defaultHeaders);
         $headerAttributes = FieldAttribute::query()->where('user_list_id', $listId)->orderBy('order')->get();
         $headerAttributesKeyed = $headerAttributes->keyBy('field_id');
-
         foreach ($fields as &$field) {
             $field['hide'] = $headerAttributesKeyed[$field['id']]['hide'] ?? 0;
         }
 
+        $UserList= UserList::find($listId);
+        $template = $UserList ? $UserList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        $userListTemplateFields = $template->templateFields->pluck('field_id')->toArray();
+        $fields = array_values(array_filter($fields, function ($value) use ($userListTemplateFields) {
+            return in_array($value['id'], $userListTemplateFields);
+        }));
+
         $headerFields = $this->orderFields($fields, $headerAttributes->pluck('field_id')->toArray());
         array_unshift($headerFields, FieldAttribute::FULL_NAME_HEADER);
+
         return response()->json([
             'status' => true,
             'data' => $headerFields

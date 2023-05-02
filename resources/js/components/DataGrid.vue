@@ -586,6 +586,7 @@ import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
+// import TemplateSettings from '../services/api/templateSettings.service';
 
 export default {
   name: 'DataGrid',
@@ -791,22 +792,22 @@ export default {
       }
     });
     //arrow keys to navigate through the table
-      this.$mousetrap.bind('right', () => {
-          event.preventDefault();
-          if (this.openMergeSuggestion) {
-              this.$refs.mergeModal.acceptMerge();
-          } else {
-              this.handleCellNavigation('ArrowRight');
-          }
-      });
-      this.$mousetrap.bind('left', () => {
-          event.preventDefault();
-          if (this.openMergeSuggestion) {
-              this.$refs.mergeModal.rejectMerge();
-          } else {
-              this.handleCellNavigation('ArrowLeft');
-          }
-      });
+    this.$mousetrap.bind('right', () => {
+      event.preventDefault();
+      if (this.openMergeSuggestion) {
+        this.$refs.mergeModal.acceptMerge();
+      } else {
+        this.handleCellNavigation('ArrowRight');
+      }
+    });
+    this.$mousetrap.bind('left', () => {
+      event.preventDefault();
+      if (this.openMergeSuggestion) {
+        this.$refs.mergeModal.rejectMerge();
+      } else {
+        this.handleCellNavigation('ArrowLeft');
+      }
+    });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
       this.nextContact();

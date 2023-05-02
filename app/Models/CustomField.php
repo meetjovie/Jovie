@@ -94,10 +94,10 @@ class CustomField extends Model
      *
      * @return void
      */
-    protected static function booted()
-    {
-        static::addGlobalScope(new TeamScope());
-    }
+//    protected static function booted()
+//    {
+//        static::addGlobalScope(new TeamScope());
+//    }
 
     /**
      * Get the field code.

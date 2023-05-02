@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-
         $user = User::create([
             'first_name' => 'Aamish',
             'email' => 'aamishirfan2662@gmail.com',
@@ -31,5 +30,7 @@ class DatabaseSeeder extends Seeder
             'credits' => 10000000
         ]);
         $user->attachTeam($team);
+
+        $this->call(TemplateSeeder::class);
     }
 }
