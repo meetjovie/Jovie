@@ -137,6 +137,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Templates
     Route::get('template-settings/{userList}', [TemplateSettingController::class, 'index']);
+    Route::post('template-settings/{userList}', [TemplateSettingController::class, 'update']);
 
     // HEADERS
     Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);

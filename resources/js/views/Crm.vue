@@ -594,6 +594,7 @@
                           @getCrmContacts="getCrmContacts"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
+                          @update-settings="updateSettings"
                           @getHeaders="getHeaders"
                           @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
@@ -1532,9 +1533,9 @@ export default {
     getSettings() {
       TemplateService.getSettings(this.filters.list)
         .then((response) => {
-            response = response.data;
+          response = response.data;
           if (response.status) {
-              this.settings = response.data;
+            this.settings = response.data;
             console.log('GOT SETTING', response);
           }
         })
@@ -1543,6 +1544,21 @@ export default {
         })
         .finally((_) => {
           console.log('Nothing');
+        });
+    },
+    updateSettings(data) {
+      TemplateService.updateSettings(this.filters.list, data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            console.log('UPDATE GOT SETTING', response);
+          }
+        })
+        .catch((error) => {
+          console.log('UPDATE Setting Error', error);
+        })
+        .finally((_) => {
+          console.log('UPDATE Nothing');
         });
     },
   },

@@ -18,4 +18,18 @@ class TemplateSettingController extends Controller
             'message' => 'Success'
         ], 200);
     }
+
+    public function update(Request $request, $userList)
+    {
+        $template = UserList::find($userList)->template ?? Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        $templateSettings = $template->templateSettings();
+        $templateSettings->where('key', $request->key)->update([
+            'value' => $request->value,
+            'visible' => $request->visible
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Successfully updated'
+        ], 200);
+    }
 }

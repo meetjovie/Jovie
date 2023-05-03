@@ -70,7 +70,11 @@ class TemplateSeeder extends Seeder
 
         TemplateSetting::create([
             'template_id' => $template->id,
-            'key' => 'follower_count',
+            'name' => 'Show Follower Counts',
+            'key' => 'show_follower_count',
+            'icon' => 'UserGroupIcon',
+            'visible' => true,
+            'type' => 'toggle',
             'value' => 1,
         ]);
 

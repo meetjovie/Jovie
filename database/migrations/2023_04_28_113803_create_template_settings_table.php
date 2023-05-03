@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('template_settings', function (Blueprint $table) {
             $table->uuid('id')->unique();
+            $table->string('name');
             $table->uuid('template_id');
             $table->uuid('user_id')->nullable();
             $table->uuid('team_id')->nullable();
             $table->string('key');
             $table->string('value');
+            $table->string('icon');
+            $table->string('type');
+            $table->boolean('visible')->default(false);
             $table->timestamps();
         });
     }

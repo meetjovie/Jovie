@@ -161,14 +161,15 @@
                               <SwitchLabel>
                                 <DropdownMenuItem
                                   :icon="setting.icon"
-                                  :key="setting.name"
+                                  :key="setting.key"
                                   :name="setting.name"
                                   v-for="setting in settings">
                                   <template #toggle
                                     ><Switch
                                       v-if="setting.type === 'toggle'"
                                       name="columns-visible"
-                                      v-model="setting.visible"
+                                      v-model="setting.value"
+                                      @click="$emit('update-settings', setting)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -586,10 +587,13 @@ import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
+import TemplateService from '../services/api/template.service';
+import CheckboxInput from "./CheckboxInput.vue";
 
 export default {
   name: 'DataGrid',
   components: {
+      CheckboxInput,
     MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
@@ -705,15 +709,6 @@ export default {
       imageLoaded: true,
       open: false,
       subMenuOpen: true,
-      // settings: [
-      //   {
-      //     name: 'Show Follower Counts',
-      //     key: 'show_follower_count',
-      //     icon: 'UserGroupIcon',
-      //     visible: true,
-      //     type: 'toggle',
-      //   },
-      // ],
       currentSort: 'asc',
       currentSortBy: '',
       headers: [],
@@ -904,7 +899,6 @@ export default {
     for (let i = 0; i < this.columns.length; i++) {
       this.columns[i].visible = !this.columns[i].hide;
     }
-      console.log('SETTINGS FROM PRO',this.settings);
   },
   computed: {
     sidebarOpen() {

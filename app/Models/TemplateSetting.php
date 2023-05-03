@@ -13,10 +13,14 @@ class TemplateSetting extends Model
 
     protected $fillable = [
         'template_id',
+        'name',
         'user_id',
         'team_id',
         'key',
         'value',
+        'icon',
+        'type',
+        'visible',
     ];
 
     public function user()
