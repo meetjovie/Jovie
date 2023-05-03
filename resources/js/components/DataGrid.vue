@@ -381,6 +381,7 @@
                       </div>
                       <div v-else>
                         <DataGridColumnHeader
+                            :show-resizeable="false"
                           icon="Bars3BottomLeftIcon"
                           :column="fullNameColumn"
                           @sortData="
@@ -400,16 +401,21 @@
                           :id="element.id"
                           v-show="!element.hide"
                           scope="col"
-                          class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                          :style="`width: ${element.width}px`"
+                          class="w-full dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                           <DataGridColumnHeader
                               class="w-full"
                               @updateColumnWidth="updateColumnWidth($event)"
+                              @reflectColumnWidth="reflectColumnWidth($event)"
                               @editField="editCustomFieldsModal"
                               @sortData="sortData"
                               @hideColumn="toggleFieldHide(element, index, true)"
                               @deleteField="deleteField(element)"
                               :index="index"
-                              :column="element" />
+                              :last-column-index="headers.length-1"
+                              :column="element"
+                              :previous-column="getPreviousColumn(index)"
+                          />
                       </th>
                   </template>
                   <template #footer>
@@ -972,10 +978,16 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      getPreviousColumn(index) {
+          return index > 0 ? this.headers[index-1] : false;
+      },
       updateColumnWidth(data) {
           data.self = this;
           data.listId = this.filters.list;
           this.$store.dispatch('updateColumnWidth', data);
+      },
+      reflectColumnWidth(data) {
+          this.headers.find(h => h.id == data.id).width = data.width
       },
     acceptMerge(data) {
       let contactIds = [];
