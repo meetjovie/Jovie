@@ -8,6 +8,7 @@ use App\Jobs\EnrichList;
 use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
 use App\Traits\CustomFieldsTrait;
+use App\Traits\GeneralTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,8 @@ use Illuminate\Support\Arr;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Events\AuditCustom;
 
@@ -27,6 +30,7 @@ class Contact extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use CustomFieldsTrait;
+    use GeneralTrait;
 
     protected $fillable = [
         'user_id',
@@ -809,7 +813,18 @@ class Contact extends Model implements Auditable
             $contactData['description_updated_by'] = Auth::id();
         }
         foreach ($contactData as $key => $value) {
-            $contact->{$key} = $value;
+            if ($key == 'profile_pic_url' && Str::isUuid($value)) {
+                $oldPath = null;
+                if ($contact->profile_pic_url) {
+                    $filename = explode(Creator::CREATORS_MEDIA_PATH, $contact->profile_pic_url)[1] ?? null;
+                    if (! is_null($filename)) {
+                        $oldPath = Creator::CREATORS_MEDIA_PATH.$filename;
+                    }
+                }
+                $contact->profile_pic_url = self::uploadFileFromTempUuid($value, Creator::CREATORS_MEDIA_PATH, $oldPath);
+            } else {
+                $contact->{$key} = $value;
+            }
             if (in_array($key, ['first_name', 'last_name'])) {
                 $contact->full_name = $contact->getName();
             }

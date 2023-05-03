@@ -90,6 +90,7 @@
           @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center">
           <ContactAvatar
+              @updateContact="$emit('updateContact', $event)"
             :loading="!contact.id"
             :contact="contact"
             class="mr-2" />
