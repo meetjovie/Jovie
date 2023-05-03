@@ -298,13 +298,6 @@ export default {
             .then((response) => {
                 response = response.data;
                 if (response.status) {
-                    payload.self.$notify({
-                        group: 'user',
-                        type: 'success',
-                        duration: 15000,
-                        title: 'Successful',
-                        text: response.message,
-                    });
                 } else {
                     payload.self.$notify({
                         group: 'user',

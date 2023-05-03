@@ -1206,7 +1206,7 @@ export default {
     },
     getHeaders() {
       this.headersLoaded = false;
-      FieldService.getHeaderFields(this.filters.list)
+      FieldService.getHeaderFields(this.filters.list ?? 0)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -1329,6 +1329,7 @@ export default {
         this.filters.currentList = null;
         this.$store.state.overviewList = null;
       }
+      this.getHeaders()
       this.getCrmContacts();
     },
     sortLists(e, listId) {

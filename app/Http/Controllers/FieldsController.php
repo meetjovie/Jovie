@@ -47,7 +47,13 @@ class FieldsController extends Controller
         }
         $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
         $fields = array_merge($customFields->toArray(), $defaultHeaders);
-        $headerAttributes = FieldAttribute::query()->where('user_list_id', $listId)->orderBy('order')->get();
+        $headerAttributes = FieldAttribute::query()->orderBy('order');
+        if ($listId == 0) {
+            $headerAttributes = $headerAttributes->whereNull('user_list_id');
+        } else {
+            $headerAttributes = $headerAttributes->where('user_list_id', $listId);
+        }
+        $headerAttributes = $headerAttributes->get();
         $headerAttributesKeyed = $headerAttributes->keyBy('field_id');
 
         foreach ($fields as &$field) {
@@ -144,11 +150,8 @@ class FieldsController extends Controller
     {
         if ($request->custom) {
             $field = CustomField::query()->where('id', $id)->first();
-        } elseif ($request->listId) {
-            $defaultsFields = collect(FieldAttribute::DEFAULT_HEADERS);
-            $field = (object) $defaultsFields->where('id', $id)->first();
         } else {
-            $defaultsFields = collect(FieldAttribute::DEFAULT_FIELDS);
+            $defaultsFields = collect(FieldAttribute::DEFAULT_HEADERS);
             $field = (object) $defaultsFields->where('id', $id)->first();
         }
 

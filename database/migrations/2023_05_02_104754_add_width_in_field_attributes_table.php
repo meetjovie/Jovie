@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('field_attributes', function (Blueprint $table) {
-            $table->integer('width')->after('hide')->default(60);
+            $table->integer('width')->after('hide')->default(160);
         });
     }
 

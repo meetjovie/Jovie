@@ -198,10 +198,11 @@ export default {
     window.addEventListener('mousemove', (event) => {
       if (self.draggingColumn !== null) {
         const delta = event.clientX - self.initialX;
-        self.currentDraggingColumn.width = Math.max(
+        let width = Math.max(
           self.columnWidth + delta,
           50
         );
+        self.currentDraggingColumn.width = (width < 160 ? 160 : width)
         self.$emit('reflectColumnWidth', self.currentDraggingColumn);
       }
     });
