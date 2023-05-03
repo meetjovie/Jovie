@@ -1,6 +1,6 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
-  <div class="groupd/resize flex" :style="`width: ${column.width}px`">
+  <div class="flex" :style="`width: ${column.width}px`">
     <div
       class="z-50 cursor-ew-resize"
       v-if="showResizeable && index > 0"
@@ -100,7 +100,7 @@
     </div>
     <div
       v-if="showResizeable && index <= lastColumnIndex"
-      class="z-50 cursor-ew-resize"
+      class=" z-50  cursor-ew-resize"
       @mousedown="handleMouseDown($event, false)">
       ||
     </div>
