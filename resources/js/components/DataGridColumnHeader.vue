@@ -1,7 +1,10 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
     <div class="flex" :style="`width: ${column.width}px`">
-        <div v-if="showResizeable && index > 0" style="background: red; z-index: 99999" @mousedown="handleMouseDown($event, true)">||</div>
+      <div
+      class="z-50 cursor-ew-resize"
+      v-if="showResizeable && index > 0"
+      @mousedown="handleMouseDown($event, true)">
         <div class="group/header w-full drag-head" v-if="column">
             <JovieDropdownMenu
                 :items="filteredDropdownItems"
