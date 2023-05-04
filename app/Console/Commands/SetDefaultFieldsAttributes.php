@@ -32,7 +32,8 @@ class SetDefaultFieldsAttributes extends Command
     public function handle()
     {
         $reset = $this->argument('reset');
-        foreach (User::query()->with('teams.userLists', 'teams.customFields')->get() as $user) {
+        $users = User::query()->with('teams.userLists', 'teams.customFields')->get();
+        foreach ($users as $user) {
             foreach ($user->teams as $team) {
 
                 $customFields = $team->customFields;

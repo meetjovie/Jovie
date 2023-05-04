@@ -339,6 +339,27 @@ class FieldAttribute extends Model
         return $this->belongsTo(CustomField::class);
     }
 
+    public static function getFieldsAttributes($params = [])
+    {
+        $fieldAttributes = FieldAttribute::query()->orderBy('order');
+
+        if (isset($params['team_id'])) {
+            $fieldAttributes = $fieldAttributes->where('team_id', $params['team_id']);
+        }
+
+        if (isset($params['user_id'])) {
+            $fieldAttributes = $fieldAttributes->where('user_id', $params['user_id']);
+        }
+
+        if (isset($params['user_list_id']) && $params['user_list_id'] != 0) {
+            $fieldAttributes = $fieldAttributes->where('user_list_id', $params['user_list_id']);
+        } else {
+            $fieldAttributes = $fieldAttributes->whereNull('user_list_id');
+        }
+
+        return $fieldAttributes->get();
+    }
+
     public static function updateSortOrder($userId, $newIndex = 0, $oldIndex = 0, $fieldId = null, $listId = null) // listId suggests that its for headers
     {
         $customFieldIds = CustomField::query()->pluck('id')->toArray();
@@ -429,11 +450,7 @@ class FieldAttribute extends Model
     public static function updateFieldWidth($user, $fieldId, $width, $listId = null)
     {
         $fieldAttribute = FieldAttribute::where('field_id', $fieldId);
-        if (is_null($listId)) {
-            $fieldAttribute = $fieldAttribute->whereNull('user_list_id')->where('user_id', $user->id);
-        } else {
-            $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
-        }
+        $fieldAttribute = $fieldAttribute->where('user_list_id', $listId);
         $fieldAttribute = $fieldAttribute->first();
         if ($fieldAttribute) {
             $fieldAttribute->width = $width;

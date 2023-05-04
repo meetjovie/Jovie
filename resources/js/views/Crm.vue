@@ -1314,6 +1314,7 @@ export default {
       this.filters.list = null;
       this.$store.state.overviewList = null;
       this.filters.currentList = null;
+      this.getHeaders()
       this.getCrmContacts();
       this.loading = false;
     },
