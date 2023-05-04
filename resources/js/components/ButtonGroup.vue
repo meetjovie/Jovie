@@ -18,7 +18,7 @@
         : design == 'auth'
         ? 'border border-slate-200 bg-white dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100'
         : design === 'toolbar'
-        ? 'bg-white'
+        ? 'bg-white hover:bg-jovieDark-700 dark:bg-jovieDark-900 dark:text-jovieDark-200'
         : '',
       //add auth
       //if toolbar then bg color white

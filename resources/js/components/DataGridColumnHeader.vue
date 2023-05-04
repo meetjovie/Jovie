@@ -3,10 +3,13 @@
 
   <div class="group/header flex" :style="`width: ${column.width || 160}px`">
     <div
-      class="group/header-hover:text-red-700 z-50 cursor-ew-resize text-slate-500"
+      class="z-50 cursor-ew-resize"
       v-if="showResizeable && index > 0"
       @mousedown="handleMouseDown($event, true)">
-      ||
+      <span
+        class="text-slate-500/0 group-hover/header:text-slate-500 dark:group-hover/header:text-slate-400">
+        ||</span
+      >
     </div>
     <div class="drag-head w-full" v-if="column">
       <JovieDropdownMenu
@@ -101,9 +104,12 @@
     </div>
     <div
       v-if="showResizeable && index <= lastColumnIndex"
-      class="group/header-hover:text-red-700 z-50 cursor-ew-resize text-slate-500"
+      class="z-50 cursor-ew-resize"
       @mousedown="handleMouseDown($event, false)">
-      ||
+      <span
+        class="text-slate-500/0 group-hover/header:text-slate-500 dark:group-hover/header:text-slate-400">
+        ||</span
+      >
     </div>
   </div>
 </template>

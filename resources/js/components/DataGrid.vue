@@ -195,7 +195,7 @@
                               icon="CloudArrowUpIcon" />
                             <DropdownMenuItem
                               @click="suggestMerge([])"
-                              name="Suggest Merge"
+                              name="Merge Duplicate Contacts"
                               icon="DocumentDuplicateIcon" />
                           </div>
                         </GlassmorphismContainer>
