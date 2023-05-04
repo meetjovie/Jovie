@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CustomField;
 use App\Models\FieldAttribute;
+use App\Models\SettingAttribute;
 use App\Models\Template;
 use App\Models\TemplateField;
 use App\Models\TemplateSetting;
@@ -68,16 +69,12 @@ class TemplateSeeder extends Seeder
             ]);
         }
 
+        foreach (SettingAttribute::TEMPLATE_SETTINGS as $SETTING){
         TemplateSetting::create([
             'template_id' => $template->id,
-            'name' => 'Show Follower Counts',
-            'key' => 'show_follower_count',
-            'icon' => 'UserGroupIcon',
-            'visible' => true,
-            'type' => 'toggle',
-            'value' => 1,
+            'setting_id' => $SETTING['id'],
         ]);
-
+}
         foreach (FieldAttribute::DEFAULT_FIELDS as $FIELD) {
             TemplateField::create(
                 [
@@ -104,6 +101,5 @@ class TemplateSeeder extends Seeder
                 'field_id' => $customField->id,
             ]
         );
-
     }
 }

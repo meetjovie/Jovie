@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('user_lists', function (Blueprint $table) {
-            $table->uuid('template_id')->after('emoji');
+            $table->uuid('template_id')->nullable()->after('emoji');
         });
     }
 

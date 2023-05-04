@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomFieldsController;
 use App\Http\Controllers\FieldsController;
 use App\Http\Controllers\TemplateSettingController;
+use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
@@ -136,6 +137,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
 
     // Templates
+    Route::get('templates', [TemplateController::class, 'index']);
     Route::get('template-settings/{userList}', [TemplateSettingController::class, 'index']);
     Route::post('template-settings/{userList}', [TemplateSettingController::class, 'update']);
 

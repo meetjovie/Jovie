@@ -141,9 +141,8 @@ class UserListsController extends Controller
 
     public function createList(Request $request)
     {
-        if (!empty($request->template)) {
-            $template = $request->template;
-            $template = Template::find($request->template);
+        if (!empty($request->template_id)) {
+            $template = Template::find($request->template_id);
         } else {
             $template = Template::first();
         }

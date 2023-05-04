@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('template_settings', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->uuid('template_id');
+        Schema::create('setting_attributes', function (Blueprint $table) {
+            $table->uuid('id')->nullable();
+            $table->uuid('user_list_id');
             $table->uuid('user_id')->nullable();
             $table->uuid('team_id')->nullable();
             $table->uuid('setting_id');
+            $table->string('type');
+            $table->integer('order')->default(0);
+            $table->string('value')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('template_settings');
+        Schema::dropIfExists('setting_attributes');
     }
 };

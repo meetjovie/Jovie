@@ -19,8 +19,16 @@
           class="group mx-auto overflow-y-scroll rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
           <PlusIcon
             v-if="!creatingList"
-            @click="createList()"
+            @click="chooseTemplatePopup.open = !chooseTemplatePopup.open"
             class="h-4 w-4"></PlusIcon>
+          <ListTemplateChoicePopup
+            :loading="chooseTemplatePopup.loading"
+            @primaryButtonClick="createList"
+            :open="chooseTemplatePopup.open"
+            :primaryButtonText="chooseTemplatePopup.primaryButtonText"
+            :description="chooseTemplatePopup.description"
+            @cancelButtonClick="cancelNewList"
+            :title="chooseTemplatePopup.title" />
           <JovieSpinner
             spinnerSize="xs"
             spinnerColor="neutral"
@@ -53,14 +61,14 @@
 
                 <div class="flex w-full items-center">
                   <!-- <div
-                    @click="openEmojiPicker(element)"
-                    :class="{
-                      'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
-                        active,
-                    }"
-                    class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
-                    {{ element.emoji ?? '📄' }}
-                  </div> -->
+                                      @click="openEmojiPicker(element)"
+                                      :class="{
+                                        'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
+                                          active,
+                                      }"
+                                      class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+                                      {{ element.emoji ?? '📄' }}
+                                    </div> -->
                   <UserListEditable
                     :list="element"
                     @updateUserList="$emit('updateUserList', $event)" />
@@ -193,24 +201,24 @@
                               </button>
                             </MenuItem>
                           </div>
-                            <div class="px-1 py-1">
-                                <MenuItem v-slot="{ active }">
-                                    <button
-                                        @click="checkListsEnrichable(element.id)"
-                                        :class="[
-                              active
-                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-                                : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                            ]">
-                                        <TrashIcon
-                                            :active="active"
-                                            class="mr-2 h-4 w-4 text-slate-400 dark:text-jovieDark-600 dark:text-jovieDark-600"
-                                            aria-hidden="true" />
-                                        Enrich List
-                                    </button>
-                                </MenuItem>
-                            </div>
+                          <div class="px-1 py-1">
+                            <MenuItem v-slot="{ active }">
+                              <button
+                                @click="checkListsEnrichable(element.id)"
+                                :class="[
+                                  active
+                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                    : 'text-slate-900 dark:text-jovieDark-100',
+                                  'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                                ]">
+                                <TrashIcon
+                                  :active="active"
+                                  class="mr-2 h-4 w-4 text-slate-400 dark:text-jovieDark-600 dark:text-jovieDark-600"
+                                  aria-hidden="true" />
+                                Enrich List
+                              </button>
+                            </MenuItem>
+                          </div>
                         </MenuItems>
                       </transition>
                     </Float>
@@ -240,15 +248,17 @@
 
             <div class="flex w-full items-center">
               <!-- <div
-                @click="openEmojiPicker(item)"
-                :class="{
-                  'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
-                    active,
-                }"
-                class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
-                {{ item.emoji ?? '📄' }}
-              </div> -->
-                <UserListEditable :list="item" @updateUserList="$emit('updateUserList', $event)" />
+                              @click="openEmojiPicker(item)"
+                              :class="{
+                                'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
+                                  active,
+                              }"
+                              class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+                              {{ item.emoji ?? '📄' }}
+                            </div> -->
+              <UserListEditable
+                :list="item"
+                @updateUserList="$emit('updateUserList', $event)" />
             </div>
 
             <div
@@ -390,18 +400,19 @@
       @primaryButtonClick="editListPopup.confirmationMethod"
       @cancelButtonClick="cancelEditMethod">
       <template v-slot:content>
-          <div class="space-y-8 py-4" v-if="currentEditingList">
-              <InputGroup
-                  autocomplete="off"
-                  label="List Name"
-                  placeholder="List Name"
-                  v-model="currentEditingList.name"
-                  class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
-              <ToggleGroup v-model="currentEditingList.pinned" /><span
-              class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
-          >Pinned</span
+        <div class="space-y-8 py-4" v-if="currentEditingList">
+          <InputGroup
+            autocomplete="off"
+            label="List Name"
+            placeholder="List Name"
+            v-model="currentEditingList.name"
+            class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
+          <ToggleGroup v-model="currentEditingList.pinned" />
+          <span
+            class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
+            >Pinned</span
           >
-          </div>
+        </div>
       </template>
     </ModalPopup>
   </div>
@@ -411,6 +422,7 @@ import InputGroup from './../components/InputGroup.vue';
 import { PinIcon, PinnedIcon } from 'vue-tabler-icons';
 import JovieSpinner from './../components/JovieSpinner.vue';
 import { Float } from '@headlessui-float/vue';
+import ListTemplateChoicePopup from './ListTemplateChoicePopup.vue';
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -438,6 +450,7 @@ import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup';
 import UserListEditable from './Crm/UserListEditable.vue';
+
 export default {
   data() {
     return {
@@ -462,54 +475,62 @@ export default {
         description: '',
         loading: false,
       },
+      chooseTemplatePopup: {
+        chooseTemplateMethod: null,
+        title: 'Chose Template',
+        open: false,
+        primaryButtonText: 'Start',
+        description: 'Pick a suitable template for this listing',
+        loading: false,
+      },
       creatingList: false,
       currentEditingList: null,
     };
   },
   methods: {
-      checkListsEnrichable(ids) {
-          this.$store.dispatch('checkListsEnrichable', ids).then(response => {
-              response = response.data
-              if (response.status) {
-                  if (response.data) {
-                      this.confirmationPopup.confirmationMethod = () => {
-                          this.enrichLists(ids);
-                      };
-                      this.confirmationPopup.cancelEditMethod = () => {
-                          this.confirmationPopup.open = false
-                      };
-                      this.confirmationPopup.open = true;
-                      this.confirmationPopup.primaryButtonText = "Enrich";
-                      this.confirmationPopup.title = "Enrich List";
-                      this.confirmationPopup.description = response.message
-                  } else {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          title: 'Imported',
-                          text: response.message,
-                      });
-                  }
-              } else {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      title: 'Imported',
-                      text: response.message,
-                  });
-              }
-          })
-      },
-      enrichLists(ids) {
-          let payload = {
-              self: this,
-              list_ids: ids
+    checkListsEnrichable(ids) {
+      this.$store.dispatch('checkListsEnrichable', ids).then((response) => {
+        response = response.data;
+        if (response.status) {
+          if (response.data) {
+            this.confirmationPopup.confirmationMethod = () => {
+              this.enrichLists(ids);
+            };
+            this.confirmationPopup.cancelEditMethod = () => {
+              this.confirmationPopup.open = false;
+            };
+            this.confirmationPopup.open = true;
+            this.confirmationPopup.primaryButtonText = 'Enrich';
+            this.confirmationPopup.title = 'Enrich List';
+            this.confirmationPopup.description = response.message;
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Imported',
+              text: response.message,
+            });
           }
-          this.$store.dispatch('enrichLists', payload).then(response => {
-              this.$emit('setListUpdating', response)
-          })
-          this.resetPopup()
-      },
+        } else {
+          this.$notify({
+            group: 'user',
+            type: 'success',
+            title: 'Imported',
+            text: response.message,
+          });
+        }
+      });
+    },
+    enrichLists(ids) {
+      let payload = {
+        self: this,
+        list_ids: ids,
+      };
+      this.$store.dispatch('enrichLists', payload).then((response) => {
+        this.$emit('setListUpdating', response);
+      });
+      this.resetPopup();
+    },
     // event callback
     editListFromModal() {
       this.editListPopup.loading = true;
@@ -549,52 +570,56 @@ export default {
       this.editListPopup.pinned = this.currentEditingList.pinned;
       this.editListPopup.name = this.currentEditingList.name;
     },
-      updateList(item) {
-          this.editListPopup.loading = true;
-          UserService.updateList({ name: item.name, emoji: item.emoji, pinned: item.pinned }, item.id)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                      this.$emit('updateUserList', response.data);
-                      this.editListPopup.open = false;
-                      this.currentEditingList = null;
-                  } else {
-                      // show toast error here later
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: Object.values(error.data.errors)[0][0],
-                      });
-                  }
-              })
-              .finally((response) => {
-                  this.editListPopup.loading = false;
-              });
-      },
-    createList() {
+    updateList(item) {
+      this.editListPopup.loading = true;
+      UserService.updateList(
+        { name: item.name, emoji: item.emoji, pinned: item.pinned },
+        item.id
+      )
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+            this.$emit('updateUserList', response.data);
+            this.editListPopup.open = false;
+            this.currentEditingList = null;
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {
+          this.editListPopup.loading = false;
+        });
+    },
+    createList(newList) {
       this.creatingList = true;
-      UserService.createList()
+      console.log("NEWLY CREATED LIST:::::::::::::::::::::", newList)
+      UserService.createList(newList)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -706,6 +731,9 @@ export default {
         primaryButtonText: null,
         loading: false,
       };
+    },
+    cancelNewList() {
+      this.chooseTemplatePopup.open = false;
     },
     resetEditPopup() {
       this.editListPopup = {
@@ -849,6 +877,7 @@ export default {
     },
   },
   components: {
+    ListTemplateChoicePopup,
     UserListEditable,
     ChevronRightIcon,
     BookmarkIcon,

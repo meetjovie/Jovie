@@ -588,12 +588,12 @@ import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
 import TemplateService from '../services/api/template.service';
-import CheckboxInput from "./CheckboxInput.vue";
+import CheckboxInput from './CheckboxInput.vue';
 
 export default {
   name: 'DataGrid',
   components: {
-      CheckboxInput,
+    CheckboxInput,
     MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
