@@ -52,18 +52,16 @@
             </div>
           </div>
         </div>
-
-        <div
-          class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-jovieDark-900 dark:bg-jovieDark-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
-          <ButtonGroup
-            type="submit"
-            design="primary"
-            text="Save"
-            @click="updateTeamSettings()"
-            :disabled="updating">
-          </ButtonGroup>
-        </div>
       </div>
+    </div>
+    <div class="mt-6 flex items-center justify-end gap-x-6">
+      <button
+        type="submit"
+        @click="updateTeamSettings()"
+        :disabled="updating"
+        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Save
+      </button>
     </div>
 
     <div class="hidden sm:block">
@@ -104,7 +102,7 @@ export default {
         { name: 'Contacts', stat: '3', limit: '100' },
         { name: 'AI Credits', stat: '100', limit: '500' },
         { name: 'Enrichment Credits', stat: '58', limit: '100' },
-        { name: 'AI Feild Credits', stat: '12', limit: '100' },
+        { name: 'AI Field Credits', stat: '12', limit: '100' },
       ],
       //add an object called stats and put the number of AI Credits, Enrich Credits, and Contacts used
 
