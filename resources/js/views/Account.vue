@@ -144,7 +144,7 @@ const secondaryNavigation = [
 const tabs = [
   { name: 'General', href: '#', current: true },
   { name: 'Password', href: '#', current: false },
-  { name: 'Team Setting', href: '#', current: false },
+  { name: 'Workspace', href: '#', current: false },
   { name: 'Billing', href: '#', current: false },
   { name: 'Team Members', href: '#', current: false },
   { name: 'Delete Account', href: '#', current: false },

@@ -14,14 +14,15 @@
             v-for="item in stats"
             :key="item.name"
             class="overflow-hidden rounded-lg border border-slate-300 px-4 py-5 dark:border-jovieDark-border sm:p-6">
-            <dt class="truncate text-sm font-medium text-gray-500">
+            <dt
+              class="truncate text-sm font-medium text-slate-900 dark:text-jovieDark-100">
               {{ item.name }}
             </dt>
             <ProgressBar
               :percentage="Math.round((item.stat / item.limit) * 100)" />
 
             <dd
-              class="mt-1 text-3xl font-semibold tracking-tight text-gray-900">
+              class="mt-1 text-3xl font-semibold tracking-tight text-slate-900 dark:text-jovieDark-100">
               {{ item.stat }} / {{ item.limit }}
             </dd>
           </div>
@@ -33,8 +34,10 @@
       <div class="mt-5 md:col-span-2 md:mt-0">
         <div
           x-data="{photoName: null, photoPreview: null}"
-          class="px-4 py-5 dark:bg-jovieDark-800 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
-          <div class="relative flex gap-x-3">
+          class="px-4 py-5 sm:p-6">
+          <div
+            v-if="teamSettings.length > 0"
+            class="relative flex flex-col gap-y-3">
             <!-- Password -->
             <div
               v-for="(teamSetting, index) in teamSettings"
@@ -46,22 +49,32 @@
                 v-model="teamSetting.value"
                 :name="teamSetting.key"
                 :disabled="updating" />
-              <label class="font-medium text-gray-900" :for="teamSetting.key">{{
-                unSlugify(teamSetting.key)
-              }}</label>
+              <label
+                class="ml-2 text-xs font-medium text-slate-900 dark:text-jovieDark-100"
+                :for="teamSetting.key"
+                >{{ unSlugify(teamSetting.key) }}</label
+              >
             </div>
+
+            <!-- Password -->
+          </div>
+          <div class="flex flex-col gap-y-3" v-else>
+            <div
+              v-for="n in 2"
+              class="flex h-6 w-40 animate-pulse items-center bg-slate-700 dark:bg-jovieDark-700"></div>
           </div>
         </div>
       </div>
     </div>
     <div class="mt-6 flex items-center justify-end gap-x-6">
-      <button
+      <ButtonGroup
         type="submit"
+        :loader="updating"
+        :text="updating ? 'Saving' : 'Save'"
         @click="updateTeamSettings()"
         :disabled="updating"
-        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-        Save
-      </button>
+        class="w-40">
+      </ButtonGroup>
     </div>
 
     <div class="hidden sm:block">
@@ -80,6 +93,7 @@ import StatCard from '../../components/StatCard.vue';
 import TeamService from '../../services/api/team.service';
 import SectionHeader from '../../components/SectionHeader.vue';
 import ProgressBar from '../../components/ProgressBar.vue';
+import JovieSpinner from '../../components/JovieSpinner.vue';
 
 export default {
   name: 'AccountTeamSetting',
@@ -88,6 +102,7 @@ export default {
     CheckboxInput,
     SectionHeader,
     StatCard,
+    JovieSpinner,
     ProgressBar,
   },
   data() {
