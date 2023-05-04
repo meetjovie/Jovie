@@ -1,13 +1,15 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
 
-  <div class="group/header flex" :style="`width: ${column.width || 160}px`">
+  <div
+    class="group/header flex justify-between"
+    :style="`width: ${column.width || 160}px`">
     <div
-      class="z-50 cursor-ew-resize"
+      class="group/resize z-50 flex w-5 cursor-ew-resize justify-start"
       v-if="showResizeable && index > 0"
       @mousedown="handleMouseDown($event, true)">
       <span
-        class="text-slate-500/0 group-hover/header:text-slate-500 dark:group-hover/header:text-slate-400">
+        class="text-slate-500/0 group-hover/resize:text-slate-500 dark:group-hover/resize:text-slate-400">
         ||</span
       >
     </div>
@@ -104,10 +106,10 @@
     </div>
     <div
       v-if="showResizeable && index <= lastColumnIndex"
-      class="z-50 cursor-ew-resize"
+      class="group/resize z-50 flex w-5 cursor-ew-resize justify-end"
       @mousedown="handleMouseDown($event, false)">
       <span
-        class="text-slate-500/0 group-hover/header:text-slate-500 dark:group-hover/header:text-slate-400">
+        class="text-slate-500/0 group-hover/resize:text-slate-500 dark:group-hover/resize:text-slate-400">
         ||</span
       >
     </div>
