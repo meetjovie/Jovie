@@ -125,6 +125,25 @@
                         <MenuItems
                           class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                           <div class="px-1 py-1">
+                                <MenuItem v-slot="{ active }">
+                                    <button
+                                        @click="checkListsEnrichable(element.id)"
+                                        :class="[
+                              active
+                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                : 'text-slate-900 dark:text-jovieDark-100',
+                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                            ]">
+                                        <SparklesIcon
+                                            :active="active"
+                                            class="mr-2 h-4 w-4 text-purple-400  dark:text-purple-600"
+                                            aria-hidden="true" />
+                                        Enrich
+                                    </button>
+                                </MenuItem>
+                            </div>
+                          <div class="px-1 py-1">
+                            
                             <MenuItem v-slot="{ active }">
                               <button
                                 @click="editList(element)"
@@ -138,7 +157,7 @@
                                   :active="active"
                                   class="mr-2 h-4 w-4 text-sky-400"
                                   aria-hidden="true" />
-                                Edit List
+                                Edit
                               </button>
                             </MenuItem>
                             <MenuItem v-slot="{ active }">
@@ -170,7 +189,7 @@
                                   :active="active"
                                   class="mr-2 h-3 w-3 text-indigo-400 hover:text-slate-700 dark:text-indigo-700 dark:hover:text-slate-300"
                                   aria-hidden="true" />
-                                Pin List
+                                Pin
                               </button>
                             </MenuItem>
                           </div>
@@ -189,28 +208,11 @@
                                   :active="active"
                                   class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-600"
                                   aria-hidden="true" />
-                                Delete List
+                                Delete
                               </button>
                             </MenuItem>
                           </div>
-                            <div class="px-1 py-1">
-                                <MenuItem v-slot="{ active }">
-                                    <button
-                                        @click="checkListsEnrichable(element.id)"
-                                        :class="[
-                              active
-                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-                                : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                            ]">
-                                        <TrashIcon
-                                            :active="active"
-                                            class="mr-2 h-4 w-4 text-slate-400 dark:text-jovieDark-600 dark:text-jovieDark-600"
-                                            aria-hidden="true" />
-                                        Enrich List
-                                    </button>
-                                </MenuItem>
-                            </div>
+                           
                         </MenuItems>
                       </transition>
                     </Float>
@@ -421,6 +423,7 @@ import {
   DocumentDuplicateIcon,
   ArchiveBoxIcon,
   PencilSquareIcon,
+  SparklesIcon,
   TrashIcon,
   ArrowPathIcon,
 } from '@heroicons/vue/20/solid';
@@ -863,6 +866,7 @@ export default {
     Bars3Icon,
     ArchiveBoxIcon,
     DocumentDuplicateIcon,
+    SparklesIcon,
     TrashIcon,
     Menu,
     MenuButton,

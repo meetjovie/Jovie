@@ -1,13 +1,14 @@
 <template>
   <!--  @click="toggleSortingOrder()" -->
-  <div class="flex" :style="`width: ${column.width}px`">
+
+  <div class="group/header flex" :style="`width: ${column.width || 160}px`">
     <div
-      class="z-50 cursor-ew-resize"
+      class="group/header-hover:text-slate-700 absolute z-50 cursor-ew-resize text-slate-500/0"
       v-if="showResizeable && index > 0"
       @mousedown="handleMouseDown($event, true)">
       ||
     </div>
-    <div class="group/header drag-head w-full" v-if="column">
+    <div class="drag-head w-full" v-if="column">
       <JovieDropdownMenu
         :items="filteredDropdownItems"
         size="lg"
@@ -100,7 +101,7 @@
     </div>
     <div
       v-if="showResizeable && index <= lastColumnIndex"
-      class=" z-50  cursor-ew-resize"
+      class="group/header-hover:text-slate-700 absolute z-50 cursor-ew-resize text-slate-500/0"
       @mousedown="handleMouseDown($event, false)">
       ||
     </div>
@@ -162,7 +163,7 @@ export default {
       open: true,
       draggingColumn: null,
       initialX: null,
-      columnWidth: null,
+      columnWidth: 40,
       currentDraggingColumn: null,
     };
   },
@@ -198,11 +199,8 @@ export default {
     window.addEventListener('mousemove', (event) => {
       if (self.draggingColumn !== null) {
         const delta = event.clientX - self.initialX;
-        let width = Math.max(
-          self.columnWidth + delta,
-          50
-        );
-        self.currentDraggingColumn.width = (width < 160 ? 160 : width)
+        let width = Math.max(self.columnWidth + delta, 50);
+        self.currentDraggingColumn.width = width < 160 ? 160 : width;
         self.$emit('reflectColumnWidth', self.currentDraggingColumn);
       }
     });

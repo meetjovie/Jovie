@@ -90,7 +90,7 @@
           @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center">
           <ContactAvatar
-              @updateContact="$emit('updateContact', $event)"
+            @updateContact="$emit('updateContact', $event)"
             :loading="!contact.id"
             :contact="contact"
             class="mr-2" />
@@ -145,17 +145,6 @@
             :open="contact.showContextMenu"
             :contact="contact">
             <DropdownMenuItem
-              :name="
-                filters.type == 'archived' && contact.archived
-                  ? 'Unarchived'
-                  : 'Archive'
-              "
-              icon="ArchiveBoxIcon"
-              @blur="$emit('updateContact')"
-              @click="$emit('archive-contacts', contact.id, !contact.archived)"
-              color="text-blue-600
-            dark:text-blue-400" />
-            <DropdownMenuItem
               name="Refresh"
               color="text-green-600 dark:text-green-400"
               icon="ArrowPathIcon"
@@ -178,6 +167,17 @@
                   params: { id: contact.id },
                 })
               " />
+            <DropdownMenuItem
+              :name="
+                filters.type == 'archived' && contact.archived
+                  ? 'Unarchived'
+                  : 'Archive'
+              "
+              icon="ArchiveBoxIcon"
+              @blur="$emit('updateContact')"
+              @click="$emit('archive-contacts', contact.id, !contact.archived)"
+              color="text-red-600
+            dark:text-red-400" />
           </ContactContextMenu>
         </div>
       </div>

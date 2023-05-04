@@ -36,7 +36,7 @@
                         class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
                         <div class="flex">
                           <div
-                            class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
+                            class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
                             {{
                               currentUser.current_team
                                 ? currentUser.current_team.name
@@ -49,7 +49,7 @@
                     <template #menuTop>
                       <div class="">
                         <div
-                          class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
+                          class="border-b border-slate-200 px-4 pb-1 pt-2 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
                           Your workspaces:
                         </div>
                       </div>
@@ -62,7 +62,7 @@
                           active
                             ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
                             : 'text-sm text-slate-700 dark:text-jovieDark-300',
-                          'group flex w-full items-center px-2 py-2 text-2xs  ',
+                          'group flex w-full items-center px-2 py-2 text-xs  ',
                         ]">
                         <PlusCircleIcon
                           :active="active"

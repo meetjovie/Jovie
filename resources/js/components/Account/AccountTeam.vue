@@ -30,7 +30,7 @@
             <ButtonGroup
               @click="showBuySeats()"
               icon="PlusIcon"
-              class="mx-auto w-48"
+              class="mx-auto"
               text="Buy more seats" />
           </span>
         </p>
@@ -163,7 +163,7 @@
             leave-to-class="transform scale-95 opacity-0">
             <DisclosurePanel>
               <ul role="list" class="border-b text-sm">
-                <span class="py-4 px-2 text-xs font-bold text-slate-400"
+                <span class="px-2 py-4 text-xs font-bold text-slate-400"
                   >Members</span
                 >
                 <li
