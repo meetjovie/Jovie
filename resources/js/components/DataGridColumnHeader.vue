@@ -3,7 +3,7 @@
 
   <div class="group/header flex" :style="`width: ${column.width || 160}px`">
     <div
-      class="group/header-hover:text-slate-700 absolute z-50 cursor-ew-resize text-slate-500/0"
+      class="group/header-hover:text-red-700 absolute z-50 cursor-ew-resize text-slate-500"
       v-if="showResizeable && index > 0"
       @mousedown="handleMouseDown($event, true)">
       ||
@@ -101,7 +101,7 @@
     </div>
     <div
       v-if="showResizeable && index <= lastColumnIndex"
-      class="group/header-hover:text-slate-700 absolute z-50 cursor-ew-resize text-slate-500/0"
+      class="group/header-hover:text-red-700 absolute z-50 cursor-ew-resize text-slate-500"
       @mousedown="handleMouseDown($event, false)">
       ||
     </div>
