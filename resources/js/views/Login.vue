@@ -22,7 +22,7 @@
       </div>
     </div>
     <div
-      class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
@@ -44,14 +44,14 @@
             <ButtonGroup
               :disabled="loggingIn"
               :error="buttonError"
+              class="w-full"
               icon="google"
               @click.prevent="authProvider('google')"
               :text="loggingIn ? 'Logging in...' : 'Continue with Google'"
               :loader="loggingIn"
               :success="successfulLogin"
-              design="secondary"
-              type="button"
-              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+              design="auth"
+              type="button">
             </ButtonGroup>
 
             <div class="relative">
@@ -76,9 +76,9 @@
               :text="loggingIn ? 'Logging in...' : 'Continue with Email'"
               :loader="loggingIn"
               :success="successfulLogin"
-              design="secondary"
-              type="button"
-              class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+              class="w-full"
+              design="auth"
+              type="button">
             </ButtonGroup>
             <span
               class="mt-4 text-center text-[8px] text-slate-600 dark:text-jovieDark-400">
@@ -146,7 +146,7 @@
                   :loader="loggingIn"
                   :success="successfulLogin"
                   type="button"
-                  class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                 </ButtonGroup>
               </div>
 

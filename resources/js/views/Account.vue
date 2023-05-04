@@ -13,7 +13,7 @@
                 selected
                   ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-700 dark:text-jovieDark-300'
                   : 'border-transparent text-slate-900 dark:text-jovieDark-100',
-                'flex-1 whitespace-nowrap rounded-md py-1 px-1 text-left text-xs font-medium  outline-none ring-0 focus:outline-none focus:ring-0',
+                'flex-1 whitespace-nowrap rounded-md px-1 py-1 text-left text-xs font-medium  outline-none ring-0 focus:outline-none focus:ring-0',
               ]">
               {{ tab.name }}
             </button>
@@ -41,11 +41,11 @@
                   <AccountPassword />
                 </TabPanel>
               </TabPanels>
-                <TabPanels as="template">
-                    <TabPanel class="space-y-12 px-4 py-6">
-                        <AccountTeamSetting />
-                    </TabPanel>
-                </TabPanels>
+              <TabPanels as="template">
+                <TabPanel class="space-y-12 px-4 py-6">
+                  <AccountTeamSetting />
+                </TabPanel>
+              </TabPanels>
               <!--  <TabPanels as="template">
                 <TabPanel class="space-y-12 px-4 py-6">
                   Notifications
@@ -82,7 +82,7 @@
 import AccountTeam from '../components/Account/AccountTeam.vue';
 import AccountProfile from '../components/Account/AccountProfile.vue';
 import AccountDelete from '../components/Account/AccountDelete.vue';
-import AccountTeamSetting from "../components/Account/AccountTeamSetting.vue";
+import AccountTeamSetting from '../components/Account/AccountTeamSetting.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
 
 import { ref } from 'vue';
@@ -190,7 +190,7 @@ export default {
     ButtonGroup,
     AccountProfile,
     AccountPassword,
-    AccountTeamSetting
+    AccountTeamSetting,
   },
 
   props: {

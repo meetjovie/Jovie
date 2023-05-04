@@ -15,9 +15,12 @@
       //design seconday then bg color white
       design === 'secondary'
         ? 'bg-white'
+        : design == 'auth'
+        ? 'border border-slate-200 bg-white dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100'
         : design === 'toolbar'
         ? 'bg-white'
         : '',
+      //add auth
       //if toolbar then bg color white
 
       { 'px-2 py-0 text-xs': size == 'xs' },
