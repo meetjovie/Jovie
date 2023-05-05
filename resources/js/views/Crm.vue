@@ -36,7 +36,7 @@
                             color="text-blue-600 dark:text-blue-400"
                             icon="PlusIcon" />
                           <DropdownMenuItem
-                            @click="showCreatortModal(true)"
+                            @click="openImportContactModal(true)"
                             name="Add from social"
                             color="text-pink-600 dark:text-pink-400"
                             icon="SparklesIcon" />
@@ -758,6 +758,7 @@ import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
 import FieldService from '../services/api/field.service';
 import DropdownMenuItem from '../components/DropdownMenuItem.vue';
 import ModalPopup from '../components/ModalPopup.vue';
+import importContactModal from "../components/ImportContactModal.vue";
 
 export default {
   name: 'CRM',
@@ -913,6 +914,9 @@ export default {
   },
 
   computed: {
+      importContactModal() {
+          return importContactModal
+      },
     showImporting() {
       if (this.userLists.length && this.filters.type == 'list') {
         let list = this.userLists.find((list) => list.id == this.filters.list);
