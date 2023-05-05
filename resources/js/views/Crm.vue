@@ -651,9 +651,9 @@
       <JovieUpgradeModal
         @close="closeUpgradeModal()"
         :open="showUpgradeModal" />
-      <!--  :open="showContactModal" -->
+
       <ImportContactModal
-        open
+        :open="showContactModal"
         :fromSocial="importFromSocial"
         :list="filters.list"
         @contactImported="contactImported($event)"
