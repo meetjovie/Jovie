@@ -62,7 +62,7 @@
                         class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none focus:ring-0"
                         :class="[
                           filters.type == 'all'
-                            ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                            ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                             : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                           active
                             ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
@@ -108,7 +108,7 @@
                             class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'favourites'
-                                ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
                                 ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
@@ -136,7 +136,7 @@
                             class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'archived'
-                                ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
                                 ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'

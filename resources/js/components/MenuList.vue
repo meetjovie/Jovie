@@ -4,10 +4,10 @@
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
         @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:bg-slate-100 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-border dark:hover:bg-jovieDark-800 dark:hover:text-slate-100">
+        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:bg-slate-100 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
         <ChevronDownIcon
           v-if="showMenu"
-          class="mt-0.5 mr-1 h-4 w-4 text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 group-hover:dark:text-jovieDark-200" />
+          class="mr-1 mt-0.5 h-4 w-4 text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 group-hover:dark:text-jovieDark-200" />
         <ChevronRightIcon
           v-else
           class="text-thin mr-1 h-4 w-4 text-xs text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200" />
@@ -97,7 +97,7 @@
                   class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
                   <ArrowPathIcon
                     v-if="element.updating"
-                    class="mx-auto mt-1 mr-2 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
+                    class="mx-auto mr-2 mt-1 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
                   <span
                     v-else
                     class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-jovieDark-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
@@ -125,25 +125,24 @@
                         <MenuItems
                           class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                           <div class="px-1 py-1">
-                                <MenuItem v-slot="{ active }">
-                                    <button
-                                        @click="checkListsEnrichable(element.id)"
-                                        :class="[
-                              active
-                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-                                : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
-                            ]">
-                                        <SparklesIcon
-                                            :active="active"
-                                            class="mr-2 h-4 w-4 text-purple-400  dark:text-purple-600"
-                                            aria-hidden="true" />
-                                        Enrich
-                                    </button>
-                                </MenuItem>
-                            </div>
+                            <MenuItem v-slot="{ active }">
+                              <button
+                                @click="checkListsEnrichable(element.id)"
+                                :class="[
+                                  active
+                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                    : 'text-slate-900 dark:text-jovieDark-100',
+                                  'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                                ]">
+                                <SparklesIcon
+                                  :active="active"
+                                  class="mr-2 h-4 w-4 text-purple-400 dark:text-purple-600"
+                                  aria-hidden="true" />
+                                Enrich
+                              </button>
+                            </MenuItem>
+                          </div>
                           <div class="px-1 py-1">
-                            
                             <MenuItem v-slot="{ active }">
                               <button
                                 @click="editList(element)"
@@ -212,7 +211,6 @@
                               </button>
                             </MenuItem>
                           </div>
-                           
                         </MenuItems>
                       </transition>
                     </Float>
@@ -250,7 +248,9 @@
                 class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
                 {{ item.emoji ?? '📄' }}
               </div> -->
-                <UserListEditable :list="item" @updateUserList="$emit('updateUserList', $event)" />
+              <UserListEditable
+                :list="item"
+                @updateUserList="$emit('updateUserList', $event)" />
             </div>
 
             <div
@@ -392,18 +392,18 @@
       @primaryButtonClick="editListPopup.confirmationMethod"
       @cancelButtonClick="cancelEditMethod">
       <template v-slot:content>
-          <div class="space-y-8 py-4" v-if="currentEditingList">
-              <InputGroup
-                  autocomplete="off"
-                  label="List Name"
-                  placeholder="List Name"
-                  v-model="currentEditingList.name"
-                  class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
-              <ToggleGroup v-model="currentEditingList.pinned" /><span
-              class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
-          >Pinned</span
+        <div class="space-y-8 py-4" v-if="currentEditingList">
+          <InputGroup
+            autocomplete="off"
+            label="List Name"
+            placeholder="List Name"
+            v-model="currentEditingList.name"
+            class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
+          <ToggleGroup v-model="currentEditingList.pinned" /><span
+            class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
+            >Pinned</span
           >
-          </div>
+        </div>
       </template>
     </ModalPopup>
   </div>
@@ -470,49 +470,49 @@ export default {
     };
   },
   methods: {
-      checkListsEnrichable(ids) {
-          this.$store.dispatch('checkListsEnrichable', ids).then(response => {
-              response = response.data
-              if (response.status) {
-                  if (response.data) {
-                      this.confirmationPopup.confirmationMethod = () => {
-                          this.enrichLists(ids);
-                      };
-                      this.confirmationPopup.cancelEditMethod = () => {
-                          this.confirmationPopup.open = false
-                      };
-                      this.confirmationPopup.open = true;
-                      this.confirmationPopup.primaryButtonText = "Enrich";
-                      this.confirmationPopup.title = "Enrich List";
-                      this.confirmationPopup.description = response.message
-                  } else {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          title: 'Imported',
-                          text: response.message,
-                      });
-                  }
-              } else {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      title: 'Imported',
-                      text: response.message,
-                  });
-              }
-          })
-      },
-      enrichLists(ids) {
-          let payload = {
-              self: this,
-              list_ids: ids
+    checkListsEnrichable(ids) {
+      this.$store.dispatch('checkListsEnrichable', ids).then((response) => {
+        response = response.data;
+        if (response.status) {
+          if (response.data) {
+            this.confirmationPopup.confirmationMethod = () => {
+              this.enrichLists(ids);
+            };
+            this.confirmationPopup.cancelEditMethod = () => {
+              this.confirmationPopup.open = false;
+            };
+            this.confirmationPopup.open = true;
+            this.confirmationPopup.primaryButtonText = 'Enrich';
+            this.confirmationPopup.title = 'Enrich List';
+            this.confirmationPopup.description = response.message;
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Imported',
+              text: response.message,
+            });
           }
-          this.$store.dispatch('enrichLists', payload).then(response => {
-              this.$emit('setListUpdating', response)
-          })
-          this.resetPopup()
-      },
+        } else {
+          this.$notify({
+            group: 'user',
+            type: 'success',
+            title: 'Imported',
+            text: response.message,
+          });
+        }
+      });
+    },
+    enrichLists(ids) {
+      let payload = {
+        self: this,
+        list_ids: ids,
+      };
+      this.$store.dispatch('enrichLists', payload).then((response) => {
+        this.$emit('setListUpdating', response);
+      });
+      this.resetPopup();
+    },
     // event callback
     editListFromModal() {
       this.editListPopup.loading = true;
@@ -552,49 +552,52 @@ export default {
       this.editListPopup.pinned = this.currentEditingList.pinned;
       this.editListPopup.name = this.currentEditingList.name;
     },
-      updateList(item) {
-          this.editListPopup.loading = true;
-          UserService.updateList({ name: item.name, emoji: item.emoji, pinned: item.pinned }, item.id)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                      this.$emit('updateUserList', response.data);
-                      this.editListPopup.open = false;
-                      this.currentEditingList = null;
-                  } else {
-                      // show toast error here later
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: Object.values(error.data.errors)[0][0],
-                      });
-                  }
-              })
-              .finally((response) => {
-                  this.editListPopup.loading = false;
-              });
-      },
+    updateList(item) {
+      this.editListPopup.loading = true;
+      UserService.updateList(
+        { name: item.name, emoji: item.emoji, pinned: item.pinned },
+        item.id
+      )
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+            this.$emit('updateUserList', response.data);
+            this.editListPopup.open = false;
+            this.currentEditingList = null;
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
+          }
+        })
+        .finally((response) => {
+          this.editListPopup.loading = false;
+        });
+    },
     createList() {
       this.creatingList = true;
       UserService.createList()
