@@ -257,4 +257,9 @@ class UserList extends Model implements Auditable
             ListEnriched::dispatch($listId, $teamId);
         }
     }
+
+    public static function getListStages($userList = null){
+        $template = $userList ? self::find($userList)->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        return $template->templateStages()->select('name', 'color', 'order', 'id')->orderBy('order')->get();
+    }
 }

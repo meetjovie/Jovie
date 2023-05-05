@@ -102,5 +102,91 @@ class TemplateSeeder extends Seeder
                 'field_id' => $customField->id,
             ]
         );
+
+
+
+        $template = Template::create([
+            'name' => 'Custom Wala',
+            'description' => 'the default template of jovie lists',
+        ]);
+
+        $stages = [
+            [
+                'name' => 'Lead1',
+                'color' => '#6366F1',
+                'order' => 0,
+            ],
+            [
+                'name' => 'Interested1',
+                'color' => '#22C55E',
+                'order' => 1,
+            ],
+            [
+                'name' => 'Negotiating1',
+                'color' => '#3B82F6',
+                'order' => 2,
+            ],
+            [
+                'name' => 'In Progress1',
+                'color' => '#EC4899',
+                'order' => 3,
+            ],
+            [
+                'name' => 'Complete1',
+                'color' => '#A855F7',
+                'order' => 4,
+            ],
+            [
+                'name' => 'Not Interested1',
+                'color' => '#EF4B4B',
+                'order' => 5,
+            ],
+        ];
+
+        foreach ($stages as $stage) {
+            TemplateStage::create([
+                'template_id' => $template->id,
+                'name' => $stage['name'],
+                'color' => $stage['color'],
+                'order' => $stage['order'],
+            ]);
+        }
+
+            TemplateSetting::create([
+                'template_id' => $template->id,
+                'setting_id' => 2,
+            ]);
+
+
+        foreach (FieldAttribute::DEFAULT_FIELDS as $FIELD) {
+            if(!in_array($FIELD['id'], [4,2])){
+                TemplateField::create(
+                    [
+                        'template_id' => $template->id,
+                        'field_id' => $FIELD['id'],
+                    ]
+                );
+            }
+        }
+
+        $customField = CustomField::create(
+            [
+                'user_id' => 1,
+                'team_id' => 1,
+                'name' => 'CustomField'.'113',
+                'code' => 'custom_feild'.'113',
+                'description' => 'Custom feild for testing'.'113',
+                'type' => 'text',
+            ]
+        );
+
+        TemplateField::create(
+            [
+                'template_id' => $template->id,
+                'field_id' => $customField->id,
+            ]
+        );
+
+
     }
 }

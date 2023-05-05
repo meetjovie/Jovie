@@ -82,7 +82,7 @@ class Contact extends Model implements Auditable
         'enriching',
     ];
 
-    protected $appends = ['stage_name', 'social_links_with_followers', 'overview_media'];
+    protected $appends = ['stage_data', 'social_links_with_followers', 'overview_media'];
 
     const OVERRIDEABLE = [
         'phones',
@@ -174,8 +174,8 @@ class Contact extends Model implements Auditable
         }
 
         if (Arr::has($data, 'new_values.stage')) {
-            $data['old_values']['stage'] = $this->stages()[$this->getOriginal('stage')];
-            $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
+            $data['old_values']['stage'] = $this->getOriginal('stage');
+            $data['new_values']['stage'] = $this->getAttribute('stage');
         }
 
         if (Arr::has($data, 'new_values.customFieldValues')) {
@@ -279,23 +279,23 @@ class Contact extends Model implements Auditable
     /**
      * Determine the stage of contact.
      */
-    protected function stageName(): Attribute
+
+    protected function stageData(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->stages()[$this->stage ?? 0],
+            get: fn() => $this->contactStage(),
         );
     }
 
-    public static function stages()
+    public function contactStage($listId = null)
     {
-        return [
-            0 => 'Lead',
-            1 => 'Interested',
-            2 => 'Negotiating',
-            3 => 'In Progress',
-            4 => 'Complete',
-            5 => 'Not Interested',
-        ];
+        if ($listId) {
+            $userList = $this->userLists()->where('user_list_id', $listId)->first();
+            $stage = TemplateStage::where('id', $userList->pivot->stage);
+        } else {
+            $stage = TemplateStage::where('id', $this->stage);
+        }
+        return $stage->select('color', 'name', 'id', 'order')->first();
     }
 
     /**
@@ -656,6 +656,7 @@ class Contact extends Model implements Auditable
                 $userList = $contact->userLists()->where('user_list_id', $params['list'])->first();
                 $contact->stage = $userList->pivot->stage;
             }
+
         }
 
         return $contacts;
@@ -718,9 +719,17 @@ class Contact extends Model implements Auditable
         foreach ($contactData as $key => $value) {
             $contact->{$key} = $value;
         }
+        $stageId = UserList::getListStages()->first()->id;
+        $contact->stage = $stageId;
         $contact->save();
+
         if ($listId) {
             Contact::addContactsToList($contact->id, $listId, $data['team_id']);
+            $stageId = UserList::getListStages($listId)->first()->id;
+            $userList = $contact->userLists()->where('user_list_id', $listId)->first();
+            $pivot = $userList->pivot;
+            $pivot->stage = $stageId;
+            $pivot->save();
         } else { // if list is there then import event is dispatched from within it for multiple contacts. else it is dispatched as single without list
             ContactImported::dispatch($contact->id, $data['team_id'], $listId);
         }

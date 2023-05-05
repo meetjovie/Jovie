@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('contact_user_list', function (Blueprint $table) {
-            $table->uuid('stage')->nullable()->after('user_list_id');
+        Schema::table('contacts', function (Blueprint $table) {
+            $table->uuid('stage')->nullable()->change();
         });
     }
 
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('contact_user_list', function (Blueprint $table) {
+        Schema::table('contacts', function (Blueprint $table) {
             //
         });
     }
