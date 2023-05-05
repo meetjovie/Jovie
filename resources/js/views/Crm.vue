@@ -6,56 +6,61 @@
           <template #main>
             <div class="">
               <div class="flex items-center text-xs">
-                <Menu>
-                  <Float portal :offset="2" placement="bottom-start">
-                    <MenuButton
-                      class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
-                      <PlusIcon
-                        class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
-                        aria-hidden="true" />
-                      <span class="line-clamp-1 px-2 text-center"
-                        >New Contact</span
-                      >
-                      <div class="items-center">
-                        <KBShortcut :shortcutKey="['C']"></KBShortcut>
-                      </div>
-                    </MenuButton>
-                    <transition
-                      enter-active-class="transition duration-100 ease-out"
-                      enter-from-class="transform scale-95 opacity-0"
-                      enter-to-class="transform scale-100 opacity-100"
-                      leave-active-class="transition duration-75 ease-in"
-                      leave-from-class="transform scale-100 opacity-100"
-                      leave-to-class="transform scale-95 opacity-0">
-                      <MenuItems
-                        class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
-                        <div class="py-1">
-                          <DropdownMenuItem
-                            @click="openImportContactModal()"
-                            name="New Contact"
-                            color="text-blue-600 dark:text-blue-400"
-                            icon="PlusIcon" />
-                          <DropdownMenuItem
-                            @click="openImportContactModal(true)"
-                            name="Add from social"
-                            color="text-pink-600 dark:text-pink-400"
-                            icon="SparklesIcon" />
-                          <router-link to="/import">
+                <div class="mx-auto inline-flex">
+                  <button
+                    @click="openImportContactModal()"
+                    type="button"
+                    class="rouned-md group relative mx-auto my-2 inline-flex cursor-pointer items-center justify-between rounded-l-md border bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    <PlusIcon
+                      class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                      aria-hidden="true" />
+                    New Contact
+                  </button>
+                  <Menu>
+                    <Float portal :offset="2" placement="bottom-start">
+                      <MenuButton
+                        class="rouned-md group mx-auto my-2 flex cursor-pointer items-center justify-between rounded-r-md border bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-200 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        <ChevronDownIcon
+                          class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
+                          aria-hidden="true" />
+                      </MenuButton>
+                      <transition
+                        enter-active-class="transition duration-100 ease-out"
+                        enter-from-class="transform scale-95 opacity-0"
+                        enter-to-class="transform scale-100 opacity-100"
+                        leave-active-class="transition duration-75 ease-in"
+                        leave-from-class="transform scale-100 opacity-100"
+                        leave-to-class="transform scale-95 opacity-0">
+                        <MenuItems
+                          class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                          <div class="py-1">
                             <DropdownMenuItem
-                              name="Upload a CSV"
-                              color="text-purple-600 dark:text-purple-400"
-                              icon="CloudArrowUpIcon" />
-                          </router-link>
-                        </div>
-                      </MenuItems>
-                    </transition>
-                  </Float>
-                </Menu>
+                              @click="openImportContactModal()"
+                              name="New Contact"
+                              color="text-blue-600 dark:text-blue-400"
+                              icon="PlusIcon" />
+                            <DropdownMenuItem
+                              @click="openImportContactModal(true)"
+                              name="Add from social"
+                              color="text-pink-600 dark:text-pink-400"
+                              icon="SparklesIcon" />
+                            <router-link to="/import">
+                              <DropdownMenuItem
+                                name="Upload a CSV"
+                                color="text-purple-600 dark:text-purple-400"
+                                icon="CloudArrowUpIcon" />
+                            </router-link>
+                          </div>
+                        </MenuItems>
+                      </transition>
+                    </Float>
+                  </Menu>
+                </div>
               </div>
 
               <Menu v-slot="{ open }">
                 <MenuItems static>
-                  <div class="w-full flex-col px-2">
+                  <div class="flex w-full flex-col space-x-1 px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
                       <button
                         @click="setFiltersType('all')"
@@ -68,7 +73,7 @@
                             ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                             : '',
                         ]">
-                        <div class="flex items-center text-xs">
+                        <div class="flex items-center text-xs tracking-wide">
                           <ChevronRightIcon
                             @click="toggleContactMenuOpen"
                             :class="[
@@ -114,7 +119,8 @@
                                 ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
-                            <div class="flex items-center text-xs">
+                            <div
+                              class="flex items-center text-xs tracking-wide">
                               <HeartIcon
                                 class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
                                 aria-hidden="true" />Favorited
@@ -142,7 +148,8 @@
                                 ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
-                            <div class="flex items-center text-xs">
+                            <div
+                              class="flex items-center text-xs tracking-wide">
                               <ArchiveBoxIcon
                                 class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
                                 aria-hidden="true" />Archived

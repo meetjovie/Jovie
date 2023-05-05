@@ -3,7 +3,30 @@
     <label :for="`profile_pic_url_${contact.id}`">
       <div
         class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600"
-        v-if="contact.profile_pic_url || defaultImage">
+        v-if="updating">
+        <div class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
+          <img
+            :class="
+              'h- rounded-full object-cover object-center' +
+              height +
+              ' w-' +
+              height
+            "
+            :ref="`profile_pic_url_img_${contact.id}`"
+            :id="`profile_pic_url_img_${contact.id}`"
+            :src="contact.profile_pic_url || defaultImage"
+            @error="contact.profile_pic_url = defaultImage"
+            :alt="
+              contact.full_name
+                ? contact.full_name + ' Profile Picture'
+                : 'Profile Picture'
+            " />
+          {{ uploadProgress }}
+        </div>
+      </div>
+      <div
+        class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600"
+        v-else-if="contact.profile_pic_url || defaultImage">
         <div class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
           <img
             :class="
@@ -67,13 +90,13 @@ export default {
           this.uploadProgress = Math.round(progress * 100);
         },
       }).then((response) => {
-          if (response.uuid) {
-              this.$nextTick(() => {
-                  self.$emit('updateAvatar', response.uuid);
-              })
-          }
-          document.getElementById(`profile_pic_url_img_${this.contact.id}`).src =
-              src;
+        if (response.uuid) {
+          this.$nextTick(() => {
+            self.$emit('updateAvatar', response.uuid);
+          });
+        }
+        document.getElementById(`profile_pic_url_img_${this.contact.id}`).src =
+          src;
       });
     },
   },
