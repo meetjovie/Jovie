@@ -105,10 +105,15 @@
                     class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
                     <div class="mx-auto flex">
                       <div
-                        v-if="createIfNotFound"
+                        v-if="createIfNotFound && searchQuery"
                         @click="createItem()"
                         class="text-center text-xs font-medium text-slate-600 dark:text-jovieDark-200">
                         Create "{{ searchQuery }}"
+                      </div>
+                      <div
+                        v-else-if="createIfNotFound && !searchQuery"
+                        class="text-center text-xs font-medium text-slate-600 dark:text-jovieDark-200">
+                        Start typing to search or add an item
                       </div>
                       <div
                         v-else

@@ -60,7 +60,7 @@
                               <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                             </button>
                           </div>
-                          <div class="flex px-2">
+                          <div class="mt-4 flex px-4">
                             <UserCircleIcon
                               class="h-14 w-14 flex-shrink-0 text-gray-300 sm:-ml-1"
                               aria-hidden="true" />
@@ -73,7 +73,7 @@
                               name="first_name"
                               tabindex="0"
                               id="first_name"
-                              class="block w-32 border-0 bg-transparent pt-2.5 text-lg font-bold placeholder:text-slate-500 focus:ring-0"
+                              class="block w-32 border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder:text-slate-300 focus:ring-0"
                               placeholder="First Name"
                               v-model="contact.first_name" />
                             <label for="first_name" class="sr-only"
@@ -85,7 +85,7 @@
                               name="last_name"
                               tabindex="0"
                               id="last_name"
-                              class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold placeholder:text-slate-500 focus:ring-0"
+                              class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder:text-slate-300 focus:ring-0"
                               placeholder="Last Name"
                               v-model="contact.last_name" />
                           </div>
@@ -99,21 +99,22 @@
                             id="description"
                             class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                             placeholder="Write a description..." /> -->
-                          <template
-                            class="mt-2 flex space-y-4 px-2"
-                            v-for="contactKey in Object.keys(contact).filter(
-                              (k) => k != 'override' && k != 'list_id'
-                            )">
-                            <DataInputGroup
-                              v-model="contact[contactKey]"
-                              :id="contactKey"
-                              :disabled="importing"
-                              :name="contactKey"
-                              :label="getLabel(contactKey)"
-                              :placeholder="getLabel(contactKey)"
-                              type="text"
-                              required="" />
-                          </template>
+                          <div class="mt-4 flex flex-col space-y-4 px-2">
+                            <template
+                              v-for="contactKey in Object.keys(contact).filter(
+                                (k) => k != 'override' && k != 'list_id'
+                              )">
+                              <DataInputGroup
+                                v-model="contact[contactKey]"
+                                :id="contactKey"
+                                :disabled="importing"
+                                :name="contactKey"
+                                :label="getLabel(contactKey)"
+                                :placeholder="getLabel(contactKey)"
+                                type="text"
+                                required="" />
+                            </template>
+                          </div>
                           <!-- Spacer element to match the height of the toolbar -->
                           <div aria-hidden="true">
                             <div class="py-2">
