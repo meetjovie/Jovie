@@ -21,12 +21,6 @@
                 ? contact.full_name + ' Profile Picture'
                 : 'Profile Picture'
             " />
-          <div v-if="editable" class="absolute bottom-0 right-0">
-            <div class="rounded-full bg-white/0 p-0.5">
-              <PencilIcon
-                class="h-4 w-4 text-slate-900 dark:text-jovieDark-100" />
-            </div>
-          </div>
         </div>
       </div>
 
@@ -65,7 +59,6 @@ export default {
   methods: {
     fileChanged(e) {
       let self = this;
-      this.bucketResponse = null;
       this.uploadProgress = 0;
       const src = URL.createObjectURL(e.target.files[0]);
       Vapor.store(e.target.files[0], {
@@ -74,17 +67,16 @@ export default {
           this.uploadProgress = Math.round(progress * 100);
         },
       }).then((response) => {
-        this.bucketResponse = response;
-        document.getElementById(`profile_pic_url_img_${this.contact.id}`).src =
-          src;
-        if (this.bucketResponse && this.bucketResponse.uuid) {
-          self.$emit('updateContact', {
-            id: this.contact.id,
-            index: this.contact.index,
-            key: 'profile_pic_url',
-            value: this.bucketResponse.uuid,
-          });
-        }
+          if (response.uuid) {
+              self.$emit('updateContact', {
+                  id: this.contact.id,
+                  index: this.contact.index,
+                  key: 'profile_pic_url',
+                  value: response.uuid,
+              });
+          }
+          document.getElementById(`profile_pic_url_img_${this.contact.id}`).src =
+              src;
       });
     },
   },

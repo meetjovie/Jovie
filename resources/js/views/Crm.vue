@@ -641,6 +641,7 @@
           <aside
             class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
+                v-if="currentContact"
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
