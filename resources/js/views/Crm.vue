@@ -651,8 +651,9 @@
       <JovieUpgradeModal
         @close="closeUpgradeModal()"
         :open="showUpgradeModal" />
+      <!--  :open="showContactModal" -->
       <ImportContactModal
-        :open="showContactModal"
+        open
         :fromSocial="importFromSocial"
         :list="filters.list"
         @contactImported="contactImported($event)"
@@ -1314,7 +1315,7 @@ export default {
       this.filters.list = null;
       this.$store.state.overviewList = null;
       this.filters.currentList = null;
-      this.getHeaders()
+      this.getHeaders();
       this.getCrmContacts();
       this.loading = false;
     },
@@ -1330,7 +1331,7 @@ export default {
         this.filters.currentList = null;
         this.$store.state.overviewList = null;
       }
-      this.getHeaders()
+      this.getHeaders();
       this.getCrmContacts();
     },
     sortLists(e, listId) {

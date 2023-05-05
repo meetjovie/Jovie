@@ -30,7 +30,8 @@
             <ButtonGroup
               @click="showBuySeats()"
               icon="PlusIcon"
-              class="mx-auto"
+              design="primary"
+              class="mx-auto w-40"
               text="Buy more seats" />
           </span>
         </p>

@@ -15,6 +15,7 @@
                   : 'border-transparent text-slate-900 dark:text-jovieDark-100',
                 'flex-1 whitespace-nowrap rounded-md px-1 py-1 text-left text-xs font-medium  outline-none ring-0 focus:outline-none focus:ring-0',
               ]">
+              <componenet :is="tab.icon" class="mr-1 h-4 w-4" />
               {{ tab.name }}
             </button>
           </Tab>
@@ -142,12 +143,14 @@ const secondaryNavigation = [
   { name: 'Logout', href: '#', icon: CogIcon },
 ];
 const tabs = [
-  { name: 'General', href: '#', current: true },
-  { name: 'Password', href: '#', current: false },
-  { name: 'Workspace', href: '#', current: false },
-  { name: 'Billing', href: '#', current: false },
-  { name: 'Team Members', href: '#', current: false },
-  { name: 'Delete Account', href: '#', current: false },
+  { name: 'General', href: '#', current: true, icon: CogIcon },
+  { name: 'Password', href: '#', current: false, icon: LockClosedIcon },
+  { name: 'Workspace', href: '#', current: false, icon: UsersIcon },
+
+  { name: 'Plan & Billing', href: '#', current: false, icon: CreditCardIcon },
+  { name: 'Team Members', href: '#', current: false, icon: UsersIcon },
+
+  { name: 'Delete Account', href: '#', current: false, icon: TrashIcon },
 ];
 
 import Subscribe from '../views/Subscribe';
