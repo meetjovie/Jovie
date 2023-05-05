@@ -699,6 +699,21 @@ class Contact extends Model implements Auditable
         return array_intersect_key($data, array_flip(self::OVERRIDEABLE));
     }
 
+    public static function setContactData(&$contact, $data)
+    {
+        foreach ($data as $key => $value) {
+            if ($key == 'profile_pic_url' && Str::isUuid($value)) {
+                $contact->profile_pic_url = self::updateProfilePic($contact, $value);
+            } else {
+                $contact->{$key} = $value;
+            }
+            if (in_array($key, ['first_name', 'last_name'])) {
+                $contact->full_name = $contact->getName();
+            }
+        }
+        return $contact;
+    }
+
     public static function saveContact($data, $listId = null)
     {
         if (!isset($data['user_id']) || !isset($data['team_id'])) {
@@ -715,9 +730,7 @@ class Contact extends Model implements Auditable
         }
 
         $contact = new Contact();
-        foreach ($contactData as $key => $value) {
-            $contact->{$key} = $value;
-        }
+        $contact = self::setContactData($contact, $contactData);
         $contact->save();
         if ($listId) {
             Contact::addContactsToList($contact->id, $listId, $data['team_id']);
@@ -737,9 +750,7 @@ class Contact extends Model implements Auditable
             if ($contact->last_enriched_at && !$overrideAll) {
                 $overrideableData = self::getOverrideableDataForContactDuringEnrich($contactData);
             }
-            foreach ($overrideableData ?? $contactData as $key => $value) {
-                $contact->{$key} = $value;
-            }
+            $contact = self::setContactData($contact, $overrideableData ?? $contactData);
             $contact->save();
             if (!$areContacts) {
                 if ($listId) {
@@ -805,6 +816,17 @@ class Contact extends Model implements Auditable
         return count($contacts) ? $contacts : false;
     }
 
+    public static function updateProfilePic($contact, $uuid) {
+        $oldPath = null;
+        if ($contact->profile_pic_url) {
+            $filename = explode(Creator::CREATORS_MEDIA_PATH, $contact->profile_pic_url)[1] ?? null;
+            if (! is_null($filename)) {
+                $oldPath = Creator::CREATORS_MEDIA_PATH.$filename;
+            }
+        }
+        return self::uploadFileFromTempUuid($uuid, Creator::CREATORS_MEDIA_PATH, $oldPath);
+    }
+
     public static function updateContact($data, $id, $merge = false)
     {
         $contact = Contact::query()->where('id', $id)->first();
@@ -812,23 +834,7 @@ class Contact extends Model implements Auditable
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
-        foreach ($contactData as $key => $value) {
-            if ($key == 'profile_pic_url' && Str::isUuid($value)) {
-                $oldPath = null;
-                if ($contact->profile_pic_url) {
-                    $filename = explode(Creator::CREATORS_MEDIA_PATH, $contact->profile_pic_url)[1] ?? null;
-                    if (! is_null($filename)) {
-                        $oldPath = Creator::CREATORS_MEDIA_PATH.$filename;
-                    }
-                }
-                $contact->profile_pic_url = self::uploadFileFromTempUuid($value, Creator::CREATORS_MEDIA_PATH, $oldPath);
-            } else {
-                $contact->{$key} = $value;
-            }
-            if (in_array($key, ['first_name', 'last_name'])) {
-                $contact->full_name = $contact->getName();
-            }
-        }
+        $contact = self::setContactData($contact, $contactData);
 
         $user = auth()->user();
         if ($contact->isDirty()) {

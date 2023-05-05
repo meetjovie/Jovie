@@ -91,7 +91,7 @@
           class="flex w-full items-center">
           <ContactAvatar
               :editable="true"
-            @updateContact="$emit('updateContact', $event)"
+            @updateAvatar="updateAvatar($event)"
             :loading="!contact.id"
             :contact="contact"
             class="mr-2" />
@@ -250,6 +250,15 @@ export default {
     },
   },
   methods: {
+      updateAvatar(pic) {
+          console.log('hello');
+          this.$emit('updateContact', {
+              id: this.contact.id,
+              index: this.contact.index,
+              key: 'profile_pic_url',
+              value: pic,
+          })
+      },
     checkContactsEnrichable(ids) {
       this.$emit('checkContactsEnrichable', ids);
     },

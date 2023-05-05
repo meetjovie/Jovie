@@ -68,12 +68,9 @@ export default {
         },
       }).then((response) => {
           if (response.uuid) {
-              self.$emit('updateContact', {
-                  id: this.contact.id,
-                  index: this.contact.index,
-                  key: 'profile_pic_url',
-                  value: response.uuid,
-              });
+              this.$nextTick(() => {
+                  self.$emit('updateAvatar', response.uuid);
+              })
           }
           document.getElementById(`profile_pic_url_img_${this.contact.id}`).src =
               src;
