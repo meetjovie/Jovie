@@ -715,7 +715,32 @@ export default {
           response = response.data;
           if (response.status) {
             this.fields = response.data;
-            // this.beFields.forEach((field, index) => {
+              this.displayAbleFields = this.fields.filter((field) => {
+                  let value = this.contact[field.custom ? field.code : field.model]
+                  console.log('valuevalue');
+                  console.log(field.custom ? field.code : field.model);
+                  console.log(value);
+                  if (field.code === 'address') {
+                      for (var key in value) {
+                          if (value.hasOwnProperty(key)) {
+                              value = value[key];
+                              if (value !== null && value !== undefined && value !== '' && value !== [] && value !== {}) {
+                                  return true;
+                              }
+                          }
+                      }
+                  } else if (value !== null && value !== undefined && value !== '' && value !== [] && value !== {}) {
+                      return true;
+                  }
+                  return false;
+              })
+
+              this.nonDisplayAbleFields = this.fields.filter(obj1 => {
+                  return !this.displayAbleFields.some(obj2 => obj2.id === obj1.id);
+              });
+              console.log(this.displayAbleFields);
+              console.log(this.nonDisplayAbleFields);
+              // this.beFields.forEach((field, index) => {
             //   let newField = field;
             //   // ['model', 'value', 'params'].forEach((val) => {
             //   //   if (field[val]) {
