@@ -34,7 +34,7 @@
         leave-to-class="transform opacity-0 scale-95">
         <MenuItems>
           <GlassmorphismContainer
-            class="z-10 mt-2 w-48 origin-top-right py-1 px-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+            class="z-10 mt-2 w-48 origin-top-right px-1 py-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
             <div class="py-1">
               <ContactContextMenuItem
                 :contact="contact"

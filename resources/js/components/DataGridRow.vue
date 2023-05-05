@@ -146,20 +146,7 @@
             :open="contact.showContextMenu"
             :contact="contact">
             <DropdownMenuItem
-              name="Refresh"
-              color="text-green-600 dark:text-green-400"
-              icon="ArrowPathIcon"
-              @click="$emit('refresh', contact)" />
-            <DropdownMenuItem
-              v-if="filters.list"
-              name="Remove from list"
-              icon="TrashIcon"
-              color="text-red-600 dark:text-red-400"
-              @click="
-                $emit('toggleContactsFromList', contact.id, filters.list, true)
-              " />
-            <DropdownMenuItem
-              name="Contact Overview"
+              name="Open Contact"
               icon="ViewfinderCircleIcon"
               color="text-blue-600 dark:text-blue-400"
               @click="
@@ -169,6 +156,12 @@
                 })
               " />
             <DropdownMenuItem
+              name="Refresh"
+              color="text-green-600 dark:text-green-400"
+              icon="ArrowPathIcon"
+              @click="$emit('refresh', contact)" />
+
+            <DropdownMenuItem
               :name="
                 filters.type == 'archived' && contact.archived
                   ? 'Unarchived'
@@ -177,8 +170,17 @@
               icon="ArchiveBoxIcon"
               @blur="$emit('updateContact')"
               @click="$emit('archive-contacts', contact.id, !contact.archived)"
-              color="text-red-600
-            dark:text-red-400" />
+              color="text-blue-600
+            dark:text-blue-400" />
+            <DropdownMenuItem
+              v-if="filters.list"
+              name="Remove from list"
+              icon="TrashIcon"
+              danger
+              color="text-red-600 dark:text-red-400"
+              @click="
+                $emit('toggleContactsFromList', contact.id, filters.list, true)
+              " />
           </ContactContextMenu>
         </div>
       </div>

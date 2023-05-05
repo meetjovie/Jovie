@@ -22,7 +22,9 @@
       :class="{
         'cursor-not-allowed opacity-50 saturate-0': disabled,
         'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
-          active,
+          active && !danger,
+        'bg-red-200 text-slate-700 dark:bg-red-500 dark:text-jovieDark-100':
+          active && danger,
       }"
       class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
       <div class="flex w-full items-center">
@@ -268,6 +270,11 @@ export default {
       default: false,
     },
     checkable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    danger: {
       type: Boolean,
       required: false,
       default: false,

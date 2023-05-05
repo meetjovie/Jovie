@@ -47,9 +47,9 @@
                                 class="inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
                                 >{{ currentUser.current_team.name }}</span
                               >
-                              <ChevronRightIcon class="h-3 mr-1 w-4" />
+                              <ChevronRightIcon class="mr-1 h-3 w-4" />
                               <span
-                                class=" items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
+                                class="items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
                                 >New contact</span
                               >
                             </div>
@@ -62,7 +62,11 @@
                             </button>
                           </div>
                           <div class="mt-4 flex px-4">
-                            <ContactAvatar @updateAvatar="contact.profile_pic = $event" :contact="contact" :editable="true" class="h-14 w-14 flex-shrink-0 text-gray-300 sm:-ml-1" />
+                            <ContactAvatar
+                              @updateAvatar="contact.profile_pic = $event"
+                              :contact="contact"
+                              :editable="true"
+                              class="h-14 w-14 flex-shrink-0 text-gray-300 sm:-ml-1" />
                             <label for="first_name" class="sr-only"
                               >First Name</label
                             >
@@ -70,7 +74,7 @@
                               type="text"
                               :disabled="importing"
                               name="first_name"
-                              tabindex="0"
+                              tabindex="-1"
                               id="first_name"
                               class="w-38 block border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="First Name"
@@ -82,7 +86,7 @@
                               type="text"
                               :disabled="importing"
                               name="last_name"
-                              tabindex="0"
+                              tabindex="-1"
                               id="last_name"
                               class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="Last Name"
@@ -98,9 +102,9 @@
                             id="description"
                             class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                             placeholder="Write a description..." /> -->
-                          <div class="mt-8 flex flex-col space-y-4 px-4">
-                            <template
-                              v-for="contactKey in contactKeys">
+                          <div
+                            class="mt-8 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">
+                            <template v-for="contactKey in contactKeys">
                               <DataInputGroup
                                 v-model="contact[contactKey]"
                                 :id="contactKey"
@@ -133,8 +137,7 @@
                               <InputLists
                                 @updateLists="updateContactLists"
                                 :contactId="contact.id ?? 0"
-                                :lists="contact.user_lists"
-                              />
+                                :lists="contact.user_lists" />
                               <!--  <button
                                 type="button"
                                 class="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400">
@@ -180,7 +183,11 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
-import { XMarkIcon, UserCircleIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
+import {
+  XMarkIcon,
+  UserCircleIcon,
+  ChevronRightIcon,
+} from '@heroicons/vue/24/outline';
 import SocialInput from '../components/SocialInput.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import InputGroup from './InputGroup.vue';
@@ -215,7 +222,7 @@ export default {
     return {
       importing: false,
       contact: {
-          id: 0,
+        id: 0,
         profile_pic: '',
         first_name: '',
         last_name: '',
@@ -246,13 +253,21 @@ export default {
       default: false,
     },
   },
-    computed: {
-        contactKeys() {
-            return Object.keys(this.contact).filter(
-                (k) => k != 'override' && k != 'list_id' && k != 'first_name' && k != 'last_name' && k != 'profile_pic_url' && k != 'profile_pic' && k != 'id' && k != 'user_lists'
-            )
-        }
+  computed: {
+    contactKeys() {
+      return Object.keys(this.contact).filter(
+        (k) =>
+          k != 'override' &&
+          k != 'list_id' &&
+          k != 'first_name' &&
+          k != 'last_name' &&
+          k != 'profile_pic_url' &&
+          k != 'profile_pic' &&
+          k != 'id' &&
+          k != 'user_lists'
+      );
     },
+  },
   methods: {
     closeModal() {
       this.$emit('closeModal');
@@ -267,20 +282,24 @@ export default {
         this.socialMediaProfileUrl = text;
       });
     },
-      updateContactLists(payload) {
-        if (payload.add) {
-            this.contact.list_id = payload.list.id
-            this.contact.user_lists = [payload.list]
-        } else {
-            delete this.contact.list_id
-            this.contact.user_lists = []
-        }
-      },
+    updateContactLists(payload) {
+      if (payload.add) {
+        this.contact.list_id = payload.list.id;
+        this.contact.user_lists = [payload.list];
+      } else {
+        delete this.contact.list_id;
+        this.contact.user_lists = [];
+      }
+    },
     importContact() {
       this.importing = true;
-      this.contact.list_id = this.contact.list_id ? this.contact.list_id : (this.list ? this.list : '');
-      let contact = JSON.parse(JSON.stringify(this.contact))
-      contact.profile_pic_url = contact.profile_pic
+      this.contact.list_id = this.contact.list_id
+        ? this.contact.list_id
+        : this.list
+        ? this.list
+        : '';
+      let contact = JSON.parse(JSON.stringify(this.contact));
+      contact.profile_pic_url = contact.profile_pic;
       ImportService.importContact(contact)
         .then((response) => {
           response = response.data;
