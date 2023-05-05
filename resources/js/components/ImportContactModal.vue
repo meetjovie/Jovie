@@ -44,12 +44,13 @@
                             class="mt-2 flex items-center justify-between px-2">
                             <div class="flex items-center">
                               <span
-                                class="items-center rounded-lg border border-slate-300 px-2 py-0.5 text-2xs font-semibold text-slate-400 dark:border-jovieDark-border dark:text-jovieDark-100"
+                                class="inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
                                 >{{ currentUser.current_team.name }}</span
                               >
+                              <ChevronRightIcon class="h-3 mr-1 w-4" />
                               <span
                                 class="ml-2 items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
-                                >> New contact</span
+                                > New contact</span
                               >
                             </div>
                             <button
@@ -73,7 +74,7 @@
                               name="first_name"
                               tabindex="0"
                               id="first_name"
-                              class="block w-32 border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder:text-slate-300 focus:ring-0"
+                              class="w-38 block border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="First Name"
                               v-model="contact.first_name" />
                             <label for="first_name" class="sr-only"
@@ -85,7 +86,7 @@
                               name="last_name"
                               tabindex="0"
                               id="last_name"
-                              class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder:text-slate-300 focus:ring-0"
+                              class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="Last Name"
                               v-model="contact.last_name" />
                           </div>
@@ -99,7 +100,7 @@
                             id="description"
                             class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                             placeholder="Write a description..." /> -->
-                          <div class="mt-4 flex flex-col space-y-4 px-2">
+                          <div class="mt-8 flex flex-col space-y-4 px-4">
                             <template
                               v-for="contactKey in Object.keys(contact).filter(
                                 (k) => k != 'override' && k != 'list_id'
@@ -108,6 +109,7 @@
                                 v-model="contact[contactKey]"
                                 :id="contactKey"
                                 :disabled="importing"
+                                :sortable="false"
                                 :name="contactKey"
                                 :label="getLabel(contactKey)"
                                 :placeholder="getLabel(contactKey)"
@@ -385,7 +387,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
-import { XMarkIcon, UserCircleIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon, UserCircleIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import SocialInput from '../components/SocialInput.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import InputGroup from './InputGroup.vue';
@@ -410,6 +412,7 @@ export default {
     ContactAvatar,
     ToggleGroup,
     InputLists,
+    ChevronRightIcon,
     XMarkIcon,
     SocialInput,
     GlassmorphismContainer,

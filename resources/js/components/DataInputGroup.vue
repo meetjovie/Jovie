@@ -1,6 +1,8 @@
 <template>
   <div class="group/bg-slate-50 dark:group/bg-slate-800 input mt-1 flex">
-    <div class="group/move active:grabbing flex w-3 cursor-grab items-center">
+    <div
+      v-if="sortable"
+      class="group/move active:grabbing flex w-3 cursor-grab items-center">
       <EllipsisVerticalIcon
         class="h-5 w-5 text-slate-400/0 group-hover/draggable:text-slate-400 group-hover/move:text-slate-700 dark:text-jovieDark-600 dark:text-jovieDark-600/0 dark:group-hover/draggable:text-slate-600 dark:group-hover/move:text-slate-300" />
     </div>
@@ -266,6 +268,10 @@ export default {
     },
     socialicon: {
       type: String,
+    },
+    sortable: {
+      type: Boolean,
+      default: true,
     },
     currency: {
       type: Boolean,

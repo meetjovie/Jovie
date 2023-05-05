@@ -26,11 +26,10 @@
         'bg-indigo-400 px-4 py-0.5 text-xs font-light text-white dark:bg-jovieDark-600':
           design == 'compact',
       },
-
       { 'px-2 py-0 text-2xs font-light': size == 'xs' },
       { 'px-2 py-1 text-sm': size == 'sm' },
       { 'px-4  py-3 text-base': size == 'base' },
-      { 'px-4 py-2 text-lg': size == 'md' && !compact },
+      { 'px-4 py-2 text-lg': size == 'md' },
       { 'px-6 py-3 text-xl': size == 'hero' },
       {
         'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed  disabled:opacity-30 dark:border-jovieDark-border   dark:bg-jovieDark-800 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700  ':
