@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full w-full dark:bg-jovieDark-900">
+  <div class="h-full w-full bg-white dark:bg-jovieDark-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
