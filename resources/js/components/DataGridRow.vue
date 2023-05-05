@@ -90,7 +90,7 @@
           @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center">
           <ContactAvatar
-              :editable="true"
+            :editable="true"
             @updateAvatar="updateAvatar($event)"
             :loading="!contact.id"
             :contact="contact"
@@ -250,15 +250,15 @@ export default {
     },
   },
   methods: {
-      updateAvatar(pic) {
-          console.log('hello');
-          this.$emit('updateContact', {
-              id: this.contact.id,
-              index: this.contact.index,
-              key: 'profile_pic_url',
-              value: pic,
-          })
-      },
+    updateAvatar(pic) {
+      console.log('hello');
+      this.$emit('updateContact', {
+        id: this.contact.id,
+        index: this.contact.index,
+        key: 'profile_pic_url',
+        value: pic,
+      });
+    },
     checkContactsEnrichable(ids) {
       this.$emit('checkContactsEnrichable', ids);
     },
