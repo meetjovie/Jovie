@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('setting_attributes', function (Blueprint $table) {
-            $table->uuid('id')->nullable();
-            $table->uuid('user_list_id');
+            $table->uuid('id')->unique();
+            $table->uuid('user_list_id')->nullable();
             $table->uuid('user_id')->nullable();
             $table->uuid('team_id')->nullable();
             $table->uuid('setting_id');

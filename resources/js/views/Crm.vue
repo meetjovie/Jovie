@@ -594,7 +594,7 @@
                           @getCrmContacts="getCrmContacts"
                           @setCurrentContact="setCurrentContact"
                           @openSidebar="openSidebarContact"
-                          @update-settings="updateSettings"
+                          @updateSettings="updateSettings"
                           @getHeaders="getHeaders"
                           @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
@@ -1114,8 +1114,6 @@ export default {
 
       this.$store.state.crmEventsRegistered = true;
     }
-
-    this.settings = this.getSettings();
     this.getNotifications();
 
     this.$nextTick(() => {
@@ -1202,6 +1200,7 @@ export default {
     },
     updateUserList(event) {
       this.$refs.crmTableGrid.updateUserList(event);
+      this.getSettings();
     },
     getHeaders() {
       this.headersLoaded = false;
@@ -1529,22 +1528,6 @@ export default {
           this.crmCounts();
         }
       });
-    },
-    getSettings() {
-      TemplateService.getSettings(this.filters.list)
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.settings = response.data;
-            console.log('GOT SETTING', response);
-          }
-        })
-        .catch((error) => {
-          console.log('SEtting Error', error);
-        })
-        .finally((_) => {
-          console.log('Nothing');
-        });
     },
     updateSettings(data) {
       TemplateService.updateSettings(this.filters.list, data)

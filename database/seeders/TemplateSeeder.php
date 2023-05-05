@@ -69,12 +69,13 @@ class TemplateSeeder extends Seeder
             ]);
         }
 
-        foreach (SettingAttribute::TEMPLATE_SETTINGS as $SETTING){
-        TemplateSetting::create([
-            'template_id' => $template->id,
-            'setting_id' => $SETTING['id'],
-        ]);
-}
+        foreach (SettingAttribute::getDefaultSettings() as $SETTING) {
+            TemplateSetting::create([
+                'template_id' => $template->id,
+                'setting_id' => $SETTING['id'],
+            ]);
+        }
+
         foreach (FieldAttribute::DEFAULT_FIELDS as $FIELD) {
             TemplateField::create(
                 [

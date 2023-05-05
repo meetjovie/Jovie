@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('template_settings', function (Blueprint $table) {
-            $table->uuid('id');
+            $table->uuid('id')->unique();
             $table->uuid('template_id');
             $table->uuid('user_id')->nullable();
             $table->uuid('team_id')->nullable();
