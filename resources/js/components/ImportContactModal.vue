@@ -49,8 +49,8 @@
                               >
                               <ChevronRightIcon class="h-3 mr-1 w-4" />
                               <span
-                                class="ml-2 items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
-                                > New contact</span
+                                class=" items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
+                                >New contact</span
                               >
                             </div>
                             <button
