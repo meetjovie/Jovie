@@ -80,7 +80,7 @@
                           All Contacts
                         </div>
                         <div
-                          @click="showCreatorModal = true"
+                          @click="showContactModal = true"
                           class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
                           <span
                             class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100"
@@ -591,7 +591,7 @@
                         <DataGrid
                           v-if="columns.length"
                           ref="crmTableGrid"
-                          @addContact="showCreatorModal = true"
+                          @addContact="showContactModal = true"
                           @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"
@@ -847,7 +847,7 @@ export default {
       stages: [],
       networks: [],
       userLists: [],
-      showCreatorModal: false,
+      // showCreatorModal: false,
       showSuccessModal: false,
       showSupportModal: false,
       showUpgradeModal: false,
@@ -952,7 +952,7 @@ export default {
     this.crmCounts();
     //c sets openCreatorModal to true
     this.$mousetrap.bind(['c'], () => {
-      this.showCreatorModal = true;
+      this.showContactModal = true;
     });
     //? sets openSupportModal to true
     this.$mousetrap.bind(['?'], () => {
