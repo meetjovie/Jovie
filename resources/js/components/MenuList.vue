@@ -3,15 +3,20 @@
     <div
       class="group flex cursor-pointer items-center justify-between rounded-md py-1">
       <div
-        @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:bg-slate-100 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
-        <ChevronDownIcon
-          v-if="showMenu"
-          class="mr-1 mt-0.5 h-4 w-4 text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 group-hover:dark:text-jovieDark-200" />
-        <ChevronRightIcon
-          v-else
-          class="text-thin mr-1 h-4 w-4 text-xs text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200" />
-        {{ menuName }}
+        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
+        <div
+          @click="toggleShowMenu()"
+          class="group/openMenu mx-auto mr-1 overflow-y-scroll rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
+          <ChevronDownIcon
+            v-if="showMenu"
+            class="group/openMenu-hover:text-slate-800 group/openMenu-hover:dark:text-jovieDark-200 mt-0.5 h-4 w-4 text-slate-700 dark:text-jovieDark-300" />
+          <ChevronRightIcon
+            v-else
+            class="text-thin group/openMenu-hover:text-slate-800 dark:group/openMenu-hover:text-slate-200 h-4 w-4 text-xs text-slate-700 dark:text-jovieDark-300" />
+        </div>
+        <span class="hover:bg-slate-100">
+          {{ menuName }}
+        </span>
       </div>
       <div class="flex items-center overflow-auto">
         <div
@@ -182,7 +187,7 @@
                                 Duplicate
                               </button>
                             </MenuItem>
-                            <MenuItem v-slot="{ active }">
+                            <!--  <MenuItem v-slot="{ active }">
                               <button
                                 @click="unpinList(element.id)"
                                 :class="[
@@ -197,7 +202,7 @@
                                   aria-hidden="true" />
                                 Pin
                               </button>
-                            </MenuItem>
+                            </MenuItem> -->
                           </div>
 
                           <div class="px-1 py-1">
@@ -325,7 +330,7 @@
                             Duplicate
                           </button>
                         </MenuItem>
-                        <MenuItem v-slot="{ active }">
+                        <!--  <MenuItem v-slot="{ active }">
                           <button
                             @click="unpinList(item.id)"
                             :class="[
@@ -340,7 +345,7 @@
                               aria-hidden="true" />
                             Unpin List
                           </button>
-                        </MenuItem>
+                        </MenuItem> -->
                       </div>
 
                       <div class="px-1 py-1">
