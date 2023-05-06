@@ -38,14 +38,14 @@
                     <div class="" v-else>
                       <form action="#" class="relative">
                         <div
-                          class="overflow-hidden rounded-lg border border-gray-300 shadow-sm">
+                          class="overflow-hidden rounded-lg border border-gray-300 px-2 shadow-sm">
                           <!--  <ContactAvatar /> -->
-                          <div
-                            class="mt-2 flex items-center justify-between px-2">
+                          <div class="mt-2 flex items-center justify-between">
                             <div class="flex items-center">
                               <span
-                                class="inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
-                                >{{ currentUser.current_team.name }}</span
+                                class="inline-flex items-center rounded-md bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
+                                <UserGroupIcon class="h-4 w-4" />
+                                {{ currentUser.current_team.name }}</span
                               >
                               <ChevronRightIcon class="mr-1 h-3 w-4" />
                               <span
@@ -117,6 +117,10 @@
                                 required="" />
                             </template>
                           </div>
+                          <InputLists
+                            @updateLists="updateContactLists"
+                            :contactId="contact.id ?? 0"
+                            :lists="contact.user_lists" />
                           <!-- Spacer element to match the height of the toolbar -->
                           <div aria-hidden="true">
                             <div class="py-2">
@@ -134,10 +138,6 @@
                           <div
                             class="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
                             <div class="flex">
-                              <InputLists
-                                @updateLists="updateContactLists"
-                                :contactId="contact.id ?? 0"
-                                :lists="contact.user_lists" />
                               <!--  <button
                                 type="button"
                                 class="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400">
@@ -158,7 +158,8 @@
                                 @click="importContact"
                                 :loader="importing"
                                 design="compact"
-                                text="Create contact" />
+                                class="px-2 py-0.5 text-xs"
+                                text="Create new contact" />
                             </div>
                           </div>
                         </div>
@@ -186,6 +187,7 @@ import {
 import {
   XMarkIcon,
   UserCircleIcon,
+  UserGroupIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/24/outline';
 import SocialInput from '../components/SocialInput.vue';
@@ -213,6 +215,7 @@ export default {
     ToggleGroup,
     InputLists,
     ChevronRightIcon,
+    UserGroupIcon,
     XMarkIcon,
     SocialInput,
     GlassmorphismContainer,

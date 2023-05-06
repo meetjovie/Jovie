@@ -193,10 +193,6 @@
                               @click="importCSV()"
                               name="Import CSV"
                               icon="CloudArrowUpIcon" />
-                            <DropdownMenuItem
-                              @click="suggestMerge([])"
-                              name="Merge Duplicate Contacts"
-                              icon="DocumentDuplicateIcon" />
                           </div>
                         </GlassmorphismContainer>
                       </MenuItems>
@@ -1128,9 +1124,8 @@ export default {
           column.visible = !column.visible;
         }
         column = JSON.parse(JSON.stringify(column));
-        this.headers.find(header => header.id === column.id).hide = column.hide = forceHide
-          ? forceHide
-          : !column.visible;
+        this.headers.find((header) => header.id === column.id).hide =
+          column.hide = forceHide ? forceHide : !column.visible;
         this.$store.dispatch('toggleFieldHide', {
           self: this,
           listId: this.filters.list,

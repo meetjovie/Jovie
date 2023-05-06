@@ -297,7 +297,7 @@
                             class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
                             <span class="line-clamp-1">Bulk Actions</span>
                             <ChevronDownIcon
-                              class="ml-2 -mr-1 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
+                              class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
                               aria-hidden="true" />
                           </MenuButton>
                           <transition
@@ -349,11 +349,6 @@
                                     }}
                                   </button>
                                 </MenuItem>
-                                <!-- <DropdownMenuItem @click="toggleArchiveContacts(
-                              selectedCreators, filters.type == 'archived' ?
-                              false : true ) :name="( filters.type == 'archived'
-                              ? 'Unarchive' : 'Archive' )"
-                              :icon="ArchiveBoxIcon" /> -->
                               </GlassmorphismContainer>
                             </MenuItems>
                           </transition>
@@ -507,7 +502,7 @@
 
                           <div
                             v-if="cellActive"
-                            class="items-center text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
+                            class="line-clamp-1 items-center text-sm text-slate-900 dark:text-jovieDark-100">
                             <input
                               v-model="creator.meta.name"
                               @blur="$emit('updateCrmMeta', creator)"
@@ -521,7 +516,7 @@
                           </div>
                           <div
                             v-else
-                            class="text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
+                            class="line-clamp-1 text-sm text-slate-900 dark:text-jovieDark-100">
                             {{ creator.meta.name }}
                           </div>
                         </div>
@@ -533,7 +528,7 @@
                               !this.$store.state.ContactSidebarOpen ||
                               currentContact.id !== creator.id
                             "
-                            class="mx-auto mt-0.5 ml-0.5 hidden h-4 w-4 group-hover:block" />
+                            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
                           <XMarkIcon
                             v-else
                             class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
@@ -856,7 +851,7 @@
             <div
               v-if="creatorRecords.length < 50 && creatorRecords.length > 0"
               @click="$emit('addContact')"
-              class="flex w-full cursor-pointer items-center bg-white py-2 px-4 text-xs font-bold text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-jovieDark-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
+              class="flex w-full cursor-pointer items-center bg-white px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-100 hover:text-slate-700 dark:bg-jovieDark-900 dark:text-jovieDark-400 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
               <PlusIcon class="mr-2 h-4 w-4" />
               Add new contact
             </div>
@@ -1242,7 +1237,7 @@ export default {
       );
     },
     visibleFields() {
-      return this.headers.filter((header) => ! header.hide);
+      return this.headers.filter((header) => !header.hide);
     },
     filteredCreators() {
       return this.creatorRecords.filter((creator) => {

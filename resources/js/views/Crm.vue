@@ -4,13 +4,13 @@
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
-            <div class="mt-2">
+            <div class="mt-4">
               <div class="flex items-center text-xs">
-                <div class="mx-auto inline-flex">
+                <div class="mx-auto inline-flex w-full px-4">
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="rouned-md group relative mx-auto inline-flex cursor-pointer items-center justify-between rounded-l-md border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l-sm border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                     <PlusIcon
                       class="mr-1 h-3 w-3 items-center rounded-md text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
@@ -18,9 +18,9 @@
                   </button>
 
                   <Menu>
-                    <Float portal :offset="2" placement="bottom-start">
+                    <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r-md border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r-sm border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded-md text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
@@ -33,7 +33,7 @@
                         leave-from-class="transform scale-100 opacity-100"
                         leave-to-class="transform scale-95 opacity-0">
                         <MenuItems
-                          class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                          class="z-10 mt-2 w-52 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                           <div class="py-1">
                             <DropdownMenuItem
                               @click="openImportContactModal()"
@@ -76,24 +76,24 @@
                         ]">
                         <div class="flex items-center text-xs tracking-wide">
                           <ChevronRightIcon
-                            v-if="counts.archived > 0 || counts.favourites > 0"
+                            v-if="
+                              counts.archived > 0 ||
+                              counts.favourites > 0 ||
+                              suggestion
+                            "
                             @click="toggleContactMenuOpen"
                             :class="[
                               contactMenuOpen ? 'rotate-90 transform' : '',
                             ]"
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
+                            class="h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
                             aria-hidden="true" />
 
                           <UserGroupIcon
                             v-else
-                            @click="toggleContactMenuOpen"
-                            :class="[
-                              contactMenuOpen ? 'rotate-90 transform' : '',
-                            ]"
-                            class="mr-1 h-5 w-5 rounded-md p-1"
+                            class="h-5 w-5 rounded-md p-1"
                             aria-hidden="true" />
 
-                          All Contacts
+                          <span class="ml-1">All Contacts</span>
                         </div>
 
                         <div
@@ -147,6 +147,8 @@
                             </div>
                           </button>
                         </MenuItem>
+                        
+
                         <MenuItem
                           v-if="counts.archived > 0"
                           as="div"
@@ -179,6 +181,39 @@
                         </MenuItem>
                       </div>
                     </TransitionRoot>
+                  <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
+                    <MenuItem
+                          class="w-full"
+                          as="div"
+                          @click="suggestMerge([])"
+                          v-slot="{ active }">
+                          <button
+                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                            :class="[
+                              suggestion
+                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                              active
+                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                                : '',
+                            ]">
+                            <div
+                              class="flex items-center text-xs tracking-wide">
+                              <DocumentDuplicateIcon
+                                class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400"
+                                aria-hidden="true" />Merge Duplicates
+                            </div>
+                            <div
+                              class="items-center rounded-md p-1 hover:text-slate-50">
+                              <span
+                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
+                                >
+                               <!--  Count of duplicates goes here -->
+                                </span
+                              >
+                            </div>
+                          </button>
+                        </MenuItem>
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
@@ -746,7 +781,6 @@ import {
   PlusCircleIcon,
   HeartIcon,
   UserIcon,
-  UserGroupIcon,
   ArchiveBoxIcon,
   CloudArrowUpIcon,
   ArrowLeftOnRectangleIcon,

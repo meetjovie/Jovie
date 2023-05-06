@@ -246,7 +246,7 @@
                 ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
               active
-                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                ? 'cursor-pointer bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                 : '',
             ]"
             class="group inline-flex h-8 w-8 w-full items-center justify-between rounded-md pl-1 transition-all">
