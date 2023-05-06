@@ -16,6 +16,7 @@
                       aria-hidden="true" />
                     New Contact
                   </button>
+
                   <Menu>
                     <Float portal :offset="2" placement="bottom-start">
                       <MenuButton
@@ -75,6 +76,7 @@
                         ]">
                         <div class="flex items-center text-xs tracking-wide">
                           <ChevronRightIcon
+                            v-if="counts.archived > 0 || counts.favourites > 0"
                             @click="toggleContactMenuOpen"
                             :class="[
                               contactMenuOpen ? 'rotate-90 transform' : '',
@@ -82,8 +84,18 @@
                             class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
                             aria-hidden="true">
                           </ChevronRightIcon>
+                          <ChevronRightIcon
+                            v-else
+                            @click="toggleContactMenuOpen"
+                            :class="[
+                              contactMenuOpen ? 'rotate-90 transform' : '',
+                            ]"
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400/0 dark:text-jovieDark-400/0"
+                            aria-hidden="true">
+                          </ChevronRightIcon>
                           All Contacts
                         </div>
+
                         <div
                           @click="showContactModal = true"
                           class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
