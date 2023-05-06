@@ -29,7 +29,7 @@
                   <JovieDropdownMenu
                     :items="currentUser.teams"
                     :numbered="true"
-                    size="md"
+                    size="lg"
                     :searchable="false">
                     <template #triggerButton>
                       <div
