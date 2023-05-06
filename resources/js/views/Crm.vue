@@ -103,8 +103,9 @@
                       enter-to="transform opacity-100 scale-100"
                       leave-from="transform opacity-100 scale-100"
                       leave-to="transform opacity-0 scale-95">
-                      <div class="pl-4">
+                      <div class="flex flex-col space-y-1 pl-4">
                         <MenuItem
+                          v-if="counts.favourites > 0"
                           class="w-full"
                           as="div"
                           @click="setFiltersType('favourites')"
@@ -135,6 +136,7 @@
                           </button>
                         </MenuItem>
                         <MenuItem
+                          v-if="counts.archived > 0"
                           as="div"
                           @click="setFiltersType('archived')"
                           v-slot="{ active }">
