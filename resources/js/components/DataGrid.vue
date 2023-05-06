@@ -1128,7 +1128,7 @@ export default {
           column.visible = !column.visible;
         }
         column = JSON.parse(JSON.stringify(column));
-        this.headers[index].hide = column.hide = forceHide
+        this.headers.find(header => header.id === column.id).hide = column.hide = forceHide
           ? forceHide
           : !column.visible;
         this.$store.dispatch('toggleFieldHide', {

@@ -220,7 +220,7 @@
             </h2>
           </div>
           <div>
-            <JovieDropdownMenu :items="hiddenFields" placement="left-start">
+            <JovieDropdownMenu :items="nonDisplayAbleFields" @itemClicked="addNonDisplayableField($event)" placement="left-start">
               <template #triggerButton>
                 <!-- <CustomFieldsMenu  @getFields="getFields" @getHeaders="$emit('getHeaders')" /> -->
                 <span class="sr-only">Add field</span>
@@ -267,11 +267,11 @@
                 ghost-class="ghost-card"
                 :contact="contact"
                 @end="sortFields"
-                :list="fields">
+                :list="displayAbleFields">
                 <!-- v-if for contact[element.model] check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
-                  v-for="(element, index) in fields"
+                  v-for="(element, index) in displayAbleFields"
                   :id="element.id"
                   :data-custom="element.custom"
                   :key="element.id">
@@ -693,9 +693,41 @@ export default {
       fields: [],
       socialMediaProfileUrl: '',
       currentNetwork: '',
+      ignoreFieldIdForNonDisplay: [],
     };
   },
   methods: {
+      addNonDisplayableField(id) {
+          this.ignoreFieldIdForNonDisplay.push(id)
+          this.setFieldsForDisplay()
+          this.fieldsLoaded = false;
+          this.fieldsLoaded = true
+      },
+      setFieldsForDisplay() {
+          this.displayAbleFields = this.fields.filter((field) => {
+              if (this.ignoreFieldIdForNonDisplay.includes(field.id)) {
+                  return true;
+              }
+              let value = this.contact[field.custom ? field.code : field.model]
+              if (field.code === 'address') {
+                  for (var key in value) {
+                      if (value.hasOwnProperty(key)) {
+                          value = value[key];
+                          if (value !== null && value !== undefined && value !== '') {
+                              return true;
+                          }
+                      }
+                  }
+              } else if (value !== null && value !== undefined && value !== '' && value !== [] && value !== {} && value.length) {
+                  return true;
+              }
+              return false;
+          })
+
+          this.nonDisplayAbleFields = this.fields.filter(field => {
+              return !this.ignoreFieldIdForNonDisplay.includes(field.id) && !this.displayAbleFields.some(dField => dField.id === field.id);
+          });
+      },
     openCustomFieldModal() {
       this.$store.commit('setShowCustomFieldModal');
     },
@@ -715,46 +747,7 @@ export default {
           response = response.data;
           if (response.status) {
             this.fields = response.data;
-              this.displayAbleFields = this.fields.filter((field) => {
-                  let value = this.contact[field.custom ? field.code : field.model]
-                  console.log('valuevalue');
-                  console.log(field.custom ? field.code : field.model);
-                  console.log(value);
-                  if (field.code === 'address') {
-                      for (var key in value) {
-                          if (value.hasOwnProperty(key)) {
-                              value = value[key];
-                              if (value !== null && value !== undefined && value !== '' && value !== [] && value !== {}) {
-                                  return true;
-                              }
-                          }
-                      }
-                  } else if (value !== null && value !== undefined && value !== '' && value !== [] && value !== {}) {
-                      return true;
-                  }
-                  return false;
-              })
-
-              this.nonDisplayAbleFields = this.fields.filter(obj1 => {
-                  return !this.displayAbleFields.some(obj2 => obj2.id === obj1.id);
-              });
-              console.log(this.displayAbleFields);
-              console.log(this.nonDisplayAbleFields);
-              // this.beFields.forEach((field, index) => {
-            //   let newField = field;
-            //   // ['model', 'value', 'params'].forEach((val) => {
-            //   //   if (field[val]) {
-            //   //     let model = this;
-            //   //     field[val].split('.').forEach((att) => {
-            //   //       model = model[att];
-            //   //     });
-            //   //     newField[val] = model;
-            //   //   }
-            //   // });
-            //   // console.log('newFieldnewField');
-            //   // console.log(newField);
-            //   this.fields.push(newField);
-            // });
+            this.setFieldsForDisplay();
           }
         })
         .catch((error) => {
