@@ -21,10 +21,8 @@ export const routes = [
   {
     name: 'Changelog',
     path: '/changelog',
-    component: loadPage('ChangeLog'),
-    meta: {
-      requiresAuth: false,
-      layout: 'default',
+    beforeEnter(to, from, next) {
+      window.open('https://changelog.jov.ie', '_self');
     },
   },
   {

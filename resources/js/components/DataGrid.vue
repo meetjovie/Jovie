@@ -3,7 +3,7 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <header
-          class="flex w-full items-center justify-between border-b border-slate-100 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
+          class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
             :loading="loading"
             :taskLoading="taskLoading"
