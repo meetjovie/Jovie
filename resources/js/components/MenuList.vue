@@ -43,7 +43,14 @@
               @click="$emit('setFilterList', element.id)"
               v-slot="{ active }">
               <div
-                :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
+                :class="[
+                  selectedList == element.id
+                    ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                    : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                  active
+                    ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                    : '',
+                ]"
                 class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all">
                 <div
                   class="group/move mx-auto w-4 flex-none cursor-grab items-center">
@@ -229,7 +236,14 @@
       <div v-for="item in menuItems" :key="item.id">
         <MenuItem @click="$emit('setFilterList', item.id)" v-slot="{ active }">
           <div
-            :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
+            :class="[
+              selectedList == item.id
+                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+              active
+                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                : '',
+            ]"
             class="group inline-flex h-8 w-8 w-full items-center justify-between rounded-md pl-1 transition-all">
             <div class="group h-4 w-4 flex-none cursor-pointer items-center">
               <PinnedIcon
