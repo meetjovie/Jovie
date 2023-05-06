@@ -68,7 +68,7 @@
                         class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none focus:ring-0"
                         :class="[
                           filters.type == 'all'
-                            ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                            ? 'bg-slate-200 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                             : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                           active
                             ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
@@ -126,7 +126,7 @@
                             class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'favourites'
-                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                                ? 'bg-slate-200 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
                                 ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
@@ -147,7 +147,6 @@
                             </div>
                           </button>
                         </MenuItem>
-                        
 
                         <MenuItem
                           v-if="counts.archived > 0"
@@ -158,7 +157,7 @@
                             class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'archived'
-                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                                ? 'bg-slate-200 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
                                 ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
@@ -181,39 +180,36 @@
                         </MenuItem>
                       </div>
                     </TransitionRoot>
-                  <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
+                    <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
                     <MenuItem
-                          class="w-full"
-                          as="div"
-                          @click="suggestMerge([])"
-                          v-slot="{ active }">
-                          <button
-                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
-                            :class="[
-                              suggestion
-                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                              active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                                : '',
-                            ]">
-                            <div
-                              class="flex items-center text-xs tracking-wide">
-                              <DocumentDuplicateIcon
-                                class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400"
-                                aria-hidden="true" />Merge Duplicates
-                            </div>
-                            <div
-                              class="items-center rounded-md p-1 hover:text-slate-50">
-                              <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-                                >
-                               <!--  Count of duplicates goes here -->
-                                </span
-                              >
-                            </div>
-                          </button>
-                        </MenuItem>
+                      class="w-full"
+                      as="div"
+                      @click="suggestMerge([])"
+                      v-slot="{ active }">
+                      <button
+                        class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                        :class="[
+                          suggestion
+                            ? 'bg-slate-200 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                            : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                          active
+                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                            : '',
+                        ]">
+                        <div class="flex items-center text-xs tracking-wide">
+                          <DocumentDuplicateIcon
+                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400"
+                            aria-hidden="true" />Merge Duplicates
+                        </div>
+                        <div
+                          class="items-center rounded-md p-1 hover:text-slate-50">
+                          <span
+                            class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100">
+                            <!--  Count of duplicates goes here -->
+                          </span>
+                        </div>
+                      </button>
+                    </MenuItem>
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
@@ -776,6 +772,7 @@ import {
   CloudArrowDownIcon,
   CheckIcon,
   UserGroupIcon,
+  DocumentDuplicateIcon,
   EllipsisVerticalIcon,
   PlusIcon,
   PlusCircleIcon,
@@ -830,6 +827,7 @@ export default {
     UserIcon,
     UserGroupIcon,
     CogIcon,
+    DocumentDuplicateIcon,
     ArrowUpCircleIcon,
     ArrowPathIcon,
     AlertBanner,

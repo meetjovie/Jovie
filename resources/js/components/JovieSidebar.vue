@@ -36,6 +36,7 @@
                       <div
                         class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
                         <div class="flex">
+                         <InitialBox :name="currentUser.current_team.name" :height=16 />
                           <div
                             class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
                             {{
@@ -211,7 +212,7 @@ import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
 import JovieTooltip from '../components/JovieTooltip';
 import UserService from '../services/api/user.service';
 import ProgressBar from '../components/ProgressBar';
-
+import InitialBox from '../components/InitialBox.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
 import DropdownMenuItem from '../components/DropdownMenuItem.vue';
@@ -220,6 +221,7 @@ export default {
   components: {
     CreditCardIcon,
     UserIcon,
+    InitialBox,
     CogIcon,
     DropdownMenuItem,
     BoltIcon,
