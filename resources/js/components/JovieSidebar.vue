@@ -28,6 +28,7 @@
                 <div>
                   <JovieDropdownMenu
                     :items="currentUser.teams"
+                    :activeItem="currentUser.current_team.id"
                     :numbered="true"
                     size="lg"
                     :searchable="false">

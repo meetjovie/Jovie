@@ -87,8 +87,12 @@
                         </div>
                         <div v-else></div>
 
-                        <div class="text-xs font-normal tracking-wider">
+                        <div
+                          class="flex justify-between text-xs font-normal tracking-wider">
                           {{ item[nameKey] }}
+                          <CheckIcon
+                            v-if="item.id == activeItem"
+                            class="ml-1 h-3 w-3 text-slate-600 dark:text-jovieDark-200"></CheckIcon>
                         </div>
                       </div>
                     </div>
@@ -184,6 +188,7 @@ export default {
     TransitionRoot,
     Menu,
     EyeSlashIcon,
+
     PencilIcon,
     ChevronUpIcon,
     XMarkIcon,
@@ -225,6 +230,10 @@ export default {
     searchText: {
       type: String,
       default: 'Search',
+    },
+    activeItem: {
+      type: String,
+      default: '',
     },
     size: {
       type: String,
