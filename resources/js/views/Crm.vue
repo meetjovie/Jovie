@@ -82,17 +82,17 @@
                               contactMenuOpen ? 'rotate-90 transform' : '',
                             ]"
                             class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
-                            aria-hidden="true">
-                          </ChevronRightIcon>
-                          <ChevronRightIcon
+                            aria-hidden="true" />
+
+                          <UserGroupIcon
                             v-else
                             @click="toggleContactMenuOpen"
                             :class="[
                               contactMenuOpen ? 'rotate-90 transform' : '',
                             ]"
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400/0 dark:text-jovieDark-400/0"
-                            aria-hidden="true">
-                          </ChevronRightIcon>
+                            class="mr-1 h-5 w-5 rounded-md p-1"
+                            aria-hidden="true" />
+
                           All Contacts
                         </div>
 
@@ -746,6 +746,7 @@ import {
   PlusCircleIcon,
   HeartIcon,
   UserIcon,
+  UserGroupIcon,
   ArchiveBoxIcon,
   CloudArrowUpIcon,
   ArrowLeftOnRectangleIcon,
@@ -793,6 +794,7 @@ export default {
     CreditCardIcon,
     JovieSidebar,
     UserIcon,
+    UserGroupIcon,
     CogIcon,
     ArrowUpCircleIcon,
     ArrowPathIcon,
@@ -841,7 +843,7 @@ export default {
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
-    UserGroupIcon,
+
     CloudArrowUpIcon,
     CrmTable,
     vueMousetrapPlugin: VueMousetrapPlugin,
