@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex items-center justify-center bg-purple-700 dark:bg-jovieDark-400 rounded-md"
+    class="flex items-center justify-center rounded-md bg-indigo-300 p-1 dark:bg-jovieDark-400"
     :style="{ height: `${height}px`, width: `${height}px` }">
-    <span class="text-lg text-white">{{ firstLetter }}</span>
+    <span class="items-center text-xs text-white">{{ firstLetter }}</span>
   </div>
 </template>
 

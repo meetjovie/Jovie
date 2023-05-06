@@ -30,21 +30,26 @@
                     :items="currentUser.teams"
                     :activeItem="currentUser.current_team.id"
                     :numbered="true"
+                    placement='bottom-start'
                     size="lg"
                     :searchable="false">
                     <template #triggerButton>
                       <div
                         class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
-                        <div class="flex">
-                         <InitialBox :name="currentUser.current_team.name" :height=16 />
+                        <div class="flex group/teamMenu space-x-1 items-center">
+                          <InitialBox
+                            :name="currentUser.current_team.name"
+                            :height="18" />
                           <div
-                            class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
+                            class=" line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
                             {{
                               currentUser.current_team
                                 ? currentUser.current_team.name
                                 : 'Select a team'
                             }}
                           </div>
+                          <ChevronDownIcon
+                          class="h-4 w-4 text-slate-700/0 dark:text-jovieDark-200/0 group/teamMenu-hover:dark:text-jovieDark-200 group/teamMenu-hover:text-slate-700" />
                         </div>
                       </div>
                     </template>
@@ -79,6 +84,7 @@
                   <JovieDropdownMenu
                     :searchable="false"
                     size="lg"
+                    placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
                       <img
