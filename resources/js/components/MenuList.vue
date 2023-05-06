@@ -12,9 +12,9 @@
             class="group/openMenu-hover:text-slate-800 group/openMenu-hover:dark:text-jovieDark-200 mt-0.5 h-4 w-4 text-slate-700 dark:text-jovieDark-300" />
           <ChevronRightIcon
             v-else
-            class="text-thin group/openMenu-hover:text-slate-800 dark:group/openMenu-hover:text-slate-200 h-4 w-4 text-xs text-slate-700 dark:text-jovieDark-300" />
+            class="group/openMenu-hover:text-slate-800 group/openMenu-hover:dark:text-jovieDark-200 mt-0.5 h-4 w-4 text-slate-700 dark:text-jovieDark-300" />
         </div>
-        <span class="hover:bg-slate-100">
+        <span class="">
           {{ menuName }}
         </span>
       </div>
@@ -37,12 +37,12 @@
       <draggable
         v-model="menuItemsList"
         group="lists"
-        class="select-none overflow-y-scroll"
+        class="flex select-none flex-col space-y-1 overflow-y-scroll"
         ghost-class="ghost-card"
         itemKey="id"
         @change="$emit('sort')">
         <template #item="{ element, index }">
-          <div :key="element.id" :id="element.id">
+          <div class="" :key="element.id" :id="element.id">
             <MenuItem
               @drop="$emit('onListDrop', element.id)"
               @click="$emit('setFilterList', element.id)"
