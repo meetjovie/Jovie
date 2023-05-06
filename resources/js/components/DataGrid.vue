@@ -250,7 +250,7 @@
                   itemKey="key"
                   ghost-class="ghost-header"
                   tag="tr"
-                  @end="sortFields"
+                  @end="sortHeaders"
                   @start="startHeaderDrag"
                   handle=".drag-head"
                   class="sticky h-8 items-center">
@@ -1140,10 +1140,10 @@ export default {
         });
       });
     },
-    sortFields(e) {
+    sortHeaders(e) {
       e.newIndex -= 3;
       e.oldIndex -= 3;
-      this.$store.dispatch('sortFields', {
+      this.$store.dispatch('sortHeaders', {
         self: this,
         newIndex: e.newIndex,
         oldIndex: e.oldIndex,

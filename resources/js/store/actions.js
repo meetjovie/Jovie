@@ -69,7 +69,7 @@ export default {
 
     async sortFields(context, payload) {
         UserService.sortFields(
-            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, listId: payload.listId, hide: payload.hide },
+            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, hide: payload.hide },
             payload.itemId
         )
             .then((response) => {
@@ -110,8 +110,51 @@ export default {
             .finally((response) => {});
     },
 
-    async toggleFieldHide(context, payload) {
-        UserService.toggleFieldHide(
+    async sortHeaders(context, payload) {
+        UserService.sortHeaders(
+            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, hide: payload.hide, listId: payload.listId },
+            payload.itemId
+        )
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'success',
+                        duration: 15000,
+                        title: 'Successful',
+                        text: response.message,
+                    });
+                } else {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'error',
+                        duration: 15000,
+                        title: 'Error',
+                        text: response.message,
+                    });
+                    // show toast error here later
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status == 422) {
+                    self.errors = error.data.errors;
+                    if (payload.self.errors.field[0]) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: payload.self.errors.field[0],
+                        });
+                    }
+                }
+            })
+            .finally((response) => {});
+    },
+
+    async toggleHeaderHide(context, payload) {
+        UserService.toggleHeaderHide(
             { listId: payload.listId, hide: payload.hide, custom: payload.custom },
             payload.itemId
         )

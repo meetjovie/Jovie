@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomFieldsController;
 use App\Http\Controllers\FieldsController;
+use App\Http\Controllers\HeadersController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
@@ -131,12 +132,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);
     Route::post('set-field-order/{id}', [FieldsController::class, 'setFieldOrder']);
-    Route::post('set-field-width/{id}', [FieldsController::class, 'setFieldWidth']);
-    Route::post('toggle-field-hide/{id}', [FieldsController::class, 'toggleFieldHide']);
     Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
 
     // HEADERS
-    Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);
+    Route::get('header-fields/{listId?}', [HeadersController::class, 'headerFields']);
+    Route::post('set-header-order/{id}', [HeadersController::class, 'setHeaderOrder']);
+    Route::post('set-header-width/{id}', [HeadersController::class, 'setHeaderWidth']);
+    Route::post('toggle-header-hide/{id}', [HeadersController::class, 'toggleHeaderHide']);
 
     /**
      * Teamwork routes

@@ -704,6 +704,8 @@ export default {
           this.fieldsLoaded = true
       },
       setFieldsForDisplay() {
+          this.displayAbleFields = this.fields;
+          return
           this.displayAbleFields = this.fields.filter((field) => {
               if (this.ignoreFieldIdForNonDisplay.includes(field.id)) {
                   return true;
@@ -731,13 +733,12 @@ export default {
     openCustomFieldModal() {
       this.$store.commit('setShowCustomFieldModal');
     },
-    sortFields(e, listId = '') {
+    sortFields(e) {
       this.$store.dispatch('sortFields', {
         self: this,
         newIndex: e.newIndex,
         oldIndex: e.oldIndex,
         custom: e.item.dataset.custom === 'true',
-        listId: listId,
         itemId: e.item.id,
       });
     },
