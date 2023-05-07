@@ -892,11 +892,16 @@ class Contact extends Model implements Auditable
         if (!is_array($contactIds)) {
             $contactIds = [$contactIds];
         }
+        if (!is_array($listId)) {
+            $listId = [$listId];
+        }
 
-        $list = UserList::query()->where('id', $listId)->first();
+        $lists = UserList::query()->whereIn('id', $listId)->get();
         $contacts = Contact::query()->select(['id', 'team_id'])->whereIn('id', $contactIds)->get();
         foreach ($contacts as $contact) {
-            $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+            foreach ($lists as $list) {
+                $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+            }
         }
         foreach ($contactIds as $contactId) {
             ContactImported::dispatch($contactId, $teamId, $listId, $updatingExisting);
