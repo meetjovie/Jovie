@@ -1,8 +1,20 @@
 <template>
-security
+  <SectionHeader header="Security" subheader="Adjust your security settings" />
+  <SectionWrapper header="Password" subheader="Edit your password">
+    <AccountPassword />
+  </SectionWrapper>
 </template>
 <script>
+import SectionWrapper from './../components/SectionWrapper.vue';
+import SectionHeader from './../components/SectionHeader.vue';
+import AccountPassword from './../components/Account/AccountPassword.vue';
+
 export default {
-    name: 'SettingsSecurity'
-}
+  name: 'SettingsSecurity',
+  components: {
+    SectionHeader,
+    SectionWrapper,
+    AccountPassword,
+  },
+};
 </script>

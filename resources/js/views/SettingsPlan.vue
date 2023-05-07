@@ -1,6 +1,6 @@
 <template>
   <div>
-    hello everybody plan
+    <SectionHeader header="Plan" subheader="Change or modify your plan" />
     <img
       class="h-8 w-auto"
       src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -8,10 +8,11 @@
   </div>
 </template>
 <script>
+import SectionHeader from './../components/SectionHeader.vue';
 export default {
-    name: 'SettingsPlan',
-  data() {
-    return {};
+  name: 'SettingsPlan',
+  components: {
+    SectionHeader,
   },
 };
 </script>

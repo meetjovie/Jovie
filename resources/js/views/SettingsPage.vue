@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-full flex-col">
+  <div class="flex min-h-full flex-col bg-white dark:bg-jovieDark-900">
     <div class="mx-auto flex w-full items-start">
       <aside class="sticky top-8 hidden shrink-0 lg:block">
         <JovieSidebar menu="Settings">
@@ -10,8 +10,9 @@
       </aside>
 
       <main class="flex-1">
-        <router-view></router-view>
-        hello
+        <div class="mx-auto mt-8 max-w-3xl px-4 sm:px-6 lg:px-8">
+          <router-view></router-view>
+        </div>
       </main>
 
       <!--   <aside class="sticky top-8 hidden w-96 shrink-0 xl:block">
