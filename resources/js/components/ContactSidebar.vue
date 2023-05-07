@@ -708,6 +708,9 @@ export default {
     },
     setFieldsForDisplay() {
       this.displayAbleFields = this.fields.filter((field) => {
+          if (field.name == 'Phone' || field.name == 'Email') {
+              return true
+          }
         if (this.ignoreFieldIdForNonDisplay.includes(field.id)) {
           return true;
         }
