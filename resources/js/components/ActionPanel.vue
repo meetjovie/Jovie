@@ -13,6 +13,7 @@
         <div
           class="mt-5 sm:ml-6 sm:mt-0 sm:flex sm:flex-shrink-0 sm:items-center">
           <ButtonGroup
+            :loading="loading"
             :design="buttonStyle"
             @click="onActionClick"
             :text="buttonText" />
@@ -41,9 +42,15 @@ export default {
       type: String,
       required: false,
     },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     buttonStyle: {
       type: String,
       required: false,
+      default: 'compact',
     },
   },
   methods: {

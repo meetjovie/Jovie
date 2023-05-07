@@ -1,8 +1,10 @@
 <template>
-  <SectionHeader header="Profile" subheader="Edit your user profile" />
-  <SectionWrapper header="Profile" subheader="Edit your profile">
-    <AccountProfile />
-  </SectionWrapper>
+  <div>
+    <SectionHeader header="Profile" subheader="Edit your user profile" />
+    <SectionWrapper header="Profile" subheader="Edit your profile">
+      <AccountProfile />
+    </SectionWrapper>
+  </div>
 </template>
 <script>
 import SectionHeader from './../components/SectionHeader.vue';

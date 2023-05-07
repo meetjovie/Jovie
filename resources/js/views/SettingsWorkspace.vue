@@ -25,6 +25,8 @@
                 {{ item.stat }} / {{ item.limit }}
               </dd>
               <ProgressBar
+                :size="sm"
+                :color="black"
                 :percentage="Math.round((item.stat / item.limit) * 100)" />
               <span class="text-2xs text-slate-600">{{
                 item.description

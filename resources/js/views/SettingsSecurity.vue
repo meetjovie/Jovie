@@ -1,8 +1,12 @@
 <template>
-  <SectionHeader header="Security" subheader="Adjust your security settings" />
-  <SectionWrapper header="Password" subheader="Edit your password">
-    <AccountPassword />
-  </SectionWrapper>
+  <div>
+    <SectionHeader
+      header="Security"
+      subheader="Adjust your security settings" />
+    <SectionWrapper header="Password" subheader="Edit your password">
+      <AccountPassword />
+    </SectionWrapper>
+  </div>
 </template>
 <script>
 import SectionWrapper from './../components/SectionWrapper.vue';
