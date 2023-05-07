@@ -1,11 +1,17 @@
 <template>
   <div class="flex w-full">
     <aside>
-      <JovieSidebar />
+      <JovieSidebar>
+        <template #main>
+          hey yo we need to extract the data from the crm sidebar to a new
+          component and add it here as well. that way youll still see the lists
+          and stuff here.
+        </template>
+      </JovieSidebar>
     </aside>
     <div class="w-full">
       <div
-        class="container my-6 mx-auto flex flex-col items-start justify-between border-b border-slate-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
+        class="container mx-auto my-6 flex flex-col items-start justify-between border-b border-slate-300 px-6 pb-4 md:flex-row md:items-center lg:my-4">
         <div class="inline-flex">
           <div class="mr-4 inline-flex">
             <div class="relative aspect-square">
@@ -76,12 +82,12 @@
         <div class="mt-6 md:mt-0" v-if="$store.state.overviewList">
           <button
             class="mr-3 rounded bg-slate-200 px-5 py-2 text-sm text-indigo-700 transition duration-150 ease-in-out hover:bg-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">
-              {{ $store.state.overviewList.name}}
+            {{ $store.state.overviewList.name }}
           </button>
-<!--           <button-->
-<!--                  class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">-->
-<!--                  Add to campaign-->
-<!--                </button> -->
+          <!--           <button-->
+          <!--                  class="rounded bg-indigo-700 px-8 py-2 text-sm text-white transition duration-150 ease-in-out hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-700 focus-visible:ring-offset-2">-->
+          <!--                  Add to campaign-->
+          <!--                </button> -->
         </div>
       </div>
       <!-- Code block ends -->
@@ -139,71 +145,75 @@
                       </dd>
                     </div>
                     <div class="sm:col-span-1">
-                      <dt class="text-sm font-medium text-slate-500">Stage 123</dt>
+                      <dt class="text-sm font-medium text-slate-500">
+                        Stage 123
+                      </dt>
                       <dd class="mt-1 text-sm text-slate-900">
-                          <ContactStageMenu
-                              :contact="contact"
-                              :stages="stages"
-                              @updateContact="updateContact($event)" />
-<!--                        <Popover-->
-<!--                          as="div"-->
-<!--                          class="relative inline-block text-left">-->
-<!--                          <PopoverButton-->
-<!--                            class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">-->
-<!--                            {{ contact.stage_name }}-->
-<!--                            <svg-->
-<!--                              xmlns="http://www.w3.org/2000/svg"-->
-<!--                              class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"-->
-<!--                              fill="none"-->
-<!--                              viewBox="0 0 24 24"-->
-<!--                              stroke="currentColor">-->
-<!--                              <path-->
-<!--                                stroke-linecap="round"-->
-<!--                                stroke-linejoin="round"-->
-<!--                                stroke-width="2"-->
-<!--                                d="M19 9l-7 7-7-7" />-->
-<!--                            </svg>-->
-<!--                          </PopoverButton>-->
-<!--                          <transition-->
-<!--                            enter-active-class="transition duration-100 ease-out"-->
-<!--                            enter-from-class="transform scale-95 opacity-0"-->
-<!--                            enter-to-class="transform scale-100 opacity-100"-->
-<!--                            leave-active-class="transition duration-75 ease-in"-->
-<!--                            leave-from-class="transform scale-100 opacity-100"-->
-<!--                            leave-to-class="transform scale-95 opacity-0">-->
-<!--                            <PopoverPanel-->
-<!--                              class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">-->
-<!--                              <div class="">-->
-<!--                                <div class="">-->
-<!--                                  <button-->
-<!--                                    class="group flex w-full items-center px-2 py-2 text-xs text-slate-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"-->
-<!--                                    v-for="(stage, key) in stages"-->
-<!--                                    @click="-->
-<!--                                      updateContact({-->
-<!--                                        id: contact.id,-->
-<!--                                        key: `crm_record_by_user.stage`,-->
-<!--                                        value: key,-->
-<!--                                      })-->
-<!--                                    ">-->
-<!--                                    <div class="mr-2 font-bold opacity-50">-->
-<!--                                      {{ key + 1 }}-->
-<!--                                    </div>-->
-<!--                                    <div class="font-bold">-->
-<!--                                      {{ stage }}-->
-<!--                                    </div>-->
-<!--                                  </button>-->
-<!--                                </div>-->
-<!--                              </div>-->
-<!--                            </PopoverPanel>-->
-<!--                          </transition>-->
-<!--                        </Popover>-->
+                        <ContactStageMenu
+                          :contact="contact"
+                          :stages="stages"
+                          @updateContact="updateContact($event)" />
+                        <!--                        <Popover-->
+                        <!--                          as="div"-->
+                        <!--                          class="relative inline-block text-left">-->
+                        <!--                          <PopoverButton-->
+                        <!--                            class="group my-0 inline-flex w-32 items-center justify-between rounded-sm bg-blue-100 px-2 py-1 text-xs font-semibold leading-5 text-blue-800">-->
+                        <!--                            {{ contact.stage_name }}-->
+                        <!--                            <svg-->
+                        <!--                              xmlns="http://www.w3.org/2000/svg"-->
+                        <!--                              class="ml-2 h-4 w-4 hover:text-blue-700 group-hover:text-blue-900"-->
+                        <!--                              fill="none"-->
+                        <!--                              viewBox="0 0 24 24"-->
+                        <!--                              stroke="currentColor">-->
+                        <!--                              <path-->
+                        <!--                                stroke-linecap="round"-->
+                        <!--                                stroke-linejoin="round"-->
+                        <!--                                stroke-width="2"-->
+                        <!--                                d="M19 9l-7 7-7-7" />-->
+                        <!--                            </svg>-->
+                        <!--                          </PopoverButton>-->
+                        <!--                          <transition-->
+                        <!--                            enter-active-class="transition duration-100 ease-out"-->
+                        <!--                            enter-from-class="transform scale-95 opacity-0"-->
+                        <!--                            enter-to-class="transform scale-100 opacity-100"-->
+                        <!--                            leave-active-class="transition duration-75 ease-in"-->
+                        <!--                            leave-from-class="transform scale-100 opacity-100"-->
+                        <!--                            leave-to-class="transform scale-95 opacity-0">-->
+                        <!--                            <PopoverPanel-->
+                        <!--                              class="center-0 absolute z-30 mt-2 w-40 origin-top-right divide-y divide-slate-100 rounded-lg bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-md focus-visible:outline-none">-->
+                        <!--                              <div class="">-->
+                        <!--                                <div class="">-->
+                        <!--                                  <button-->
+                        <!--                                    class="group flex w-full items-center px-2 py-2 text-xs text-slate-700 first:rounded-t-lg first:pt-2 last:rounded-b-lg last:pb-2 hover:bg-indigo-700 hover:text-white"-->
+                        <!--                                    v-for="(stage, key) in stages"-->
+                        <!--                                    @click="-->
+                        <!--                                      updateContact({-->
+                        <!--                                        id: contact.id,-->
+                        <!--                                        key: `crm_record_by_user.stage`,-->
+                        <!--                                        value: key,-->
+                        <!--                                      })-->
+                        <!--                                    ">-->
+                        <!--                                    <div class="mr-2 font-bold opacity-50">-->
+                        <!--                                      {{ key + 1 }}-->
+                        <!--                                    </div>-->
+                        <!--                                    <div class="font-bold">-->
+                        <!--                                      {{ stage }}-->
+                        <!--                                    </div>-->
+                        <!--                                  </button>-->
+                        <!--                                </div>-->
+                        <!--                              </div>-->
+                        <!--                            </PopoverPanel>-->
+                        <!--                          </transition>-->
+                        <!--                        </Popover>-->
                       </dd>
                     </div>
                     <div class="sm:col-span-1">
                       <dt class="text-sm font-medium text-slate-500">
                         Last contact
                       </dt>
-                      <dd class="mt-1 text-sm text-slate-900">{{ contact.last_contacted }}</dd>
+                      <dd class="mt-1 text-sm text-slate-900">
+                        {{ contact.last_contacted }}
+                      </dd>
                     </div>
                     <div class="sm:col-span-1">
                       <dt class="text-sm font-medium text-slate-500">
@@ -225,7 +235,7 @@
                             <DocumentDuplicateIcon
                               tooltip="Copy to clipboard"
                               @click="copyToClipboard(contact.emails[0])"
-                              class="h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:mt-0.5 active:mr-0.5 active:text-slate-500"
+                              class="h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:mr-0.5 active:mt-0.5 active:text-slate-500"
                               aria-hidden="true" />
                           </div>
                           <InputGroup
@@ -373,7 +383,7 @@
                           selected
                             ? 'border-indigo-600 text-indigo-600'
                             : 'border-transparent text-slate-900',
-                          'flex-1 whitespace-nowrap border-b-2 py-4 px-1 text-base font-medium',
+                          'flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium',
                         ]">
                         {{ tab.name }}
                       </button>
@@ -388,14 +398,14 @@
                                   <ActivityFeed button="Show more" />
                                 </TabPanel> -->
 
-                  <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                  <TabPanel class="space-y-12 px-4 pb-6 pt-10">
                     <ContactMediaGroup>
                       <ContactMediaItem
                         v-for="media in contact.overview_media"
                         :media="media"></ContactMediaItem>
                     </ContactMediaGroup>
                   </TabPanel>
-                  <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                  <TabPanel class="space-y-12 px-4 pb-6 pt-10">
                     <CommentThread
                       :comments="comments"
                       @getComments="getComments" />
@@ -404,7 +414,7 @@
                       :loading="addingComment"
                       @addComment="addComment" />
                   </TabPanel>
-                  <TabPanel class="space-y-12 px-4 pt-10 pb-6">
+                  <TabPanel class="space-y-12 px-4 pb-6 pt-10">
                     <ContactHistoryThread :contact_id="$route.params.id" />
                   </TabPanel>
                 </TabPanels>
@@ -453,13 +463,13 @@ import ContactMediaGroup from '../components/TimelineMedia/ContactMediaGroup.vue
 import ContactMediaItem from '../components/TimelineMedia/ContactMediaItem.vue';
 import ContactService from '../services/api/contact.service';
 import JovieSidebar from '../components/JovieSidebar.vue';
-import ContactStageMenu from '../components/ContactStageMenu.vue'
-import ContactHistoryThread from "../components/ContactChangeLog.vue";
+import ContactStageMenu from '../components/ContactStageMenu.vue';
+import ContactHistoryThread from '../components/ContactChangeLog.vue';
 
 export default {
   components: {
-      ContactHistoryThread,
-      ContactStageMenu,
+    ContactHistoryThread,
+    ContactStageMenu,
     ContactMediaItem,
     JovieSidebar,
     ContactMediaGroup,
@@ -571,7 +581,12 @@ export default {
       this.loading = true;
       const id = this.$route.params.id;
 
-      UserService.getContactOverview({id: id, listId: this.$store.state.overviewList ? this.$store.state.overviewList.id : ''}).then((response) => {
+      UserService.getContactOverview({
+        id: id,
+        listId: this.$store.state.overviewList
+          ? this.$store.state.overviewList.id
+          : '',
+      }).then((response) => {
         this.loading = false;
         response = response.data;
         if (response.status) {
@@ -579,7 +594,7 @@ export default {
           this.stages = response.stages;
           this.contact = response.contact;
         } else {
-          this.$router.push({name: 'Contacts'})
+          this.$router.push({ name: 'Contacts' });
         }
       });
     },
@@ -630,7 +645,7 @@ export default {
     },
   },
   mounted() {
-      window.analytics.page(this.$route.name + ' - ' + this.$route.params.id);
+    window.analytics.page(this.$route.name + ' - ' + this.$route.params.id);
     this.getContactOverview();
   },
 };

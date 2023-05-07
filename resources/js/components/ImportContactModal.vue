@@ -161,9 +161,8 @@
                               <ButtonGroup
                                 @click="importContact"
                                 :loader="importing"
-                                design="compact"
                                 class="px-2 py-0.5 text-xs"
-                                text="Create new contact" />
+                                text="Create contact" />
                             </div>
                           </div>
                         </div>

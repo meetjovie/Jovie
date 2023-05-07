@@ -319,6 +319,12 @@
       </div>
     </div>
   </div>
+  <ActionPanel
+    title="Delete Account"
+    buttonstyle="danger"
+    description="This is permanent and cannot be undone."
+    buttonText="Delete"
+    @action-click="toggleDeleteModal()" />
   <ModalPopup
     @primaryButtonClick="deleteAccount()"
     :open="deleteModalOpen"
@@ -326,6 +332,7 @@
 </template>
 
 <script>
+import ActionPanel from '../../components/ActionPanel.vue';
 import UserService from '../../services/api/user.service';
 import InputGroup from '../../components/InputGroup';
 import CardHeading from '../../components/CardHeading';
@@ -343,6 +350,7 @@ export default {
     CardLayout,
     ButtonGroup,
     ModalPopup,
+    ActionPanel,
     SocialIcons,
   },
   props: {

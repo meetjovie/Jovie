@@ -493,12 +493,40 @@
               <PlusIcon class="mr-2 h-4 w-4" />
               Add new contact
             </div>
-            <div v-if="contactRecords.length < 1" class="mx auto max-w-7xl">
+            <div
+              v-if="contactRecords.length < 1"
+              class="mx-auto h-full items-center py-12">
               <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
                 <h3 class="text-base font-semibold leading-6 text-gray-900">
                   There are no contacts to display
                 </h3>
-                <p class="mt-1 text-sm text-gray-500">You can add some</p>
+                <p class="mt-1 text-sm text-gray-500">You can add some:</p>
+
+                <div class="mt-5">
+                  <button
+                    @click="$emit('addContact')"
+                    type="button"
+                    class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-0.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Add Contact
+                  </button>
+                  <Menu as="div" class="relative inline-block text-left">
+                    <MenuItems
+                      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1">
+                        <JovieMenuItem :active="active" name="Add contact" />
+                        <JovieMenuItem
+                          :active="active"
+                          name="Add from social" />
+                        <JovieMenuItem
+                          :active="active"
+                          name="Import from file" />
+                        <JovieMenuItem
+                          :active="active"
+                          name="Install the Jovie Chrome extension" />
+                      </div>
+                    </MenuItems>
+                  </Menu>
+                </div>
               </div>
             </div>
 
@@ -536,6 +564,7 @@
 <script>
 import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
+import JovieMenuItem from '../components/JovieMenuItem.vue';
 import ModalPopup from './ModalPopup.vue';
 import {
   Menu,
@@ -613,12 +642,9 @@ export default {
     DataGridCellTextInput,
     DataGridHeaderContent,
     CustomFieldsMenu,
-
     ArchiveBoxIcon,
-
     KeyboardShortcut,
     MagnifyingGlassIcon,
-
     GlassmorphismContainer,
     ButtonGroup,
     CloudArrowUpIcon,
@@ -634,6 +660,7 @@ export default {
     ArrowPathIcon,
     MenuItems,
     MenuItem,
+    JovieMenuItem,
     EllipsisVerticalIcon,
     ModalPopup,
     SocialIcons,

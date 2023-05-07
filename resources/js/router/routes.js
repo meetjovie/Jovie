@@ -35,6 +35,50 @@ export const routes = [
     },
   },
   {
+    name: 'Settings',
+    path: '/settings',
+    component: loadPage('SettingsPage'),
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+      requiresSubscribe: false,
+    },
+    children: [
+      {
+        path: '/plan',
+        component: loadPage('SettingsPlan'),
+        meta: {
+          layout: 'App',
+          requiresAuth: true,
+        },
+      },
+      {
+        path: '/workspace',
+        component: loadPage('SettingsWorkspace'),
+        meta: {
+          layout: 'App',
+          requiresAuth: true,
+        },
+      },
+      {
+        path: '/profile',
+        component: loadPage('SettingsProfile'),
+        meta: {
+          layout: 'App',
+          requiresAuth: true,
+        },
+      },
+      {
+        path: '/security',
+        component: loadPage('SettingsSecurity'),
+        meta: {
+          layout: 'App',
+          requiresAuth: true,
+        },
+      },
+    ],
+  },
+  {
     name: 'Support',
     path: '/support',
     beforeEnter(to, from, next) {

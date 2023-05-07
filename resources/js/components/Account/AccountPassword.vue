@@ -21,14 +21,8 @@
       <div class="md:grid md:grid-cols-3 md:gap-6">
         <div class="flex justify-between md:col-span-1">
           <div class="px-4 sm:px-0">
-            <h3
-              class="text-lg font-medium text-slate-900 dark:text-jovieDark-100">
-              Password
-            </h3>
-
-            <p class="mt-1 text-sm text-slate-600 dark:text-jovieDark-300">
-              Update your password
-            </p>
+            <h2 class="text-base font-semibold leading-7 text-gray-900">Password</h2>
+        <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-600">Update your password.</p>
           </div>
 
           <div class="px-4 sm:px-0"></div>
@@ -82,7 +76,7 @@
             </div>
 
             <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-jovieDark-900 dark:bg-jovieDark-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-jovieDark-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
               <ButtonGroup
                 type="submit"
                 design="primary"
@@ -146,31 +140,31 @@ export default {
     window.analytics.page('Manage Security');
   },
   methods: {
-      setPassword() {
-          this.updating = true;
-          UserService.setPassword(this.user)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.errors = {};
-                      this.$notify({
-                          group: 'user',
-                          title: 'Successful',
-                          text: response.message,
-                          type: 'success',
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                  }
-              })
-              .finally(() => {
-                  this.updating = false;
-              });
-      },
+    setPassword() {
+      this.updating = true;
+      UserService.setPassword(this.user)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.errors = {};
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: response.message,
+              type: 'success',
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          this.updating = false;
+        });
+    },
     updatePassword() {
       this.updating = true;
       UserService.updatePassword(this.user)

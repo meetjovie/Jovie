@@ -3,7 +3,7 @@
     type="button"
     :disabled="disabled"
     @click="trackClick()"
-    class="group inline-flex items-center overflow-hidden first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    class="group inline-flex items-center overflow-hidden first:rounded-l-md last:rounded-r-md only-of-type:rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
       success
         ? 'bg-green-500'
@@ -38,7 +38,7 @@
       //add compact design with font-light
 
       {
-        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-jovieDark-800':
+        'group flex cursor-pointer items-center rounded p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-jovieDark-800':
           design == 'toolbar',
       },
       {
@@ -46,7 +46,7 @@
           design == 'primary',
       },
       {
-        'mt-3 flex w-full items-center justify-center rounded-md border-none bg-indigo-500 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:ml-3 sm:mt-0 sm:w-auto sm:flex-shrink-0':
+        'mt-3 flex w-full items-center justify-center rounded border-none bg-indigo-500 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:ml-3 sm:mt-0 sm:w-auto sm:flex-shrink-0':
           design == 'hero',
       },
       { 'bg-red-500 text-white': design == 'danger' },
@@ -58,7 +58,7 @@
       { 'rounded-l-md': rounded == 'left' },
       { 'rounded-t-md': rounded == 'top' },
       { 'rounded-b-md': rounded == 'bottom' },
-      { 'rounded-md': rounded == 'all' },
+      { rounded: rounded == 'all' },
       { 'rounded-tl-md': rounded == 'top-left' },
       { 'rounded-tr-md': rounded == 'top-right' },
       { 'rounded-bl-md': rounded == 'blt' },
