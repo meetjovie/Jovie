@@ -1,8 +1,15 @@
 <template>
   <div
-    class="flex items-center justify-center rounded-md bg-indigo-300 p-1 dark:bg-jovieDark-400"
+    class="flex items-center justify-center rounded bg-indigo-300 p-1 dark:bg-jovieDark-400"
     :style="{ height: `${height}px`, width: `${height}px` }">
-    <span class="items-center text-xs text-white">{{ firstLetter }}</span>
+    <span
+      :class="[
+        'items-center',
+        height < 14 ? 'text-[8px]' : 'text-xs',
+        'text-white',
+      ]"
+      >{{ firstLetter }}</span
+    >
   </div>
 </template>
 
@@ -15,15 +22,13 @@ export default {
     },
     height: {
       type: Number,
-      required: true,
+      required: false,
+      default: 18,
     },
   },
   computed: {
     firstLetter() {
       return this.name.charAt(0).toUpperCase();
-    },
-    boxStyle() {
-      return 'rounded-lg bg-blue-500 flex items-center justify-center';
     },
   },
 };

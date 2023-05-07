@@ -21,12 +21,12 @@
     <div
       :class="{
         'cursor-not-allowed opacity-50 saturate-0': disabled,
-        'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+        'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
           active && !danger,
         'bg-red-200 text-slate-700 dark:bg-red-500 dark:text-jovieDark-100':
           active && danger,
       }"
-      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
+      class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
       <div class="flex w-full items-center">
         <slot>
           <div class="flex w-full items-center justify-between">
@@ -89,7 +89,7 @@
                       :class="
                         checked
                           ? 'bg-indigo-600 dark:bg-indigo-400'
-                          : 'bg-slate-200 dark:bg-jovieDark-800'
+                          : 'bg-slate-100 dark:bg-jovieDark-800'
                       "
                       class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                       <span class="sr-only">{{ name }}</span>

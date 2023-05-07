@@ -42,11 +42,15 @@
                           <!--  <ContactAvatar /> -->
                           <div class="mt-2 flex items-center justify-between">
                             <div class="flex items-center">
-                              <span
-                                class="inline-flex items-center rounded-md bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
-                                <UserGroupIcon class="h-4 w-4" />
-                                {{ currentUser.current_team.name }}</span
-                              >
+                              <div
+                                class="inline-flex items-center rounded bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
+                                <InitialBox
+                                  :name="currentUser.current_team.name"
+                                  :height="12" />
+                                <span class="ml-1"
+                                  >{{ currentUser.current_team.name }}
+                                </span>
+                              </div>
                               <ChevronRightIcon class="mr-1 h-3 w-4" />
                               <span
                                 class="items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
@@ -180,16 +184,15 @@
 import {
   Dialog,
   DialogPanel,
-  DialogTitle,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
 import {
   XMarkIcon,
-  UserCircleIcon,
   UserGroupIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/24/outline';
+import InitialBox from '../components/InitialBox.vue';
 import SocialInput from '../components/SocialInput.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import InputGroup from './InputGroup.vue';
@@ -197,7 +200,7 @@ import ButtonGroup from './ButtonGroup.vue';
 import ImportService from '../services/api/import.service';
 import CheckboxInput from './CheckboxInput.vue';
 import ContactAvatar from './ContactAvatar.vue';
-import ToggleGroup from './ToggleGroup.vue';
+
 import InputLists from './InputLists.vue';
 import DataInputGroup from './DataInputGroup.vue';
 export default {
@@ -208,18 +211,16 @@ export default {
     InputGroup,
     Dialog,
     DialogPanel,
-    DialogTitle,
     TransitionChild,
     TransitionRoot,
     ContactAvatar,
-    ToggleGroup,
     InputLists,
     ChevronRightIcon,
     UserGroupIcon,
+    InitialBox,
     XMarkIcon,
     SocialInput,
     GlassmorphismContainer,
-    UserCircleIcon,
   },
   data() {
     return {

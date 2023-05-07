@@ -493,6 +493,14 @@
               <PlusIcon class="mr-2 h-4 w-4" />
               Add new contact
             </div>
+            <div v-if="contactRecords.length < 1" class="mx auto max-w-7xl">
+              <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+                <h3 class="text-base font-semibold leading-6 text-gray-900">
+                  There are no contacts to display
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">You can add some</p>
+              </div>
+            </div>
 
             <Pagination
               class="z-50 w-full bg-blue-500"

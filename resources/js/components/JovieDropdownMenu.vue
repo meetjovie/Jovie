@@ -71,9 +71,9 @@
                     as="div"
                     v-slot="{ active }">
                     <div
-                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
+                      class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
                       :class="{
-                        'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+                        'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
                           active,
                       }">
                       <div class="flex items-center">
@@ -105,8 +105,8 @@
                   v-slot="{ active }"
                   v-if="filteredItems.length === 0 && searchable">
                   <div
-                    :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
-                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
+                    :class="{ 'bg-slate-100 dark:bg-jovieDark-500': active }"
+                    class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
                     <div class="mx-auto flex">
                       <div
                         v-if="createIfNotFound && searchQuery"
