@@ -1,6 +1,6 @@
 <template>
   <div>
-    hello everybody
+    hello everybody plan
     <img
       class="h-8 w-auto"
       src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -9,6 +9,7 @@
 </template>
 <script>
 export default {
+    name: 'SettingsPlan',
   data() {
     return {};
   },

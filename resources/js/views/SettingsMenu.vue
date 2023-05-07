@@ -20,23 +20,18 @@ export default {
         {
           name: 'Workspace',
           icon: 'workspace',
-          path: '/workspace',
+          component: 'SettingsWorkspace',
         },
-        { name: 'Plan', icon: 'plan', path: '/plan' },
-        {
-          name: 'Billing',
-          icon: 'billing',
-          path: '/billing',
-        },
+        { name: 'Plan', icon: 'plan', component: 'SettingsPlan' },
         {
           name: 'Profile',
           icon: 'profile',
-          path: '/profile',
+          component: 'SettingsProfile',
         },
         {
           name: 'Security',
           icon: 'security',
-          path: '/security',
+          component: 'SettingsSecurity',
         },
       ],
     };

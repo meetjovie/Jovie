@@ -5,7 +5,7 @@
         <JovieMenuItem
           v-for="item in items"
           :key="item.name"
-          :path="item.path"
+          :component="item.component"
           :icon="item.icon"
           :name="item.name" />
       </div>
