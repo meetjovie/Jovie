@@ -74,9 +74,20 @@ class HeaderAttribute extends Model
             'width' => 40,
             'type' => 'email',
         ],
-
         [
             'id' => 6,
+            'name' => 'Gender',
+            'key' => 'gender',
+            'icon' => 'Person',
+            'width' => '40',
+            'sortable' => true,
+            'hide' => false,
+            'breakpoint' => 'md',
+            'type' => 'select',
+        ],
+
+        [
+            'id' => 7,
             'name' => 'Social Links',
             'key' => 'networks',
             'meta' => true,
@@ -86,7 +97,7 @@ class HeaderAttribute extends Model
             'type' => 'socialLinks',
         ],
         [
-            'id' => 7,
+            'id' => 8,
             'name' => 'Offer',
             'key' => 'offer',
             'icon' => 'CurrencyDollarIcon',
@@ -97,7 +108,7 @@ class HeaderAttribute extends Model
             'type' => 'currency',
         ],
         [
-            'id' => 8,
+            'id' => 9,
             'name' => 'Stage',
             'key' => 'stage',
             'icon' => 'ArrowDownCircleIcon',
@@ -108,7 +119,7 @@ class HeaderAttribute extends Model
             'type' => 'select',
         ],
         [
-            'id' => 9,
+            'id' => 10,
             'name' => 'Last Contact',
             'key' => 'last_contacted',
             'icon' => 'CalendarDaysIcon',
@@ -119,7 +130,7 @@ class HeaderAttribute extends Model
             'type' => 'date',
         ],
         [
-            'id' => 10,
+            'id' => 11,
             'name' => 'Rating',
             'key' => 'rating',
             'icon' => 'StarIcon',
@@ -130,7 +141,7 @@ class HeaderAttribute extends Model
             'type' => 'rating',
         ],
         [
-            'id' => 11,
+            'id' => 12,
             'name' => 'Lists',
             'key' => 'lists',
             'icon' => 'ListBulletIcon',
@@ -140,7 +151,7 @@ class HeaderAttribute extends Model
             'type' => 'multi_select',
         ],
         [
-            'id' => 12,
+            'id' => 13,
             'name' => 'Description',
             'key' => 'description',
             'icon' => 'ListBulletIcon',
