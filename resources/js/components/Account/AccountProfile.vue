@@ -4,31 +4,13 @@
       <div class="space-y-4">
         <!-- Profile Photo File Input -->
         <div class="mx-auto mt-1 flex flex-col items-center">
-          <span
-            class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center dark:bg-jovieDark-800">
             <ContactAvatar
               :editable="true"
               @updateAvatar="updateProfile($event)"
               :loading="!$store.state.AuthState.user.id"
               :contact="$store.state.AuthState.user"
               class="mr-2" />
-          </span>
         </div>
-
-        <button
-          @click="removeProfilePhoto()"
-          v-if="$store.state.AuthState.user.profile_pic_url"
-          type="button"
-          class="mx-auto mt-2 cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700">
-          Remove Photo
-        </button>
-        <button
-          @click="removeProfilePhoto()"
-          v-else
-          type="button"
-          class="mx-auto mt-2 cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700">
-          Add a photo
-        </button>
         <!-- Name -->
         <div class="col-span-6 flex space-x-4">
           <div class="col-span-3">
