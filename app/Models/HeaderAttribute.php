@@ -163,7 +163,7 @@ class HeaderAttribute extends Model
     protected $fillable = [
         'user_id',
         'team_id',
-        'field_id',
+        'header_id',
         'user_list_id',
         'type',
         'order',
@@ -238,7 +238,7 @@ class HeaderAttribute extends Model
 
                 // update user list set order = order-1 where order <= newIndex and id != listID
                 $headerAttribute = HeaderAttribute::where('order', '<=', $newIndex)
-                    ->whereIn('field_id', $fieldIdsToUpdate);
+                    ->whereIn('header_id', $fieldIdsToUpdate);
                 if (is_null($listId)) {
                     $headerAttribute = $headerAttribute->whereNull('user_list_id')
                         ->where('user_id', $userId);
@@ -247,7 +247,7 @@ class HeaderAttribute extends Model
                 }
                 $headerAttribute->update(['order' => (DB::raw('`order` - 1'))]);
                 // update userlist set order = newOrder where id = listId
-                $headerAttribute = HeaderAttribute::where('field_id', $fieldId);
+                $headerAttribute = HeaderAttribute::where('header_id', $fieldId);
                 if (is_null($listId)) {
                     $headerAttribute = $headerAttribute->whereNull('user_list_id')->where('user_id', $userId);
                 } else {
@@ -259,7 +259,7 @@ class HeaderAttribute extends Model
 
                 // update user list set order = order+1 where order >= newIndex and id != listID
                 $headerAttribute = HeaderAttribute::where('order', '>=', $newIndex)
-                    ->whereIn('field_id', $fieldIdsToUpdate);
+                    ->whereIn('header_id', $fieldIdsToUpdate);
                 if (is_null($listId)) {
                     $headerAttribute = $headerAttribute->whereNull('user_list_id')
                         ->where('user_id', $userId);
@@ -268,7 +268,7 @@ class HeaderAttribute extends Model
                 }
                 $headerAttribute->update(['order' => (DB::raw('`order` + 1'))]);
                 // update userlist set order = newOrder where id = listId
-                $headerAttribute = HeaderAttribute::where('field_id', $fieldId);
+                $headerAttribute = HeaderAttribute::where('header_id', $fieldId);
                 if (is_null($listId)) {
                     $headerAttribute = $headerAttribute->whereNull('user_list_id')
                         ->where('user_id', $userId);
@@ -279,7 +279,7 @@ class HeaderAttribute extends Model
 
             }
         }
-        $listOrders = HeaderAttribute::whereIn('field_id', $fieldIds)->orderBy('order');
+        $listOrders = HeaderAttribute::whereIn('header_id', $fieldIds)->orderBy('order');
         if (is_null($listId)) {
             $listOrders = $listOrders->whereNull('user_list_id')->where('user_id', $userId);
         } else {
@@ -296,7 +296,7 @@ class HeaderAttribute extends Model
 
     public static function toggleHeaderHide($user, $fieldId, $hide, $listId = null)
     {
-        $headerAttribute = FieldAttribute::where('field_id', $fieldId);
+        $headerAttribute = FieldAttribute::where('header_id', $fieldId);
         if (is_null($listId)) {
             $headerAttribute = $headerAttribute->whereNull('user_list_id')->where('user_id', $user->id);
         } else {
@@ -312,7 +312,7 @@ class HeaderAttribute extends Model
 
     public static function updateFieldWidth($user, $fieldId, $width, $listId = null)
     {
-        $headerAttribute = FieldAttribute::where('field_id', $fieldId);
+        $headerAttribute = FieldAttribute::where('header_id', $fieldId);
         if (is_null($listId)) {
             $headerAttribute = $headerAttribute->whereNull('user_list_id')->where('user_id', $user->id);
         } else {

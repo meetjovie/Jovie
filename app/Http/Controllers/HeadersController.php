@@ -22,13 +22,13 @@ class HeadersController extends Controller
         $defaultHeaders = HeaderAttribute::DEFAULT_HEADERS;
         $fields = array_merge($customFields->toArray(), $defaultHeaders);
         $headerAttributes = HeaderAttribute::getHeaderAttributes(['user_list_id' => $listId]);
-        $headerAttributesKeyed = $headerAttributes->keyBy('field_id');
+        $headerAttributesKeyed = $headerAttributes->keyBy('header_id');
 
         foreach ($fields as &$field) {
             $field['hide'] = $headerAttributesKeyed[$field['id']]['hide'] ?? 0;
             $field['width'] = intval($headerAttributesKeyed[$field['id']]['width'] ?? 60);
         }
-        $headerFields = $this->orderFields($fields, $headerAttributes->pluck('field_id')->toArray());
+        $headerFields = $this->orderFields($fields, $headerAttributes->pluck('header_id')->toArray());
         array_unshift($headerFields, HeaderAttribute::FULL_NAME_HEADER);
         return response()->json([
             'status' => true,
