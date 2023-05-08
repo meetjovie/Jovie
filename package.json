@@ -27,7 +27,7 @@
     "@storybook/manager-webpack5": "^6.5.15",
     "@storybook/test-runner": "^0.9.3",
     "@storybook/testing-library": "^0.0.13",
-    "@storybook/vue3": "^6.5.16",
+    "@storybook/vue3": "^7.0.9",
     "@stripe/stripe-js": "^1.35.0",
     "@tailwindcss/aspect-ratio": "^0.4.1",
     "@tailwindcss/forms": "^0.5.2",
