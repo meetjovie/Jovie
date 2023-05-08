@@ -14,18 +14,9 @@ class FieldAttribute extends Model
 
     const DEFAULT_FIELDS = [
         [
-            'name' => 'Address',
-            'icon' => 'MapPinIcon',
-            'id' => 1,
-            'model' => 'address',
-            'value' => 'address',
-            'isCopyable' => true,
-            'placeholder' => '',
-        ],
-        [
             'name' => 'Email',
             'icon' => 'EnvelopeIcon',
-            'id' => 2,
+            'id' => 1,
             'actionIcon' => 'EnvelopeIcon',
             'method' => 'emailCreator',
             /* 'action' => this.emailCreator('creator.meta.emails'), */
@@ -37,7 +28,7 @@ class FieldAttribute extends Model
         [
             'name' => 'Phone',
             'icon' => 'PhoneIcon',
-            'id' => 3,
+            'id' => 2,
             'actionIcon' => 'ChatBubbleLeftEllipsisIcon',
             'method' => 'textCreator',
             /*  'action' => this.callCreator('creator.meta.phone'), */
@@ -49,7 +40,7 @@ class FieldAttribute extends Model
         [
             'name' => 'Website',
             'icon' => 'LinkIcon',
-            'id' => 4,
+            'id' => 3,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
             /*   'action' => this.openLink('creator.meta.website'), */
             'model' => 'website',
@@ -63,7 +54,7 @@ class FieldAttribute extends Model
         [
             'name' => 'Instagram',
             'socialicon' => 'instagram',
-            'id' => 5,
+            'id' => 4,
             'actionIcon' => 'ChatBubbleLeftEllipsisIcon',
             'actionIcon2' => 'ArrowTopRightOnSquareIcon',
             /*  'method' => 'openLink', */
@@ -79,7 +70,7 @@ class FieldAttribute extends Model
         [
             'name' => 'Twitter',
             'socialicon' => 'twitter',
-            'id' => 6,
+            'id' => 5,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
             /*   'action' => this.openLink('creator.meta.twitter'), */
             'model' => 'twitter',
@@ -93,7 +84,7 @@ class FieldAttribute extends Model
         [
             'name' => 'TikTok',
             'socialicon' => 'tiktok',
-            'id' => 7,
+            'id' => 6,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
             /*   'action' => this.openLink('creator.meta.tiktok'), */
             'model' => 'tiktok',
@@ -106,7 +97,7 @@ class FieldAttribute extends Model
         [
             'name' => 'Youtube',
             'socialicon' => 'youtube',
-            'id' => 8,
+            'id' => 7,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
             /*      'action' => this.openLink('creator.meta.youtube'), */
             'model' => 'youtube',
@@ -120,7 +111,7 @@ class FieldAttribute extends Model
         [
             'name' => 'Twitch',
             'socialicon' => 'twitch',
-            'id' => 9,
+            'id' => 8,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
             /*   'action' => this.openLink('creator.meta.twitch'), */
             'model' => 'twitch',
@@ -133,7 +124,7 @@ class FieldAttribute extends Model
         [
             'name' => 'Linkedin',
             'socialicon' => 'linkedin',
-            'id' => 10,
+            'id' => 9,
             'actionIcon' => 'ArrowTopRightOnSquareIcon',
             /*    'action' => this.openLink('creator.meta.linkedin'), */
             'model' => 'linkedin',
@@ -142,6 +133,15 @@ class FieldAttribute extends Model
             /*  'method' => 'openLink', */
             'isCopyable' => true,
             'placeholder' => 'Linkedin',
+        ],
+        [
+            'name' => 'Address',
+            'icon' => 'MapPinIcon',
+            'id' => 10,
+            'model' => 'address',
+            'value' => 'address',
+            'isCopyable' => true,
+            'placeholder' => '',
         ],
     ];
 
