@@ -247,16 +247,4 @@ class FieldAttribute extends Model
         DB::commit();
         return true;
     }
-
-    public static function toggleFieldHide($user, $fieldId, $hide)
-    {
-        $fieldAttribute = FieldAttribute::where('field_id', $fieldId)
-            ->where('user_id', $user->id);
-        $fieldAttribute = $fieldAttribute->first();
-        if ($fieldAttribute) {
-            $fieldAttribute->hide = $hide;
-            return $fieldAttribute->save();
-        }
-        return false;
-    }
 }
