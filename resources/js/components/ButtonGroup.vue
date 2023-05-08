@@ -3,7 +3,7 @@
     type="button"
     :disabled="disabled"
     @click="trackClick()"
-    class="group inline-flex items-center overflow-hidden first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    class="group inline-flex items-center overflow-hidden font-medium first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
     :class="[
       success
         ? 'bg-green-500'
@@ -15,18 +15,12 @@
       //design seconday then bg color white
       design === 'secondary'
         ? 'bg-white'
-        : design == 'auth'
-        ? 'border border-slate-200 bg-white dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100'
         : design === 'toolbar'
-        ? 'bg-white hover:bg-jovieDark-700 dark:bg-jovieDark-900 dark:text-jovieDark-200'
+        ? 'bg-white'
         : '',
-      //add auth
       //if toolbar then bg color white
-      {
-        'bg-indigo-400 px-4 py-0.5 text-xs font-light text-white dark:bg-jovieDark-600':
-          design == 'compact',
-      },
-      { 'px-2 py-0 text-2xs font-light': size == 'xs' },
+
+      { 'px-2 py-0 text-xs': size == 'xs' },
       { 'px-2 py-1 text-sm': size == 'sm' },
       { 'px-4  py-3 text-base': size == 'base' },
       { 'px-4 py-2 text-lg': size == 'md' },
@@ -35,8 +29,6 @@
         'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed  disabled:opacity-30 dark:border-jovieDark-border   dark:bg-jovieDark-800 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700  ':
           design == 'secondary',
       },
-      //add compact design with font-light
-
       {
         'group flex cursor-pointer items-center rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-jovieDark-800':
           design == 'toolbar',

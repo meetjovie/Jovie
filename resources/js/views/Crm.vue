@@ -4,35 +4,36 @@
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
-            <div class="mt-2">
+            <div class="mt-4">
               <div class="flex items-center text-xs">
-                <div class="mx-auto inline-flex">
+                <div class="mx-auto inline-flex w-full px-4">
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="rouned-md group relative mx-auto inline-flex cursor-pointer items-center justify-between rounded-l-md border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                     <PlusIcon
-                      class="mr-1 h-3 w-3 items-center rounded-md text-xs text-purple-600 dark:text-purple-400"
+                      class="mr-1 h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
                     New Contact
                   </button>
+
                   <Menu>
-                    <Float portal :offset="2" placement="bottom-start">
+                    <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r-md border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                         <ChevronDownIcon
-                          class="h-3 w-3 items-center rounded-md text-xs text-purple-600 dark:text-purple-400"
+                          class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
                       </MenuButton>
                       <transition
-                        enter-active-class="transition duration-100 ease-out"
-                        enter-from-class="transform scale-95 opacity-0"
-                        enter-to-class="transform scale-100 opacity-100"
-                        leave-active-class="transition duration-75 ease-in"
-                        leave-from-class="transform scale-100 opacity-100"
-                        leave-to-class="transform scale-95 opacity-0">
+                        enter-active-class="transition ease-out duration-100"
+                        enter-from-class="transform opacity-0 scale-95"
+                        enter-to-class="transform opacity-100 scale-100"
+                        leave-active-class="transition ease-in duration-75"
+                        leave-from-class="transform opacity-100 scale-100"
+                        leave-to-class="transform opacity-0 scale-95">
                         <MenuItems
-                          class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                          class="z-10 mt-2 w-52 origin-top-right rounded border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                           <div class="py-1">
                             <DropdownMenuItem
                               @click="openImportContactModal()"
@@ -60,33 +61,44 @@
 
               <Menu v-slot="{ open }">
                 <MenuItems static>
-                  <div class="flex w-full flex-col space-x-1 px-2">
+                  <div class="flex w-full flex-col space-y-1 px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
                       <button
                         @click="setFiltersType('all')"
-                        class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none focus:ring-0"
+                        class="group mt-4 flex h-8 w-full items-center justify-between rounded px-1 text-left tracking-wide focus:outline-none focus:ring-0"
                         :class="[
                           filters.type == 'all'
-                            ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                            ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                             : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                           active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                            ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                             : '',
                         ]">
                         <div class="flex items-center text-xs tracking-wide">
                           <ChevronRightIcon
+                            v-if="
+                              counts.archived > 0 ||
+                              counts.favourites > 0 ||
+                              suggestion
+                            "
                             @click="toggleContactMenuOpen"
                             :class="[
                               contactMenuOpen ? 'rotate-90 transform' : '',
                             ]"
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
-                            aria-hidden="true">
-                          </ChevronRightIcon>
-                          All Contacts
+                            class="h-5 w-5 rounded p-1 text-slate-400 dark:text-jovieDark-400"
+                            aria-hidden="true" />
+
+                          <UserGroupIcon
+                            v-else
+                            class="h-5 w-5 rounded p-1"
+                            aria-hidden="true" />
+
+                          <span class="ml-1">All Contacts</span>
                         </div>
+
                         <div
                           @click="showContactModal = true"
-                          class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
+                          class="items-center rounded p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
                           <span
                             class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100"
                             >{{ counts.total }}</span
@@ -103,30 +115,31 @@
                       enter-to="transform opacity-100 scale-100"
                       leave-from="transform opacity-100 scale-100"
                       leave-to="transform opacity-0 scale-95">
-                      <div class="pl-4">
+                      <div class="flex flex-col space-y-1 pl-4">
                         <MenuItem
+                          v-if="counts.favourites > 0"
                           class="w-full"
                           as="div"
                           @click="setFiltersType('favourites')"
                           v-slot="{ active }">
                           <button
-                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'favourites'
-                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
                             <div
                               class="flex items-center text-xs tracking-wide">
                               <HeartIcon
-                                class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                                class="mr-1 h-5 w-5 rounded p-1 text-red-400"
                                 aria-hidden="true" />Favorited
                             </div>
                             <div
-                              class="items-center rounded-md p-1 hover:text-slate-50">
+                              class="items-center rounded p-1 hover:text-slate-50">
                               <span
                                 class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                 >{{ counts.favourites }}</span
@@ -134,28 +147,30 @@
                             </div>
                           </button>
                         </MenuItem>
+
                         <MenuItem
+                          v-if="counts.archived > 0"
                           as="div"
                           @click="setFiltersType('archived')"
                           v-slot="{ active }">
                           <button
-                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'archived'
-                                ? 'bg-slate-200 text-sm font-bold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
                             <div
                               class="flex items-center text-xs tracking-wide">
                               <ArchiveBoxIcon
-                                class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                                class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
                                 aria-hidden="true" />Archived
                             </div>
                             <div
-                              class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
+                              class="items-center rounded p-1 hover:text-slate-50 dark:hover:text-slate-800">
                               <span
                                 class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                 >{{ counts.archived }}</span
@@ -165,6 +180,36 @@
                         </MenuItem>
                       </div>
                     </TransitionRoot>
+                    <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
+                    <MenuItem
+                      class="w-full"
+                      as="div"
+                      @click="suggestMerge([])"
+                      v-slot="{ active }">
+                      <button
+                        class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
+                        :class="[
+                          suggestion
+                            ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                            : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                          active
+                            ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                            : '',
+                        ]">
+                        <div class="flex items-center text-xs tracking-wide">
+                          <DocumentDuplicateIcon
+                            class="mr-1 h-5 w-5 rounded p-1 text-slate-400"
+                            aria-hidden="true" />Merge Duplicates
+                        </div>
+                        <div
+                          class="items-center rounded p-1 hover:text-slate-50">
+                          <span
+                            class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100">
+                            <!--  Count of duplicates goes here -->
+                          </span>
+                        </div>
+                      </button>
+                    </MenuItem>
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
@@ -230,56 +275,64 @@
               <div
                 class="flex-shrink-0 border-t border-slate-200 px-2 py-2 dark:border-jovieDark-border">
                 <Menu>
-                  <MenuItems static>
-                    <MenuItem
-                      v-if="!currentUser.current_team.current_subscription"
-                      as="div"
-                      v-slot="{ active }">
-                      <router-link
-                        to="import"
-                        :class="[
-                          active
-                            ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                            : 'text-slate-700',
-                        ]"
-                        class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
-                        <div class="flex items-center">
-                          <CloudArrowUpIcon
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
-                            aria-hidden="true" />Upload A CSV
+                  <transition
+                    enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-75"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95">
+                    <MenuItems static>
+                      <MenuItem
+                        v-if="!currentUser.current_team.current_subscription"
+                        as="div"
+                        v-slot="{ active }">
+                        <router-link
+                          to="import"
+                          :class="[
+                            active
+                              ? 'bg-slate-100  text-slate-900 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                              : 'text-slate-700',
+                          ]"
+                          class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded py-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
+                          <div class="flex items-center">
+                            <CloudArrowUpIcon
+                              class="mr-1 h-5 w-5 rounded p-1 font-medium text-sky-400 dark:text-sky-400"
+                              aria-hidden="true" />Upload A CSV
+                          </div>
+                          <div class="items-center">
+                            <ContactTags
+                              v-if="
+                                !currentUser.current_team.current_subscription
+                              "
+                              :showX="false"
+                              text="Pro"
+                              color="blue" />
+                          </div>
+                        </router-link>
+                      </MenuItem>
+                      <MenuItem v-slot="{ active }" as="div">
+                        <div
+                          @click="toggleShowSupportModal()"
+                          :class="[
+                            active
+                              ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                              : '',
+                            'mb-2 flex cursor-pointer items-center rounded py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100',
+                          ]">
+                          <ChatBubbleLeftIcon
+                            class="mr-1 h-5 w-5 rounded p-1 font-medium text-pink-500 dark:text-pink-600"
+                            aria-hidden="true" />
+                          Help & Support
                         </div>
-                        <div class="items-center">
-                          <ContactTags
-                            v-if="
-                              !currentUser.current_team.current_subscription
-                            "
-                            :showX="false"
-                            text="Pro"
-                            color="blue" />
-                        </div>
-                      </router-link>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active }" as="div">
-                      <div
-                        @click="toggleShowSupportModal()"
-                        :class="[
-                          active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                            : '',
-                          'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100',
-                        ]">
-                        <ChatBubbleLeftIcon
-                          class="mr-1 h-5 w-5 rounded-md p-1 text-pink-500 dark:text-pink-600"
-                          aria-hidden="true" />
-                        Help & Support
-                      </div>
-                    </MenuItem>
-                  </MenuItems>
+                      </MenuItem>
+                    </MenuItems>
+                  </transition>
                 </Menu>
                 <div class="mt-1 flex items-center justify-between py-1">
                   <div
                     @click="openUpgradeModal()"
-                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 px-2 py-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
+                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded border border-slate-200 px-2 py-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
                     <div class="flex items-center">
                       <ArrowUpCircleIcon class="mr-1 h-4 w-4 text-slate-500" />
                       <span
@@ -727,6 +780,7 @@ import {
   CloudArrowDownIcon,
   CheckIcon,
   UserGroupIcon,
+  DocumentDuplicateIcon,
   EllipsisVerticalIcon,
   PlusIcon,
   PlusCircleIcon,
@@ -779,7 +833,9 @@ export default {
     CreditCardIcon,
     JovieSidebar,
     UserIcon,
+    UserGroupIcon,
     CogIcon,
+    DocumentDuplicateIcon,
     ArrowUpCircleIcon,
     ArrowPathIcon,
     AlertBanner,
@@ -827,7 +883,7 @@ export default {
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
-    UserGroupIcon,
+
     CloudArrowUpIcon,
     CrmTable,
     vueMousetrapPlugin: VueMousetrapPlugin,

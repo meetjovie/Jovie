@@ -5,13 +5,11 @@
     class="group/header flex justify-between"
     :style="`width: ${column.width || 160}px`">
     <div
-      class="group/resize z-50 flex w-5 cursor-ew-resize justify-start"
-      v-if="showResizeable && index > 0"
-      @mousedown="handleMouseDown($event, true)">
-      <span
-        class="text-slate-500/0 group-hover/resize:text-slate-500 dark:group-hover/resize:text-slate-400">
-        ||</span
-      >
+      class="z-50 hidden cursor-ew-resize group-hover/resize:block"
+      @mousedown="handleMouseDown($event, index)"
+      @mouseup="handleMouseUp"
+      @mousemove="handleMouseMove">
+      ||
     </div>
     <div class="drag-head w-full" v-if="column">
       <JovieDropdownMenu
@@ -105,13 +103,11 @@
       </JovieDropdownMenu>
     </div>
     <div
-      v-if="showResizeable && index <= lastColumnIndex"
-      class="group/resize z-50 flex w-5 cursor-ew-resize justify-end"
-      @mousedown="handleMouseDown($event, false)">
-      <span
-        class="text-slate-500/0 group-hover/resize:text-slate-500 dark:group-hover/resize:text-slate-400">
-        ||</span
-      >
+      class="z-50 hidden cursor-ew-resize group-hover/resize:block"
+      @mousedown="handleMouseDown($event, index)"
+      @mouseup="handleMouseUp"
+      @mousemove="handleMouseMove">
+      ||
     </div>
   </div>
 </template>

@@ -54,7 +54,7 @@
                     </div>
                   </div>
                   <div class="mt-2">
-                    <div class="grid grid-cols-3 gap-3">
+                    <div class="max-h-92 grid grid-cols-3 gap-3">
                       <template v-if="suggestion">
                         <template v-for="contact in suggestion.contacts">
                           <ContactSidebar

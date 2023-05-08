@@ -22,18 +22,19 @@
         </TabList>
       </template>
     </JovieSidebar>
-    <main class="w-full flex-1 dark:bg-jovieDark-900">
-      <div class="relative mx-auto max-w-7xl md:px-8 xl:px-0">
+    <main class="w-full flex-1 overflow-y-scroll dark:bg-jovieDark-900">
+      <div class="relative mx-auto md:px-8 xl:px-0">
         <div class="pb-16">
           <div class="px-4 sm:px-6 md:px-0">
             <div class="pb-6">
               <!-- Tabs -->
 
               <div
-                class="border-b border-slate-200 dark:border-jovieDark-border"></div>
+                class="overflow-auto border-b border-slate-200 dark:border-jovieDark-border"></div>
 
               <TabPanels as="template">
-                <TabPanel class="mx-auto max-w-5xl space-y-12 px-4 py-6">
+                <TabPanel
+                  class="mx-auto space-y-12 overflow-y-scroll px-4 py-6">
                   <AccountProfile />
                 </TabPanel>
               </TabPanels>
@@ -66,11 +67,6 @@
                   <AccountTeam />
                 </TabPanel>
               </TabPanels>
-              <TabPanels as="template">
-                <TabPanel class="space-y-12 px-4 py-6">
-                  <AccountDelete />
-                </TabPanel>
-              </TabPanels>
             </div>
           </div>
         </div>
@@ -82,7 +78,6 @@
 <script>
 import AccountTeam from '../components/Account/AccountTeam.vue';
 import AccountProfile from '../components/Account/AccountProfile.vue';
-import AccountDelete from '../components/Account/AccountDelete.vue';
 import AccountTeamSetting from '../components/Account/AccountTeamSetting.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
 
@@ -116,6 +111,9 @@ import {
   QuestionMarkCircleIcon,
   UsersIcon,
   XMarkIcon,
+  CreditCardIcon,
+  TrashIcon,
+  LockClosedIcon,
 } from '@heroicons/vue/24/outline';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/solid';
 import ButtonGroup from '../components/ButtonGroup.vue';
@@ -149,8 +147,6 @@ const tabs = [
 
   { name: 'Plan & Billing', href: '#', current: false, icon: CreditCardIcon },
   { name: 'Team Members', href: '#', current: false, icon: UsersIcon },
-
-  { name: 'Delete Account', href: '#', current: false, icon: TrashIcon },
 ];
 
 import Subscribe from '../views/Subscribe';
@@ -166,9 +162,12 @@ export default {
   components: {
     Subscription,
     Subscribe,
+    LockClosedIcon,
+    CreditCardIcon,
+    TrashIcon,
     Dialog,
     DialogOverlay,
-    AccountDelete,
+
     Switch,
     SwitchGroup,
     SwitchLabel,

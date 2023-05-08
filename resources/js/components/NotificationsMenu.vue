@@ -27,20 +27,19 @@
           <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
 
 
+                              <p
+                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
+
+                              </p>
+                              <p
+                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
                               </p>
 
-                              <p
-                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
-                            
-                              </p>
-                              <p
-                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
-                              
 
             <a
             v-for="batch in batches"
               :key="batch.id"
-              
+
               class="-m-3 flex items-start rounded-lg p-3 transition duration-150 ease-in-out hover:bg-slate-50">
               <component
                 :is="item.icon"
@@ -90,7 +89,8 @@
   </Popover>
 </template>
 
-<script setup>
+<script>
+
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import {
@@ -100,56 +100,66 @@ import {
   LifebuoyIcon,
 } from '@heroicons/vue/24/outline';
 
-
-
-const resources = [
-  {
-    name: 'Help Center',
-    description:
-      'Get all of your questions answered in our forums or contact support.',
-    href: '#',
-    icon: LifebuoyIcon,
-  },
-  {
-    name: 'Guides',
-    description:
-      'Learn how to maximize our platform to get the most out of it.',
-    href: '#',
-    icon: BookmarkSquareIcon,
-  },
-  {
-    name: 'Events',
-    description:
-      'See what meet-ups and other events we might be planning near you.',
-    href: '#',
-    icon: CalendarIcon,
-  },
-  {
-    name: 'Security',
-    description: 'Understand how we take your privacy seriously.',
-    href: '#',
-    icon: ShieldCheckIcon,
-  },
-];
-const recentPosts = [
-  { id: 1, name: 'Boost your conversion rate', href: '#' },
-  {
-    id: 2,
-    name: 'How to use search engine optimization to drive traffic to your site',
-    href: '#',
-  },
-  { id: 3, name: 'Improve your customer experience', href: '#' },
-];
-
 export default {
+    name: 'NotificationMenu',
+    components: {
+        BookmarkSquareIcon,
+        CalendarIcon,
+        ShieldCheckIcon,
+        LifebuoyIcon,
+        ChevronDownIcon,
+        Popover,
+        PopoverButton,
+        PopoverPanel
+    },
     props: {
-       
-            batches: {
-                type: Array,
-                required: true,
-            },
-            
+        batches: {
+            type: Array,
+            required: true,
         },
+    },
+    data() {
+        return {
+            resources: [
+                {
+                    name: 'Help Center',
+                    description:
+                        'Get all of your questions answered in our forums or contact support.',
+                    href: '#',
+                    icon: LifebuoyIcon,
+                },
+                {
+                    name: 'Guides',
+                    description:
+                        'Learn how to maximize our platform to get the most out of it.',
+                    href: '#',
+                    icon: BookmarkSquareIcon,
+                },
+                {
+                    name: 'Events',
+                    description:
+                        'See what meet-ups and other events we might be planning near you.',
+                    href: '#',
+                    icon: CalendarIcon,
+                },
+                {
+                    name: 'Security',
+                    description: 'Understand how we take your privacy seriously.',
+                    href: '#',
+                    icon: ShieldCheckIcon,
+                },
+            ],
+            recentPosts: [
+                { id: 1, name: 'Boost your conversion rate', href: '#' },
+                {
+                    id: 2,
+                    name: 'How to use search engine optimization to drive traffic to your site',
+                    href: '#',
+                },
+                { id: 3, name: 'Improve your customer experience', href: '#' },
+            ]
+        }
+    }
 }
 
 </script>

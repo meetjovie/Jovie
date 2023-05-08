@@ -220,7 +220,10 @@
             </h2>
           </div>
           <div>
-            <JovieDropdownMenu :items="nonDisplayAbleFields" @itemClicked="addNonDisplayableField($event)" placement="left-start">
+            <JovieDropdownMenu
+              :items="nonDisplayAbleFields"
+              @itemClicked="addNonDisplayableField($event)"
+              placement="left-start">
               <template #triggerButton>
                 <!-- <CustomFieldsMenu  @getFields="getFields" @getHeaders="$emit('getHeaders')" /> -->
                 <span class="sr-only">Add field</span>
@@ -366,7 +369,7 @@
                 <div class="select-none space-y-4" v-for="n in 10" :key="n">
                   <div class="space-y-6">
                     <div
-                      class="h-9 animate-pulse rounded-md bg-slate-50 text-center text-slate-400 dark:text-jovieDark-600" />
+                      class="h-9 animate-pulse rounded-md bg-slate-50 text-center text-slate-400 dark:bg-jovieDark-700 dark:text-jovieDark-600" />
                   </div>
                 </div>
               </div>
@@ -697,39 +700,50 @@ export default {
     };
   },
   methods: {
-      addNonDisplayableField(id) {
-          this.ignoreFieldIdForNonDisplay.push(id)
-          this.setFieldsForDisplay()
-          this.fieldsLoaded = false;
-          this.fieldsLoaded = true
-      },
-      setFieldsForDisplay() {
-          this.displayAbleFields = this.fields;
-          return
-          this.displayAbleFields = this.fields.filter((field) => {
-              if (this.ignoreFieldIdForNonDisplay.includes(field.id)) {
-                  return true;
+    addNonDisplayableField(id) {
+      this.ignoreFieldIdForNonDisplay.push(id);
+      this.setFieldsForDisplay();
+      this.fieldsLoaded = false;
+      this.fieldsLoaded = true;
+    },
+    setFieldsForDisplay() {
+      this.displayAbleFields = this.fields.filter((field) => {
+          if (field.name == 'Phone' || field.name == 'Email') {
+              return true
+          }
+        if (this.ignoreFieldIdForNonDisplay.includes(field.id)) {
+          return true;
+        }
+        let value = this.contact[field.custom ? field.code : field.model];
+        if (field.code === 'address') {
+          for (var key in value) {
+            if (value.hasOwnProperty(key)) {
+              value = value[key];
+              if (value !== null && value !== undefined && value !== '') {
+                return true;
               }
-              let value = this.contact[field.custom ? field.code : field.model]
-              if (field.code === 'address') {
-                  for (var key in value) {
-                      if (value.hasOwnProperty(key)) {
-                          value = value[key];
-                          if (value !== null && value !== undefined && value !== '') {
-                              return true;
-                          }
-                      }
-                  }
-              } else if (value !== null && value !== undefined && value !== '' && value !== [] && value !== {} && value.length) {
-                  return true;
-              }
-              return false;
-          })
+            }
+          }
+        } else if (
+          value !== null &&
+          value !== undefined &&
+          value !== '' &&
+          value !== [] &&
+          value !== {} &&
+          value.length
+        ) {
+          return true;
+        }
+        return false;
+      });
 
-          this.nonDisplayAbleFields = this.fields.filter(field => {
-              return !this.ignoreFieldIdForNonDisplay.includes(field.id) && !this.displayAbleFields.some(dField => dField.id === field.id);
-          });
-      },
+      this.nonDisplayAbleFields = this.fields.filter((field) => {
+        return (
+          !this.ignoreFieldIdForNonDisplay.includes(field.id) &&
+          !this.displayAbleFields.some((dField) => dField.id === field.id)
+        );
+      });
+    },
     openCustomFieldModal() {
       this.$store.commit('setShowCustomFieldModal');
     },

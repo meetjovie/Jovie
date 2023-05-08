@@ -4,7 +4,7 @@
       <div
         class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600"
         v-if="updating">
-        <div class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
+        <div class="dark:bg-jovieDark-950 rounded-full bg-white p-0">
           <img
             :class="
               'h- rounded-full object-cover object-center' +
@@ -27,7 +27,7 @@
       <div
         class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600"
         v-else-if="contact.profile_pic_url || defaultImage">
-        <div class="rounded-full bg-white p-0 dark:bg-jovieDark-900">
+        <div class="dark:bg-jovieDark-950 rounded-full bg-white p-0">
           <img
             :class="
               'h- rounded-full object-cover object-center' +

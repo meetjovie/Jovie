@@ -38,15 +38,19 @@
                     <div class="" v-else>
                       <form action="#" class="relative">
                         <div
-                          class="overflow-hidden rounded-lg border border-gray-300 shadow-sm">
+                          class="overflow-hidden rounded-lg border border-gray-300 px-2 shadow-sm">
                           <!--  <ContactAvatar /> -->
-                          <div
-                            class="mt-2 flex items-center justify-between px-2">
+                          <div class="mt-2 flex items-center justify-between">
                             <div class="flex items-center">
-                              <span
-                                class="inline-flex items-center rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"
-                                >{{ currentUser.current_team.name }}</span
-                              >
+                              <div
+                                class="inline-flex items-center rounded bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
+                                <InitialBox
+                                  :name="currentUser.current_team.name"
+                                  :height="12" />
+                                <span class="ml-1"
+                                  >{{ currentUser.current_team.name }}
+                                </span>
+                              </div>
                               <ChevronRightIcon class="mr-1 h-3 w-4" />
                               <span
                                 class="items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
@@ -79,6 +83,9 @@
                               class="w-38 block border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="First Name"
                               v-model="contact.first_name" />
+                              <div v-if="errors.first_name" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                                  {{ errors.first_name[0] }}
+                              </div>
                             <label for="first_name" class="sr-only"
                               >Last Name</label
                             >
@@ -104,19 +111,25 @@
                             placeholder="Write a description..." /> -->
                           <div
                             class="mt-8 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">
-                            <template v-for="contactKey in contactKeys">
+                            <template v-for="field in contactFields">
                               <DataInputGroup
-                                v-model="contact[contactKey]"
-                                :id="contactKey"
+                                v-model="contact[field.model]"
+                                :id="field.model"
                                 :disabled="importing"
                                 :sortable="false"
-                                :name="contactKey"
-                                :label="getLabel(contactKey)"
-                                :placeholder="getLabel(contactKey)"
+                                :name="field.model"
+                                :label="field.name"
+                                :icon="field.icon"
+                                :socialicon="field.socialicon"
+                                :placeholder="field.placeholder"
                                 type="text"
                                 required="" />
                             </template>
                           </div>
+                          <InputLists
+                            @updateLists="updateContactLists"
+                            :contactId="contact.id ?? 0"
+                            :lists="contact.user_lists" />
                           <!-- Spacer element to match the height of the toolbar -->
                           <div aria-hidden="true">
                             <div class="py-2">
@@ -134,10 +147,6 @@
                           <div
                             class="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
                             <div class="flex">
-                              <InputLists
-                                @updateLists="updateContactLists"
-                                :contactId="contact.id ?? 0"
-                                :lists="contact.user_lists" />
                               <!--  <button
                                 type="button"
                                 class="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400">
@@ -157,7 +166,7 @@
                               <ButtonGroup
                                 @click="importContact"
                                 :loader="importing"
-                                design="compact"
+                                class="px-2 py-0.5 text-xs"
                                 text="Create contact" />
                             </div>
                           </div>
@@ -179,15 +188,15 @@
 import {
   Dialog,
   DialogPanel,
-  DialogTitle,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
 import {
   XMarkIcon,
-  UserCircleIcon,
+  UserGroupIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/24/outline';
+import InitialBox from '../components/InitialBox.vue';
 import SocialInput from '../components/SocialInput.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import InputGroup from './InputGroup.vue';
@@ -195,7 +204,7 @@ import ButtonGroup from './ButtonGroup.vue';
 import ImportService from '../services/api/import.service';
 import CheckboxInput from './CheckboxInput.vue';
 import ContactAvatar from './ContactAvatar.vue';
-import ToggleGroup from './ToggleGroup.vue';
+
 import InputLists from './InputLists.vue';
 import DataInputGroup from './DataInputGroup.vue';
 export default {
@@ -206,17 +215,16 @@ export default {
     InputGroup,
     Dialog,
     DialogPanel,
-    DialogTitle,
     TransitionChild,
     TransitionRoot,
     ContactAvatar,
-    ToggleGroup,
     InputLists,
     ChevronRightIcon,
+    UserGroupIcon,
+    InitialBox,
     XMarkIcon,
     SocialInput,
     GlassmorphismContainer,
-    UserCircleIcon,
   },
   data() {
     return {
@@ -238,8 +246,80 @@ export default {
         snapchat: '',
         youtube: '',
         override: false,
+        user_lists: [],
+        list_id: [],
       },
+        fields: [
+            {
+                'name': 'First Name',
+                'icon': 'UserIcon',
+                'model': 'first_name',
+                'placeholder': 'First Name',
+            },{
+                'name': 'Last Name',
+                'icon': 'UserIcon',
+                'model': 'last_name',
+                'placeholder': 'Last Name',
+            },{
+                'name': 'Email',
+                'icon': 'EnvelopeIcon',
+                'model': 'emails',
+                'placeholder': 'Email',
+            },
+            {
+                'name': 'Phone',
+                'icon': 'PhoneIcon',
+                'model': 'phones',
+                'placeholder': 'Phone',
+            },
+            {
+                'name': 'Website',
+                'icon': 'LinkIcon',
+                'model': 'website',
+                'placeholder': 'Website',
+            },
+            {
+                'name': 'Instagram',
+                'socialicon': 'instagram',
+                'actionIcon2': 'ArrowTopRightOnSquareIcon',
+                'model': 'instagram',
+                'method2': 'instagramDMContact',
+                'placeholder': 'Instagram',
+            },
+            {
+                'name': 'Twitter',
+                'socialicon': 'twitter',
+                'model': 'twitter',
+
+                'placeholder': 'Twitter',
+            },
+            {
+                'name': 'TikTok',
+                'socialicon': 'tiktok',
+                'model': 'tiktok',
+                'placeholder': 'TikTok',
+            },
+            {
+                'name': 'Youtube',
+                'socialicon': 'youtube',
+                'model': 'youtube',
+                'placeholder': 'Youtube',
+            },
+            {
+                'name': 'Twitch',
+                'socialicon': 'twitch',
+                'model': 'twitch',
+                'placeholder': 'Twitch',
+            },
+            {
+                'name': 'Linkedin',
+                'socialicon': 'linkedin',
+                'model': 'linkedin',
+                'placeholder': 'Linkedin',
+            },
+        ],
       socialMediaProfileUrl: '',
+      errors: {}
     };
   },
   props: {
@@ -254,17 +334,17 @@ export default {
     },
   },
   computed: {
-    contactKeys() {
-      return Object.keys(this.contact).filter(
-        (k) =>
-          k != 'override' &&
-          k != 'list_id' &&
-          k != 'first_name' &&
-          k != 'last_name' &&
-          k != 'profile_pic_url' &&
-          k != 'profile_pic' &&
-          k != 'id' &&
-          k != 'user_lists'
+    contactFields() {
+      return this.fields.filter(
+        (field) =>
+          field.model != 'override' &&
+          field.model != 'list_id' &&
+          field.model != 'first_name' &&
+          field.model != 'last_name' &&
+          field.model != 'profile_pic_url' &&
+          field.model != 'profile_pic' &&
+          field.model != 'id' &&
+          field.model != 'user_lists'
       );
     },
   },
@@ -273,9 +353,6 @@ export default {
       this.$emit('closeModal');
       Object.assign(this.$data, this.$options.data());
     },
-    getLabel(contactKey) {
-      return contactKey.split('_').join(' ');
-    },
     pasteFromClipboard() {
       navigator.clipboard.readText().then((text) => {
         //set it as the socialMediaProfileUrl
@@ -283,13 +360,21 @@ export default {
       });
     },
     updateContactLists(payload) {
-      if (payload.add) {
-        this.contact.list_id = payload.list.id;
-        this.contact.user_lists = [payload.list];
-      } else {
-        delete this.contact.list_id;
-        this.contact.user_lists = [];
-      }
+        if (payload.add) {
+            if (!this.contact.user_lists.filter((l) => l.id === payload.list.id).length) {
+                this.contact.user_lists.push(payload.list);
+                console.log('this.contact.user_lists');
+                console.log(this.contact.user_lists);
+            }
+            if (! this.contact.list_id.includes(payload.list.id)) {
+                this.contact.list_id.push(payload.list.id)
+            }
+        } else {
+            this.contact.user_lists = this.contact.user_lists.filter(
+                (l) => l.id !== payload.list.id
+            );
+            this.contact.list_id = this.contact.list_id.filter(id => id !== payload.list.id)
+        }
     },
     importContact() {
       this.importing = true;
@@ -325,9 +410,8 @@ export default {
           }
         })
         .catch((error) => {
-          error = error.response;
-          if (error.status == 422) {
-            this.errors = error.data.errors;
+          if (error.response && error.response.status == 422) {
+            this.errors = error.response.data.errors;
           }
         })
         .finally((response) => {

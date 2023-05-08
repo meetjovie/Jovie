@@ -1,22 +1,27 @@
 <template>
   <div>
     <div
-      class="group flex cursor-pointer items-center justify-between rounded-md py-1">
+      class="group flex cursor-pointer items-center justify-between rounded py-1">
       <div
-        @click="toggleShowMenu()"
-        class="flex cursor-pointer items-center rounded-md py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:bg-slate-100 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
-        <ChevronDownIcon
-          v-if="showMenu"
-          class="mr-1 mt-0.5 h-4 w-4 text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 group-hover:dark:text-jovieDark-200" />
-        <ChevronRightIcon
-          v-else
-          class="text-thin mr-1 h-4 w-4 text-xs text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200" />
-        {{ menuName }}
+        class="flex cursor-pointer items-center rounded py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
+        <div
+          @click="toggleShowMenu()"
+          class="group/openMenu mx-auto mr-1 overflow-y-scroll rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
+          <ChevronDownIcon
+            v-if="showMenu"
+            class="group/openMenu-hover:text-slate-800 group/openMenu-hover:dark:text-jovieDark-200 mt-0.5 h-4 w-4 text-slate-700 dark:text-jovieDark-300" />
+          <ChevronRightIcon
+            v-else
+            class="group/openMenu-hover:text-slate-800 group/openMenu-hover:dark:text-jovieDark-200 mt-0.5 h-4 w-4 text-slate-700 dark:text-jovieDark-300" />
+        </div>
+        <span class="">
+          {{ menuName }}
+        </span>
       </div>
       <div class="flex items-center overflow-auto">
         <div
           v-if="draggable"
-          class="group mx-auto overflow-y-scroll rounded-md p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
+          class="group mx-auto overflow-y-scroll rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
           <PlusIcon
             v-if="!creatingList"
             @click="createList()"
@@ -32,19 +37,26 @@
       <draggable
         v-model="menuItemsList"
         group="lists"
-        class="select-none overflow-y-scroll"
+        class="flex select-none flex-col space-y-1 overflow-y-scroll"
         ghost-class="ghost-card"
         itemKey="id"
         @change="$emit('sort')">
         <template #item="{ element, index }">
-          <div :key="element.id" :id="element.id">
+          <div class="" :key="element.id" :id="element.id">
             <MenuItem
               @drop="$emit('onListDrop', element.id)"
               @click="$emit('setFilterList', element.id)"
               v-slot="{ active }">
               <div
-                :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
-                class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded-md pl-1 transition-all">
+                :class="[
+                  selectedList == element.id
+                    ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                    : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                  active
+                    ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                    : '',
+                ]"
+                class="group/list inline-flex h-8 w-full select-none items-center justify-between rounded pl-1 transition-all">
                 <div
                   class="group/move mx-auto w-4 flex-none cursor-grab items-center">
                   <Bars3Icon
@@ -55,10 +67,10 @@
                   <!-- <div
                     @click="openEmojiPicker(element)"
                     :class="{
-                      'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
+                      'bg-slate-100 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
                         active,
                     }"
-                    class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+                    class="h-full w-6 cursor-pointer items-center rounded px-1 text-center text-xs transition-all">
                     {{ element.emoji ?? '📄' }}
                   </div> -->
                   <UserListEditable
@@ -94,7 +106,7 @@
                   <!--                  </div>-->
                 </div>
                 <div
-                  class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
+                  class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
                   <ArrowPathIcon
                     v-if="element.updating"
                     class="mx-auto mr-2 mt-1 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
@@ -123,16 +135,16 @@
                         leave-from-class="transform scale-100 opacity-100"
                         leave-to-class="transform scale-95 opacity-0">
                         <MenuItems
-                          class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                          class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                           <div class="px-1 py-1">
                             <MenuItem v-slot="{ active }">
                               <button
                                 @click="checkListsEnrichable(element.id)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
                                 ]">
                                 <SparklesIcon
                                   :active="active"
@@ -148,9 +160,9 @@
                                 @click="editList(element)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200  dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                    ? 'bg-slate-100  dark:bg-jovieDark-700 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
                                 ]">
                                 <PencilSquareIcon
                                   :active="active"
@@ -164,9 +176,9 @@
                                 @click="duplicateList(element.id)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
                                 ]">
                                 <DocumentDuplicateIcon
                                   :active="active"
@@ -175,14 +187,14 @@
                                 Duplicate
                               </button>
                             </MenuItem>
-                            <MenuItem v-slot="{ active }">
+                            <!--  <MenuItem v-slot="{ active }">
                               <button
                                 @click="unpinList(element.id)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
                                 ]">
                                 <PinIcon
                                   :active="active"
@@ -190,7 +202,7 @@
                                   aria-hidden="true" />
                                 Pin
                               </button>
-                            </MenuItem>
+                            </MenuItem> -->
                           </div>
 
                           <div class="px-1 py-1">
@@ -199,9 +211,9 @@
                                 @click="confirmListDeletion(element.id)"
                                 :class="[
                                   active
-                                    ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                     : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
                                 ]">
                                 <TrashIcon
                                   :active="active"
@@ -229,8 +241,15 @@
       <div v-for="item in menuItems" :key="item.id">
         <MenuItem @click="$emit('setFilterList', item.id)" v-slot="{ active }">
           <div
-            :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
-            class="group inline-flex h-8 w-8 w-full items-center justify-between rounded-md pl-1 transition-all">
+            :class="[
+              selectedList == item.id
+                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+              active
+                ? 'cursor-pointer bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                : '',
+            ]"
+            class="group inline-flex h-8 w-8 w-full items-center justify-between rounded pl-1 transition-all">
             <div class="group h-4 w-4 flex-none cursor-pointer items-center">
               <PinnedIcon
                 :active="active"
@@ -242,10 +261,10 @@
               <!-- <div
                 @click="openEmojiPicker(item)"
                 :class="{
-                  'bg-slate-200 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
+                  'bg-slate-100 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
                     active,
                 }"
-                class="h-full w-6 cursor-pointer items-center rounded-md px-1 text-center text-xs transition-all">
+                class="h-full w-6 cursor-pointer items-center rounded px-1 text-center text-xs transition-all">
                 {{ item.emoji ?? '📄' }}
               </div> -->
               <UserListEditable
@@ -254,13 +273,13 @@
             </div>
 
             <div
-              class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded-md p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600 dark:hover:text-jovieDark-200">
+              class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600 dark:hover:text-jovieDark-200">
               <span
                 class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-jovieDark-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
                 >{{ item.contacts_count }}</span
               >
               <Menu as="div" class="relative inline-block text-center">
-                <Float portal :offset="12" placement="right-start">
+                <Float portal :offset="12" placement="bottom-start">
                   <div class="mx-auto text-center">
                     <MenuButton
                       class="hidden h-4 w-4 text-slate-400 group-hover:block dark:bg-jovieDark-400 dark:text-jovieDark-200">
@@ -277,16 +296,16 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <MenuItems
-                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded-md border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button
                             @click="editList(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200  dark:bg-jovieDark-700 dark:text-jovieDark-200'
+                                ? 'bg-slate-100  dark:bg-jovieDark-700 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              'group flex w-full items-center rounded px-2 py-1 text-xs',
                             ]">
                             <PencilSquareIcon
                               :active="active"
@@ -300,9 +319,9 @@
                             @click="duplicateList(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              'group flex w-full items-center rounded px-2 py-1 text-xs',
                             ]">
                             <DocumentDuplicateIcon
                               :active="active"
@@ -311,14 +330,14 @@
                             Duplicate
                           </button>
                         </MenuItem>
-                        <MenuItem v-slot="{ active }">
+                        <!--  <MenuItem v-slot="{ active }">
                           <button
                             @click="unpinList(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              'group flex w-full items-center rounded px-2 py-1 text-xs',
                             ]">
                             <PinnedIcon
                               :active="active"
@@ -326,7 +345,7 @@
                               aria-hidden="true" />
                             Unpin List
                           </button>
-                        </MenuItem>
+                        </MenuItem> -->
                       </div>
 
                       <div class="px-1 py-1">
@@ -335,9 +354,9 @@
                             @click="confirmListDeletion(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              'group flex w-full items-center rounded px-2 py-1 text-xs',
                             ]">
                             <TrashIcon
                               :active="active"
@@ -353,9 +372,9 @@
                             @click="checkListsEnrichable(item.id)"
                             :class="[
                               active
-                                ? 'bg-slate-200 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+                                ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
                                 : 'text-slate-900 dark:text-jovieDark-100',
-                              'group flex w-full items-center rounded-md px-2 py-1 text-xs',
+                              'group flex w-full items-center rounded px-2 py-1 text-xs',
                             ]">
                             <TrashIcon
                               :active="active"

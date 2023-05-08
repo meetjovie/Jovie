@@ -50,10 +50,10 @@
         Jovie aggregates, enriches, & transforms data on
         <span class="text-indigo-500">3M+ creators</span> from 50+ sources.
 
-        <!--  All
+          All
         of this information is available as unified profiles managabled within
         Jovie or your existing tools. -->
-      </p>
+<!--      </p>-->
       <div class="mx-auto grid grid-cols-3 items-center py-8">
         <div class="mx-auto grid grid-cols-4 items-center justify-center gap-4">
           <div
@@ -419,8 +419,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
   <div class="relative overflow-hidden bg-white pt-16 pb-32">
     <div class="relative">
       <div
