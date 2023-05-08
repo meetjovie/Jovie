@@ -165,6 +165,6 @@ export default {
      return axios.delete(`${baseApiUrl}/custom-field/${id}/delete`);
   },
     async updateColumnWidth(data, id) {
-        return axios.post(`${baseApiUrl}/set-field-width/${id}`, data);
+        return axios.post(`${baseApiUrl}/set-header-width/${id}`, data);
     },
 };

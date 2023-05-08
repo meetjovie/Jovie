@@ -127,7 +127,7 @@
                                     <Switch
                                       :name="column.name"
                                       v-model="column.visible"
-                                      @click="toggleFieldHide(column, index)"
+                                      @click="toggleHeaderHide(column, index)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -407,7 +407,7 @@
                         @reflectColumnWidth="reflectColumnWidth($event)"
                         @editField="editCustomFieldsModal"
                         @sortData="sortData"
-                        @hideColumn="toggleFieldHide(element, index, true)"
+                        @hideColumn="toggleHeaderHide(element, index, true)"
                         @deleteField="deleteField(element)"
                         :index="index"
                         :last-column-index="headers.length - 1"
@@ -1122,7 +1122,7 @@ export default {
           this.$emit('getHeaders');
         });
     },
-    toggleFieldHide(column, index, forceHide = false) {
+    toggleHeaderHide(column, index, forceHide = false) {
       this.$nextTick(() => {
         if (forceHide) {
           column.visible = !column.visible;
@@ -1131,7 +1131,7 @@ export default {
         this.headers.find(header => header.id === column.id).hide = column.hide = forceHide
           ? forceHide
           : !column.visible;
-        this.$store.dispatch('toggleFieldHide', {
+        this.$store.dispatch('toggleHeaderHide', {
           self: this,
           listId: this.filters.list,
           itemId: column.id,

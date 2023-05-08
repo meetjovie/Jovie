@@ -99,10 +99,10 @@ class UserList extends Model implements Auditable
                 self::updateSortOrder($userId, 0, 1, $list->id);
             }
             $customFieldIds = CustomField::query()->pluck('id')->toArray();
-            $defaultIds = array_column(FieldAttribute::DEFAULT_HEADERS, 'id');
-            $fieldIds = array_merge($customFieldIds, $defaultIds);
-            foreach ($fieldIds as $k => $fieldId) {
-                FieldAttribute::create(['field_id' => $fieldId, 'type' => (is_numeric($fieldId) ? 'default' : 'custom'), 'order' => $k, 'team_id' => $user->currentTeam->id, 'user_id' => $user->id, 'user_list_id' => $list->id]);
+            $defaultIds = array_column(HeaderAttribute::DEFAULT_HEADERS, 'id');
+            $headerIds = array_merge($customFieldIds, $defaultIds);
+            foreach ($headerIds as $k => $headerId) {
+                HeaderAttribute::create(['header_id' => $headerId, 'type' => (is_numeric($headerId) ? 'default' : 'custom'), 'order' => $k, 'team_id' => $user->currentTeam->id, 'user_id' => $user->id, 'user_list_id' => $list->id]);
             }
             return  $list;
         }

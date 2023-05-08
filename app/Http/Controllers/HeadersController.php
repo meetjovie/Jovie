@@ -20,15 +20,15 @@ class HeadersController extends Controller
             $customField->key = $customField->code;
         }
         $defaultHeaders = HeaderAttribute::DEFAULT_HEADERS;
-        $fields = array_merge($customFields->toArray(), $defaultHeaders);
+        $headers = array_merge($customFields->toArray(), $defaultHeaders);
         $headerAttributes = HeaderAttribute::getHeaderAttributes(['user_list_id' => $listId]);
         $headerAttributesKeyed = $headerAttributes->keyBy('header_id');
 
-        foreach ($fields as &$field) {
-            $field['hide'] = $headerAttributesKeyed[$field['id']]['hide'] ?? 0;
-            $field['width'] = intval($headerAttributesKeyed[$field['id']]['width'] ?? 60);
+        foreach ($headers as &$header) {
+            $header['hide'] = $headerAttributesKeyed[$header['id']]['hide'] ?? 0;
+            $header['width'] = intval($headerAttributesKeyed[$header['id']]['width'] ?? 60);
         }
-        $headerFields = $this->orderFields($fields, $headerAttributes->pluck('header_id')->toArray());
+        $headerFields = $this->orderFields($headers, $headerAttributes->pluck('header_id')->toArray());
         array_unshift($headerFields, HeaderAttribute::FULL_NAME_HEADER);
         return response()->json([
             'status' => true,
@@ -36,28 +36,28 @@ class HeadersController extends Controller
         ], 200);
     }
 
-    public function orderFields($fields, $orderedFieldIds)
+    public function orderFields($headers, $orderedHeaderIds)
     {
-        return collect($fields)->sortBy(function (&$item) use ($orderedFieldIds) {
-            return array_search($item['id'], $orderedFieldIds);
+        return collect($headers)->sortBy(function (&$item) use ($orderedHeaderIds) {
+            return array_search($item['id'], $orderedHeaderIds);
         })->values()->toArray();
     }
 
     public function toggleHeaderHide(Request $request, $id)
     {
         if ($request->custom) {
-            $field = CustomField::query()->where('id', $id)->first();
-        } elseif ($request->listId) {
+            $header = CustomField::query()->where('id', $id)->first();
+        } else {
             $defaultsFields = collect(HeaderAttribute::DEFAULT_HEADERS);
-            $field = (object) $defaultsFields->where('id', $id)->first();
+            $header = (object) $defaultsFields->where('id', $id)->first();
         }
 
-        if (!$field) {
+        if (!$header) {
             throw ValidationException::withMessages([
-                'field' => ['field does not exists']
+                'header' => ['header does not exists']
             ]);
         }
-        HeaderAttribute::toggleHeaderHide(Auth::user(), $field->id, $request->hide, $request->listId);
+        HeaderAttribute::toggleHeaderHide($header->id, $request->hide, $request->listId);
         return response()->json([
             'status' => true,
             'message' => 'Visibility Updated'
@@ -67,15 +67,15 @@ class HeadersController extends Controller
     public function setHeaderOrder(Request $request, $id)
     {
         if ($request->custom) {
-            $field = CustomField::query()->where('id', $id)->first();
+            $header = CustomField::query()->where('id', $id)->first();
         } else {
             $defaultsFields = collect(HeaderAttribute::DEFAULT_HEADERS);
-            $field = (object) $defaultsFields->where('id', $id)->first();
+            $header = (object) $defaultsFields->where('id', $id)->first();
         }
 
-        if (!$field) {
+        if (!$header) {
             throw ValidationException::withMessages([
-                'field' => ['field does not exists']
+                'header' => ['header does not exists']
             ]);
         }
 
@@ -93,7 +93,7 @@ class HeadersController extends Controller
                     'message' => 'Order updated'
                 ], 202);
             }
-            HeaderAttribute::updateSortOrder(Auth::id(), $newIndex, $oldIndex, $id, $request->listId);
+            HeaderAttribute::updateSortOrder($newIndex, $oldIndex, $id, $request->listId);
             return response()->json([
                 'status' => true,
                 'message' => 'Order updated'
@@ -111,18 +111,18 @@ class HeadersController extends Controller
     public function setHeaderWidth(Request $request, $id)
     {
         if ($request->custom) {
-            $field = CustomField::query()->where('id', $id)->first();
+            $header = CustomField::query()->where('id', $id)->first();
         } else {
             $defaultsFields = collect(HeaderAttribute::DEFAULT_HEADERS);
-            $field = (object) $defaultsFields->where('id', $id)->first();
+            $header = (object) $defaultsFields->where('id', $id)->first();
         }
 
-        if (!$field) {
+        if (!$header) {
             throw ValidationException::withMessages([
                 'field' => ['field does not exists']
             ]);
         }
-        HeaderAttribute::updateFieldWidth(Auth::user(), $field->id, $request->width, $request->listId);
+        HeaderAttribute::updateFieldWidth($header->id, $request->width, $request->listId);
         return response()->json([
             'status' => true,
         ], 200);
