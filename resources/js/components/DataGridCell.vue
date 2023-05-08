@@ -41,14 +41,15 @@
 
       <DataGridCellTextInput
         v-else-if="
-          ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(column.type)
+          ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(
+            column.type
+          )
         "
         :ref="cellActive"
         :fieldId="fieldId"
         @blur="updateData"
         :dataType="column.type"
-        v-model="localModelValue"
-      />
+        v-model="localModelValue" />
       <ContactStageMenu
         v-else-if="column.type == 'select' && column.name == 'Stage'"
         :contact="contact"
@@ -58,11 +59,21 @@
         :stages="stages"
         :index="row"
         @updateContact="$emit('updateContact', $event)" />
+      <ContactSelectMenu
+        v-else-if="column.type == 'select' && column.name == 'Gender'"
+        :contact="contact"
+        :key="row ?? 0"
+        attributekey="gender"
+        :open="toggleContactSelectMenu[row] ?? false"
+        @close="toggleContactSelectMenu(row)"
+        :options="genderOptions"
+        :index="row"
+        @updateContact="$emit('updateContact', $event)" />
       <DataGridSocialLinksCell
-          @updateContact="$emit('updateContact', $event)"
-          :contactId="contact.id"
-          :row="row"
-          :socialLinks="contact.social_links_with_followers"
+        @updateContact="$emit('updateContact', $event)"
+        :contactId="contact.id"
+        :row="row"
+        :socialLinks="contact.social_links_with_followers"
         :show-count="showFollowersCount"
         v-else-if="column.type == 'socialLinks'" />
       <div v-else-if="column.type == 'date'">
@@ -98,14 +109,14 @@
             :lists="contact.user_lists"
             :currentList="contact.current_list" />
         </template>
-        <template #fallback> Loading... </template>
+        <template #fallback> Loading...</template>
       </Suspense>
-        <CheckboxInput
-            v-else-if="column.type == 'checkbox'"
-            :name="`checkbox_${fieldId}_${contact.id}`"
-            v-model="localModelValue"
-            :checked="localModelValue"
-            @markCheck="updateData" />
+      <CheckboxInput
+        v-else-if="column.type == 'checkbox'"
+        :name="`checkbox_${fieldId}_${contact.id}`"
+        v-model="localModelValue"
+        :checked="localModelValue"
+        @markCheck="updateData" />
       <CustomField
         v-else-if="
           (column.type == 'multi_select' || column.type == 'select') &&
@@ -134,6 +145,7 @@ import VueTailwindDatepicker from 'vue-tailwind-datepicker';
 import InputLists from './InputLists.vue';
 import JovieDatePicker from './JovieDatePicker.vue';
 import CustomField from './CustomField.vue';
+import ContactSelectMenu from './ContactSelectMenu.vue';
 
 export default {
   name: 'DataGridCell',
@@ -148,12 +160,14 @@ export default {
     CheckboxInput,
     VueTailwindDatepicker,
     CustomField,
+    ContactSelectMenu,
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
     return {
       showContactStageMenu: [],
       date: {},
+      genderOptions: ['Male', 'Female', 'Other', 'Unknown'],
       rerenderKey: 0,
     };
   },
@@ -171,15 +185,15 @@ export default {
   },
   methods: {
     updateData(value = null) {
-        this.$nextTick(() => {
+      this.$nextTick(() => {
         this.$emit('update:modelValue', this.localModelValue);
-          let key = this.column.key;
-          this.$emit('updateContact', {
-            id: this.contact.id,
-            index: this.row,
-            key: key,
-            value: this.localModelValue ?? value,
-          });
+        let key = this.column.key;
+        this.$emit('updateContact', {
+          id: this.contact.id,
+          index: this.row,
+          key: key,
+          value: this.localModelValue ?? value,
+        });
       });
     },
     handleInput(event) {
@@ -191,6 +205,10 @@ export default {
     },
     toggleContactStageMenu(index) {
       this.showContactStageMenu[index] = !this.showContactStageMenu[index];
+    },
+    toggleContactSelectMenu(index) {
+      this.toggleContactSelectMenu[index] =
+        !this.toggleContactSelectMenu[index];
     },
     setActiveColumn() {
       this.$emit('update:activeColumn', this.columnIndex);
@@ -261,7 +279,7 @@ export default {
     },
     modelValue: {},
     currentCell: Object,
-    cellActive: Boolean|String,
+    cellActive: Boolean | String,
     networks: Array,
     stages: Array,
   },
