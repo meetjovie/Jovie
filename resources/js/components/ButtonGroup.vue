@@ -45,7 +45,11 @@
       {
         'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
       },
-
+      //add auth design
+      {
+        'rounded border border-slate-200 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:text-white dark:hover:bg-jovieDark-800':
+          design === 'auth',
+      },
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
       { 'rounded-t-md': rounded == 'top' },
