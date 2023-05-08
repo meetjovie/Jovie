@@ -127,7 +127,7 @@
                                     <Switch
                                       :name="column.name"
                                       v-model="column.visible"
-                                      @click="toggleFieldHide(column, index)"
+                                      @click="toggleHeaderHide(column, index)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -246,7 +246,7 @@
                   itemKey="key"
                   ghost-class="ghost-header"
                   tag="tr"
-                  @end="sortFields"
+                  @end="sortHeaders"
                   @start="startHeaderDrag"
                   handle=".drag-head"
                   class="sticky h-8 items-center">
@@ -403,7 +403,7 @@
                         @reflectColumnWidth="reflectColumnWidth($event)"
                         @editField="editCustomFieldsModal"
                         @sortData="sortData"
-                        @hideColumn="toggleFieldHide(element, index, true)"
+                        @hideColumn="toggleHeaderHide(element, index, true)"
                         @deleteField="deleteField(element)"
                         :index="index"
                         :last-column-index="headers.length - 1"
@@ -1153,7 +1153,7 @@ export default {
           this.$emit('getHeaders');
         });
     },
-    toggleFieldHide(column, index, forceHide = false) {
+    toggleHeaderHide(column, index, forceHide = false) {
       this.$nextTick(() => {
         if (forceHide) {
           column.visible = !column.visible;
@@ -1161,7 +1161,7 @@ export default {
         column = JSON.parse(JSON.stringify(column));
         this.headers.find((header) => header.id === column.id).hide =
           column.hide = forceHide ? forceHide : !column.visible;
-        this.$store.dispatch('toggleFieldHide', {
+        this.$store.dispatch('toggleHeaderHide', {
           self: this,
           listId: this.filters.list,
           itemId: column.id,
@@ -1170,10 +1170,10 @@ export default {
         });
       });
     },
-    sortFields(e) {
+    sortHeaders(e) {
       e.newIndex -= 3;
       e.oldIndex -= 3;
-      this.$store.dispatch('sortFields', {
+      this.$store.dispatch('sortHeaders', {
         self: this,
         newIndex: e.newIndex,
         oldIndex: e.oldIndex,
