@@ -3,7 +3,7 @@
 
   <div
     class="group/header flex justify-between"
-    :style="`width: ${column.width}px`">
+    :style="`width: ${column.width || 160}px`">
     <div
       class="z-50 cursor-ew-resize text-slate-700/0 hover:text-slate-700 dark:text-jovieDark-300/0 hover:dark:text-jovieDark-300"
       @mousedown="handleMouseDown($event, index)"
