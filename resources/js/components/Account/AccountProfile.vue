@@ -6,32 +6,13 @@
         <div class="mx-auto mt-1 flex flex-col items-center">
           <span
             class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center dark:bg-jovieDark-800">
-            <img
-              id="profile_pic_url_img"
-              ref="profile_pic_url_img"
-              :src="
-                $store.state.AuthState.user.profile_pic_url ??
-                $store.state.AuthState.user.default_image
-              " />
+            <ContactAvatar
+              :editable="true"
+              @updateAvatar="updateProfile($event)"
+              :loading="!$store.state.AuthState.user.id"
+              :contact="$store.state.AuthState.user"
+              class="mr-2" />
           </span>
-
-          <label
-            for="profile_pic_url"
-            class="mx-auto mt-2 cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700">
-            Add photo
-          </label>
-          <input
-            :disabled="updating"
-            type="file"
-            ref="profile_pic_url"
-            @change="fileChanged($event)"
-            name="profile_pic_url"
-            id="profile_pic_url"
-            style="display: none" />
-          <span v-if="uploadProgress">{{ uploadProgress }} %</span>
-          <p v-if="errors.profile_pic_url" class="mt-2 text-sm text-red-600">
-            {{ errors.profile_pic_url[0] }}
-          </p>
         </div>
 
         <button
@@ -341,6 +322,7 @@ import ButtonGroup from '../../components/ButtonGroup';
 import ImportService from '../../services/api/import.service';
 import ModalPopup from '../../components/ModalPopup';
 import SocialIcons from '../../components/SocialIcons';
+import ContactAvatar from '../ContactAvatar.vue';
 
 export default {
   name: 'AccountProfile',
@@ -348,6 +330,7 @@ export default {
     InputGroup,
     CardHeading,
     CardLayout,
+    ContactAvatar,
     ButtonGroup,
     ModalPopup,
     ActionPanel,
@@ -435,7 +418,16 @@ export default {
         this.updateProfile();
       });
     },
-    updateProfile() {
+    // updateAvatar(pic) {
+    //   console.log('hello');
+    //   this.$emit('updateContact', {
+    //     id: this.contact.id,
+    //     index: this.contact.index,
+    //     key: 'profile_pic_url',
+    //     value: pic,
+    //   });
+    // },
+    updateProfile(pic = null) {
       let data = new FormData();
       data.append(
         'first_name',
@@ -445,8 +437,8 @@ export default {
         'last_name',
         this.$store.state.AuthState.user.last_name ?? ''
       );
-      if (this.bucketResponse && this.bucketResponse.uuid) {
-        data.append('profile_pic_url', this.bucketResponse.uuid ?? '');
+      if (pic) {
+        data.append('profile_pic_url', pic);
       }
       this.updating = true;
       UserService.updateProfile(data)
