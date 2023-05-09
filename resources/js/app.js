@@ -28,14 +28,14 @@ app.mixin({
     },
   },
   methods: {
-      generateUniqueNumericString(length = 10) {
-          let timestamp = new Date().getTime().toString();
-          let random = '';
-          for (let i = 0; i < length - timestamp.length; i++) {
-              random += Math.floor(Math.random() * 10);
-          }
-          return timestamp + random;
-      },
+    generateUniqueNumericString(length = 10) {
+      let timestamp = new Date().getTime().toString();
+      let random = '';
+      for (let i = 0; i < length - timestamp.length; i++) {
+        random += Math.floor(Math.random() * 10);
+      }
+      return timestamp + random;
+    },
     async reconnectPusher() {
       return new Promise(async (resolve, reject) => {
         await Echo.disconnect();
@@ -115,8 +115,8 @@ app.mixin({
       return time.format('ddd MMM DD, YYYY [at] HH:mm a');
     },
     switchToDefaultImage(e) {
-        console.log(this.asset('img/noimage.webp'))
-        console.log(e)
+      console.log(this.asset('img/noimage.webp'));
+      console.log(e);
       e.target.src = this.asset('img/noimage.webp');
     },
   },
@@ -143,6 +143,22 @@ axios.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
+    return Promise.reject(error);
+  }
+);
+
+let isRedirecting = false; // Flag to track redirection
+axios.interceptors.response.use(
+  (response) => {
+    // Handle successful responses
+    return response;
+  },
+  (error) => {
+    // Handle error responses
+    if (error.response && error.response.status === 401 && !isRedirecting) {
+      isRedirecting = true;
+      router.push('/login');
+    }
     return Promise.reject(error);
   }
 );
