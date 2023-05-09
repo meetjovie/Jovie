@@ -627,30 +627,6 @@
                       </div> -->
                       <!-- Show the crm if there are contacts -->
                       <div>
-                        <!--  <CrmTable
-                          class="overflow-hidden"
-                          ref="crmTable"
-                          @addContact="showCreatorModal = true"
-                          @updateContact="updateContact"
-                          @crmCounts="crmCounts"
-                          :counts="counts"
-                          @updateListCount="updateListCount"
-                          @pageChanged="pageChanged"
-                          @setCurrentContact="setCurrentContact"
-                          @openSidebar="openSidebarContact"
-                          @setOrder="setOrder"
-                          :header="filters.type"
-                          @importCSV="importCSV"
-                          :subheader="counts"
-                          :filters="filters"
-                          :userLists="userLists"
-                          :contacts="contacts"
-                          :networks="networks"
-                          :stages="stages"
-                          :contactsMeta="contactsMeta"
-                          :loading="loading">
-                          <slot header="header"></slot>
-                        </CrmTable> -->
                         <DataGrid
                           v-if="columns.length"
                           ref="crmTableGrid"
@@ -802,7 +778,6 @@ import DataGrid from '../components/DataGrid.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
 import UserService from '../services/api/user.service';
-import CrmTable from '../components/Crm/CrmTable';
 import ImportContactModal from '../components/ImportContactModal.vue';
 import SocialInput from '../components/SocialInput';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
@@ -885,7 +860,6 @@ export default {
     ArrowLeftOnRectangleIcon,
 
     CloudArrowUpIcon,
-    CrmTable,
     vueMousetrapPlugin: VueMousetrapPlugin,
     ContactTags,
     TransitionChild,
