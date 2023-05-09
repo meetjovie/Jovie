@@ -1462,6 +1462,7 @@ export default {
               let list = this.userLists.find((l) => l.id === this.filters.list);
               if (list) {
                 this.filters.currentList = list;
+                this.counts[`list_${list.id}`] = list.contacts_count;
               }
             }
           }
