@@ -146,7 +146,6 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
 app.use(router);
 app.use(store);
 app.use(InstantSearch);
