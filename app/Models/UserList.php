@@ -98,11 +98,11 @@ class UserList extends Model implements Auditable
             foreach ($teamUsers as $userId) {
                 self::updateSortOrder($userId, 0, 1, $list->id);
             }
-            $customFieldIds = CustomField::query()->pluck('id')->toArray();
-            $defaultIds = array_column(HeaderAttribute::DEFAULT_HEADERS, 'id');
-            $headerIds = array_merge($customFieldIds, $defaultIds);
-            foreach ($headerIds as $k => $headerId) {
-                HeaderAttribute::create(['header_id' => $headerId, 'type' => (is_numeric($headerId) ? 'default' : 'custom'), 'order' => $k, 'team_id' => $user->currentTeam->id, 'user_id' => $user->id, 'user_list_id' => $list->id]);
+            $customFieldIds = CustomField::query()->get()->toArray();
+            $defaultIds = HeaderAttribute::DEFAULT_HEADERS;
+            $headers = array_merge($customFieldIds, $defaultIds);
+            foreach ($headers as $k => $header) {
+                HeaderAttribute::create(['header_id' => $header['id'], 'type' => (is_numeric($header) ? 'default' : 'custom'), 'order' => $k, 'team_id' => $user->currentTeam->id, 'user_id' => $user->id, 'user_list_id' => $list->id, 'hide' => $header['hide']]);
             }
             return  $list;
         }
