@@ -147,22 +147,6 @@ axios.interceptors.request.use(
   }
 );
 
-let isRedirecting = false; // Flag to track redirection
-axios.interceptors.response.use(
-  (response) => {
-    // Handle successful responses
-    return response;
-  },
-  (error) => {
-    // Handle error responses
-    if (error.response && error.response.status === 401 && !isRedirecting) {
-      isRedirecting = true;
-      router.push('/login');
-    }
-    return Promise.reject(error);
-  }
-);
-
 app.use(router);
 app.use(store);
 app.use(InstantSearch);

@@ -94,6 +94,9 @@ router.beforeEach(async (to, from) => {
           } else {
             router.push({ name: 'Login' });
           }
+          if (to.meta.requiresAuth) {
+            router.push({ name: 'Login' });
+          }
         });
     }
   }
