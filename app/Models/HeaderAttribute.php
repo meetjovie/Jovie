@@ -23,7 +23,7 @@ class HeaderAttribute extends Model
             'sortable' => true,
             'hide' => true,
             'breakpoint' => '2xl',
-            'width' => '40',
+            'width' => '160',
             'type' => 'text',
         ],
         [
@@ -35,7 +35,7 @@ class HeaderAttribute extends Model
             'hide' => true,
             'sortable' => true,
             'breakpoint' => '2xl',
-            'width' => '40',
+            'width' => '160',
             'type' => 'text',
         ],
         [
@@ -79,7 +79,7 @@ class HeaderAttribute extends Model
             'name' => 'Gender',
             'key' => 'gender',
             'icon' => 'Person',
-            'width' => '40',
+            'width' => '160',
             'sortable' => true,
             'hide' => true,
             'breakpoint' => 'md',
@@ -93,7 +93,7 @@ class HeaderAttribute extends Model
             'meta' => true,
             'icon' => 'LinkIcon',
             'hide' => false,
-            'width' => '40',
+            'width' => '160',
             'type' => 'socialLinks',
         ],
         [
@@ -104,7 +104,7 @@ class HeaderAttribute extends Model
             'sortable' => true,
             'hide' => true,
             'breakpoint' => 'lg',
-            'width' => '40',
+            'width' => '160',
             'type' => 'currency',
         ],
         [
@@ -112,7 +112,7 @@ class HeaderAttribute extends Model
             'name' => 'Stage',
             'key' => 'stage',
             'icon' => 'ArrowDownCircleIcon',
-            'width' => '40',
+            'width' => '160',
             'sortable' => true,
             'hide' => false,
             'breakpoint' => 'md',
@@ -126,7 +126,7 @@ class HeaderAttribute extends Model
             'sortable' => true,
             'hide' => false,
             'breakpoint' => '2xl',
-            'width' => '40',
+            'width' => '160',
             'type' => 'date',
         ],
         [
@@ -137,7 +137,7 @@ class HeaderAttribute extends Model
             'sortable' => true,
             'hide' => false,
             'breakpoint' => '2xl',
-            'width' => '40',
+            'width' => '160',
             'type' => 'rating',
         ],
         [
@@ -147,7 +147,7 @@ class HeaderAttribute extends Model
             'icon' => 'ListBulletIcon',
             'hide' => false,
             'breakpoint' => '2xl',
-            'width' => '40',
+            'width' => '160',
             'type' => 'multi_select',
         ],
         [
@@ -158,7 +158,7 @@ class HeaderAttribute extends Model
             'hide' => true,
             'default' => true,
             'breakpoint' => '2xl',
-            'width' => '40',
+            'width' => '160',
             'type' => 'text',
         ],
     ];

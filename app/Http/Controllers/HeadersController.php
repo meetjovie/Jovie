@@ -26,7 +26,7 @@ class HeadersController extends Controller
 
         foreach ($headers as &$header) {
             $header['hide'] = $headerAttributesKeyed[$header['id']]['hide'] ?? 0;
-            $header['width'] = intval($headerAttributesKeyed[$header['id']]['width'] ?? 60);
+            $header['width'] = intval($headerAttributesKeyed[$header['id']]['width'] ?? 160);
         }
         $headerFields = $this->orderFields($headers, $headerAttributes->pluck('header_id')->toArray());
         array_unshift($headerFields, HeaderAttribute::FULL_NAME_HEADER);
