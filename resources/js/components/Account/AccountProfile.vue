@@ -4,12 +4,12 @@
       <div class="space-y-4">
         <!-- Profile Photo File Input -->
         <div class="mx-auto mt-1 flex flex-col items-center">
-            <ContactAvatar
-              :editable="true"
-              @updateAvatar="updateProfile($event)"
-              :loading="!$store.state.AuthState.user.id"
-              :contact="$store.state.AuthState.user"
-              class="mr-2" />
+          <ContactAvatar
+            :editable="true"
+            @updateAvatar="updateProfile($event)"
+            :loading="!$store.state.AuthState.user.id"
+            :contact="$store.state.AuthState.user"
+            class="mr-2" />
         </div>
         <!-- Name -->
         <div class="col-span-6 flex space-x-4">
@@ -145,6 +145,7 @@
                     placeholder="Email"
                     type="text" />
                 </div>
+                <AccountMobile :phone="$store.state.AuthState.user.phone" />
                 <!-- Title -->
                 <div class="col-span-3">
                   <InputGroup
@@ -305,10 +306,12 @@ import ImportService from '../../services/api/import.service';
 import ModalPopup from '../../components/ModalPopup';
 import SocialIcons from '../../components/SocialIcons';
 import ContactAvatar from '../ContactAvatar.vue';
+import AccountMobile from './AccountMobile.vue';
 
 export default {
   name: 'AccountProfile',
   components: {
+    AccountMobile,
     InputGroup,
     CardHeading,
     CardLayout,

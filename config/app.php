@@ -217,5 +217,6 @@ return [
 
     'local' => env('MIX_IS_LOCAL', false),
     'segment_write_key' => env('SEGMENT_WRITE_KEY', 'IO2AevGCArwqlMBurYcUIIn9QpuDkOUg'),
-
+    'twilio_sid' => env('TWILIO_ACCOUNT_SID', ''),
+    'twilio_token' => env('TWILIO_AUTH_TOKEN', ''),
 ];

@@ -46,6 +46,10 @@ Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout
 Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
 
+
+Route::post('/get-otp', [\App\Http\Controllers\TwillioController::class, 'getOtp']);
+Route::post('/verify-otp', [\App\Http\Controllers\TwillioController::class, 'verifyOtp']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Broadcast::routes();
