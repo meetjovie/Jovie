@@ -52,7 +52,7 @@ class CustomFieldsController extends Controller
             foreach ($teamUsers as $userId) {
                 FieldAttribute::updateSortOrder($userId, 0, 1, $customField->id);
             }
-            HeaderAttribute::updateSortOrder(0, 1, $customField->id, $userListId);
+            HeaderAttribute::updateSortOrder(0, 1, $customField->id);
         });
 
         return response()->json([
