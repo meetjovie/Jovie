@@ -14,7 +14,7 @@ class TwillioController extends Controller
     public function getOtp(Request $request)
     {
         $request->validate([
-            'number' => 'required|unique:users,phone'
+            'number' => 'required|unique:users,phone,' . $request->user()->id,
         ]);
         $verification = $this->generateOtp($request->number);
         return response([
@@ -26,7 +26,7 @@ class TwillioController extends Controller
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'number' => 'required|unique:users,phone',
+            'number' => 'required|unique:users,phone,' . $request->user()->id,
             'code' => 'required|digits:6',
             'service' => 'required',
         ]);
