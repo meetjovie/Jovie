@@ -1,24 +1,30 @@
 <template>
   <div class="col-span-6 space-y-4">
-    <div class="flex">
-      <div class="col-span-3">
-        <InputGroup
-          v-model="number"
-          :error="errors?.number?.[0]"
-          :disabled="updating"
-          name="number"
-          type="mobile"
-          label="Mobile Number"
-          class="w-full"
-          placeholder="Enter mobile number" />
-      </div>
-      <div class="">
-        <ButtonGroup
-          @click="getOtp"
-          v-if="!disableOtp"
-          text="Get OTP"></ButtonGroup>
-      </div>
+    <div class="col-span-6 flex items-center justify-between gap-2">
+      <InputGroup
+        :error="errors?.number?.[0]"
+        :disabled="updating"
+        name="number"
+        type="country_code"
+        label="+1"
+        class="w-28"
+        placeholder="+1" />
+      <InputGroup
+        v-model="number"
+        :error="errors?.number?.[0]"
+        :disabled="updating"
+        name="number"
+        type="mobile"
+        label="Mobile Number"
+        class="w-full"
+        placeholder="Enter mobile number" />
+
+      <ButtonGroup
+        @click="getOtp"
+        v-if="!disableOtp"
+        text="Get OTP"></ButtonGroup>
     </div>
+
     <div class="flex">
       <OTPInput
         v-if="showOtpInput"
