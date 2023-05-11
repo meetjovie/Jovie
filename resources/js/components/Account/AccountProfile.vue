@@ -284,6 +284,7 @@
     </div>
   </div>
   <ActionPanel
+    v-if="!onboarding"
     title="Delete Account"
     buttonstyle="danger"
     description="This is permanent and cannot be undone."

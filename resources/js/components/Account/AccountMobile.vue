@@ -9,6 +9,7 @@
           name="number"
           type="mobile"
           label="Mobile Number"
+          class="w-full"
           placeholder="Enter mobile number" />
       </div>
       <div class="">
