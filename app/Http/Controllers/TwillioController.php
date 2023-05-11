@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use App\Traits\TwilioTrait;
 use Illuminate\Http\Request;
 use Twilio\Rest\Client;
+use Twilio\TwiML\MessagingResponse;
 
 class TwillioController extends Controller
 {
     use TwilioTrait;
 
-    public function getOtp(Request $request) {
+    public function getOtp(Request $request)
+    {
         $request->validate([
-           'number' => 'required'
+            'number' => 'required|unique:users,phone'
         ]);
         $verification = $this->generateOtp($request->number);
         return response([
@@ -21,11 +23,12 @@ class TwillioController extends Controller
         ]);
     }
 
-    public function verifyOtp(Request $request) {
+    public function verifyOtp(Request $request)
+    {
         $request->validate([
-           'number' => 'required',
-           'code' => 'required|digits:6',
-           'service' => 'required',
+            'number' => 'required|unique:users,phone',
+            'code' => 'required|digits:6',
+            'service' => 'required',
         ]);
         $verification = $this->verifyTwilioOtp($request->service['service_sid'], $request->number, $request->code);
         if ($verification->status == 'approved') {
