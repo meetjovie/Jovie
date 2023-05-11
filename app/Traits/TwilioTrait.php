@@ -39,4 +39,12 @@ trait TwilioTrait
                 ]
             );
     }
+
+    public function sendSmsMessage($to, $body, $from)
+    {
+        $client = $this->initClient();
+        $client->messages
+            ->create($to, ["body" => $body, "from" => $from]
+            );
+    }
 }

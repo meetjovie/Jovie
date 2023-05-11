@@ -41,4 +41,26 @@ class TwillioController extends Controller
             "status" => $verification->status,
         ]);
     }
+
+    public function receiveSms(Request $request)
+    {
+        $request = $request->all();
+        $response = new MessagingResponse();
+        $body = $request['Body'];
+
+        if (strtolower($body) == 'yes') {
+
+        } else {
+            $body = "Do you want to create contact with the name" . '"' . $request['Body'] . '" ?';
+            $response->message($body);
+            return $response;
+//            $this->sendSmsMessage($request['From'], $body, $request['to']);
+        }
+        dd($request, 'receive');
+    }
+
+    public function handleFailedSms(Request $request)
+    {
+        dd($request, 'failed');
+    }
 }
