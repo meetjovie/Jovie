@@ -374,6 +374,8 @@ export default {
               title: 'Successful',
               message: response.message,
             });
+            this.success = true;
+            this.step = 2;
           } else {
             this.error = response.error;
           }
@@ -389,8 +391,6 @@ export default {
         })
         .finally(() => {
           this.submitting = false;
-          this.success = true;
-          this.step = 2;
           this.loading = false;
         });
     },
