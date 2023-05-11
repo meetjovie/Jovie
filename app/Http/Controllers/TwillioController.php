@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Services\UserService;
 use App\Traits\TwilioTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Twilio\Rest\Client;
 use Twilio\TwiML\MessagingResponse;
 
@@ -42,25 +45,28 @@ class TwillioController extends Controller
         ]);
     }
 
-    public function receiveSms(Request $request)
+    public function receiveSms(Request $request, UserService $userService)
     {
+        Log::info($request);
         $request = $request->all();
         $response = new MessagingResponse();
         $body = $request['Body'];
 
         if (strtolower($body) == 'yes') {
-
+            $user = $userService->fetchUserWithPhoneNumber($request['To']);
+            if ($user) {
+                $contact = $userService->importContactFromUser($user, $body);
+            }
         } else {
             $body = "Do you want to create contact with the name" . '"' . $request['Body'] . '" ?';
             $response->message($body);
             return $response;
-//            $this->sendSmsMessage($request['From'], $body, $request['to']);
         }
-        dd($request, 'receive');
     }
 
     public function handleFailedSms(Request $request)
     {
-        dd($request, 'failed');
+        Log::info($request);
+//        dd($request, 'failed');
     }
 }

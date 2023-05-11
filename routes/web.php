@@ -304,7 +304,43 @@ Route::get('/public-profiles', [\App\Http\Controllers\UserController::class, 'pu
 Route::get('/auth/{network}/redirect', [\App\Http\Controllers\Auth\AuthController::class, 'redirect']);
 Route::get('/auth/{network}/callback', [\App\Http\Controllers\Auth\AuthController::class, 'callback']);
 Route::get('/receive-sms', [\App\Http\Controllers\TwillioController::class, 'receiveSms']);
-Route::post('/handle-failed-sms', [\App\Http\Controllers\TwillioController::class, 'handleFailedSms']);
+Route::get('/handle-failed-sms', [\App\Http\Controllers\TwillioController::class, 'handleFailedSms']);
+
+Route::get('/send-message-to-twilio', function () {
+    // Your Twilio account SID and auth token
+    $accountSid = 'AC8067ce6b9bc10ca8be54fdbeea8685ca';
+    $authToken = 'dd8662efa4baafc9d4161066361c8ffb';
+//    dd($accountSid);
+
+    // The Messaging Service SID
+    $messagingServiceSid = 'MGf5cfcbb39671e7755f068a3f58f4e30c';
+
+    // The recipient is your Twilio phone number
+    $recipient = '(657) 315-6843'; // Replace with your Twilio phone number
+
+    // The content of the message
+    $messageContent = 'Steve Johnson';
+
+    // Create a Twilio client
+    $client = new \Twilio\Rest\Client($accountSid, $authToken);
+
+    // Send the message using the Messaging Service
+    $message = $client->messages->create(
+        $recipient,
+        [
+            'messagingServiceSid' => $messagingServiceSid,
+            'body' => $messageContent,
+        ]
+    );
+
+    // Process the message or perform any other actions here
+
+    // Example: Log the message SID
+    \Illuminate\Support\Facades\Log::info("Message sent successfully. Message SID: " . $message->sid);
+
+    // Return a response if needed
+    return response()->json(['message' => $message], 200);
+});
 Route::get('{any?}', function () {
     return view('welcome');
 })->where('any', '.*')->name('welcome');
