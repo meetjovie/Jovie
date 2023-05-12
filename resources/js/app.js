@@ -13,8 +13,8 @@ import VueMousetrapPlugin from 'vue-mousetrap';
 import VueCookies from 'vue-cookies';
 import Notifications from 'notiwind';
 import { createHead } from '@vueuse/head';
-
 import Vapor from 'laravel-vapor';
+
 /* window.Vapor = require('laravel-vapor'); */
 
 const myMixin = {};

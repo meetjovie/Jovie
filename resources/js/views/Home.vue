@@ -313,8 +313,7 @@ import HomeLogoCloud from '../components/Home/HomeLogoCloud.vue';
 import HomeFeatureSequences from '../components/Home/HomeFeatureSequences.vue';
 import HomeFeatureDiscovery from '../components/Home/HomeFeatureDiscovery.vue';
 import HomeHeroSection from '../components/Home/HomeHeroSection.vue';
-import HomeCTA from '../components/Home/HomeCTA.vue';
-import HomeTestimonials from '../components/Home/HomeTestimonials.vue';
+
 import HomeCTA4 from '../components/Home/HomeCTA4.vue';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM.vue';
 import HomeCreatorSearch from '../components/Home/HomeCreatorSearch.vue';
@@ -324,7 +323,6 @@ import JovieLogo from '../components/JovieLogo.vue';
 
 import CallToAction from '../components/CallToAction.vue';
 
-import ButtonGroup from '@/components/ButtonGroup.vue';
 export default {
   name: 'Home',
   components: {
@@ -335,13 +333,13 @@ export default {
     HomeFeatureDiscovery,
     Enrichment,
     HomeHeroSection,
-    HomeCTA,
-    ButtonGroup,
-    HomeTestimonials,
+    HomeCTA: () => import('@/components/Home/HomeCTA.vue'),
+    ButtonGroup: () => import('@/components/ButtonGroup.vue'),
+    HomeTestimonials: () => import('@/components/Home/HomeTestimonials.vue'),
     CallToAction,
     HomeCTA4,
     HomeFeatureCRM,
-    JovieReplaces,
+    JovieReplaces: () => import('@/components/External/JovieReplaces.vue'),
     SocialIcons,
   },
   data() {

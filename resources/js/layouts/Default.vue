@@ -260,7 +260,7 @@
     <router-view />
 
     <ExternalFooter> </ExternalFooter>
-    <div class="sticky bottom-0">
+    <div class="sticky bottom-0 isolate z-50">
       <AlertBanner
         class="hidden sm:block"
         dismissable="false"
