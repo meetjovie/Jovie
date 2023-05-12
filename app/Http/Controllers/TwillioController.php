@@ -53,16 +53,21 @@ class TwillioController extends Controller
         $body = $request['Body'];
 
         if (strtolower($body) == 'yes') {
+            $lastMessage = $this->fetchLastContactDetailMessage($request['From'], $request['To']);
             $user = $userService->fetchUserWithPhoneNumber($request['From']);
-            if ($user) {
-                Auth::loginUsingId($user->id);
-                $lastMessage = $this->fetchLastContactDetailMessage($request['From'], $request['To']);
-                if (strtolower($lastMessage) == 'yes' || strtolower($lastMessage) == 'no') {
-
-                } else {
-                    $userService->importContactFromUser($user, $lastMessage);
+            $name = explode(' ', $lastMessage);
+            $firstName = $name[0];
+            $lastName = $name[1] ?? null;
+//            if (strtolower($lastMessage) == 'yes' || strtolower($lastMessage) == 'no') {
+//
+//            } else {
+                if (!$user) {
+                    $user = $userService->registerNewUser($request['From'], $firstName, $lastName);
                 }
-            }
+                Auth::loginUsingId($user->id);
+                $userService->importContactFromUser($user, $firstName, $lastName);
+//            }
+
         } else {
             $body = "Do you want to create contact with the name" . '"' . $request['Body'] . '" ?';
             $response->message($body);
