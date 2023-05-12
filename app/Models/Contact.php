@@ -20,6 +20,7 @@ use Illuminate\Support\Arr;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
@@ -728,7 +729,7 @@ class Contact extends Model implements Auditable
                 return self::updateMultipleExistingContactsWithSocial($data, $existingContacts, $listId);
             }
         }
-
+        Log::info('srlnkzdfcxsljrnzdfk.');
         $contact = new Contact();
         $contact = self::setContactData($contact, $contactData);
         $contact->save();

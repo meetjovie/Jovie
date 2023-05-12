@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\UserService;
 use App\Traits\TwilioTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Twilio\Rest\Client;
 use Twilio\TwiML\MessagingResponse;
@@ -47,15 +48,20 @@ class TwillioController extends Controller
 
     public function receiveSms(Request $request, UserService $userService)
     {
-        Log::info($request);
         $request = $request->all();
         $response = new MessagingResponse();
         $body = $request['Body'];
 
         if (strtolower($body) == 'yes') {
-            $user = $userService->fetchUserWithPhoneNumber($request['To']);
+            $user = $userService->fetchUserWithPhoneNumber($request['From']);
             if ($user) {
-                $contact = $userService->importContactFromUser($user, $body);
+                Auth::loginUsingId($user->id);
+                $lastMessage = $this->fetchLastContactDetailMessage($request['From'], $request['To']);
+                if (strtolower($lastMessage) == 'yes' || strtolower($lastMessage) == 'no') {
+
+                } else {
+                    $userService->importContactFromUser($user, $lastMessage);
+                }
             }
         } else {
             $body = "Do you want to create contact with the name" . '"' . $request['Body'] . '" ?';
@@ -67,6 +73,5 @@ class TwillioController extends Controller
     public function handleFailedSms(Request $request)
     {
         Log::info($request);
-//        dd($request, 'failed');
     }
 }

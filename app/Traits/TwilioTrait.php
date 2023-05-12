@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Illuminate\Support\Facades\Log;
 use Twilio\Rest\Client;
 
 trait TwilioTrait
@@ -46,5 +47,16 @@ trait TwilioTrait
         $client->messages
             ->create($to, ["body" => $body, "from" => $from]
             );
+    }
+
+    public function fetchLastContactDetailMessage($from, $to)
+    {
+        $client = $this->initClient();
+        return $client->messages
+            ->read([
+                'from' => $from,
+                'to' => $to,
+                'order' => 'desc',
+            ],2)[0]->body;
     }
 }
