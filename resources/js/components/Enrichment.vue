@@ -165,12 +165,6 @@
 
 <script setup>
 import {
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-} from '@headlessui/vue';
-import {
   BookmarkSquareIcon,
   CalendarIcon,
   ChartBarIcon,

@@ -27,4 +27,13 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    'process.env': {},
+  },
+  resolve: {
+    alias: {
+      vue: 'vue/dist/vue.esm-bundler',
+      '@': '/resources/js',
+    },
+  },
 });
