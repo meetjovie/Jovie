@@ -458,7 +458,7 @@ import {
 } from '@headlessui/vue';
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
-import ModalPopup from '../components/ModalPopup';
+import ModalPopup from '../components/ModalPopup.vue';
 import UserListEditable from './Crm/UserListEditable.vue';
 export default {
   data() {

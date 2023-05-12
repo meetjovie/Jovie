@@ -215,9 +215,9 @@ import {
 } from '@heroicons/vue/24/solid';
 
 import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
-import JovieTooltip from '../components/JovieTooltip';
+import JovieTooltip from '../components/JovieTooltip.vue';
 import UserService from '../services/api/user.service';
-import ProgressBar from '../components/ProgressBar';
+import ProgressBar from '../components/ProgressBar.vue';
 import InitialBox from '../components/InitialBox.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';

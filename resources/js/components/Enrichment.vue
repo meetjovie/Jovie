@@ -186,7 +186,6 @@ import {
 } from '@heroicons/vue/24/outline';
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import ButtonGroup from '../components/ButtonGroup.vue';
-import HomeCTA2 from '../components/Home/HomeCTA2.vue';
 
 const features = [
   {

@@ -149,8 +149,8 @@ const tabs = [
   { name: 'Team Members', href: '#', current: false, icon: UsersIcon },
 ];
 
-import Subscribe from '../views/Subscribe';
-import Subscription from '../components/Subscription';
+import Subscribe from '../views/Subscribe.vue';
+import Subscription from '../components/Subscription.vue';
 import AccountPassword from '../components/Account/AccountPassword.vue';
 
 const selectedTab = ref(0);

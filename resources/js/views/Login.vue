@@ -189,7 +189,7 @@
 </template>
 <script>
 import CreateAccount from '../components/External/CreateAccount.vue';
-import JovieLogo from '../components/JovieLogo';
+import JovieLogo from '../components/JovieLogo.vue';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import AuthService from '../services/auth/auth.service';
 import router from '../router';

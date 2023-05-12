@@ -140,7 +140,7 @@ import {
 } from '@heroicons/vue/24/solid';
 import { XCircleIcon, CheckCircleIcon } from '@heroicons/vue/24/solid';
 
-import JovieSpinner from '../components/JovieSpinner';
+import JovieSpinner from '../components/JovieSpinner.vue';
 
 export default {
   methods: {

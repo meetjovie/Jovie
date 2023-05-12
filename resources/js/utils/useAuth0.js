@@ -10,8 +10,8 @@
 // });
 //
 // const config = {
-//     domain: process.env.MIX_AUTH0_DOMAIN,
-//     client_id: process.env.MIX_AUTH0_CLIENT_ID
+//     domain: process.env.VITE_AUTH0_DOMAIN,
+//     client_id: process.env.VITE_AUTH0_CLIENT_ID
 // };
 //
 // export const useAuth0 = () => {

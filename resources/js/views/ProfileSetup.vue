@@ -88,7 +88,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="dark;text-slate-200 bd:text-slate-200 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+                      class="dark;text-slate-200 bd:text-slate-200 cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-900 dark:text-jovieDark-200">
                       Change
                     </label>
                     <input
@@ -114,7 +114,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+                    class="mr-2 mt-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:bg-jovieDark-900 dark:text-jovieDark-200">
                     Remove Photo
                   </button>
                 </div>
@@ -172,7 +172,7 @@
         <div class="mt-8 items-center px-2 py-12" v-else-if="currentStep == 2">
           <div
             class="py- rounded-md bg-slate-50 px-4 dark:bg-jovieDark-800 dark:text-jovieDark-300">
-            <h2 class="font-slate-500 py-2 px-4">
+            <h2 class="font-slate-500 px-4 py-2">
               Add at least one social link to your profile.
             </h2>
             <div class="mt-4 grid grid-cols-2 gap-4">
@@ -250,7 +250,7 @@
       </div>
 
       <div
-        class="text-2x mx-auto flex items-center justify-between py-6 px-4 text-center font-semibold text-slate-500">
+        class="text-2x mx-auto flex items-center justify-between px-4 py-6 text-center font-semibold text-slate-500">
         <div>
           <ChevronLeftIcon
             @click="previousStep()"
@@ -270,7 +270,7 @@
       class="overflow-y-autoxl:order-last relative hidden w-96 flex-shrink-0 border border-dashed dark:border-jovieDark-border xl:flex xl:flex-col">
       <!-- Start secondary column (hidden on smaller screens) -->
       <div
-        class="absolute inset-0 items-center border-r border-slate-200 py-6 px-4 sm:px-6 lg:px-8">
+        class="absolute inset-0 items-center border-r border-slate-200 px-4 py-6 sm:px-6 lg:px-8">
         <span class="text-2xl font-semibold text-slate-500">Preview</span>
         <div class="items-center">
           <div
@@ -325,7 +325,7 @@
                           user[`show_${network}`] &&
                           this.currentUser.creator_profile[`${network}_handler`]
                         "
-                        class="group flex cursor-pointer items-center justify-center rounded-md border py-3 px-3 text-sm font-medium uppercase opacity-50 hover:bg-slate-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
+                        class="group flex cursor-pointer items-center justify-center rounded-md border px-3 py-3 text-sm font-medium uppercase opacity-50 hover:bg-slate-100 hover:opacity-100 focus-visible:outline-none sm:flex-1">
                         <a
                           class
                           :href="
@@ -349,7 +349,7 @@
               <!--  v-if="this.currentUser.call_to_action_text" -->
               <a href="#">
                 <button
-                  class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-400">
+                  class="mb-0 mt-2 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-400">
                   Save contact
                 </button>
               </a>
@@ -366,16 +366,16 @@
 </template>
 <script>
 import md5 from 'md5';
-import InputGroup from './../components/InputGroup';
-import CardHeading from './../components/CardHeading';
-import CardLayout from './../components/CardLayout';
-import ButtonGroup from './../components/ButtonGroup';
-import ModalPopup from './../components/ModalPopup';
+import InputGroup from './../components/InputGroup.vue';
+import CardHeading from './../components/CardHeading.vue';
+import CardLayout from './../components/CardLayout.vue';
+import ButtonGroup from './../components/ButtonGroup.vue';
+import ModalPopup from './../components/ModalPopup.vue';
 import UserService from './../services/api/user.service';
-import ProgressBar from './../components/ProgressBar';
-import JovieSpinner from './../components/JovieSpinner';
+import ProgressBar from './../components/ProgressBar.vue';
+import JovieSpinner from './../components/JovieSpinner.vue';
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
-import DataInputGroup from './../components/DataInputGroup';
+import DataInputGroup from './../components/DataInputGroup.vue';
 
 export default {
   name: 'ProfileSetup',

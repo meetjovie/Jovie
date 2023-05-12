@@ -9,19 +9,18 @@
         :key="socialLink.id"
         @click="openLink(socialLink.url, true)"
         class="mx-auto cursor-pointer items-center justify-center">
-          <div class="text-slate-5 mx-auto justify-center text-center">
-            <SocialIcons
-              :height="'14px'"
-              :linkDisabled="!socialLink.url"
-              :iconstyle="iconstyle"
-              :link="socialLink.url ?? '#'"
-              :icon="socialLink.network"
-            />
-          </div>
-          <div class="mx-auto text-center text-2xs text-slate-500">
-            v-if=socialLink.followers
-            {{ formatCount(socialLink.followers) }}
-          </div>
+        <div class="text-slate-5 mx-auto justify-center text-center">
+          <SocialIcons
+            :height="'14px'"
+            :linkDisabled="!socialLink.url"
+            :iconstyle="iconstyle"
+            :link="socialLink.url ?? '#'"
+            :icon="socialLink.network" />
+        </div>
+        <div class="mx-auto text-center text-2xs text-slate-500">
+          v-if=socialLink.followers
+          {{ formatCount(socialLink.followers) }}
+        </div>
       </div>
     </div>
     <div
@@ -32,22 +31,22 @@
         :key="socialLink.id"
         @click="openLink(socialLink.url, true)"
         class="flex cursor-pointer">
-          <SocialIcons
-            :height="'14px'"
-            :linkDisabled="!socialLink.url"
-            :iconstyle="iconstyle"
-            :link="socialLink.url ?? '#'"
-            :icon="socialLink.network" />
-          <span class="text-xs text-slate-500" v-if="socialLink.followers">{{
-            formatCount(socialLink.followers)
-          }}</span>
+        <SocialIcons
+          :height="'14px'"
+          :linkDisabled="!socialLink.url"
+          :iconstyle="iconstyle"
+          :link="socialLink.url ?? '#'"
+          :icon="socialLink.network" />
+        <span class="text-xs text-slate-500" v-if="socialLink.followers">{{
+          formatCount(socialLink.followers)
+        }}</span>
       </div>
     </div>
     <!--/sse-->
   </div>
 </template>
 <script>
-import SocialIcons from '../SocialIcons';
+import SocialIcons from '../SocialIcons.vue';
 
 export default {
   components: { SocialIcons },

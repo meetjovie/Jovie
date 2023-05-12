@@ -16,7 +16,7 @@
   </div>
 </template>
 <script>
-import SocialIcons from '../SocialIcons';
+import SocialIcons from '../SocialIcons.vue';
 
 export default {
   components: { SocialIcons },

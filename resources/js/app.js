@@ -1,6 +1,7 @@
 import App from './App.vue';
 
-require('./bootstrap');
+import './bootstrap';
+import '../css/app.css';
 
 import * as Vue from 'vue';
 import router from './router/index';

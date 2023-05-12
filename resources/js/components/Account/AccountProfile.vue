@@ -299,13 +299,13 @@
 <script>
 import ActionPanel from '../../components/ActionPanel.vue';
 import UserService from '../../services/api/user.service';
-import InputGroup from '../../components/InputGroup';
-import CardHeading from '../../components/CardHeading';
-import CardLayout from '../../components/CardLayout';
-import ButtonGroup from '../../components/ButtonGroup';
+import InputGroup from '../../components/InputGroup.vue';
+import CardHeading from '../../components/CardHeading.vue';
+import CardLayout from '../../components/CardLayout.vue';
+import ButtonGroup from '../../components/ButtonGroup.vue';
 import ImportService from '../../services/api/import.service';
-import ModalPopup from '../../components/ModalPopup';
-import SocialIcons from '../../components/SocialIcons';
+import ModalPopup from '../../components/ModalPopup.vue';
+import SocialIcons from '../../components/SocialIcons.vue';
 import ContactAvatar from '../ContactAvatar.vue';
 import AccountMobile from './AccountMobile.vue';
 

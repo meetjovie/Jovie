@@ -126,7 +126,7 @@
 
                   <router-link
                     to="pricing"
-                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-slate-600 hover:text-slate-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 dark:text-jovieDark-300 dark:text-jovieDark-200 dark:hover:text-jovieDark-200 dark:hover:text-jovieDark-100 lg:inline-flex">
+                    class="group z-20 hidden items-center rounded-md px-3 text-xs font-medium text-slate-600 hover:text-slate-700 hover:text-opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 dark:text-jovieDark-200 dark:text-jovieDark-300 dark:hover:text-jovieDark-100 dark:hover:text-jovieDark-200 lg:inline-flex">
                     Pricing
                   </router-link>
                 </div>
@@ -151,7 +151,7 @@
                           class="border-1 group relative inline-flex items-center rounded-md bg-indigo-500 px-4 py-1 text-xs font-medium text-slate-200 hover:bg-indigo-600 hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800">
                           <span>Try Jovie free</span>
                           <svg
-                            class="mt-0 ml-2 -mr-1 stroke-white stroke-2 dark:stroke-black"
+                            class="-mr-1 ml-2 mt-0 stroke-white stroke-2 dark:stroke-black"
                             fill="none"
                             width="10"
                             height="10"
@@ -171,7 +171,7 @@
                           class="border-1 group relative inline-flex items-center rounded-lg bg-slate-900 px-5 py-3 text-xs font-medium text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-800 dark:bg-jovieDark-100 dark:text-jovieDark-900">
                           <span>Try Jovie free</span>
                           <svg
-                            class="dark:stroke- mt-0 ml-2 -mr-1 stroke-white stroke-2 dark:stroke-black"
+                            class="dark:stroke- -mr-1 ml-2 mt-0 stroke-white stroke-2 dark:stroke-black"
                             fill="none"
                             width="10"
                             height="10"
@@ -237,7 +237,7 @@
           </div>
         </div> -->
           <DisclosurePanel class="lg:hidden">
-            <div class="space-y-1 pt-2 pb-3">
+            <div class="space-y-1 pb-3 pt-2">
               <DisclosureButton
                 v-for="item in navigation"
                 :key="item.name"
@@ -304,7 +304,7 @@ import {
   XMarkIcon,
 } from '@heroicons/vue/24/outline';
 import UserService from '../services/api/user.service';
-import ExternalFooter from '../components/External/ExternalFooter';
+import ExternalFooter from '../components/External/ExternalFooter.vue';
 import {
   Popover,
   PopoverButton,
