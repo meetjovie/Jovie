@@ -7,7 +7,7 @@
       </div>
     </div>
     <div
-      class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
@@ -31,9 +31,9 @@
                     @click.prevent="authProvider('google')"
                     :text="'Continue with Google'"
                     type="button"
-                    design="secondary"
+                    design="auth"
                     icon="google"
-                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    class="w-full">
                   </ButtonGroup>
 
                   <div class="relative">
@@ -56,8 +56,8 @@
                     @click.prevent="showEmailSignupMethod = true"
                     :text="'Continue with email'"
                     type="button"
-                    design="secondary"
-                    class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                    design="auth"
+                    class="w-full">
                   </ButtonGroup>
                 </div>
                 <div class="space-y-4" v-show="showEmailSignupMethod">
@@ -132,7 +132,7 @@
                       :loader="loading"
                       :disabled="submitting"
                       text="Next"
-                      class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                      class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                     </ButtonGroup>
                   </div>
                 </div>
@@ -374,6 +374,8 @@ export default {
               title: 'Successful',
               message: response.message,
             });
+            this.success = true;
+            this.step = 2;
           } else {
             this.error = response.error;
           }
@@ -389,8 +391,6 @@ export default {
         })
         .finally(() => {
           this.submitting = false;
-          this.success = true;
-          this.step = 2;
           this.loading = false;
         });
     },

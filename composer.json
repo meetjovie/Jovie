@@ -29,10 +29,12 @@
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^0.23.1",
         "mpociot/teamwork": "^7.0",
+        "owen-it/laravel-auditing": "^13.5",
         "psr/simple-cache": "^2.0",
         "pusher/pusher-php-server": "^7.0",
         "simplesoftwareio/simple-sqs-extended-client": "^2.0",
         "singlestoredb/singlestoredb-laravel": "^1.4",
+        "twilio/sdk": "^7.3",
         "weidner/goutte": "^2.2"
     },
     "require-dev": {
@@ -78,7 +80,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

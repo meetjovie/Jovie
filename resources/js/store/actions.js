@@ -1,7 +1,7 @@
 import userService from "../services/api/user.service";
 import AuthService from "../services/auth/auth.service";
 import router from "../router";
-import creatorService from "../services/api/creator.service";
+import ContactService from "../services/api/contact.service";
 import UserService from "../services/api/user.service";
 
 export default {
@@ -27,47 +27,12 @@ export default {
         })
     },
 
-    async updateCreator(context, { id, index, network, key, value }) {
+    async updateContact(context, { id, index, network, key, value }) {
         const data = {
             id: id,
         };
-        let keySplits = key.split('.');
-        if (keySplits.length > 1) {
-            var key1 = keySplits[0];
-            var key2 = keySplits[1];
-            data[key1] = {
-                [key2]: value,
-            };
-        } else if (key == 'emails') {
-            if (typeof value == 'string') {
-                value = value.split(',')
-                data[key] = value;
-            }
-        } else {
-            data[key] = value;
-        }
-        return await userService.updateCreator(data)
-    },
-    async updateOverviewCreator(context, { id, index, network, key, value }) {
-        const data = {
-            id: id,
-        };
-        let keySplits = key.split('.');
-        if (keySplits.length > 1) {
-            var key1 = keySplits[0];
-            var key2 = keySplits[1];
-            data[key1] = {
-                [key2]: value,
-            };
-        } else if (key == 'emails') {
-            if (typeof value == 'string') {
-                value = value.split(',')
-                data[key] = value;
-            }
-        } else {
-            data[key] = value;
-        }
-        return await creatorService.updateOverviewCreator(data)
+        data[key] = value;
+        return await userService.updateContact(data)
     },
 
     getPublicProfile(context, payload) {
@@ -84,16 +49,12 @@ export default {
         return await userService.moveCreator(payload)
     },
 
-    async toggleCreatorsFromList(context, payload) {
-        return await userService.toggleCreatorsFromList(payload)
+    async toggleContactsFromList(context, payload) {
+        return await userService.toggleContactsFromList(payload)
     },
 
-    async toggleArchiveCreators(context, payload) {
-        return await userService.toggleArchiveCreators(payload)
-    },
-
-    async updateCrmMeta(context, payload) {
-        return await userService.updateCrmMeta(payload.id, payload.meta)
+    async toggleArchiveContacts(context, payload) {
+        return await userService.toggleArchiveContacts(payload)
     },
 
     async uploadTempFileFromUrl(context, payload) {
@@ -108,7 +69,7 @@ export default {
 
     async sortFields(context, payload) {
         UserService.sortFields(
-            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, listId: payload.listId, hide: payload.hide },
+            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, hide: payload.hide },
             payload.itemId
         )
             .then((response) => {
@@ -149,8 +110,51 @@ export default {
             .finally((response) => {});
     },
 
-    async toggleFieldHide(context, payload) {
-        UserService.toggleFieldHide(
+    async sortHeaders(context, payload) {
+        UserService.sortHeaders(
+            { newIndex: payload.newIndex, oldIndex: payload.oldIndex, custom: payload.custom, hide: payload.hide, listId: payload.listId },
+            payload.itemId
+        )
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'success',
+                        duration: 15000,
+                        title: 'Successful',
+                        text: response.message,
+                    });
+                } else {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'error',
+                        duration: 15000,
+                        title: 'Error',
+                        text: response.message,
+                    });
+                    // show toast error here later
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status == 422) {
+                    self.errors = error.data.errors;
+                    if (payload.self.errors.field[0]) {
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: payload.self.errors.field[0],
+                        });
+                    }
+                }
+            })
+            .finally((response) => {});
+    },
+
+    async toggleHeaderHide(context, payload) {
+        UserService.toggleHeaderHide(
             { listId: payload.listId, hide: payload.hide, custom: payload.custom },
             payload.itemId
         )
@@ -212,5 +216,144 @@ export default {
                     return resolve()
                 });
         })
-    }
+    },
+    async markEnrichedViewed(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.markEnrichedViewed(payload)
+                .then((response) => {
+                })
+                .catch((error) => {
+                })
+                .finally(() => {
+                    return resolve()
+                });
+        })
+    },
+    async checkContactsEnrichable(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.checkContactsEnrichable(payload)
+                .then((response) => {
+                    return resolve(response)
+                })
+                .catch((error) => {
+                    return reject(error)
+                })
+                .finally(() => {
+                });
+        })
+    },
+    async enrichContacts(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.enrichContacts(payload.contact_ids)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        context.state.crmRecords.filter(record => response.data.includes(record.id)).forEach(record => {
+                            record.enriching = true
+                        })
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: response.message,
+                        });
+                    }
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status == 422) {
+                        payload.self.errors = error.data.errors;
+                        if (payload.self.errors.field[0]) {
+                            payload.self.$notify({
+                                group: 'user',
+                                type: 'success',
+                                duration: 15000,
+                                title: 'Successful',
+                                text: payload.self.errors.field[0],
+                            });
+                        }
+                    }
+                })
+                .finally(() => {
+                });
+        })
+    },
+    async checkListsEnrichable(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.checkListsEnrichable(payload)
+                .then((response) => {
+                    return resolve(response)
+                })
+                .catch((error) => {
+                    return reject(error)
+                })
+                .finally(() => {
+                });
+        })
+    },
+    async enrichLists(context, payload) {
+        return new Promise((resolve, reject) => {
+            ContactService.enrichLists(payload.list_ids)
+                .then((response) => {
+                    response = response.data;
+                    if (response.status) {
+                        context.state.crmRecords.filter(record => {
+                            let contactListIds = record.user_lists.map(list => list.id)
+                            response.data.forEach(listId => {
+                                if (contactListIds.includes(listId)) {
+                                    record.enriching = true
+                                }
+                            })
+                        })
+                        payload.self.$notify({
+                            group: 'user',
+                            type: 'success',
+                            duration: 15000,
+                            title: 'Successful',
+                            text: response.message,
+                        });
+                        resolve(response.data)
+                    }
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status == 422) {
+                        payload.self.errors = error.data.errors;
+                        if (payload.self.errors.field[0]) {
+                            payload.self.$notify({
+                                group: 'user',
+                                type: 'success',
+                                duration: 15000,
+                                title: 'Successful',
+                                text: payload.self.errors.field[0],
+                            });
+                        }
+                    }
+                })
+                .finally(() => {
+                });
+        })
+    },
+    async updateColumnWidth(context, payload) {
+        UserService.updateColumnWidth(
+            { width: payload.width, custom: payload.custom, listId: payload.listId},
+            payload.columnId
+        )
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                } else {
+                    payload.self.$notify({
+                        group: 'user',
+                        type: 'error',
+                        duration: 15000,
+                        title: 'Error',
+                        text: response.message,
+                    });
+                    // show toast error here later
+                }
+            })
+            .catch((error) => {
+            })
+            .finally((response) => {});
+    },
 }

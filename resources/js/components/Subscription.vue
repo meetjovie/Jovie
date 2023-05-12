@@ -78,9 +78,6 @@
                                 >
 
                                 <span aria-hidden="true"> &middot; </span>
-                                <span class="text-xs uppercase">
-                                  500 contact credits</span
-                                >
                               </span>
                             </RadioGroupDescription>
                             <RadioGroupDescription
@@ -100,11 +97,19 @@
                                 <span aria-hidden="true"> &middot; </span>
                                 <span class="text-xs uppercase">
                                   {{
+                                    product.metadata.contacts
+                                      ? product.metadata.contacts
+                                      : 0
+                                  }}
+                                  contact</span
+                                >
+                                <span class="text-xs uppercase">
+                                  {{
                                     product.metadata.credits
                                       ? product.metadata.credits
                                       : 0
                                   }}
-                                  contact credits</span
+                                  contact AI credits</span
                                 >
                               </span>
                             </RadioGroupDescription>
@@ -178,7 +183,7 @@
           ref="paymentElement"
           :errors="errors"
           @setPaymentElement="setPaymentElement"
-          :buttonText="showSubscriptionPlans ? 'Update' : 'Pay'"
+          :buttonText="Pay"
           :processingPayment="processingPayment"
           @pay="pay" />
       </div>
@@ -287,26 +292,39 @@
         </dl>
       </div>
       <div class="justify-right mx-auto mt-4 w-full">
-        <ButtonGroup
-          v-if="currentUser.current_team.current_subscription.ends_at"
-          @click="resumeSubscription()"
-          :disabled="updatingSubscription"
-          design="secondary"
-          class="mr-4"
-          text="Resume Subscription" />
-        <ButtonGroup
-          v-else
-          @click="cancelSubscription()"
-          :disabled="updatingSubscription"
-          design="danger"
-          class="mr-4"
-          text="Cancel Subscription" />
-        <ButtonGroup
-          @click="toggleChangeSubscription(true)"
-          :disabled="updatingSubscription"
-          design="secondary"
-          class="mr-4"
-          text="Change Subscription" />
+        <div
+          v-if="
+            currentUser.current_team.current_subscription.name == 'Basic Plan'
+          ">
+          <ButtonGroup
+            @click="toggleChangeSubscription(true)"
+            :disabled="updatingSubscription"
+            design="secondary"
+            class="mr-4"
+            text="Subscribe" />
+        </div>
+        <div v-else>
+          <ButtonGroup
+            v-if="currentUser.current_team.current_subscription.ends_at"
+            @click="resumeSubscription()"
+            :disabled="updatingSubscription"
+            design="secondary"
+            class="mr-4"
+            text="Resume Subscription" />
+          <ButtonGroup
+            v-else
+            @click="cancelSubscription()"
+            :disabled="updatingSubscription"
+            design="danger"
+            class="mr-4"
+            text="Cancel Subscription" />
+          <ButtonGroup
+            @click="toggleChangeSubscription(true)"
+            :disabled="updatingSubscription"
+            design="secondary"
+            class="mr-4"
+            text="Change Subscription" />
+        </div>
       </div>
     </template>
   </div>
@@ -586,7 +604,7 @@ export default {
             });
             this.processingPayment = false;
           } else {
-            if (this.showSubscriptionPlans) {
+            if (this.showSubscriptionPlans && this.currentUser.current_team.current_subscription.name != 'Basic Plan') {
               this.changeSubscription(
                 result.setupIntent.payment_method,
                 coupon

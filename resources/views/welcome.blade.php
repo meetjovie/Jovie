@@ -7,7 +7,7 @@
  █████   ██████    ████   ██ ███████
 
 
- Come hack with us at Jovie: https://jov.ie/careers
+ Come hack with us at Jovie: https://jov.ie/careers/
 
  -->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">

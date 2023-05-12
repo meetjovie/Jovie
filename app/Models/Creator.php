@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\CreatorImported;
+use App\Events\ContactImported;
 use App\Traits\CustomFieldsTrait;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
@@ -103,16 +103,34 @@ class Creator extends Model
         return $this->full_name ?? ($this->first_name ? ($this->first_name.' '.$this->last_name) : null) ?? $this->instagram_name ?? $this->twitch_name ?? $this->twitter_name ?? $this->tiktok_name;
     }
 
+    public function getFirstName($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        return $creator->first_name ?: ($creator->name ? explode(' ', $creator->name)[0] : null);
+    }
+
+    public function getLastName($creator = null)
+    {
+        if (is_null($creator)) {
+            $creator = $this;
+        }
+
+        return $creator->last_name ?: ($creator->name ? (explode(' ', $creator->name)[1] ?? null) : null);
+    }
+
     public function getName($creator = null)
     {
         if (is_null($creator)) {
             $creator = $this;
         }
 
-        return $creator->full_name ?? ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name ?? $creator->tiktok_name;
+        return $creator->full_name ?: ($creator->first_name ? ($creator->first_name.' '.$creator->last_name) : null) ?? $creator->instagram_name ?? $creator->twitch_name ?? $creator->twitter_name ?? $creator->tiktok_name;
     }
 
-    public function getBiographyAttribute($creator)
+    public function getBiographyAttribute($creator = null)
     {
         if (is_null($creator)) {
             $creator = $this;
@@ -487,7 +505,7 @@ class Creator extends Model
         $userId = $userId ?? Auth::id();
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $creators = DB::table('creators')
-            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('description_updated.first_name as description_updated_by')
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
@@ -495,9 +513,8 @@ class Creator extends Model
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
-            })->leftJoin('creator_notes as cn', function ($join) use ($userId) {
-                $join->on('cn.creator_id', '=', 'crms.creator_id')
-                    ->where('cn.user_id', $userId);
+            })->leftJoin('users as description_updated', function ($join) use ($userId) {
+                $join->on('description_updated.id', '=', 'crms.description_updated_by')->select('first_name as description_updated_by');
             });
 
         if (isset($params['type']) && $params['type'] == 'archived') {
@@ -517,6 +534,10 @@ class Creator extends Model
 
         if (isset($params['id'])) {
             $creators = $creators->where('creators.id', $params['id'])->limit(1);
+        }
+
+        if (isset($params['crm_id'])) {
+            $creators = $creators->where('crms.id', $params['crm_id'])->limit(1);
         }
 
         if (isset($params['username'])) {
@@ -599,6 +620,7 @@ class Creator extends Model
             $creator->tags = $creatorAccessor->getTagsAttribute($creator->tags);
 
             $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
+            $creator->linkedin_handler = $creatorAccessor->getLinkedinHandlerAttribute($creator->linkedin_handler);
             $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
             $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
             $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
@@ -611,6 +633,8 @@ class Creator extends Model
             $creator->crm_record_by_user->id = $creator->crm_id;
             $creator->crm_record_by_user->user_id = $user->id;
             $creator->crm_record_by_user->team_id = $user->currentTeam->id;
+            $creator->crm_record_by_user->description = $creator->description;
+            $creator->crm_record_by_user->description_updated_by = $creator->description_updated_by;
             $creator->crm_record_by_user->creator_id = $creator->id;
             $creator->crm_record_by_user->last_contacted = $creator->last_contacted ? Carbon::make($creator->last_contacted)->toDateString() : null;
             $creator->crm_record_by_user->offer = $creator->offer;
@@ -638,6 +662,8 @@ class Creator extends Model
             unset($creator->stage);
             unset($creator->favourite);
             unset($creator->muted);
+            unset($creator->description);
+            unset($creator->description_updated_by);
 
             // have suggested offer and make instagram offer == suggester offer in case instagram
             // offer is null or 0, so we can use same model on frontend
@@ -670,7 +696,7 @@ class Creator extends Model
         $userId = $userId ?? Auth::id();
         $user = User::with('currentTeam')->where('id', $userId)->first();
         $creator = DB::table('creators')
-            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('cn.note')
+            ->addSelect('crms.*')->addSelect('crms.id as crm_id')->addSelect('description_updated.first_name as description_updated_by')
             ->addSelect('creators.*')->addSelect('creators.id as id')
             ->join('crms', function ($join) use ($params, $user) {
                 $join->on('crms.creator_id', '=', 'creators.id')
@@ -678,9 +704,8 @@ class Creator extends Model
                     ->where(function ($q) {
                         $q->where('crms.muted', 0)->orWhere('crms.muted', null);
                     });
-            })->leftJoin('creator_notes as cn', function ($join) use ($userId) {
-                $join->on('cn.creator_id', '=', 'crms.creator_id')
-                    ->where('cn.user_id', $userId);
+            })->leftJoin('users as description_updated', function ($join) use ($userId) {
+                $join->on('description_updated.id', '=', 'crms.description_updated_by');
             });
 
         if (!empty($params['username']) && !empty($params['network'])) {
@@ -730,6 +755,7 @@ class Creator extends Model
         $creator->tags = $creatorAccessor->getTagsAttribute($creator->tags);
 
         $creator->instagram_handler = $creatorAccessor->getInstagramHandlerAttribute($creator->instagram_handler);
+        $creator->linkedin_handler = $creatorAccessor->getLinkedinHandlerAttribute($creator->linkedin_handler);
         $creator->twitter_handler = $creatorAccessor->getTwitterHandlerAttribute($creator->twitter_handler);
         $creator->twitch_handler = $creatorAccessor->getTwitchHandlerAttribute($creator->twitch_handler);
         $creator->tiktok_handler = $creatorAccessor->getTiktokHandlerAttribute($creator->tiktok_handler);
@@ -741,6 +767,8 @@ class Creator extends Model
         $creator->crm_record_by_user = (object) [];
         $creator->crm_record_by_user->user_id = $user->id;
         $creator->crm_record_by_user->team_id = $user->currentTeam->id;
+        $creator->crm_record_by_user->description = $creator->description;
+        $creator->crm_record_by_user->description_updated_by = $creator->description_updated_by;
         $creator->crm_record_by_user->creator_id = $creator->id;
         $creator->crm_record_by_user->last_contacted = $creator->last_contacted;
         $creator->crm_record_by_user->offer = $creator->offer;
@@ -768,6 +796,8 @@ class Creator extends Model
         unset($creator->stage);
         unset($creator->favourite);
         unset($creator->muted);
+        unset($creator->description);
+        unset($creator->description_updated_by);
 
         // have suggested offer and make instagram offer == suggester offer in case instagram
         // offer is null or 0, so we can use same model on frontend
@@ -797,6 +827,9 @@ class Creator extends Model
                 foreach ($v as $key => $value) {
                     $isColExist = Schema::hasColumn('crms', $key);
                     if ($isColExist) {
+                        if ($key == 'description') {
+                            $dataToUpdateForCrm['description_updated_by'] = Auth::user()->id;
+                        }
                         $dataToUpdateForCrm[$key] = $value;
                     } else {
                         $dataToUpdateForCustomFields[$key] = $value;
@@ -830,6 +863,10 @@ class Creator extends Model
                 ]);
             }
         }
+        return [
+            'crm' => $crm,
+            'creator' => $creator
+        ];
     }
 
     public function toSearchableArray()
@@ -937,7 +974,7 @@ class Creator extends Model
                 $crm->source = $source;
                 $crm->save();
             }
-            CreatorImported::dispatch($creator->id, $userId, $teamId, $listId);
+            ContactImported::dispatch($creator->id, $userId, $teamId, $listId);
         }
     }
 

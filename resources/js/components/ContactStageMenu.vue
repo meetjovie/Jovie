@@ -13,8 +13,8 @@
           class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200">
           <ColorDot
             class="mr-1"
-            :color="color(creator.crm_record_by_user.stage_name)" />
-          {{ creator.crm_record_by_user.stage_name }}
+            :color="color(contact.stage_name)" />
+          {{ contact.stage_name }}
         </div>
         <div class="items-center">
           <ChevronDownIcon
@@ -62,12 +62,12 @@
                   :name="stage"
                   :colorDot="color(stage)"
                   checkable
-                  :checked="stage === creator.crm_record_by_user.stage_name"
+                  :checked="stage === contact.stage_name"
                   @click="
-                    $emit('updateCreator', {
-                      id: creator.id,
+                    $emit('updateContact', {
+                      id: contact.id,
                       index: index,
-                      key: `crm_record_by_user.stage`,
+                      key: `stage`,
                       value: key,
                     })
                   ">
@@ -141,8 +141,8 @@ export default {
   },
   mounted() {
     this.$mousetrap.bind('s', () => {
-      //if  currentContact.id == creator.id set open to true
-      if (this.currentContact.id == this.creator.id) {
+      //if  currentContact.id == contact.id set open to true
+      if (this.currentContact.id == this.contact.id) {
         this.open = true;
       } else {
         console.log('not the same');
@@ -150,12 +150,12 @@ export default {
     });
   },
   props: {
-    creator: {
+    contact: {
       type: Object,
       required: true,
     },
     key: {
-      type: String,
+      type: [Number, String],
       required: true,
     },
     stages: {

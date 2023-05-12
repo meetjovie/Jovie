@@ -50,7 +50,7 @@
                   https://jov.ie/<span
                     class="font-light text-slate-700 opacity-50"
                     >yournamehere</span
-                  > 
+                  >
                 </div>-->
               </div>
             </div>
@@ -75,7 +75,7 @@
                                   What brands see
                                 </span>
                             <h1 class="text-4xl text-center sm:text-right font-extrabold tracking-tight text-slate-900 sm:text-5xl xl:text-6xl">
-                                Creator</h1>
+                                Contact</h1>
                             <h1 class="text-4xl text-center sm:text-right font-extrabold tracking-tight text-indigo-700 sm:text-5xl xl:text-6xl">
                                 Media kits</h1>
                             <p class="mt-4 text-xl text-center sm:text-right lg:text-lg text-slate-600">Get more<span

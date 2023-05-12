@@ -10,9 +10,9 @@ import {
   MenuItems,
   MenuItem,
 } from '@headlessui/vue';
-import CreatorAvatar from '../Creator/CreatorAvatar.vue';
-import CreatorContentBar from '../Creator/CreatorContentBar.vue';
-import CreatorSocialLinks from '../Creator/CreatorSocialLinks.vue';
+import ContactAvatar from '../Contact/ContactAvatar.vue';
+import ContactContentBar from '../Contact/ContactContentBar.vue';
+import ContactSocialLinks from '../Contact/ContactSocialLinks.vue';
 import {
   XMarkIcon,
   HeartIcon,
@@ -30,7 +30,7 @@ import {
   ChatBubbleBottomCenterIcon,
   MapPinIcon,
 } from '@heroicons/vue/24/solid';
-import CreatorTags from '../Creator/CreatorTags.vue';
+import ContactTags from '../Contact/ContactTags.vue';
 
 export default {
   components: {
@@ -38,10 +38,10 @@ export default {
     PopoverButton,
     PopoverPanel,
     PopoverOverlay,
-    CreatorAvatar,
-    CreatorSocialLinks,
+    ContactAvatar,
+    ContactSocialLinks,
     XMarkIcon,
-    CreatorTags,
+    ContactTags,
     HeartIcon,
     NoSymbolIcon,
 
@@ -57,7 +57,7 @@ export default {
     PlayIcon,
     ChatBubbleBottomCenterIcon,
     MapPinIcon,
-    CreatorContentBar,
+    ContactContentBar,
   },
   data() {
     return {

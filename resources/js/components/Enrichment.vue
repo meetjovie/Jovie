@@ -1,7 +1,7 @@
 <template>
   <div v-if="dark" class="relative bg-slate-800">
     <div
-      class="bg-slate-900 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
+      class="bg-slate-900 pt-10 sm:pt-16 lg:overflow-hidden lg:pb-14 lg:pt-8">
       <div class="mx-auto max-w-7xl lg:px-8">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8">
           <div
@@ -43,7 +43,7 @@
                         placeholder="Enter your email"
                         class="block w-full rounded-md border-0 px-4 py-3 text-base text-slate-900 placeholder-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" />
                     </div>
-                    <div class="mt-3 sm:mt-0 sm:ml-3">
+                    <div class="mt-3 sm:ml-3 sm:mt-0">
                       <ButtonGroup
                         :loader="loading"
                         @click="requestDemo() && identifyUser()"
@@ -63,7 +63,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-12 -mb-16 sm:-mb-48 lg:m-0">
+          <div class="-mb-16 mt-12 sm:-mb-48 lg:m-0">
             <img
               class="w-full lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
               :src="asset('img/External/jovie_social_data_enrichment.png')"
@@ -74,7 +74,7 @@
     </div>
   </div>
   <div v-else class="relative bg-slate-50">
-    <div class="bg-slate-50 pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
+    <div class="bg-slate-50 pt-10 sm:pt-16 lg:overflow-hidden lg:pb-14 lg:pt-8">
       <div class="mx-auto max-w-7xl lg:px-8">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8">
           <div
@@ -131,7 +131,7 @@
                         placeholder="Enter your email"
                         class="block w-full rounded-md border-0 px-4 py-3 text-base text-slate-900 placeholder-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900" />
                     </div>
-                    <div class="mt-3 sm:mt-0 sm:ml-3">
+                    <div class="mt-3 sm:ml-3 sm:mt-0">
                       <ButtonGroup
                         :loader="loading"
                         @click="requestDemo() && identifyUser()"
@@ -151,7 +151,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-12 -mb-16 sm:-mb-48 lg:m-0">
+          <div class="-mb-16 mt-12 sm:-mb-48 lg:m-0">
             <img
               class="w-full object-fill lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-auto lg:max-w-none"
               :src="asset('img/External/jovie_social_data_enrichment.png')"

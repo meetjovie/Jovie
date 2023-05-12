@@ -105,7 +105,7 @@ class TriggerImports extends Command
             foreach ($user->pendingImports as $import) { // timwhite and timwwhiteT
                 $dispatched = false;
                 //fetch a creator that has instagram == timwhite OR twitch == timwhiteT
-                // else create a new instance of creator new Creator()
+                // else create a new instance of creator new Contact()
                 // after either of the above case runs we get a creator instance and we can pass that save creator instance to each network job of that single import
                 //
                 $commonData = $this->setCommonDateForImport($import);

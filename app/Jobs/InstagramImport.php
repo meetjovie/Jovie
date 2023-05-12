@@ -2,9 +2,11 @@
 
 namespace App\Jobs;
 
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Crm;
 use App\Models\Import;
+use App\Models\Team;
 use App\Models\User;
 use App\Models\UserList;
 use App\Notifications\ImportNotification;
@@ -50,40 +52,18 @@ class InstagramImport implements ShouldQueue
 
     private $brands = [];
 
-    private $listId;
-
-    private $userId;
-
-    private $platformUser;
-
-    private $importId;
-
-    private $teamId;
-
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null, $listId = null, $userId = null, $importId = null, $teamId = null)
+    public function __construct($username, $tags = '', $recursive = false, $creatorId = null, $meta = null)
     {
         $this->username = $username;
         $this->tags = $tags;
         $this->recursive = $recursive;
         $this->parentCreator = $creatorId;
         $this->meta = $meta;
-        $this->listId = $listId;
-        $this->userId = $userId;
-        $this->importId = $importId;
-        if (is_null($teamId) && $listId) {
-            $list = UserList::where('id', $listId)->first();
-            if ($list) {
-                $this->teamId = $list->team_id;
-            }
-        } elseif ($teamId) {
-            $this->teamId = $teamId;
-        }
-        $this->platformUser = User::with('currentTeam')->where('id', $this->userId)->first();
     }
 
     /**
@@ -102,33 +82,12 @@ class InstagramImport implements ShouldQueue
      */
     public function handle()
     {
-        if (($this->userId && ! is_null($this->platformUser)) && $this->platformUser->currentTeam->credits <= 0) {
-            if ($this->batch()) {
-                $this->batch()->cancel();
-                DB::table('job_batches')->where('id', $this->batch()->id)->update(['error_code' => Import::ERROR_OUT_OF_CREDITS]);
-            }
-
-            return;
-        }
-
-        if (($this->userId && is_null($this->platformUser)) || ($this->batch() && $this->batch()->cancelled())) {
-            Import::markImport($this->importId, ['instagram']);
-            if ($this->batch() && ! $this->batch()->cancelled()) {
-                $this->batch()->cancel();
-            }
-
-            return;
-        }
-
         $creator = Creator::where('instagram_handler', $this->username)->first();
         // 30 days diff
-        if ($creator && ! is_null($creator->instagram_last_scrapped_at) && (is_null($this->platformUser) || ! $this->platformUser->is_admin)) {
+        if ($creator && ! is_null($creator->instagram_last_scrapped_at)) {
             $lastScrappedDate = Carbon::parse($creator->instagram_last_scrapped_at);
             if ($lastScrappedDate->diffInDays(Carbon::now()) < 30) {
-                Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
-                Import::markImport($this->importId, ['instagram']);
-
-                return;
+                return $creator;
             }
         }
 
@@ -138,11 +97,15 @@ class InstagramImport implements ShouldQueue
                 if ($response->getStatusCode() == 200) {
                     $dataResponse = json_decode($response->getBody()->getContents());
                     if (! is_null($dataResponse) && isset($dataResponse->graphql)) {
-                        $creator = $this->insertIntoDatabase($dataResponse);
-                        Import::markImport($this->importId, ['instagram']);
                         Log::channel('slack')->info('imported user.', ['username' => $this->username, 'network' => 'instagram']);
+                        $creator = $this->insertIntoDatabase($dataResponse);
+                        if ($this->recursive) {
+                            foreach ($this->brands as $username) {
+                                self::dispatch($username, null, false, $creator->id)->onQueue(config('import.instagram_queue'));
+                            }
+                        }
+                        return $creator;
                     } else {
-                        Import::markImport($this->importId, ['instagram']);
                         $this->fail(new \Exception(('No such profile for username '.$this->username), $response->getStatusCode()));
                         Log::channel('slack_warning')->info('No such profile', ['username' => $this->username, 'network' => 'instagram']);
                     }
@@ -150,7 +113,6 @@ class InstagramImport implements ShouldQueue
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        Import::markImport($this->importId, ['instagram']);
                         $this->fail(new \Exception(('Timed out for username '.$this->username), $response->getStatusCode()));
                         Log::channel('slack_warning')->info('Timed out.', ['username' => $this->username, 'network' => 'instagram']);
                     }
@@ -167,7 +129,6 @@ class InstagramImport implements ShouldQueue
                     if ($this->attempts() < $this->tries) {
                         $this->release(10);
                     } else {
-                        Import::markImport($this->importId, ['instagram']);
                         $this->fail(new \Exception($response->getBody()->getContents(), $response->getStatusCode()));
                         Log::channel('slack_warning')->info('error', ['response' => $response->getBody()->getContents(), 'network' => 'instagram']);
                     }
@@ -176,18 +137,12 @@ class InstagramImport implements ShouldQueue
                 if ($this->attempts() < $this->tries) {
                     $this->release(10);
                 } else {
-                    Import::markImport($this->importId, ['instagram']);
                     if ($this->batch()) {
                         Log::channel('slack_warning')->info(('internal error from with in batch '.$this->batch()->id), ['username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'instagram']);
                     } else {
                         Log::channel('slack_warning')->info('internal error', ['username' => $this->username, 'message' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'network' => 'instagram']);
                     }
                     $this->fail($e);
-                }
-            }
-            if ($this->recursive) {
-                foreach ($this->brands as $username) {
-                    self::dispatch($username, null, false, $this->creatorId)->onQueue(config('import.instagram_queue'));
                 }
             }
         }
@@ -263,8 +218,8 @@ class InstagramImport implements ShouldQueue
                 }
             }
         }
-        $creator->first_name = ucfirst(strtolower($this->meta['firstName'] ?? $creator->first_name));
-        $creator->last_name = ucfirst(strtolower($this->meta['lastName'] ?? $creator->last_name));
+        $creator->first_name = ucfirst(strtolower(($this->meta['firstName'] ?? null) ?: $creator->first_name)) ?: null;
+        $creator->last_name = ucfirst(strtolower(($this->meta['lastName'] ?? null) ?: $creator->last_name)) ?: null;
         $creator->city = $this->meta['city'] ?? $creator->city;
         $creator->country = $this->meta['country'] ?? $creator->country;
         $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
@@ -338,12 +293,10 @@ class InstagramImport implements ShouldQueue
         $creator->instagram_meta = ($meta);
         $creator->instagram_last_scrapped_at = Carbon::now()->toDateTimeString();
         $creator->save();
-        Creator::addToListAndCrm($creator, $this->listId, $this->userId, $this->teamId, $this->meta['source'] ?? null);
         if ($this->parentCreator && $creator->account_type == 'BRAND') {
             $parentCreator = Creator::where('id', $this->parentCreator)->first();
             $parentCreator->brands()->syncWithoutDetaching($creator->id);
         }
-        $this->creatorId = $creator->id;
         return $creator;
     }
 

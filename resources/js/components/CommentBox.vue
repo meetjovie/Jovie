@@ -1,7 +1,7 @@
 <template>
   <div class="flex items-start space-x-4">
     <div class="flex-shrink-0">
-      <CreatorAvatar
+      <ContactAvatar
         size="xsm"
         :imageUrl="user.profile_pic_url"
         :name="user.full_name" />
@@ -144,7 +144,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
-import CreatorAvatar from './Creator/CreatorAvatar';
+import ContactAvatar from './Contact/ContactAvatar.vue';
 
 const moods = [
   {
@@ -200,7 +200,7 @@ export default {
     ListboxOptions,
     FaceSmileIcon,
     PaperClipIcon,
-    CreatorAvatar,
+    ContactAvatar,
   },
   props: ['loading'],
   setup() {

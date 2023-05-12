@@ -96,7 +96,6 @@ export default {
           response = response.data;
           if (response.status) {
             this.errors = {};
-            alert(response.message);
             this.$notify({
               group: 'user',
               title: 'Successful',

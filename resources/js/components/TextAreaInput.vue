@@ -4,7 +4,7 @@
     <div>
       <textarea
         rows="5"
-        v-model="modelValue"
+        v-model="textAreaModel"
         @input="$emit('update:modelValue', $event.target.value)"
         @blur="$emit('blur')"
         name="comment"
@@ -18,9 +18,17 @@
 <script>
 export default {
   props: {
-    modelValue: {
-      type: String,
-    },
+    modelValue: {},
   },
+    computed: {
+        textAreaModel: {
+            get() {
+                return this.modelValue;
+            },
+            set(val) {
+                this.$emit('update:modelValue', val);
+            },
+        },
+    }
 };
 </script>

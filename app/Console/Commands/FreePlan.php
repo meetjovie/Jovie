@@ -38,12 +38,12 @@ class FreePlan extends Command
      */
     public function handle()
     {
-        $teams = Team::get();
+        $teams = Team::all();
 
         foreach ($teams as $team) {
-            $currentSubscription = $team->currentSubscription();
-            if (! ($currentSubscription && $team->subscribed($currentSubscription->name))) {
-                $team->credits += 10;
+            $currentSubscription = $team->currentSubscription(false);
+            if (is_null($currentSubscription)) {
+                $team->credits = 10;
                 $team->save();
             }
         }

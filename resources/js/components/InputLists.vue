@@ -1,33 +1,35 @@
 <template>
-  <div class="flex h-6 w-full items-center overflow-auto px-2">
+  <div class="flex h-8 w-full items-center overflow-auto px-2">
     <div class="mr-1 flex">
-        <div v-for="item in lists" class="mr-2 flex" :key="item.order">
-                <div
-                    class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-jovieDark-border dark:text-jovieDark-200 dark:hover:bg-jovieDark-900">
-                    <div class="flex w-full items-center">
-                        <span class="mr-1 text-[8px]"> {{ item.emoji }}</span>
-                        <span
-                            class="w-18 select-none items-center truncate text-ellipsis text-2xs"
-                        >{{ item[nameKey] }}</span
-                        >
-                    </div>
-                    <XMarkIcon
-                        v-if="isSelect"
-                        @click="$emit('itemRemoved', item.id)"
-                        class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
-                    <XMarkIcon
-                        v-else
-                        @click="toggleCreatorsFromList(creatorId, item.id, true)"
-                        class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
-                </div>
-            </div>
+      <div v-for="item in lists" class="mr-2 flex" :key="item.order">
+        <div
+          class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-jovieDark-border dark:text-jovieDark-200 dark:hover:bg-jovieDark-900">
+          <div class="flex w-full items-center">
+            <span class="mr-1 text-[8px]"> {{ item.emoji }}</span>
+            <span
+              class="w-18 select-none items-center truncate text-ellipsis text-2xs"
+              >{{ item[nameKey] }}</span
+            >
+          </div>
+          <XMarkIcon
+            v-if="isSelect"
+            @click="$emit('itemRemoved', item.id)"
+            class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
+          <XMarkIcon
+            v-else
+            @click="toggleContactsFromList(contactId, item.id, true)"
+            class="ml-1 h-3 w-3 cursor-pointer items-center text-slate-400 hover:text-slate-500 dark:text-jovieDark-400 dark:hover:text-slate-300"></XMarkIcon>
+        </div>
+      </div>
     </div>
     <div>
       <JovieDropdownMenu
-        :createIfNotFound="! isSelect"
+        :createIfNotFound="!isSelect"
         @createItem="createList($event)"
         :placement="'bottom-start'"
-        @itemClicked="isSelect ? $emit('itemClicked', $event) : setListAction($event)"
+        @itemClicked="
+          isSelect ? $emit('itemClicked', $event) : setListAction($event)
+        "
         :items="items"
         :nameKey="nameKey"
         class="items-center"
@@ -41,7 +43,7 @@
                 class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />
               <span
                 v-show="lists.length === 0"
-                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-400 dark:group-hover:text-slate-700">
+                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-100 dark:group-hover:text-slate-700">
                 {{ isSelect ? 'Select' : 'Add to a list' }}
               </span>
             </div>
@@ -63,7 +65,6 @@ export default {
   },
   data() {
     return {
-      lists: [],
       items: [],
     };
   },
@@ -75,7 +76,7 @@ export default {
     currentList: {
       type: String,
     },
-    creatorId: {
+    contactId: {
       type: Number,
     },
     nameKey: {
@@ -99,18 +100,18 @@ export default {
       default: 'Find a list...',
       required: false,
     },
-      listItems: {
-          type: Array,
-          default: () => false,
-      }
+    listItems: {
+      type: Array,
+      default: () => false,
+    },
   },
   mounted() {
     if (this.isSelect) {
       this.items = this.options;
     } else if (this.listItems) {
-        this.items = this.listItems
+      this.items = this.listItems;
     } else {
-        this.getUserLists();
+      this.getUserLists();
     }
   },
   methods: {
@@ -156,8 +157,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({
@@ -184,12 +185,16 @@ export default {
       });
     },
     setListAction(id) {
-      this.toggleCreatorsFromList(this.creatorId, id, false);
+      this.toggleContactsFromList(this.contactId, id, false);
     },
-    toggleCreatorsFromList(ids, list, remove) {
+    toggleContactsFromList(ids, list, remove) {
+      if (!ids) {
+          this.$emit('updateLists', { list: this.items.find(l => l.id == list), add: !remove });
+          return
+      }
       this.$store
-        .dispatch('toggleCreatorsFromList', {
-          creator_ids: ids,
+        .dispatch('toggleContactsFromList', {
+          contact_ids: ids,
           list: list,
           remove: remove,
         })
@@ -212,7 +217,7 @@ export default {
               );
               this.$store.state.ContactSidebarOpen = false;
             }
-            response.list.creator_id = this.creatorId;
+            response.list.creator_id = this.contactId;
             this.$emit('updateLists', { list: response.list, add: !remove });
           } else {
             this.$notify({
@@ -225,8 +230,8 @@ export default {
           }
         })
         .catch((error) => {
-            console.log('error');
-            console.log(error);
+          console.log('error');
+          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.$notify({

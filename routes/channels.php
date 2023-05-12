@@ -21,7 +21,7 @@ Broadcast::channel('userListDuplicated.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });
-Broadcast::channel('creatorImported.{teamId}', function ($user, $teamId) {
+Broadcast::channel('contactImported.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });
@@ -42,6 +42,21 @@ Broadcast::channel('userListImported.{teamId}', function ($user, $teamId) {
 });
 
 Broadcast::channel('userListImportTriggered.{teamId}', function ($user, $teamId) {
+    $user = $user->load('currentTeam');
+    return $user->currentTeam->id == $teamId;
+});
+
+Broadcast::channel('enrichedContactDataViewed.{teamId}', function ($user, $teamId) {
+    $user = $user->load('currentTeam');
+    return $user->currentTeam->id == $teamId;
+});
+
+Broadcast::channel('contactEnriched.{teamId}', function ($user, $teamId) {
+    $user = $user->load('currentTeam');
+    return $user->currentTeam->id == $teamId;
+});
+
+Broadcast::channel('listEnriched.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });

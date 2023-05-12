@@ -4,14 +4,14 @@
 
 @layer components {
   .ghost-card {
-    @apply border-b border-slate-900 bg-slate-200 opacity-50;
+    @apply cursor-grabbing border-b border-slate-900 bg-slate-200 opacity-50;
   }
   .ghost-row {
-    @apply cursor-move rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
+    @apply cursor-grabbing rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
   }
 
   .ghost-header {
-    @apply cursor-move rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
+    @apply cursor-grabbing rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
   }
 }
 
@@ -25,7 +25,7 @@
 }
 
 .circle {
-  @apply my-12 mx-1 h-4 w-4 rounded-full bg-gray-500;
+  @apply mx-1 my-12 h-4 w-4 rounded-full bg-gray-500;
 }
 .wp-exclude-emoji {
   position: relative;

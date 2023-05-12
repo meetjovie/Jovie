@@ -26,18 +26,16 @@ export default {
   async getUserLists() {
     return axios.get(`${baseApiUrl}/user-lists`);
   },
-  getCrmCreators(data, cancelSignal = null) {
+    getCrmContacts(data, cancelSignal = null) {
       let config = {
           params: data
       }
       if (cancelSignal) {
           config.signal = cancelSignal
       }
-      console.log('cancelSignal');
-      console.log(config);
-      return axios.get(`${baseApiUrl}/crm-creators`, config);
+      return axios.get(`${baseApiUrl}/crm-contacts`, config);
   },
-  getCrmCreatorByHandler(data, cancelSignal = null) {
+  getCrmContactByHandler(data, cancelSignal = null) {
       let config = {
           params: data
       }
@@ -46,24 +44,24 @@ export default {
       }
       return axios.get(`${baseApiUrl}/get-extension-creator`, config);
   },
-  async exportCrmCreators(data) {
+  async exportCrmContacts(data) {
     return axios.get(`${baseApiUrl}/export-crm-creators`, {
       params: data,
       responseType: 'blob',
     });
   },
-  async updateCreator(data) {
+  async updateContact(data) {
     const id = data.id;
     delete data.id;
-    return axios.post(`${baseApiUrl}/update-creator/${id}?_method=PUT`, data);
+    return axios.post(`${baseApiUrl}/update-contact/${id}`, data);
   },
   async getPublicProfile(data) {
     return axios.get(`${baseUrlWeb}/public-profiles/`, {
       params: data,
     });
   },
-  async getCreatorOverview(id) {
-    return axios.get(`${baseApiUrl}/creators-overview/${id}`);
+  async getContactOverview(data) {
+    return axios.post(`${baseApiUrl}/contacts-overview`, data);
   },
   async subscribe(token, selectedPlan, selectedProduct, coupon) {
     return axios.post(`${baseApiUrl}/subscription`, {
@@ -139,20 +137,14 @@ export default {
   async updateList(data, id) {
     return axios.post(`${baseApiUrl}/update-list/${id}?_method=PUT`, data);
   },
-  async toggleCreatorsFromList(data) {
-    return axios.post(`${baseApiUrl}/toggle-creators-from-list`, data);
+  async toggleContactsFromList(data) {
+    return axios.post(`${baseApiUrl}/toggle-contacts-from-list`, data);
   },
-  async toggleArchiveCreators(data) {
-    return axios.post(`${baseApiUrl}/toggle-archive-creators`, data);
+  async toggleArchiveContacts(data) {
+    return axios.post(`${baseApiUrl}/toggle-archive-contacts`, data);
   },
   crmCounts() {
     return axios.get(`${baseApiUrl}/crm-counts`);
-  },
-  updateCreatorNote(creatorId, note) {
-    return axios.post(`${baseApiUrl}/update-creator-note/${creatorId}`, {note: note});
-  },
-  updateCrmMeta(crmId, meta) {
-    return axios.post(`${baseApiUrl}/update-crm-meta/${crmId}`, {meta: meta});
   },
   uploadTempFileFromUrl(image) {
       return axios.get(`${baseApiUrl}/upload-temp-file?image_url=${image}`);
@@ -161,12 +153,18 @@ export default {
       return axios.post(`${baseApiUrl}/save-to-crm`, data);
   },
   async sortFields(data, id) {
-      return axios.post(`${baseApiUrl}/set-field-attributes/${id}`, data);
+      return axios.post(`${baseApiUrl}/set-field-order/${id}`, data);
   },
-  async toggleFieldHide(data, id) {
-     return axios.post(`${baseApiUrl}/toggle-field-hide/${id}`, data);
+  async sortHeaders(data, id) {
+      return axios.post(`${baseApiUrl}/set-header-order/${id}`, data);
+  },
+  async toggleHeaderHide(data, id) {
+     return axios.post(`${baseApiUrl}/toggle-header-hide/${id}`, data);
   },
   async deleteField(id) {
      return axios.delete(`${baseApiUrl}/custom-field/${id}/delete`);
   },
+    async updateColumnWidth(data, id) {
+        return axios.post(`${baseApiUrl}/set-header-width/${id}`, data);
+    },
 };

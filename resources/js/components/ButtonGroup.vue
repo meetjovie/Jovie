@@ -13,15 +13,18 @@
         ? 'bg-slate-500'
         : '',
       //design seconday then bg color white
-      design === 'secondary' ? 'bg-white' : '',
+      design === 'secondary'
+        ? 'bg-white'
+        : design === 'toolbar'
+        ? 'bg-white'
+        : '',
       //if toolbar then bg color white
-      toolbar ? 'bg-white' : '',
 
-      { 'py-0 px-2 text-xs': size == 'xs' },
-      { 'py-1 px-2 text-sm': size == 'sm' },
-      { 'py-3  px-4 text-base': size == 'base' },
-      { 'py-2 px-4 text-lg': size == 'md' },
-      { 'py-3 px-6 text-xl': size == 'hero' },
+      { 'px-2 py-0 text-xs': size == 'xs' },
+      { 'px-2 py-1 text-sm': size == 'sm' },
+      { 'px-4  py-3 text-base': size == 'base' },
+      { 'px-4 py-2 text-lg': size == 'md' },
+      { 'px-6 py-3 text-xl': size == 'hero' },
       {
         'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed  disabled:opacity-30 dark:border-jovieDark-border   dark:bg-jovieDark-800 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700  ':
           design == 'secondary',
@@ -35,14 +38,18 @@
           design == 'primary',
       },
       {
-        'mt-3 flex w-full items-center justify-center rounded-md border-none bg-indigo-500 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0':
+        'mt-3 flex w-full items-center justify-center rounded-md border-none bg-indigo-500 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:ml-3 sm:mt-0 sm:w-auto sm:flex-shrink-0':
           design == 'hero',
       },
       { 'bg-red-500 text-white': design == 'danger' },
       {
         'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
       },
-
+      //add auth design
+      {
+        'rounded border border-slate-200 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:text-white dark:hover:bg-jovieDark-800':
+          design === 'auth',
+      },
       { 'rounded-r-md': rounded == 'right' },
       { 'rounded-l-md': rounded == 'left' },
       { 'rounded-t-md': rounded == 'top' },
@@ -122,9 +129,12 @@ import {
   MagnifyingGlassIcon,
   NoSymbolIcon,
   PlusCircleIcon,
+  DocumentDuplicateIcon,
   MinusCircleIcon,
   MinusIcon,
   AdjustmentsHorizontalIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
   PlusIcon,
   ChevronRightIcon,
 } from '@heroicons/vue/24/solid';
@@ -203,6 +213,8 @@ export default {
   components: {
     EnvelopeIcon,
     MagnifyingGlassIcon,
+    ArrowLeftIcon,
+    ArrowRightIcon,
     NoSymbolIcon,
     PlusIcon,
     CheckCircleIcon,
@@ -212,6 +224,7 @@ export default {
     MinusCircleIcon,
     ChevronRightIcon,
     JovieSpinner,
+    DocumentDuplicateIcon,
     XCircleIcon,
   },
 };

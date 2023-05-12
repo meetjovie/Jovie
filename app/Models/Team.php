@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ContactsLimitScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Laravel\Cashier\Billable;
+use Mpociot\Teamwork\Facades\Teamwork;
 use Mpociot\Teamwork\TeamworkTeam;
 
 class Team extends TeamworkTeam
@@ -21,7 +25,51 @@ class Team extends TeamworkTeam
 
     const AD_ON_CREDITS = 0;
 
-    public function currentSubscription()
+    public function subscribeTeam($paymentMethod, $coupon, $product, $plan)
+    {
+        try {
+            DB::beginTransaction();
+            if (empty($this->stripe_id)) {
+                $customer = $this->createAsStripeCustomer();
+            } else {
+                $customer = $this->createOrGetStripeCustomer();
+            }
+
+            $this->addPaymentMethod($paymentMethod);
+            $this->updateDefaultPaymentMethod($paymentMethod);
+
+            $subscription = $this->newSubscription($product->name, $plan->id);
+            if ($coupon && !empty($coupon->id)) {
+                $subscription->withPromotionCode($coupon->id);
+            }
+
+            $subscription = $subscription->create($customer->invoice_settings->default_payment_method, [
+                'email' => $this->owner->email,
+            ]);
+            $subscription->seats = $product->metadata->seats;
+            $subscription->credits = $product->metadata->credits;
+            $subscription->contacts = $product->metadata->contacts;
+            $subscription->type = $product->metadata->is_team == 1 ? Team::PLAN_TYPE_TEAM : Team::PLAN_TYPE_BASIC;
+            $subscription->amount = $plan->amount;
+            $subscription->currency = $plan->currency;
+            $subscription->interval = $plan->interval;
+            $subscription->save();
+
+            $this->addCredits($subscription->credits);
+            $this->addContacts($subscription->contacts);
+            $item = $subscription->items->first();
+            $item->type = $product->metadata->type == 1 ? Team::AD_ON_SEAT : null;
+            $item->save();
+            DB::commit();
+
+            return $subscription;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return false;
+        }
+    }
+
+    public function currentSubscription($basicPlan = true)
     {
         $currentSubscription = $this->subscriptions()->first();
         if ($currentSubscription && $this->subscribed($currentSubscription->name)) {
@@ -34,15 +82,35 @@ class Team extends TeamworkTeam
             return $currentSubscription;
         }
 
-        return null;
+        return $basicPlan ? json_decode(json_encode(config('services.stripe.basic_plan'))) : null;
     }
 
-    public function addCredits($credits)
+    public function addCredits($credits = 1)
     {
-        if (! empty($credits)) {
-            $this->credits += (int) $credits;
+        if (!empty($credits)) {
+            $this->credits += (int)$credits;
             $this->save();
         }
+    }
+
+    public static function addCreditsToTeam($teamId, $credits = 1)
+    {
+        $team = Team::query()->where('id', $teamId)->first();
+        $team->addCredits($credits);
+    }
+
+    public function addContacts($contacts)
+    {
+        if (!empty($credits)) {
+            $this->contacts += (int)$contacts;
+            $this->save();
+        }
+    }
+
+    public function deductCredits($credits = 1)
+    {
+        $this->credits -= (int)$credits;
+        $this->save();
     }
 
     public function userLists()
@@ -53,5 +121,41 @@ class Team extends TeamworkTeam
     public function customFields()
     {
         return $this->hasMany(CustomField::class);
+    }
+
+    public function currentContactsLimit()
+    {
+        return $this->currentSubscription()->contacts;
+    }
+
+    public function contactsLimitExceeded()
+    {
+        $totalContacts = Contact::getAllContactsCount();
+        $currentContactsLimit = Auth::user()->currentTeam->currentContactsLimit();
+        return ($totalContacts - $currentContactsLimit);
+    }
+
+    public function hasEnoughEnrichingCredits($count = 1)
+    {
+        return $this->credits >= $count;
+    }
+
+    public static function acceptInvite($inviteToken)
+    {
+        $invite = Teamwork::getInviteFromAcceptToken($inviteToken);
+        if ($invite) {
+            Teamwork::acceptInvite($invite);
+            auth()->user()->switchTeam($invite->team);
+        }
+    }
+
+    public function autoEnrichImportEnabled()
+    {
+        return TeamSetting::getSetting('auto_enrich_import') == 1;
+    }
+
+    public function autoEnrichUpdateEnabled()
+    {
+        return TeamSetting::getSetting('auto_enrich_update') == 1;
     }
 }

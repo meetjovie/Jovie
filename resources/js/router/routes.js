@@ -1,7 +1,7 @@
-import { authenticationGuard } from '../middlewares/auth';
 import { publicProfile } from '../middlewares/publicProfile';
 
 import store from '../store';
+import TeamService from '../services/api/team.service';
 
 function loadPage(page) {
   return () => import(`./../views/${page}.vue`);
@@ -20,10 +20,8 @@ export const routes = [
   {
     name: 'Changelog',
     path: '/changelog',
-    component: loadPage('ChangeLog'),
-    meta: {
-      requiresAuth: false,
-      layout: 'default',
+    beforeEnter(to, from, next) {
+      window.open('https://changelog.jov.ie', '_self');
     },
   },
   {
@@ -34,6 +32,39 @@ export const routes = [
       layout: 'default',
       requiresAuth: false,
     },
+  },
+  {
+    name: 'Settings',
+    path: '/settings',
+    redirect: { name: 'SettingsWorkspace' },
+    component: loadPage('SettingsPage'),
+    meta: {
+      layout: 'App',
+      requiresAuth: true,
+      requiresSubscribe: false,
+    },
+    children: [
+      {
+        name: 'SettingsWorkspace',
+        path: 'workspace',
+        component: () => import(`./../views/SettingsWorkspace.vue`),
+      },
+      {
+        name: 'SettingsPlan',
+        path: 'plan',
+        component: () => import(`./../views/SettingsPlan.vue`),
+      },
+      {
+        name: 'SettingsProfile',
+        path: 'profile',
+        component: () => import(`./../views/SettingsProfile.vue`),
+      },
+      {
+        name: 'SettingsSecurity',
+        path: 'security',
+        component: () => import(`./../views/SettingsSecurity.vue`),
+      },
+    ],
   },
   {
     name: 'Support',
@@ -421,9 +452,9 @@ export const routes = [
     },
   },
   {
-    name: 'Creator Overview',
+    name: 'Contact Overview',
     path: '/overview/:id',
-    component: loadPage('CreatorOverview'),
+    component: loadPage('ContactOverview'),
     props: true,
     meta: {
       layout: 'App',
@@ -563,6 +594,20 @@ export const routes = [
     component: loadPage('404Page'),
     meta: {
       layout: 'Minimal',
+    },
+  },
+  {
+    name: 'accept invite',
+    path: '/teams/accept/:token',
+    beforeEnter: (to, from, next) => {
+      const token = to.params.token;
+      const response = TeamService.acceptInvitation(token)
+        .then((response) => {
+          next({ name: 'Contacts' });
+        })
+        .catch((error) => {
+          next({ name: 'Login', query: { invite_token: token } });
+        });
     },
   },
 ];

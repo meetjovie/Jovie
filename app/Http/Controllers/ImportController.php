@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Imports\FileSaveImport;
 use App\Jobs\FileImport;
+use App\Jobs\ImportFromSocialAndAddTOCrm;
 use App\Jobs\InstagramImport;
 use App\Jobs\SaveImport;
 use App\Jobs\SendSlackNotification;
 use App\Jobs\TiktokImport;
 use App\Jobs\TwitchImport;
 use App\Jobs\TwitterImport;
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\Import;
+use App\Models\TeamSetting;
 use App\Models\User;
 use App\Models\UserList;
 use App\Traits\GeneralTrait;
@@ -66,18 +69,9 @@ class ImportController extends Controller
             'list_name' => 'sometimes|max:255',
             'source' => 'sometimes|max:255',
         ]);
-        $user = User::with('currentTeam')->where('id', Auth::id())->first();
-        $listId = $request->list;
-        if ($request->list_name) {
-            $list = UserList::firstOrCreateList(Auth::id(), $request->list_name);
-            if ($list) {
-                $listId = $list->id;
-            }
-        }
-        $meta = null;
-        if ($request->source) {
-            $meta['source'] = $request->source;
-        }
+
+        $request->request->add(['override' => filter_var($request->override, FILTER_VALIDATE_BOOLEAN)]);
+        $params = $this->getImportSocialParams($request);
         if ($request->instagram) {
             $usernames = explode(',', $request->instagram);
             foreach ($usernames as $username) {
@@ -87,8 +81,7 @@ class ImportController extends Controller
                 if ($instagram[0] == '@') {
                     $instagram = substr($instagram, 1);
                 }
-                InstagramImport::dispatch($instagram, $request->tags, true, null, $meta, $listId, $user->id, null,
-                    $user->currentTeam->id)->onQueue(config('import.instagram_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($instagram, 'instagram', $params)->onQueue(config('import.instagram_queue'));
             }
         }
         if ($request->twitch) {
@@ -97,7 +90,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitch = $username;
                 $twitch = $import->twitch;
-                TwitchImport::dispatch(null, $twitch, $request->tags, $meta, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.twitch_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($twitch, 'twitch', $params)->onQueue(config('import.twitch_queue'));
             }
         }
         if ($request->twitter) {
@@ -106,7 +99,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitter = $username;
                 $twitter = $import->twitter;
-                TwitterImport::dispatch([$twitter], $request->tags, $meta, $listId, $user->id, $user->currentTeam->id)->onQueue(config('import.twitter_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch([$twitter], 'twitter', $params)->onQueue(config('import.twitter_queue'));
             }
         }
         if ($request->tiktok) {
@@ -115,7 +108,7 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->tiktok = $username;
                 $tiktok = $import->tiktok;
-                TiktokImport::dispatch($tiktok, $request->tags, $meta, $listId, $user->id, null, $user->currentTeam->id)->onQueue(config('import.tiktok_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($tiktok, 'tiktok', $params)->onQueue(config('import.tiktok_queue'));
             }
         }
         $file = null;
@@ -127,7 +120,7 @@ class ImportController extends Controller
             return collect([
                 'status' => false,
                 //                'error' => 'Your file is not imported.'
-                'error' => $e->getMessage().$e->getLine(),
+                'error' => $e->getMessage() . $e->getLine(),
             ]);
         }
 
@@ -139,58 +132,80 @@ class ImportController extends Controller
         ]);
     }
 
+    public function getImportSocialParams($request)
+    {
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $params['list_id'] = $request->list;
+        if ($request->list_name) {
+            $list = UserList::firstOrCreateList(Auth::id(), $request->list_name);
+            if ($list) {
+                $params['list_id'] = $list->id;
+            }
+        }
+        if ($request->source) {
+            $params['source'] = $request->source;
+        }
+        $params['override'] = $request->override;
+
+        return $params;
+    }
+
     public function saveImport($request)
     {
         $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
         if ($request->input('key')) {
             Storage::disk('s3')->copy(
-                ('tmp/'.$request->input('key')),
-               (Creator::CREATORS_CSV_PATH.$request->input('key'))
+                ('tmp/' . $request->input('key')),
+                (Creator::CREATORS_CSV_PATH . $request->input('key'))
             );
-            $filePath = Creator::CREATORS_CSV_PATH.$request->input('key');
+            $filePath = Creator::CREATORS_CSV_PATH . $request->input('key');
             $listName = $request->listName;
             $user = User::currentLoggedInUser();
-            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, $user->id, $user->currentTeam->id);
+            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, $user->id, $user->currentTeam->id, true);
         }
 
         return $filePath;
     }
 
-    public function importX(Request $request)
+    public function importContact(Request $request)
     {
         $request->validate([
-            'instagram' => 'required_without_all:file,youtube',
-            //            'youtube' => 'required_without_all:file,instagram',
-            //            'file' => 'required_without_all:instagram,youtube|mimes:csv'
+            'first_name' => 'required'
         ]);
-        if ($request->instagram) {
-            foreach (explode('\n', $request->instagram) as $instagram) {
-                if ($instagram[0] == '@') {
-                    $instagram = substr($instagram, 1);
-                }
-                Bus::chain([
-                    new InstagramImport($instagram, $request->tags, true, null, null, null, Auth::user()->id),
-                    new SendSlackNotification('imported instagram user '.$instagram),
-                ])->dispatch();
-            }
-        }
         try {
-            if ($request->file) {
-                $this->handleImportFile($request);
+            $data = $request->all();
+            $user = Auth::user();
+            $data['user_id'] = $user->id;
+            $data['team_id'] = $user->currentTeam->id;
+            $data['full_name'] = $data['first_name'] ? ($data['first_name']. ' ' . $data['last_name'] ?? null) : null;
+            $contact = Contact::saveContact($data, $request->list_id)->first();
+
+            if ($user->currentTeam->autoEnrichImportEnabled()) {
+                $contact->enrichContact();
             }
+
+            $params['user_id'] = $user->id;
+            $params['team_id'] = $user->currentTeam->id;
+            $params['id'] = $contact->id;
+            $params['type'] = 'list';
+            $params['list'] = $request->list_id;
+            $contact = Contact::getContacts($params)->first();
+
+            return collect([
+                'status' => true,
+                'message' => 'Successful. Your contact is imported.',
+                'contact' => $contact,
+                'list' => $request->list_id,
+            ]);
+
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
-                //                'error' => 'Your file is not imported.'
-                'error' => $e->getMessage(),
+                'error' => $e->getMessage() . $e->getLine(),
             ]);
         }
-
-        return collect([
-            'status' => true,
-            'error' => 'success',
-        ]);
     }
 
     public function handleImportFile($request)
@@ -199,7 +214,7 @@ class ImportController extends Controller
         if ($request->has('file')) {
             $fileUrl = self::uploadFile($request->file, Creator::CREATORS_CSV_PATH);
             $filename = explode(Creator::CREATORS_CSV_PATH, $fileUrl)[1];
-            $filePath = Creator::CREATORS_CSV_PATH.$filename;
+            $filePath = Creator::CREATORS_CSV_PATH . $filename;
             $list = UserList::firstOrCreateList(Auth::user()->id, $request->listName);
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }

@@ -46,7 +46,7 @@ class Import extends Model
         'gender',
     ];
 
-    const PER_PAGE = 1000;
+    const PER_PAGE = 50;
 
     const ERROR_INTERNAL_MONTHLY_CREDITS_REACHED = 0;
 
@@ -205,7 +205,7 @@ class Import extends Model
         $response = self::generateTwitchToken();
         if (! is_null($response) && $response->access_token) {
             $token = $response->access_token;
-            Cache::put('twitch_token_'.$listId, $token, now()->addDay());
+            Cache::put('twitch_token', $token, now()->addDay());
         }
 
         return $token;

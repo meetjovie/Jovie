@@ -2,34 +2,41 @@
   <tr
     class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
-      currentContact.id == creator.id
+      currentContact.id == contact.id
         ? 'bg-slate-100  ring-2 ring-slate-300 dark:bg-jovieDark-700 dark:ring-indigo-400'
         : 'bg-white dark:bg-jovieDark-900',
     ]">
     <DataGridCell
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
-      :creator="creator"
+      :contact="contact"
       :row="row"
       freezeColumn
       width="full"
-      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-['']">
+      class="left-0 items-center overflow-auto before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] before:dark:border-jovieDark-border">
       <div class="group mx-auto w-full items-center">
         <span
           class="group-hover:block"
           :class="[
             {
-              hidden: !selectedCreators.includes(creator.id),
+              hidden: !selectedContactsModel.includes(contact.id),
             },
             'block',
           ]">
-          <form>
-            <CheckboxInput v-model="selectedCreators" :value="creator.id" />
-          </form>
+          <input
+            type="checkbox"
+            :id="`checkbox_${contact.id}`"
+            name="`checkbox_contact`"
+            :value="contact.id"
+            v-model="selectedContactsModel"
+            class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400 sm:left-6" />
         </span>
         <span
           class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
-          :class="[{ hidden: selectedCreators.includes(creator.id) }, 'block']">
+          :class="[
+            { hidden: selectedContactsModel.includes(contact.id) },
+            'block',
+          ]">
           {{ row + 1 }}
         </span>
       </div>
@@ -37,7 +44,7 @@
     <DataGridCell
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
-      :creator="creator"
+      :contact="contact"
       :row="row"
       freezeColumn
       width="4"
@@ -45,17 +52,17 @@
       <div
         class="hidden cursor-pointer items-center lg:block"
         @click="
-          $emit('updateCreator', {
-            id: creator.id,
+          $emit('updateContact', {
+            id: contact.id,
             index: row,
-            key: `crm_record_by_user.favourite`,
-            value: !creator.crm_record_by_user.favourite,
+            key: `favourite`,
+            value: !contact.favourite,
           })
         ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           :class="{
-            'fill-red-500 text-red-500': creator.crm_record_by_user.favourite,
+            'fill-red-500 text-red-500': contact.favourite,
           }"
           class="-mt-.5 h-3 w-3 hover:fill-red-500 hover:text-red-500"
           fill="none"
@@ -72,7 +79,7 @@
     <DataGridCell
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
-      :creator="creator"
+      :contact="contact"
       :row="row"
       freezeColumn
       width="60"
@@ -80,160 +87,132 @@
       class="border-seperate overflow-x-noscroll left-[55px] cursor-pointer border-slate-300 pl-2 pr-0.5 after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r-2 after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:after:border-jovieDark-border">
       <div class="flex items-center justify-between">
         <div
-          @click="$emit('openSidebar', { contact: creator, index: row })"
+          @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center">
-          <ContactAvatar :creator="creator" class="mr-2" />
+          <ContactAvatar
+            :editable="true"
+            @updateAvatar="updateAvatar($event)"
+            :loading="!contact.id"
+            :contact="contact"
+            class="mr-2" />
           <div
             v-if="cellActive"
-            class="items-center text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
+            class="line-clamp-1 items-center text-sm text-slate-900 dark:text-jovieDark-100">
             <input
-              v-model="creator.meta.name"
-              @blur="$emit('updateCrmMeta', creator)"
+              v-model="contact.full_name"
+              @blur="$emit('updateContact', contact)"
               autocomplete="off"
-              type="creator-name"
-              name="creator-name"
-              id="creator-name"
+              type="contact-name"
+              name="contact-name"
+              id="contact-name"
               class="block w-full bg-white/0 px-2 py-1 placeholder-slate-300 focus-visible:border-2 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 dark:bg-jovieDark-900/0 dark:placeholder-slate-700 sm:text-xs"
               placeholder="Name"
               aria-describedby="name-description" />
           </div>
           <div
             v-else
-            class="text-sm text-slate-900 line-clamp-1 dark:text-jovieDark-100">
-            {{ creator.meta.name }}
+            class="line-clamp-1 text-sm text-slate-900 dark:text-jovieDark-100">
+            {{ contact.full_name }}
           </div>
         </div>
         <div
-          @click="$emit('openSidebar', { contact: creator, index: row })"
+          @click="$emit('openSidebar', { contact: contact, index: row })"
           class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-300 dark:active:bg-slate-800">
           <ArrowTopRightOnSquareIcon
             v-if="
               !$store.state.ContactSidebarOpen ||
-              currentContact.id !== creator.id
+              currentContact.id !== contact.id
             "
-            class="mx-auto mt-0.5 ml-0.5 hidden h-4 w-4 group-hover:block" />
+            class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
           <XMarkIcon
             v-else
             class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
         </div>
+        <div v-if="contact.enriching > 0">
+          <JovieSpinner />
+        </div>
+        <div v-else @click="checkContactsEnrichable(currentContact.id)">
+          <SparklesIcon
+            class="h-4 w-4 cursor-pointer rounded-full text-slate-400/0 transition-all active:border active:bg-slate-200 group-hover:text-slate-400 dark:text-jovieDark-300/0 dark:active:bg-slate-800 group-hover:dark:text-jovieDark-300" />
+        </div>
+        <div v-if="!contact.enriched_viewed">
+          <span
+            class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
+            >New</span
+          >
+        </div>
         <div>
           <ContactContextMenu
-            :open="creator.showContextMenu"
-            :creator="creator">
+            :open="contact.showContextMenu"
+            :contact="contact">
             <DropdownMenuItem
-              :name="
-                filters.type == 'archived' &&
-                creator.crm_record_by_user.archived
-                  ? 'Unarchived'
-                  : 'Archive'
-              "
-              icon="ArchiveBoxIcon"
-              @blur="$emit('updateCrmMeta')"
+              name="Open Contact"
+              icon="ViewfinderCircleIcon"
+              color="text-blue-600 dark:text-blue-400"
               @click="
-                $emit(
-                  'archive-creators',
-                  creator.id,
-                  !creator.crm_record_by_user.archived
-                )
-              "
-              color="text-blue-600
-            dark:text-blue-400" />
+                $router.push({
+                  name: 'Contact Overview',
+                  params: { id: contact.id },
+                })
+              " />
             <DropdownMenuItem
               name="Refresh"
               color="text-green-600 dark:text-green-400"
               icon="ArrowPathIcon"
-              @click="$emit('refresh', creator)" />
+              @click="$emit('refresh', contact)" />
+
             <DropdownMenuItem
+              :name="
+                filters.type == 'archived' && contact.archived
+                  ? 'Unarchived'
+                  : 'Archive'
+              "
+              icon="ArchiveBoxIcon"
+              @blur="$emit('updateContact')"
+              @click="$emit('archive-contacts', contact.id, !contact.archived)"
+              color="text-blue-600
+            dark:text-blue-400" />
+            <DropdownMenuItem
+              v-if="filters.list"
               name="Remove from list"
               icon="TrashIcon"
+              danger
               color="text-red-600 dark:text-red-400"
               @click="
-                $emit(
-                  'toggleCreatorsFromList',
-                  ...{ id: creator.id, list: filters.list, remove: true }
-                )
+                $emit('toggleContactsFromList', contact.id, filters.list, true)
               " />
           </ContactContextMenu>
         </div>
       </div>
     </DataGridCell>
 
-    <template v-for="(column, columnIndex) in otherColumns" :key="row">
+    <template
+      v-for="(column, columnIndex) in otherColumns"
+      :key="`${row}_${columnIndex}`">
       <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
-        v-if="column.custom"
-        :visibleColumns="visibleColumns"
-        :settings="settings"
-        :currentContact="currentContact"
-        :creator="creator"
-        :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex
-            ? `active_cell_${currentCell.row}_${currentCell.column}`
-            : false
-        "
-        :currentCell="currentCell"
-        :columnIndex="columnIndex"
-        :rowIndex="row"
-        :networks="networks"
-        :stages="stages"
-        :column="column"
-        @updateCreator="$emit('updateCreator', $event)"
-        v-model="creator.crm_record_by_user[column.key]"
-        :row="row" />
-      <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
-        v-else-if="column.meta"
-        :visibleColumns="visibleColumns"
-        :settings="settings"
-        :currentContact="currentContact"
-        :creator="creator"
-        :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex
-            ? `active_cell_${currentCell.row}_${currentCell.column}`
-            : false
-        "
-        @update:currentCell="handleCellUpdate"
-        :currentCell="currentCell"
-        :columnIndex="columnIndex"
-        :rowIndex="row"
-        :networks="networks"
-        :stages="stages"
-        :column="column"
-        @updateCreator="$emit('updateCreator', $event)"
-        @updateCrmMeta="$emit('updateCrmMeta', creator)"
-        @updateCreatorLists="updateCreatorLists"
-        @blur="$emit('updateCrmMeta', creator)"
-        v-model="creator.meta[column.key]"
-        :row="row" />
-      <DataGridCell
-          :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-          @mouseover="setCurrentCell(columnIndex)"
-        v-else
-        :visibleColumns="visibleColumns"
-        :settings="settings"
-        :currentContact="currentContact"
-        :creator="creator"
-        :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex
-            ? `active_cell_${currentCell.row}_${currentCell.column}`
-            : false
-        "
-        @update:currentCell="handleCellUpdate"
-        :currentCell="currentCell"
-        :columnIndex="columnIndex"
-        :rowIndex="row"
-        :networks="networks"
-        :stages="stages"
-        :column="column"
+        :ref="`gridCell_${currentCell.row}_${columnIndex}`"
+        @mouseover="setCurrentCell(columnIndex)"
         :userLists="userLists"
-        @updateCreator="$emit('updateCreator', $event)"
-        @updateCrmMeta="$emit('updateCrmMeta', creator)"
-        @updateCreatorLists="updateCreatorLists"
-        @blur="$emit('updateCrmMeta', creator)"
-        v-model="creator[column.key.split('.')[0]][column.key.split('.')[1]]"
-        :row="row" />
+        :visibleColumns="visibleColumns"
+        :settings="settings"
+        :currentContact="currentContact"
+        :contact="contact"
+        :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
+        :cellActive="
+          currentCell.row == row && currentCell.column == columnIndex
+            ? `active_cell_${currentCell.row}_${currentCell.column}`
+            : ''
+        "
+        :currentCell="currentCell"
+        :networks="networks"
+        :stages="stages"
+        :column="otherColumns[columnIndex]"
+        @updateContact="$emit('updateContact', $event)"
+        @updateContactLists="updateContactLists"
+        @blur="$emit('updateContact', contact)"
+        v-model="contact[otherColumns[columnIndex].key]"
+        :row="row">
+      </DataGridCell>
     </template>
   </tr>
 </template>
@@ -242,40 +221,66 @@ import DataGridCell from './DataGridCell.vue';
 import ContactContextMenu from './ContactContextMenu.vue';
 import ContactAvatar from './ContactAvatar.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
-import CheckboxInput from './CheckboxInput.vue';
 import {
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
+  SparklesIcon,
 } from '@heroicons/vue/24/outline';
+import JovieSpinner from './JovieSpinner.vue';
 
 export default {
   name: 'DataGridRow',
   components: {
+    JovieSpinner,
     DataGridCell,
     ContactContextMenu,
     DropdownMenuItem,
     ContactAvatar,
-    CheckboxInput,
     ArrowTopRightOnSquareIcon,
     XMarkIcon,
+    SparklesIcon,
   },
   mounted() {},
-  methods: {
-      setCurrentCell(columnIndex) {
-          this.currentCell.row = this.row
-          this.currentCell.column = columnIndex
+  computed: {
+    selectedContactsModel: {
+      get() {
+        return this.selectedContacts;
       },
-    updateCreatorLists({ list, add = false }) {
+      set(val) {
+        this.$emit('updateSelectedContacts', val);
+      },
+    },
+  },
+  methods: {
+    updateAvatar(pic) {
+      console.log('hello');
+      this.$emit('updateContact', {
+        id: this.contact.id,
+        index: this.contact.index,
+        key: 'profile_pic_url',
+        value: pic,
+      });
+    },
+    checkContactsEnrichable(ids) {
+      this.$emit('checkContactsEnrichable', ids);
+    },
+    setCurrentCell(columnIndex) {
+      this.currentCell.row = this.row;
+      this.currentCell.column = columnIndex;
+    },
+    updateContactLists({ list, add = false }) {
       if (add) {
-        this.creator.lists.push(list);
+        this.contact.user_lists.push(list);
       } else {
-        this.creator.lists = this.creator.lists.filter((l) => l.id != list.id);
+        this.contact.user_lists = this.contact.user_lists.filter(
+          (l) => l.id != list.id
+        );
       }
       this.$emit('updateListCount', {
         count: 1,
         list_id: list.id,
         remove: !add,
-        creatorIds: [this.creator.id],
+        contactIds: [this.contact.id],
       });
     },
     handleCellUpdate(payload) {
@@ -292,15 +297,16 @@ export default {
     settings: Object,
     filters: Object,
     currentContact: Object,
-    creator: Object,
-    selectedCreators: Array,
+    contact: Object,
+    selectedContacts: Array,
     row: Number,
     column: Number,
     freezeColumn: Boolean,
     width: String,
     columnName: String,
     neverHide: Boolean,
-    cellActive: Boolean,
+    loading: Boolean,
+    cellActive: Boolean | String,
     otherColumns: Array,
     columnIndex: Number,
   },

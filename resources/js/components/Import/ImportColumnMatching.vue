@@ -7,7 +7,7 @@
         subtitle="Please select the columns you wish to import into Jovie." />
       <div class="mt-2">
         <InputGroup
-          v-model="fileName"
+          v-model="fileNameModel"
           :error="listExists"
           name="fileName"
           label="List Name"
@@ -18,7 +18,7 @@
         <tr
           class="border-neutrual-400 rounded-md-t border border-b py-4 px-4 text-slate-500">
           <th class="font-medium">
-            Columns from <span class="font-bold">{{ csvFileName }}</span>
+            Columns from <span class="font-bold">{{ fileNameModel }}</span>
           </th>
           <th>Import to...</th>
         </tr>
@@ -111,7 +111,7 @@ export default {
         /*   'onlyFans', */
         twitch: 'Twitch',
         /*    'twitchId', */
-        // tiktok: 'Tiktok',
+        tiktok: 'Tiktok',
         /*  'linkedin',
         'snapchat', */
         /*       'instagramFollowersCount',
@@ -128,17 +128,20 @@ export default {
         /* 'gender', */
       },
       mappedColumns: {},
-      csvFileName: '',
     };
   },
-  watch: {
-    fileName: function (val) {
-      this.checkDuplicateList();
-      this.$emit('listNameUpdated', val);
+    computed: {
+        fileNameModel: {
+            get() {
+                return this.fileName;
+            },
+            set(val) {
+                this.checkDuplicateList();
+                this.$emit('listNameUpdated', val);
+            },
+        },
     },
-  },
   mounted() {
-    this.csvFileName = this.fileName;
     this.checkDuplicateList();
   },
   methods: {

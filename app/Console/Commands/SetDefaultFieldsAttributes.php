@@ -2,11 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Models\CustomField;
-use App\Models\FieldAttribute;
 use App\Models\User;
+use App\Services\AttributesService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class SetDefaultFieldsAttributes extends Command
 {
@@ -15,7 +13,7 @@ class SetDefaultFieldsAttributes extends Command
      *
      * @var string
      */
-    protected $signature = 'attributes:default-fields';
+    protected $signature = 'attributes:default-fields {reset?}';
 
     /**
      * The console command description.
@@ -31,44 +29,11 @@ class SetDefaultFieldsAttributes extends Command
      */
     public function handle()
     {
-        foreach (User::query()->with('teams.userLists', 'teams.customFields')->get() as $user) {
+        $reset = $this->argument('reset');
+        $users = User::query()->with('teams.userLists', 'teams.customFields')->get();
+        foreach ($users as $user) {
             foreach ($user->teams as $team) {
-
-                $customFields = $team->customFields;
-                $defaultFieldIds = array_column(FieldAttribute::DEFAULT_FIELDS, 'id');
-
-                $fieldIds = array_merge($defaultFieldIds, $customFields->pluck('id')->toArray());
-
-                $defaultHeaders = FieldAttribute::DEFAULT_HEADERS;
-                $fieldHeaders = array_merge($defaultHeaders, $customFields->toArray());
-
-                foreach ($fieldIds as $k => $fieldId) {
-                    FieldAttribute::query()->updateOrCreate([
-                        'field_id' => $fieldId,
-                        'user_id' => $user->id,
-                        'team_id' => $team->id,
-                    ], [
-                        'type' => is_numeric($fieldId) ? 'default' : 'custom',
-                        'order' => $k
-                    ]);
-                }
-
-                if ($team->owner_id == $user->id) {
-                    foreach ($team->userLists as $list) {
-                        foreach ($fieldHeaders as $k => $fieldHeader) {
-                            FieldAttribute::query()->updateOrCreate([
-                                'field_id' => $fieldHeader['id'],
-                                'user_list_id' => $list->id,
-                            ], [
-                                'user_id' => $user->id,
-                                'team_id' => $team->id,
-                                'type' => is_numeric($fieldHeader['id']) ? 'default' : 'custom',
-                                'order' => $k,
-                                'hide' => array_key_exists('hide', $fieldHeader) ? $fieldHeader['hide'] : false
-                            ]);
-                        }
-                    }
-                }
+                AttributesService::setAttributes($user, $team, $reset);
             }
         }
     }

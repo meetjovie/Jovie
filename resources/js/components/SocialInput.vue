@@ -136,6 +136,7 @@
         <p v-if="network && errors[network]" class="mt-2 text-xs text-red-600">
           {{ errors[network][0] }}
         </p>
+
         <button
           :disabled="adding"
           @click="add()"
@@ -184,6 +185,11 @@
         </div>
       </div>
       <div class="flex items-center">
+        <div
+          class="mr-2 text-xs font-light text-slate-400 dark:text-jovieDark-300">
+          <CheckboxInput v-model="override" />
+          Override data if contact already exists
+        </div>
         <router-link class="group items-center" to="Import"
           ><CloudArrowUpIcon
             class="mr-1 inline-flex h-3 w-3 items-center text-slate-400 group-hover:text-slate-500 dark:text-jovieDark-400 dark:group-hover:text-slate-300"></CloudArrowUpIcon
@@ -208,9 +214,11 @@ import {
 import SocialIcons from './SocialIcons';
 import ImportService from '../services/api/import.service';
 import JovieSpinner from './JovieSpinner.vue';
+import CheckboxInput from './CheckboxInput.vue';
 
 export default {
   components: {
+    CheckboxInput,
     UserIcon,
     MagnifyingGlassIcon,
     XMarkIcon,
@@ -219,7 +227,16 @@ export default {
     JovieSpinner,
     CloudArrowUpIcon,
   },
-
+  computed: {
+    socialMediaProfileUrl: {
+      get() {
+        return this.modelValue;
+      },
+      set(val) {
+        this.$emit('update:modelValue', val);
+      },
+    },
+  },
   data() {
     return {
       adding: false,
@@ -227,6 +244,7 @@ export default {
       loader: false,
       network: null,
       errors: {},
+      override: false,
     };
   },
   props: {
@@ -234,16 +252,17 @@ export default {
       type: Boolean,
       default: false,
     },
-    socialMediaProfileUrl: {
-      type: String,
-      default: '',
-    },
+    modelValue: {},
     finishedImport: {
       type: Boolean,
       default: false,
     },
     list: {
       type: Number,
+    },
+    updating: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
@@ -273,7 +292,11 @@ export default {
         });
         return;
       }
-      this.finishImport();
+      if (this.updating) {
+        this.$emit('finishImport', true);
+      } else {
+        this.finishImport();
+      }
     },
     validateNetworkUrl(url) {
       // check for insta
@@ -341,6 +364,7 @@ export default {
       this.errors = [];
       var form = new FormData();
       form.append(this.network, this.socialMediaProfileUrl);
+      form.append('override', this.override);
       const listId = this.list && this.list != 'null' ? this.list : '';
       if (listId) {
         form.append('list', listId);
