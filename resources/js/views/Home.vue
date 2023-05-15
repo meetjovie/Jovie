@@ -74,11 +74,7 @@
             <div class="justify-end">
               <img
                 class="h-[300px]"
-                :src="
-                  asset(
-                    'img/External/Marketing/Jovie_Social_CRM_Import_Example.svg'
-                  )
-                "
+                src="/img/External/Marketing/Jovie_Social_CRM_Import_Example.svg"
                 alt="Jovie Social CRM Import Example" />
             </div>
           </div>
@@ -301,45 +297,26 @@
 
 <style></style>
 <script>
-import {
-  InboxIcon,
-  PencilIcon,
-  TrashIcon,
-  UsersIcon,
-} from '@heroicons/vue/24/outline';
-import JovieReplaces from '../components/External/JovieReplaces.vue';
 import UserService from '../services/api/user.service';
-import HomeLogoCloud from '../components/Home/HomeLogoCloud.vue';
-import HomeFeatureSequences from '../components/Home/HomeFeatureSequences.vue';
-import HomeFeatureDiscovery from '../components/Home/HomeFeatureDiscovery.vue';
+
 import HomeHeroSection from '../components/Home/HomeHeroSection.vue';
 
 import HomeCTA4 from '../components/Home/HomeCTA4.vue';
 import HomeFeatureCRM from '../components/Home/HomeFeatureCRM.vue';
-import HomeCreatorSearch from '../components/Home/HomeCreatorSearch.vue';
-import Enrichment from '../components/Enrichment.vue';
+
 import SocialIcons from '../components/SocialIcons.vue';
 import JovieLogo from '../components/JovieLogo.vue';
-
-import CallToAction from '../components/CallToAction.vue';
 
 export default {
   name: 'Home',
   components: {
-    HomeLogoCloud,
     JovieLogo,
-    HomeFeatureSequences,
-    HomeCreatorSearch,
-    HomeFeatureDiscovery,
-    Enrichment,
+
     HomeHeroSection,
-    HomeCTA: () => import('@/components/Home/HomeCTA.vue'),
-    ButtonGroup: () => import('@/components/ButtonGroup.vue'),
-    HomeTestimonials: () => import('@/components/Home/HomeTestimonials.vue'),
-    CallToAction,
+
     HomeCTA4,
     HomeFeatureCRM,
-    JovieReplaces: () => import('@/components/External/JovieReplaces.vue'),
+
     SocialIcons,
   },
   data() {

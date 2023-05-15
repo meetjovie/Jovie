@@ -15,6 +15,9 @@ import Notifications from 'notiwind';
 import { createHead } from '@vueuse/head';
 import Vapor from 'laravel-vapor';
 
+Vapor.withBaseAssetUrl(import.meta.env.VITE_VAPOR_ASSET_URL);
+window.Vapor = Vapor;
+
 /* window.Vapor = require('laravel-vapor'); */
 
 const myMixin = {};
