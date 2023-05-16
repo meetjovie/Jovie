@@ -40,6 +40,9 @@ export default {
     phone: {
       required: false,
     },
+    setPassword: {
+      default: false,
+    },
   },
   components: { OTPInput, ButtonGroup, InputGroup },
   data() {
@@ -52,6 +55,7 @@ export default {
       code: null,
       showOtpInput: false,
       service: {},
+      checkSetPassword: false,
     };
   },
   watch: {
@@ -60,8 +64,13 @@ export default {
         this.$emit('disableContinue');
         this.disableOtp = false;
       } else {
-        this.disableOtp = true;
-        this.$emit('verified', this.number);
+        if (this.checkSetPassword) {
+          this.disableOtp = true;
+          this.$emit('verified', this.number);
+        } else {
+          this.oldNumber = null;
+          this.checkSetPassword = false;
+        }
       }
     },
     phone: {
@@ -71,11 +80,17 @@ export default {
       immediate: true,
     },
   },
+  mounted() {
+    this.checkSetPassword = this.setPassword;
+  },
   methods: {
     getOtp() {
       this.showOtpInput = this.updating = true;
       let data = {};
       data.number = this.number;
+      if (this.setPassword) {
+        data.login = true;
+      }
       TwillioService.getOtp(data)
         .then((response) => {
           this.service = response.data;
@@ -83,6 +98,7 @@ export default {
         .catch((error) => {
           if (error.response.status === 422) {
             this.errors = error.response.data.errors;
+            this.showOtpInput = false;
           }
         })
         .finally(() => {
@@ -95,6 +111,9 @@ export default {
       data.service = this.service;
       data.code = this.code;
       data.number = this.number;
+      if (this.setPassword) {
+        data.login = true;
+      }
       TwillioService.verifyOtp(data)
         .then((response) => {
           if (response.data.status === 'approved') {
@@ -108,12 +127,13 @@ export default {
             this.showOtpInput = false;
             this.disableOtp = true;
             this.oldNumber = this.number;
-            this.$store.state.AuthState.user.phone = this.number;
+            // this.$store.state.AuthState.user.phone = this.number;
             this.$emit('verified', this.number);
           }
         })
         .catch((error) => {
           let message = 'Invalid Code';
+          console.log(error);
           if (error.response.status === 422) {
             message = error.response.data.message;
           }

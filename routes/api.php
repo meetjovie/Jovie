@@ -43,6 +43,7 @@ Route::post('verify-email', [\App\Http\Controllers\Auth\AuthController::class, '
     ->middleware(['throttle:6,1'])
     ->name('verification.verify');
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
+Route::post('check-user-password-using-phone', [\App\Http\Controllers\Auth\AuthController::class, 'checkUserPasswordUsingPhone']);
 Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
 

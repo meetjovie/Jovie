@@ -7,6 +7,7 @@ use App\Models\Contact;
 use App\Models\User;
 use FontLib\Table\Type\name;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class UserService
@@ -45,8 +46,10 @@ class UserService
 
         $team->credits = 10;
         $team->save();
+        Auth::loginUsingId($user->id);
         DefaultCrm::dispatch($user->id, $team->id);
+//        dd($user, $team);
         AttributesService::setAttributes($user, $team, 1);
-        return $user->load('currentTeam');
+        return $user;
     }
 }

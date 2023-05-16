@@ -27,31 +27,38 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'email' => 'required_if:phone,',
+            'phone' => 'required_if:email,',
             'password' => 'required|string',
             'invite_token' => 'nullable',
         ]);
 
         $inviteToken = $request->invite_token;
 
-        if (Auth::guard()->attempt($request->only('email', 'password'))) {
-            $request->session()->regenerate();
-            $token = $request->user()->createToken('jovie_extension');
-
-            if ($inviteToken) {
-                Team::acceptInvite($inviteToken);
+        if ($request->phone) {
+            $loggedInWithPhone = $this->loginUserWithPhone($request->phone, $request->password);
+            if ($loggedInWithPhone) {
+                $token = $this->createToken($request, $inviteToken);
+                return response()->json([
+                    'status' => true,
+                    'token' => $token->plainTextToken,
+                    'user' => User::currentLoggedInUser(),
+                ], 200);
             }
-
-            return response()->json([
-                'status' => true,
-                'token' => $token->plainTextToken,
-                'user' => User::currentLoggedInUser(),
-            ], 200);
+        } else {
+            if (Auth::guard()->attempt($request->only('email', 'password'))) {
+                $token = $this->createToken($request, $inviteToken);
+                return response()->json([
+                    'status' => true,
+                    'token' => $token->plainTextToken,
+                    'user' => User::currentLoggedInUser(),
+                ], 200);
+            }
         }
 
         return response()->json([
             'status' => false,
-            'error' => 'Your email or password is incorrect.',
+            'error' => 'Your ' . ($request->phone ? 'phone' : 'email') . ' or password is incorrect.',
         ]);
     }
 
@@ -283,5 +290,56 @@ class AuthController extends Controller
             'status' => false,
             'message' => 'Invalid code. Enter your email to try again.',
         ], 200);
+    }
+
+    public function loginUserWithPhone($phone, $password): bool
+    {
+        $user = User::query()->where('phone', $phone)->first();
+        if ($user->password) {
+            $validPassword = Hash::check($password, $user->password);
+            if (!$validPassword) {
+                return false;
+            }
+        }
+        $user->update([
+            'password' => Hash::make($password),
+        ]);
+        Auth::guard()->attempt(['phone' => $phone, 'password' => $password]);
+        return (bool)$user;
+    }
+
+    private function createToken($request, $inviteToken)
+    {
+        $request->session()->regenerate();
+        if ($inviteToken) {
+            Team::acceptInvite($inviteToken);
+        }
+        return $request->user()->createToken('jovie_extension');
+    }
+
+    public function checkUserPasswordUsingPhone(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required',
+        ]);
+        $user = User::query()->where('phone', $request->phone)->first();
+        if ($user) {
+            if ($user->password) {
+                return response()->json([
+                    'user_exists' => true,
+                    'password_exists' => true
+                ], 200);
+            } else {
+                return response()->json([
+                    'user_exists' => true,
+                    'password_exists' => false
+                ], 200);
+            }
+        } else {
+            return response()->json([
+                'user_exists' => false,
+                'password_exists' => false
+            ], 200);
+        }
     }
 }

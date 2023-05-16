@@ -40,7 +40,9 @@
         </div>
 
         <div class="mt-8">
-          <div class="space-y-4" v-show="!showEmailLoginMethod">
+          <div
+            class="space-y-4"
+            v-show="!showEmailLoginMethod && !showPhoneLoginMethod">
             <ButtonGroup
               :disabled="loggingIn"
               :error="buttonError"
@@ -72,7 +74,34 @@
             <ButtonGroup
               :disabled="loggingIn"
               :error="buttonError"
-              @click.prevent="showEmailLoginMethod = !showEmailLoginMethod"
+              @click.prevent="showPhoneLoginMethodForm"
+              :text="loggingIn ? 'Logging in...' : 'Continue with Phone'"
+              :loader="loggingIn"
+              :success="successfulLogin"
+              class="w-full"
+              design="auth"
+              type="button">
+            </ButtonGroup>
+
+            <div class="relative">
+              <div
+                class="absolute inset-0 flex items-center"
+                aria-hidden="true">
+                <div
+                  class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
+              </div>
+              <div class="relative flex justify-center">
+                <span
+                  class="bg-white px-2 text-xs text-gray-500 dark:bg-jovieDark-800 dark:text-jovieDark-200"
+                  >OR</span
+                >
+              </div>
+            </div>
+
+            <ButtonGroup
+              :disabled="loggingIn"
+              :error="buttonError"
+              @click.prevent="showEmailLoginMethodForm"
               :text="loggingIn ? 'Logging in...' : 'Continue with Email'"
               :loader="loggingIn"
               :success="successfulLogin"
@@ -96,6 +125,109 @@
                 Terms of Service </router-link
               >.
             </span>
+          </div>
+
+          <div v-show="showPhoneLoginMethod" class="mt-6">
+            <form action="#" method="POST" class="space-y-6">
+              <div>
+                <div class="relative mt-1">
+                  <InputGroup
+                    v-show="!loginWithPhonePasswordType"
+                    v-model="user.phone"
+                    id="phone"
+                    name=""
+                    type="tel"
+                    autocomplete="off"
+                    placeholder="Phone"
+                    label="Phone"
+                    v-on:keyup.enter="checkUserPasswordUsingPhone()"
+                    required="" />
+                  <p class="mt-1 text-xs text-red-700" v-if="this.errors.phone">
+                    {{ this.errors.phone[0] }}
+                  </p>
+                </div>
+              </div>
+              <AccountMobile
+                v-if="loginWithPhonePasswordType === 'new'"
+                @verified="showNewPasswordField"
+                :setPassword="true"
+                :phone="user.phone" />
+              <div v-show="loginWithPhonePasswordType === 'old'">
+                <div class="relative mt-1">
+                  <InputGroup
+                    v-model="user.password"
+                    id="password"
+                    name="password"
+                    label="Password"
+                    placeholder="Password"
+                    type="password"
+                    v-on:keyup.enter="login()"
+                    autocomplete="current-password"
+                    required="" />
+                  <p
+                    class="mt-1 text-xs text-red-700"
+                    v-if="this.errors.password">
+                    {{ this.errors.password[0] }}
+                  </p>
+                </div>
+              </div>
+
+              <div v-show="loginWithPhonePasswordType === 'new'">
+                <ButtonGroup
+                  :disabled="loggingIn"
+                  :error="buttonError"
+                  @click="checkUserPasswordUsingPhone()"
+                  :text="loggingIn ? 'Logging in...' : 'Next'"
+                  :loader="loggingIn"
+                  :success="successfulLogin"
+                  type="button"
+                  class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                </ButtonGroup>
+              </div>
+
+              <div v-show="loginWithPhonePasswordType === 'old'">
+                <ButtonGroup
+                  :disabled="loggingIn"
+                  :error="buttonError"
+                  @click="login()"
+                  :text="loggingIn ? 'Logging in...' : 'Login'"
+                  :loader="loggingIn"
+                  :success="successfulLogin"
+                  type="button"
+                  class="mt-4 flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                </ButtonGroup>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <!--    <div class="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500" />
+                  <label
+                    for="remember-me"
+                    class="ml-2 block text-sm text-slate-900 dark:text-jovieDark-100">
+                    Remember me
+                  </label>
+                </div> -->
+
+                <div class="text-sm">
+                  <router-link
+                    :to="{ name: 'forget-password' }"
+                    class="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-400">
+                    Forgot your password?
+                  </router-link>
+                </div>
+              </div>
+            </form>
+            <div class="flex w-full justify-end">
+              <div
+                @click="showEmailLoginMethod = !showEmailLoginMethod"
+                class="cursor-pointer justify-end text-xs text-slate-600 dark:text-jovieDark-400">
+                Login another way
+              </div>
+            </div>
           </div>
 
           <div v-show="showEmailLoginMethod" class="mt-6">
@@ -196,8 +328,10 @@ import router from '../router';
 import InputGroup from '../components/InputGroup.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import { Head } from '@vueuse/head';
+import AccountMobile from '../components/Account/AccountMobile.vue';
 export default {
   components: {
+    AccountMobile,
     JovieLogo,
     CreateAccount,
     AuthFooter,
@@ -216,6 +350,8 @@ export default {
     return {
       errors: {},
       showEmailLoginMethod: false,
+      showPhoneLoginMethod: false,
+      showPhoneLoginMethodPassword: false,
       buttonError: false,
       error: '',
       user: {
@@ -225,9 +361,40 @@ export default {
       },
       loggingIn: false,
       successfulLogin: false,
+      loginWithPhonePasswordType: '',
     };
   },
   methods: {
+    showNewPasswordField() {
+      this.loginWithPhonePasswordType = 'old';
+      console.log('verified event', this.loginWithPhonePasswordType);
+    },
+    checkUserPasswordUsingPhone() {
+      let data = {};
+      data.phone = this.user.phone;
+      AuthService.checkUserPasswordUsingPhone(data).then((response) => {
+        if (response.data.user_exists) {
+          if (response.data.password_exists) {
+            this.loginWithPhonePasswordType = 'old';
+          } else {
+            this.loginWithPhonePasswordType = 'new';
+          }
+          this.errors = {};
+        } else {
+          this.errors.phone = [];
+          this.errors.phone[0] = 'Invalid phone number';
+        }
+      });
+    },
+    showEmailLoginMethodForm() {
+      this.showEmailLoginMethod = !this.showEmailLoginMethod;
+      this.user.phone = '';
+    },
+    showPhoneLoginMethodForm() {
+      this.showPhoneLoginMethod = !this.showPhoneLoginMethod;
+      this.user.phone = '';
+      this.user.email = '';
+    },
     authProvider(provider) {
       window.location.href = this.user.invite_token
         ? `/auth/${provider}/redirect?invite_token=${this.user.invite_token}`
