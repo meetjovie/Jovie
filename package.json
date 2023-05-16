@@ -65,7 +65,6 @@
     "vue-loader": "^16.8.3"
   },
   "dependencies": {
-    "@esbuild/darwin-arm64": "^0.17.18",
     "@floating-ui/dom": "^1.0.1",
     "@headlessui-float/vue": "^0.8.0",
     "@headlessui/vue": "^1.7.12",
@@ -75,7 +74,6 @@
     "@vue-hero-icons/solid": "^1.7.2",
     "@vueuse/head": "^0.9.8",
     "cssnano": "^6.0.1",
-    "esbuild-darwin-arm64": "^0.15.18",
     "esbuild-wasm": "^0.17.18",
     "html2canvas": "^1.4.1",
     "install": "^0.13.0",
