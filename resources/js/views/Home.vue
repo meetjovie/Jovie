@@ -74,7 +74,11 @@
             <div class="justify-end">
               <img
                 class="h-[300px]"
-                src="/img/External/Marketing/Jovie_Social_CRM_Import_Example.svg"
+                :src="
+                  asset(
+                    '/img/External/Marketing/Jovie_Social_CRM_Import_Example.svg'
+                  )
+                "
                 alt="Jovie Social CRM Import Example" />
             </div>
           </div>
