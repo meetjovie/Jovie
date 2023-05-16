@@ -108,7 +108,7 @@
             class="py-12 sm:relative sm:mt-12 sm:py-16 lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
             <div class="hidden sm:block">
               <svg
-                class="absolute top-8 right-1/2 -mr-3 lg:left-0 lg:m-0"
+                class="absolute right-1/2 top-8 -mr-3 lg:left-0 lg:m-0"
                 width="404"
                 height="392"
                 fill="none"
@@ -167,7 +167,7 @@
             to="/chrome-extension"
             class="group mx-auto mt-8 flex w-80 cursor-pointer justify-between rounded-full border border-slate-400 bg-gradient-to-r from-[#7928ca] to-[#ff0080] p-0.5 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
             <div
-              class="flex w-full justify-between rounded-md bg-slate-800 py-2 px-4">
+              class="flex w-full justify-between rounded-md bg-slate-800 px-4 py-2">
               <div
                 class="mx-auto mt-0.5 w-full transform text-center font-medium text-white transition-transform duration-300 ease-in-out group-hover:underline">
                 Add to Chrome
@@ -196,7 +196,7 @@
 import { defineComponent, h } from 'vue';
 import { ChevronRightIcon, StarIcon } from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
-import ButtonGroup from '../components/ButtonGroup';
+import ButtonGroup from '../components/ButtonGroup.vue';
 
 const stats = [
   { label: 'Founded', value: '2021' },

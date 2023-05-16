@@ -6,7 +6,7 @@
 </template>
 <script>
 export default {
-  name: 'KeyboardShortcut',
+  name: 'KeyboardShortcut.vue',
   props: {
     text: {
       type: String,

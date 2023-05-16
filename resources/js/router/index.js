@@ -36,7 +36,7 @@ router.beforeEach(async (to, from) => {
         };
       }
     }
-    if (to.meta.requiresAuth) {
+    // if (to.meta.requiresAuth) {
       await store
         .dispatch('me', { config: config })
         .then((response) => {
@@ -98,7 +98,7 @@ router.beforeEach(async (to, from) => {
             router.push({ name: 'Login' });
           }
         });
-    }
+    // }
   }
 });
 // router.beforeEach(async (to, from, next) => {

@@ -53,7 +53,7 @@
           </div>
           <div class="mb-4 flex justify-center rounded-full">
             <div
-              class="dark:border-joiveDark-border relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 py-1 px-8 text-xs leading-6 dark:border-jovieDark-border dark:bg-jovieDark-700">
+              class="dark:border-joiveDark-border relative overflow-hidden rounded-full border border-indigo-100 bg-indigo-100 px-8 py-1 text-xs leading-6 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <h1
                 class="items-center rounded-md text-lg font-medium text-indigo-600 dark:text-jovieDark-300">
                 👋🏻 Meet Jovie: <span class="font-light">The Social CRM</span>
@@ -83,7 +83,7 @@
             class="mx-auto mt-8 w-full sm:w-48"
             text="Try Jovie free" />
           <div
-            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-slate-100 to-slate-400/0 py-1 px-2 text-center dark:from-slate-800 dark:to-slate-700">
+            class="mx-auto mt-2 flex items-center justify-between rounded-full bg-gradient-to-r from-slate-100 to-slate-400/0 px-2 py-1 text-center dark:from-slate-800 dark:to-slate-700">
             <CreditCardIcon class="mr-2 h-4 w-4 text-slate-700" />
             <span
               class="text-light text-2xs text-slate-700 dark:text-jovieDark-300">
@@ -94,7 +94,7 @@
 
           <!--  <home-logo-cloud /> -->
           <div
-            class="mt-24 -mb-36 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
+            class="-mb-36 mt-24 hidden max-w-7xl sm:-mb-48 sm:block lg:-mb-96">
             <img
               alt="Jovie - Social CRM Screenshot"
               class="rounded-lg shadow-xl shadow-indigo-700/30 ring-8 ring-black ring-opacity-5"

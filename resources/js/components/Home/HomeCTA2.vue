@@ -1,7 +1,7 @@
 <template>
   <div class="bg-slate-50 dark:bg-jovieDark-900">
     <div
-      class="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:flex lg:items-center lg:justify-between lg:py-24 lg:px-8">
+      class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:flex lg:items-center lg:justify-between lg:px-8 lg:py-24">
       <h2
         class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-jovieDark-100 md:text-4xl">
         <span class="block">Ready to dive in?</span>
