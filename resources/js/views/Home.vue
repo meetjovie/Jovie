@@ -76,7 +76,7 @@
                 class="h-[300px]"
                 :src="
                   asset(
-                    '/img/External/Marketing/Jovie_Social_CRM_Import_Example.svg'
+                    'img/External/Marketing/Jovie_Social_CRM_Import_Example.svg'
                   )
                 "
                 alt="Jovie Social CRM Import Example" />
