@@ -7,7 +7,7 @@
       </div>
     </div>
     <div
-      class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
@@ -23,9 +23,9 @@
   </div>
 </template>
 <script>
-import JovieLogo from '../components/JovieLogo';
+import JovieLogo from '../components/JovieLogo.vue';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
-import Subscription from '../components/Subscription';
+import Subscription from '../components/Subscription.vue';
 
 export default {
   components: {

@@ -1,13 +1,13 @@
 <template>
-   <NoAccess />
+  <NoAccess />
 </template>
 <script>
-import NoAccess from "../components/NoAccess";
+import NoAccess from '../components/NoAccess.vue';
 
 export default {
-    name: "Analytics",
-    components: {
-        NoAccess,
-    },
+  name: 'Analytics',
+  components: {
+    NoAccess,
+  },
 };
 </script>

@@ -177,51 +177,50 @@
 import {
   Menu,
   MenuButton,
-  MenuItems,
   MenuItem,
-  TransitionRoot,
-  SwitchGroup,
+  MenuItems,
   Switch,
+  SwitchGroup,
+  TransitionRoot,
 } from '@headlessui/vue';
 import {
-  ChevronDownIcon,
-  CreditCardIcon,
-  ChevronLeftIcon,
-  CogIcon,
-  ChevronRightIcon,
-  CloudArrowDownIcon,
-  CheckIcon,
-  UserGroupIcon,
-  EllipsisVerticalIcon,
-  PlusIcon,
-  PlusCircleIcon,
-  HeartIcon,
-  UserIcon,
   ArchiveBoxIcon,
-  CloudArrowUpIcon,
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
-  SunIcon,
-  FireIcon,
-  RocketLaunchIcon,
-  MoonIcon,
   BoltIcon,
-  WrenchScrewdriverIcon,
-  ComputerDesktopIcon,
-  LifebuoyIcon,
   ChartBarIcon,
   ChatBubbleLeftIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CloudArrowDownIcon,
+  CloudArrowUpIcon,
+  CogIcon,
+  CreditCardIcon,
+  EllipsisVerticalIcon,
+  FireIcon,
+  HeartIcon,
+  LifebuoyIcon,
+  MoonIcon,
+  PlusCircleIcon,
+  PlusIcon,
+  RocketLaunchIcon,
+  SunIcon,
+  UserGroupIcon,
+  UserIcon,
+  WrenchScrewdriverIcon,
 } from '@heroicons/vue/24/solid';
 
-import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
-import JovieTooltip from '../components/JovieTooltip';
-import UserService from '../services/api/user.service';
-import ProgressBar from '../components/ProgressBar';
-import InitialBox from '../components/InitialBox.vue';
 import { Float } from '@headlessui-float/vue';
-import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
+import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
 import DropdownMenuItem from '../components/DropdownMenuItem.vue';
+import InitialBox from '../components/InitialBox.vue';
+import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
+import JovieTooltip from '../components/JovieTooltip.vue';
+import ProgressBar from '../components/ProgressBar.vue';
+import UserService from '../services/api/user.service';
 
 export default {
   components: {
@@ -245,7 +244,6 @@ export default {
     MoonIcon,
     MenuItem,
     MenuItems,
-
     HeartIcon,
     RocketLaunchIcon,
 

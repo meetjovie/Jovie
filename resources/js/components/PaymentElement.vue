@@ -53,8 +53,8 @@
 <script>
 import { loadStripe } from '@stripe/stripe-js';
 import UserService from '../services/api/user.service';
-import ButtonGroup from './ButtonGroup';
-import InputGroup from './InputGroup';
+import ButtonGroup from './ButtonGroup.vue';
+import InputGroup from './InputGroup.vue';
 
 export default {
   name: 'PaymentElement',

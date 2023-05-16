@@ -26,7 +26,7 @@
       <!-- Global notification live region, render this permanently at the end of the document -->
       <div
         aria-live="assertive"
-        class="pointer-events-none absolute top-0 right-0 z-50 mr-4 mt-4 flex items-end px-4 py-6 sm:items-start sm:p-6">
+        class="pointer-events-none absolute right-0 top-0 z-50 mr-4 mt-4 flex items-end px-4 py-6 sm:items-start sm:p-6">
         <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
           <!-- Notification panel, dynamically insert this into the live region when it needs to be displayed -->
 
@@ -45,9 +45,10 @@
               v-for="notification in notifications"
               :key="notification.id">
               <button
-                class="absolute top-0 right-0 m-2"
+                class="absolute right-0 top-0 m-2"
                 @click="notification.close">
-                <XMarkIcon class="h-5 w-5 text-slate-400 dark:text-jovieDark-100" />
+                <XMarkIcon
+                  class="h-5 w-5 text-slate-400 dark:text-jovieDark-100" />
               </button>
               <div
                 class="flex w-10 items-center justify-center bg-slate-200 dark:bg-jovieDark-800">
@@ -130,10 +131,10 @@ import {
   TransitionRoot,
 } from '@headlessui/vue';
 
-import AlertBanner from '../components/AlertBanner';
-import JovieLogo from '../components/JovieLogo';
-import CommandPallette from '../components/CommandPallette';
-import ImportService from '../services/api/import.service';
+import AlertBanner from '../components/AlertBanner.vue';
+import JovieLogo from '../components/JovieLogo.vue';
+import CommandPallette from '../components/CommandPallette.vue';
+
 import ProgressBar from '../components/ProgressBar.vue';
 import SwitchTeams from '../components/SwitchTeams.vue';
 import XCircle from '../../../vendor/laravel/vapor-ui/resources/js/components/icons/XCircle.vue';

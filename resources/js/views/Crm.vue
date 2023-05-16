@@ -779,12 +779,12 @@ import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
 import UserService from '../services/api/user.service';
 import ImportContactModal from '../components/ImportContactModal.vue';
-import SocialInput from '../components/SocialInput';
-import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
+import SocialInput from '../components/SocialInput.vue';
+import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension.vue';
 
 import { defineAsyncComponent } from 'vue';
-import ProgressBar from '../components/ProgressBar';
-import SwitchTeams from '../components/SwitchTeams';
+import ProgressBar from '../components/ProgressBar.vue';
+import SwitchTeams from '../components/SwitchTeams.vue';
 
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';

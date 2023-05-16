@@ -1,18 +1,19 @@
-window._ = require('lodash');
-
+import _ from 'lodash';
+window._ = _;
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+import axios from 'axios';
+window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-let token = localStorage.getItem('jovie_extension')
+let token = localStorage.getItem('jovie_extension');
 if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
 axios.defaults.withCredentials = true;
@@ -28,26 +29,25 @@ import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    authorizer: (channel, options) => {
-        return {
-            authorize: (socketId, callback) => {
-                axios.post('/api/broadcasting/auth', {
-                    socket_id: socketId,
-                    channel_name: channel.name
-                })
-                    .then(response => {
-                        callback(false, response.data);
-                    })
-                    .catch(error => {
-                        callback(true, error);
-                    });
-            }
-        };
-    },
-    key: 'ed9f45b62d22913a42a7',
-    cluster: 'mt1',
-    forceTLS: true
+  broadcaster: 'pusher',
+  authorizer: (channel, options) => {
+    return {
+      authorize: (socketId, callback) => {
+        axios
+          .post('/api/broadcasting/auth', {
+            socket_id: socketId,
+            channel_name: channel.name,
+          })
+          .then((response) => {
+            callback(false, response.data);
+          })
+          .catch((error) => {
+            callback(true, error);
+          });
+      },
+    };
+  },
+  key: 'ed9f45b62d22913a42a7',
+  cluster: 'mt1',
+  forceTLS: true,
 });
-
-

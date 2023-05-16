@@ -211,7 +211,7 @@ import {
   CloudArrowUpIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/vue/24/solid';
-import SocialIcons from './SocialIcons';
+import SocialIcons from './SocialIcons.vue';
 import ImportService from '../services/api/import.service';
 import JovieSpinner from './JovieSpinner.vue';
 import CheckboxInput from './CheckboxInput.vue';

@@ -165,12 +165,6 @@
 
 <script setup>
 import {
-  Popover,
-  PopoverButton,
-  PopoverGroup,
-  PopoverPanel,
-} from '@headlessui/vue';
-import {
   BookmarkSquareIcon,
   CalendarIcon,
   ChartBarIcon,
@@ -186,7 +180,6 @@ import {
 } from '@heroicons/vue/24/outline';
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import ButtonGroup from '../components/ButtonGroup.vue';
-import HomeCTA2 from '../components/Home/HomeCTA2.vue';
 
 const features = [
   {

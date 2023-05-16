@@ -1,6 +1,7 @@
 import App from './App.vue';
 
-require('./bootstrap');
+import './bootstrap';
+import '../css/app.css';
 
 import * as Vue from 'vue';
 import router from './router/index';
@@ -12,8 +13,12 @@ import VueMousetrapPlugin from 'vue-mousetrap';
 import VueCookies from 'vue-cookies';
 import Notifications from 'notiwind';
 import { createHead } from '@vueuse/head';
+import Vapor from 'laravel-vapor';
 
-window.Vapor = require('laravel-vapor');
+Vapor.withBaseAssetUrl(import.meta.env.VITE_VAPOR_ASSET_URL);
+window.Vapor = Vapor;
+
+/* window.Vapor = require('laravel-vapor'); */
 
 const myMixin = {};
 

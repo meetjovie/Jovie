@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div>
+  <div class="isolate z-50">
     <div
       v-if="!dismissed && !sidebar"
       class="relative"
@@ -8,7 +8,7 @@
         { 'bg-indigo-500': design == 'primary' },
         { 'bg-red-500 ': design == 'danger' },
       ]">
-      <div class="mx-auto max-w-7xl py-3 px-3 text-center sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl px-3 py-3 text-center sm:px-6 lg:px-8">
         <div class="inline-flex pr-16 sm:px-16 sm:text-center">
           <p class="text-sm font-medium text-white">
             <span class="md:hidden"> {{ mobiletitle }} </span>
@@ -28,7 +28,7 @@
 
         <div
           v-if="dismissable"
-          class="absolute inset-y-0 right-0 flex items-start pt-1 pr-1 sm:items-start sm:pt-1 sm:pr-2">
+          class="absolute inset-y-0 right-0 flex items-start pr-1 pt-1 sm:items-start sm:pr-2 sm:pt-1">
           <button
             @click="dismissed = true"
             type="button"

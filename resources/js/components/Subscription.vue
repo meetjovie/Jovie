@@ -340,10 +340,10 @@ import {
   Switch,
   SwitchLabel,
 } from '@headlessui/vue';
-import ButtonGroup from './ButtonGroup';
+import ButtonGroup from './ButtonGroup.vue';
 import UserService from '../services/api/user.service';
-import PaymentElement from './PaymentElement';
-import JovieSpinner from '../components/JovieSpinner';
+import PaymentElement from './PaymentElement.vue';
+import JovieSpinner from '../components/JovieSpinner.vue';
 
 export default {
   name: 'Subscription',
@@ -604,7 +604,11 @@ export default {
             });
             this.processingPayment = false;
           } else {
-            if (this.showSubscriptionPlans && this.currentUser.current_team.current_subscription.name != 'Basic Plan') {
+            if (
+              this.showSubscriptionPlans &&
+              this.currentUser.current_team.current_subscription.name !=
+                'Basic Plan'
+            ) {
               this.changeSubscription(
                 result.setupIntent.payment_method,
                 coupon

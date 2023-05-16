@@ -950,7 +950,7 @@
                               @click="
                                 copyToClipboard(selectedCreator.emails[0])
                               "
-                              class="h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:mr-0.5 active:mt-0.5 active:text-slate-500"
+                              class="active:mr-0.5 active:mt-0.5 h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:text-slate-500"
                               aria-hidden="true" />
                           </div>
                           <input
@@ -1385,8 +1385,8 @@ export default {
         // '9ZQ4XlF5a1deb6f2afa4e8a643ffcf6ad22e4c33bbdc691f4b668e96aacc5e3566731267',
         'https://devsearch.jov.ie/',
         '937727d693987b10931e1c19b300901debde4cef7b3d785a0eca34317c16220e',
-        /*      process.env.MIX_MEILISEARCH_HOST,
-        process.env.MIX_MEILISEARCH_FRONT_KEY, */
+        /*      process.env.VITE_MEILISEARCH_HOST,
+        process.env.VITE_MEILISEARCH_FRONT_KEY, */
         {
           placeholderSearch: true, // default: true.
           primaryKey: 'id', // default: undefined
