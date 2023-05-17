@@ -88,6 +88,10 @@ export default {
               text: response.message,
             });
             this.$emit('updateUserList', response.data);
+            // if (this.$refs[`list_${item.id}`]) {
+            //     this.$refs[`list_${item.id}`].blur();
+            // }
+            item.editName = false;
             this.currentEditingList = null;
           } else {
             // show toast error here later
