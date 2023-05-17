@@ -1,10 +1,12 @@
 <template>
   <tr
+    @click.shift.prevent="toggleRow(contact.id)"
     class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == contact.id
         ? 'bg-slate-100  ring-2 ring-slate-300 dark:bg-jovieDark-700 dark:ring-indigo-400'
         : 'bg-white dark:bg-jovieDark-900',
+      selectedContactsModel.includes(contact.id) ? 'bg-blue-50' : '',
     ]">
     <DataGridCell
       :visibleColumns="visibleColumns"
@@ -240,7 +242,14 @@ export default {
     XMarkIcon,
     SparklesIcon,
   },
-  mounted() {},
+  mounted() {
+    // Disable clicks on the entire page
+    document.addEventListener('click', this.disableClicks, true);
+  },
+  beforeUnmount() {
+    // Remove the event listener when the component is unmounted
+    document.removeEventListener('click', this.disableClicks, true);
+  },
   computed: {
     selectedContactsModel: {
       get() {
@@ -252,6 +261,16 @@ export default {
     },
   },
   methods: {
+    toggleRow(id) {
+      if (this.selectedContactsModel.includes(id)) {
+        this.selectedContactsModel.splice(
+          this.selectedContactsModel.indexOf(id),
+          1
+        );
+      } else {
+        this.selectedContactsModel.push(id);
+      }
+    },
     updateAvatar(pic) {
       console.log('hello');
       this.$emit('updateContact', {

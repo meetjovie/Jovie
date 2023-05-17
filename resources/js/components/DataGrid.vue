@@ -445,6 +445,7 @@
                 :sort="false"
                 itemKey="id"
                 tag="tbody"
+                :multiple="true"
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
@@ -1183,7 +1184,16 @@ export default {
       });
     },
     startDrag(e) {
-      this.$store.state.currentlyDraggedContact = e.item.id;
+      if (this.selectedContacts.length) {
+        let draggedContactIds = [];
+        this.selectedContacts.forEach((contactId) => {
+          draggedContactIds.push(contactId);
+        });
+        this.$store.state.currentlyDraggedContact = draggedContactIds;
+      } else {
+        this.$store.state.currentlyDraggedContact = e.item.id;
+      }
+
       console.log(this.$store.state.currentlyDraggedContact);
     },
     handleCellNavigation(event) {
