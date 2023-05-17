@@ -645,7 +645,9 @@
                           @getUserLists="getUserLists"
                           :header="
                             filters.type === 'list'
-                              ? filters.currentList.name
+                              ? filters.currentList
+                                ? filters.currentList.name
+                                : ''
                               : filters.type
                           "
                           :subheader="counts"
