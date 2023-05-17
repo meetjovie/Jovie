@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\ImportListCreated;
+use App\Models\Contact;
 use App\Models\Creator;
 use App\Models\UserList;
 use Illuminate\Bus\Queueable;
@@ -47,9 +48,9 @@ class DefaultCrm implements ShouldQueue
             'mkbhd',
             'ninja',
         ];
-        $creators = Creator::query()->whereIn('instagram_handler', $handlers)->select('id')->get();
+        $creators = Creator::query()->whereIn('instagram_handler', $handlers)->get();
         foreach ($creators as $creator) {
-            Creator::addToListAndCrm($creator, $list->id, $this->userId, $this->teamId);
+            Contact::saveContactFromSocial($creator, $list->id, $this->userId, $this->teamId);
         }
         if ($list->wasRecentlyCreated) {
             ImportListCreated::dispatch($this->teamId, $list);
