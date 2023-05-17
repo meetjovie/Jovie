@@ -172,7 +172,7 @@
                 </div>
               </div>
 
-              <div v-show="loginWithPhonePasswordType === 'new'">
+              <div v-show="loginWithPhonePasswordType !== 'old'">
                 <ButtonGroup
                   :disabled="loggingIn"
                   :error="buttonError"
