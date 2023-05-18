@@ -551,9 +551,9 @@ class CrmController extends Controller
     {
         $params = $request->all();
         $params['export'] = true;
-        $creators = Creator::getCrmCreators($params);
+        $contacts = Contact::getExportContacts($params);
 
-        return Excel::download(new CrmExport($creators), 'creators.csv');
+        return Excel::download(new CrmExport($contacts), 'contacts.csv');
     }
 
     public function addCreatorToCreator(Request $request)

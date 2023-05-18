@@ -488,10 +488,14 @@
             </table>
             <div
               v-if="contactRecords.length < 50 && contactRecords.length > 0"
-              @click="$emit('addContact')"
-              class="flex w-full cursor-pointer items-center border bg-slate-100 px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
-              <PlusIcon class="mr-2 h-4 w-4" />
-              Add new contact
+              class="flex w-full cursor-pointer items-center justify-between border bg-slate-100 px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
+              <span class="flex" @click="$emit('addContact')">
+                <PlusIcon class="mr-2 h-4 w-4" />
+                Add new contact
+              </span>
+              <span>
+                <ButtonGroup @click="$emit('export')" :text="'Export'" />
+              </span>
             </div>
             <div
               v-if="contactRecords.length < 1"
@@ -809,8 +813,7 @@ export default {
       },
     },
     selectedContacts(val) {
-      console.log('val');
-      console.log(val);
+      this.$emit('updateFiltersContact', val);
     },
     openMergeSuggestion(val) {
       console.log('csdfcsdc', val);

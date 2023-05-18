@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -1053,6 +1054,66 @@ class Contact extends Model implements Auditable
             $this->team->deductCredits();
             Contact::enrichContacts($this->id, ['user_id' => $this->user_id, 'team_id' => $this->team_id]);
         }
+    }
+
+    public static function getExportContacts($params, $userId = null)
+    {
+        $contacts = Contact::query();
+
+        if (isset($params['type']) && $params['type'] == 'archived') {
+            $contacts = $contacts->where('archived', 1);
+        } elseif (isset($params['type']) && $params['type'] == 'favourites') {
+            $contacts = $contacts->where(function ($q) {
+                $q->where('favourite', true);
+            });
+        } elseif (isset($params['type']) && $params['type'] == 'list' && !empty($params['list'])) {
+            $contacts = $contacts->whereHas('userLists', function($query) use ($params) {
+                $query->where('user_list_id', $params['list']);
+            });
+        } else {
+            $contacts = $contacts->where('archived', 0);
+        }
+
+        if (isset($params['id'])) {
+            $contacts = $contacts->where('creators.id', $params['id'])->limit(1);
+        }
+
+        if (isset($params['crm_id'])) {
+            $contacts = $contacts->where('crms.id', $params['crm_id'])->limit(1);
+        }
+
+        if (isset($params['username'])) {
+            $contacts = $contacts->where('creators.username', $params['username'])->limit(1);
+        }
+
+        if (!empty($params['username']) && !empty($params['network'])) {
+            $contacts = $contacts->where(($params['network'].'_handler'), $params['username'])->limit(1);
+        }
+
+        if ($params['contacts'] && count($params['contacts'])) {
+            $contacts = $contacts->whereIn('id', $params['contacts']);
+        }
+
+        $order = 'DESC';
+        $orderBy = null;
+        if (!empty($params['order'])) {
+            $order = $params['order'];
+        }
+        if (!empty($params['sort'])) {
+            $orderBy = $params['sort'];
+        }
+
+        if (!empty($orderBy)) {
+            if (in_array($orderBy, ['first_name', 'last_name', 'email', 'platform_title', 'platform_employer'])) {
+                $contacts = $contacts->orderByRaw("LOWER(meta->>'$.$orderBy') $order");
+            } else {
+                $contacts = $contacts->orderByRaw("lower($orderBy) $order");
+            }
+        } else {
+            $contacts = $contacts->orderByDesc('id');
+        }
+
+        return $contacts->get();
     }
 
 }
