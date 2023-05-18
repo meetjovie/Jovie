@@ -1576,6 +1576,7 @@ export default {
             this.contacts.splice(params.index, 1);
           } else {
             this.contacts[params.index] = response.data;
+            this.currentContact = response.data;
           }
           this.crmCounts();
         }
