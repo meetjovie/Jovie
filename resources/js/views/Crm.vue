@@ -643,6 +643,8 @@
                           @checkContactsEnrichable="checkContactsEnrichable"
                           @setOrder="setOrder"
                           @getUserLists="getUserLists"
+                          @export="exportCrmContacts"
+                          @updateFiltersContact="updateFiltersContact"
                           :header="
                             filters.type === 'list'
                               ? filters.currentList
@@ -1172,6 +1174,9 @@ export default {
     });
   },
   methods: {
+    updateFiltersContact(selectedContacts) {
+      this.filters.contacts = selectedContacts;
+    },
     setListUpdating(listIds) {
       this.userLists
         .filter((record) => listIds.includes(record.id))
@@ -1549,8 +1554,8 @@ export default {
     },
     exportCrmContacts() {
       let obj = JSON.parse(JSON.stringify(this.filters));
-      if (obj.list) {
-        obj.list = obj.list.id;
+      if (obj.currentList) {
+        obj.list = obj.currentList.id;
       }
       UserService.exportCrmContacts(obj).then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
