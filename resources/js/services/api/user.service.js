@@ -153,12 +153,18 @@ export default {
       return axios.post(`${baseApiUrl}/save-to-crm`, data);
   },
   async sortFields(data, id) {
-      return axios.post(`${baseApiUrl}/set-field-attributes/${id}`, data);
+      return axios.post(`${baseApiUrl}/set-field-order/${id}`, data);
   },
-  async toggleFieldHide(data, id) {
-     return axios.post(`${baseApiUrl}/toggle-field-hide/${id}`, data);
+  async sortHeaders(data, id) {
+      return axios.post(`${baseApiUrl}/set-header-order/${id}`, data);
+  },
+  async toggleHeaderHide(data, id) {
+     return axios.post(`${baseApiUrl}/toggle-header-hide/${id}`, data);
   },
   async deleteField(id) {
      return axios.delete(`${baseApiUrl}/custom-field/${id}/delete`);
   },
+    async updateColumnWidth(data, id) {
+        return axios.post(`${baseApiUrl}/set-header-width/${id}`, data);
+    },
 };

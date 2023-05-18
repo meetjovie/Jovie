@@ -4,7 +4,7 @@
     <div
       class="mx-auto -mt-24 h-[500px] w-[500px] rounded-full bg-gradient-to-b from-purple-500 via-purple-500/0 to-purple-500/0 lg:h-[1000px] lg:w-[1000px]">
       <div
-        class="mx-auto max-w-2xl items-center py-16 px-4 text-center sm:py-20 sm:px-6 lg:px-8">
+        class="mx-auto max-w-2xl items-center px-4 py-16 text-center sm:px-6 sm:py-20 lg:px-8">
         <!-- <JovieLogo class="py-4" height="20" color="white" /> -->
         <h2
           class="mt-16 text-3xl font-bold tracking-tight text-white sm:mt-8 sm:text-4xl">
@@ -20,7 +20,7 @@
           @click="signup()"
           :loading="loading">
           <svg
-            class="mt-0 ml-2 -mr-1 stroke-white stroke-2"
+            class="-mr-1 ml-2 mt-0 stroke-white stroke-2"
             fill="none"
             width="10"
             height="10"
@@ -45,8 +45,8 @@
   </div>
 </template>
 <script>
-import JovieLogo from '../../components/JovieLogo';
-import ButtonGroup from '../../components/ButtonGroup';
+import JovieLogo from '../../components/JovieLogo.vue';
+import ButtonGroup from '../../components/ButtonGroup.vue';
 export default {
   components: {
     JovieLogo,

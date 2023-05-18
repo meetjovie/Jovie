@@ -1,81 +1,104 @@
 <template>
-  <div class="h-full w-full dark:bg-jovieDark-900">
+  <div class="h-full w-full bg-white dark:bg-jovieDark-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
-            <div class="">
+            <div class="mt-4">
               <div class="flex items-center text-xs">
-                <Menu>
-                  <Float portal :offset="2" placement="bottom-start">
-                    <MenuButton
-                      class="rouned-md group mx-auto my-2 flex w-40 cursor-pointer items-center justify-between rounded-md border bg-slate-100 bg-slate-400 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-300 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
-                      <PlusIcon
-                        class="mr-1 h-5 w-5 items-center rounded-md p-1 text-xs text-purple-600 dark:text-purple-400"
-                        aria-hidden="true" />
-                      <span class="line-clamp-1 px-2 text-center"
-                        >New Contact</span
-                      >
-                      <div class="items-center">
-                        <KBShortcut :shortcutKey="['C']"></KBShortcut>
-                      </div>
-                    </MenuButton>
-                    <transition
-                      enter-active-class="transition duration-100 ease-out"
-                      enter-from-class="transform scale-95 opacity-0"
-                      enter-to-class="transform scale-100 opacity-100"
-                      leave-active-class="transition duration-75 ease-in"
-                      leave-from-class="transform scale-100 opacity-100"
-                      leave-to-class="transform scale-95 opacity-0">
-                      <MenuItems
-                        class="z-10 mt-2 w-48 origin-top-right rounded-md border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
-                        <div class="py-1">
-                          <DropdownMenuItem
-                            @click="openImportContactModal()"
-                            name="New Contact"
-                            color="text-blue-600 dark:text-blue-400"
-                            icon="PhoneIcon" />
-                          <DropdownMenuItem
-                            @click="openImportContactModal(true)"
-                            name="Import contact from social"
-                            color="text-blue-600 dark:text-blue-400"
-                            icon="PhoneIcon" />
-                        </div>
-                      </MenuItems>
-                    </transition>
-                  </Float>
-                </Menu>
+                <div class="mx-auto inline-flex w-full px-4">
+                  <button
+                    @click="openImportContactModal()"
+                    type="button"
+                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    <PlusIcon
+                      class="mr-1 h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
+                      aria-hidden="true" />
+                    New Contact
+                  </button>
+
+                  <Menu>
+                    <Float portal :offset="2" placement="bottom-end">
+                      <MenuButton
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        <ChevronDownIcon
+                          class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
+                          aria-hidden="true" />
+                      </MenuButton>
+                      <transition
+                        enter-active-class="transition ease-out duration-100"
+                        enter-from-class="transform opacity-0 scale-95"
+                        enter-to-class="transform opacity-100 scale-100"
+                        leave-active-class="transition ease-in duration-75"
+                        leave-from-class="transform opacity-100 scale-100"
+                        leave-to-class="transform opacity-0 scale-95">
+                        <MenuItems
+                          class="z-10 mt-2 w-52 origin-top-right rounded border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                          <div class="py-1">
+                            <DropdownMenuItem
+                              @click="openImportContactModal()"
+                              name="New Contact"
+                              color="text-blue-600 dark:text-blue-400"
+                              icon="PlusIcon" />
+                            <DropdownMenuItem
+                              @click="openImportContactModal(true)"
+                              name="Add from social"
+                              color="text-pink-600 dark:text-pink-400"
+                              icon="SparklesIcon" />
+                            <router-link to="/import">
+                              <DropdownMenuItem
+                                name="Upload a CSV"
+                                color="text-purple-600 dark:text-purple-400"
+                                icon="CloudArrowUpIcon" />
+                            </router-link>
+                          </div>
+                        </MenuItems>
+                      </transition>
+                    </Float>
+                  </Menu>
+                </div>
               </div>
 
               <Menu v-slot="{ open }">
                 <MenuItems static>
-                  <div class="w-full flex-col px-2">
+                  <div class="flex w-full flex-col space-y-1 px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
                       <button
                         @click="setFiltersType('all')"
-                        class="group mt-4 flex h-8 w-full items-center justify-between rounded-md px-1 text-left tracking-wide focus:outline-none focus:ring-0"
+                        class="group mt-4 flex h-8 w-full items-center justify-between rounded px-1 text-left tracking-wide focus:outline-none focus:ring-0"
                         :class="[
                           filters.type == 'all'
-                            ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                            ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                             : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                           active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                            ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                             : '',
                         ]">
-                        <div class="flex items-center text-xs">
+                        <div class="flex items-center text-xs tracking-wide">
                           <ChevronRightIcon
+                            v-if="
+                              counts.archived > 0 ||
+                              counts.favourites > 0 ||
+                              suggestion
+                            "
                             @click="toggleContactMenuOpen"
                             :class="[
                               contactMenuOpen ? 'rotate-90 transform' : '',
                             ]"
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-slate-400 dark:text-jovieDark-400"
-                            aria-hidden="true">
-                          </ChevronRightIcon>
-                          All Contacts
+                            class="h-5 w-5 rounded p-1 text-slate-400 dark:text-jovieDark-400"
+                            aria-hidden="true" />
+
+                          <UserGroupIcon
+                            v-else
+                            class="h-5 w-5 rounded p-1"
+                            aria-hidden="true" />
+
+                          <span class="ml-1">All Contacts</span>
                         </div>
+
                         <div
-                          @click="showCreatorModal = true"
-                          class="items-center rounded-md p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
+                          @click="showContactModal = true"
+                          class="items-center rounded p-1 hover:bg-slate-300 hover:text-slate-50 hover:dark:bg-jovieDark-600 hover:dark:text-jovieDark-900">
                           <span
                             class="text-xs font-light text-slate-900 group-hover:hidden group-hover:text-slate-900 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100"
                             >{{ counts.total }}</span
@@ -92,29 +115,31 @@
                       enter-to="transform opacity-100 scale-100"
                       leave-from="transform opacity-100 scale-100"
                       leave-to="transform opacity-0 scale-95">
-                      <div class="pl-4">
+                      <div class="flex flex-col space-y-1 pl-4">
                         <MenuItem
+                          v-if="counts.favourites > 0"
                           class="w-full"
                           as="div"
                           @click="setFiltersType('favourites')"
                           v-slot="{ active }">
                           <button
-                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'favourites'
-                                ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
-                            <div class="flex items-center text-xs">
+                            <div
+                              class="flex items-center text-xs tracking-wide">
                               <HeartIcon
-                                class="mr-1 h-5 w-5 rounded-md p-1 text-red-400"
+                                class="mr-1 h-5 w-5 rounded p-1 text-red-400"
                                 aria-hidden="true" />Favorited
                             </div>
                             <div
-                              class="items-center rounded-md p-1 hover:text-slate-50">
+                              class="items-center rounded p-1 hover:text-slate-50">
                               <span
                                 class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                 >{{ counts.favourites }}</span
@@ -122,27 +147,30 @@
                             </div>
                           </button>
                         </MenuItem>
+
                         <MenuItem
+                          v-if="counts.archived > 0"
                           as="div"
                           @click="setFiltersType('archived')"
                           v-slot="{ active }">
                           <button
-                            class="group flex h-8 w-full items-center justify-between rounded-md px-1 py-1 text-left tracking-wide"
+                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
                             :class="[
                               filters.type == 'archived'
-                                ? 'text-sm font-bold text-slate-900 dark:text-jovieDark-100 '
+                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
-                                ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
                                 : '',
                             ]">
-                            <div class="flex items-center text-xs">
+                            <div
+                              class="flex items-center text-xs tracking-wide">
                               <ArchiveBoxIcon
-                                class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400"
+                                class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
                                 aria-hidden="true" />Archived
                             </div>
                             <div
-                              class="items-center rounded-md p-1 hover:text-slate-50 dark:hover:text-slate-800">
+                              class="items-center rounded p-1 hover:text-slate-50 dark:hover:text-slate-800">
                               <span
                                 class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
                                 >{{ counts.archived }}</span
@@ -152,6 +180,36 @@
                         </MenuItem>
                       </div>
                     </TransitionRoot>
+                    <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
+                    <MenuItem
+                      class="w-full"
+                      as="div"
+                      @click="suggestMerge([])"
+                      v-slot="{ active }">
+                      <button
+                        class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
+                        :class="[
+                          suggestion
+                            ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                            : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                          active
+                            ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                            : '',
+                        ]">
+                        <div class="flex items-center text-xs tracking-wide">
+                          <DocumentDuplicateIcon
+                            class="mr-1 h-5 w-5 rounded p-1 text-slate-400"
+                            aria-hidden="true" />Merge Duplicates
+                        </div>
+                        <div
+                          class="items-center rounded p-1 hover:text-slate-50">
+                          <span
+                            class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100">
+                            <!--  Count of duplicates goes here -->
+                          </span>
+                        </div>
+                      </button>
+                    </MenuItem>
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
@@ -217,53 +275,64 @@
               <div
                 class="flex-shrink-0 border-t border-slate-200 px-2 py-2 dark:border-jovieDark-border">
                 <Menu>
-                  <MenuItems static>
-                    <MenuItem as="div" v-slot="{ active }">
-                      <router-link
-                        to="import"
-                        :class="[
-                          active
-                            ? 'bg-slate-200  text-slate-900 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                            : 'text-slate-700',
-                        ]"
-                        class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded-md py-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
-                        <div class="flex items-center">
-                          <CloudArrowUpIcon
-                            class="mr-1 h-5 w-5 rounded-md p-1 text-sky-400 dark:text-sky-400"
-                            aria-hidden="true" />Upload A CSV
+                  <transition
+                    enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-75"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95">
+                    <MenuItems static>
+                      <MenuItem
+                        v-if="!currentUser.current_team.current_subscription"
+                        as="div"
+                        v-slot="{ active }">
+                        <router-link
+                          to="import"
+                          :class="[
+                            active
+                              ? 'bg-slate-100  text-slate-900 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                              : 'text-slate-700',
+                          ]"
+                          class="rouned-md mb-2 flex cursor-pointer items-center justify-between rounded py-2 text-xs font-semibold text-slate-600 dark:text-jovieDark-300">
+                          <div class="flex items-center">
+                            <CloudArrowUpIcon
+                              class="mr-1 h-5 w-5 rounded p-1 font-medium text-sky-400 dark:text-sky-400"
+                              aria-hidden="true" />Upload A CSV
+                          </div>
+                          <div class="items-center">
+                            <ContactTags
+                              v-if="
+                                !currentUser.current_team.current_subscription
+                              "
+                              :showX="false"
+                              text="Pro"
+                              color="blue" />
+                          </div>
+                        </router-link>
+                      </MenuItem>
+                      <MenuItem v-slot="{ active }" as="div">
+                        <div
+                          @click="toggleShowSupportModal()"
+                          :class="[
+                            active
+                              ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                              : '',
+                            'mb-2 flex cursor-pointer items-center rounded py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100',
+                          ]">
+                          <ChatBubbleLeftIcon
+                            class="mr-1 h-5 w-5 rounded p-1 font-medium text-pink-500 dark:text-pink-600"
+                            aria-hidden="true" />
+                          Help & Support
                         </div>
-                        <div class="items-center">
-                          <ContactTags
-                            v-if="
-                              !currentUser.current_team.current_subscription
-                            "
-                            :showX="false"
-                            text="Pro"
-                            color="blue" />
-                        </div>
-                      </router-link>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active }" as="div">
-                      <div
-                        @click="toggleShowSupportModal()"
-                        :class="[
-                          active
-                            ? 'bg-slate-200 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                            : '',
-                          'mb-2 flex cursor-pointer items-center rounded-md py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-jovieDark-300 hover:dark:text-jovieDark-100',
-                        ]">
-                        <ChatBubbleLeftIcon
-                          class="mr-1 h-5 w-5 rounded-md p-1 text-pink-500 dark:text-pink-600"
-                          aria-hidden="true" />
-                        Help & Support
-                      </div>
-                    </MenuItem>
-                  </MenuItems>
+                      </MenuItem>
+                    </MenuItems>
+                  </transition>
                 </Menu>
                 <div class="mt-1 flex items-center justify-between py-1">
                   <div
                     @click="openUpgradeModal()"
-                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded-md border border-slate-200 px-2 py-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
+                    class="mr-1 flex w-full cursor-pointer items-center justify-between rounded border border-slate-200 px-2 py-2 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
                     <div class="flex items-center">
                       <ArrowUpCircleIcon class="mr-1 h-4 w-4 text-slate-500" />
                       <span
@@ -558,34 +627,10 @@
                       </div> -->
                       <!-- Show the crm if there are contacts -->
                       <div>
-                        <!--  <CrmTable
-                          class="overflow-hidden"
-                          ref="crmTable"
-                          @addContact="showCreatorModal = true"
-                          @updateContact="updateContact"
-                          @crmCounts="crmCounts"
-                          :counts="counts"
-                          @updateListCount="updateListCount"
-                          @pageChanged="pageChanged"
-                          @setCurrentContact="setCurrentContact"
-                          @openSidebar="openSidebarContact"
-                          @setOrder="setOrder"
-                          :header="filters.type"
-                          @importCSV="importCSV"
-                          :subheader="counts"
-                          :filters="filters"
-                          :userLists="userLists"
-                          :contacts="contacts"
-                          :networks="networks"
-                          :stages="stages"
-                          :contactsMeta="contactsMeta"
-                          :loading="loading">
-                          <slot header="header"></slot>
-                        </CrmTable> -->
                         <DataGrid
                           v-if="columns.length"
                           ref="crmTableGrid"
-                          @addContact="showCreatorModal = true"
+                          @addContact="openImportContactModal()"
                           @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"
@@ -601,7 +646,9 @@
                           @getUserLists="getUserLists"
                           :header="
                             filters.type === 'list'
-                              ? filters.currentList.name
+                              ? filters.currentList
+                                ? filters.currentList.name
+                                : ''
                               : filters.type
                           "
                           :subheader="counts"
@@ -637,6 +684,7 @@
           <aside
             class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
+              v-if="currentContact"
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
@@ -647,6 +695,7 @@
       <JovieUpgradeModal
         @close="closeUpgradeModal()"
         :open="showUpgradeModal" />
+
       <ImportContactModal
         :open="showContactModal"
         :fromSocial="importFromSocial"
@@ -712,6 +761,7 @@ import {
   CloudArrowDownIcon,
   CheckIcon,
   UserGroupIcon,
+  DocumentDuplicateIcon,
   EllipsisVerticalIcon,
   PlusIcon,
   PlusCircleIcon,
@@ -733,14 +783,13 @@ import DataGrid from '../components/DataGrid.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
 import UserService from '../services/api/user.service';
-import CrmTable from '../components/Crm/CrmTable';
 import ImportContactModal from '../components/ImportContactModal.vue';
-import SocialInput from '../components/SocialInput';
-import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension';
+import SocialInput from '../components/SocialInput.vue';
+import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension.vue';
 
 import { defineAsyncComponent } from 'vue';
-import ProgressBar from '../components/ProgressBar';
-import SwitchTeams from '../components/SwitchTeams';
+import ProgressBar from '../components/ProgressBar.vue';
+import SwitchTeams from '../components/SwitchTeams.vue';
 
 import ContactSidebar from '../components/ContactSidebar.vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
@@ -753,6 +802,7 @@ import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
 import FieldService from '../services/api/field.service';
 import DropdownMenuItem from '../components/DropdownMenuItem.vue';
 import ModalPopup from '../components/ModalPopup.vue';
+import importContactModal from '../components/ImportContactModal.vue';
 
 export default {
   name: 'CRM',
@@ -763,7 +813,9 @@ export default {
     CreditCardIcon,
     JovieSidebar,
     UserIcon,
+    UserGroupIcon,
     CogIcon,
+    DocumentDuplicateIcon,
     ArrowUpCircleIcon,
     ArrowPathIcon,
     AlertBanner,
@@ -811,9 +863,8 @@ export default {
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
-    UserGroupIcon,
+
     CloudArrowUpIcon,
-    CrmTable,
     vueMousetrapPlugin: VueMousetrapPlugin,
     ContactTags,
     TransitionChild,
@@ -842,7 +893,7 @@ export default {
       stages: [],
       networks: [],
       userLists: [],
-      showCreatorModal: false,
+      // showCreatorModal: false,
       showSuccessModal: false,
       showSupportModal: false,
       showUpgradeModal: false,
@@ -909,6 +960,9 @@ export default {
   },
 
   computed: {
+    importContactModal() {
+      return importContactModal;
+    },
     showImporting() {
       if (this.userLists.length && this.filters.type == 'list') {
         let list = this.userLists.find((list) => list.id == this.filters.list);
@@ -948,7 +1002,7 @@ export default {
     this.crmCounts();
     //c sets openCreatorModal to true
     this.$mousetrap.bind(['c'], () => {
-      this.showCreatorModal = true;
+      this.showContactModal = true;
     });
     //? sets openSupportModal to true
     this.$mousetrap.bind(['?'], () => {
@@ -1204,7 +1258,7 @@ export default {
     },
     getHeaders() {
       this.headersLoaded = false;
-      FieldService.getHeaderFields(this.filters.list)
+      FieldService.getHeaderFields(this.filters.list ?? 0)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -1312,6 +1366,7 @@ export default {
       this.filters.list = null;
       this.$store.state.overviewList = null;
       this.filters.currentList = null;
+      this.getHeaders();
       this.getCrmContacts();
       this.loading = false;
     },
@@ -1327,6 +1382,7 @@ export default {
         this.filters.currentList = null;
         this.$store.state.overviewList = null;
       }
+      this.getHeaders();
       this.getCrmContacts();
     },
     sortLists(e, listId) {
@@ -1386,6 +1442,7 @@ export default {
               let list = this.userLists.find((l) => l.id === this.filters.list);
               if (list) {
                 this.filters.currentList = list;
+                this.counts[`list_${list.id}`] = list.contacts_count;
               }
             }
           }
@@ -1524,6 +1581,7 @@ export default {
             this.contacts.splice(params.index, 1);
           } else {
             this.contacts[params.index] = response.data;
+            this.currentContact = response.data;
           }
           this.crmCounts();
         }

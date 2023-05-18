@@ -5,6 +5,7 @@
     aria-busy="true"
     class="animate-spin text-indigo-600 dark:text-indigo-400"
     :class="{
+      'h-4 w-4': spinnerSize == 'xs',
       'h-5 w-5': spinnerSize === 'sm',
       'h-8 w-8': spinnerSize === 'md',
       'h-10 w-10': spinnerSize === 'lg',

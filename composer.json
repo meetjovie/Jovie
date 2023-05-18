@@ -34,6 +34,7 @@
         "pusher/pusher-php-server": "^7.0",
         "simplesoftwareio/simple-sqs-extended-client": "^2.0",
         "singlestoredb/singlestoredb-laravel": "^1.4",
+        "twilio/sdk": "^7.3",
         "weidner/goutte": "^2.2"
     },
     "require-dev": {

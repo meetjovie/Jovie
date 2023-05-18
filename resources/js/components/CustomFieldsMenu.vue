@@ -33,7 +33,7 @@
           <div>
             <div class="flex flex-col space-y-4">
               <div>
-                <ul class="space-y-2 py-1 px-2">
+                <ul class="space-y-2 px-2 py-1">
                   <draggable
                     class="list-group relative isolate z-0 h-full w-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
                     :list="field.options"
@@ -51,12 +51,12 @@
                           class="inline-flex w-full items-center rounded-md bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800" />
                         <XMarkIcon
                           @click="removeOption(index)"
-                          class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border" />
+                          class="h-5 w-5 cursor-pointer rounded-md border border-slate-300 p-0.5 hover:bg-jovieDark-700 hover:bg-slate-200 hover:text-white dark:border-jovieDark-border" />
                       </li>
                     </template>
                   </draggable>
                   <div
-                    class="flex w-full cursor-pointer items-center rounded-md border border-slate-300 p-0.5 text-xs font-semibold text-slate-600 hover:bg-slate-200 hover:bg-jovieDark-700 hover:text-white dark:border-jovieDark-border">
+                    class="flex w-full cursor-pointer items-center rounded-md border border-slate-300 p-0.5 text-xs font-semibold text-slate-600 hover:bg-jovieDark-700 hover:bg-slate-200 hover:text-white dark:border-jovieDark-border">
                     <PlusIcon @click="addOption()" class="mr-2 h-5 w-5" />
                     Add an option
                   </div>

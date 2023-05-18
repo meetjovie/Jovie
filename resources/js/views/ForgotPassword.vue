@@ -7,7 +7,7 @@
       </div>
     </div>
     <div
-      class="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+      class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
       <div class="mx-auto w-full max-w-sm lg:w-96">
         <div>
           <div class="block lg:hidden">
@@ -53,7 +53,7 @@
                   type="button"
                   :disabled="updating"
                   @click="sendResetEmail()"
-                  class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
+                  class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
                   Reset password
                 </button>
               </div>
@@ -66,7 +66,7 @@
   </div>
 </template>
 <script>
-import JovieLogo from '../components/JovieLogo';
+import JovieLogo from '../components/JovieLogo.vue';
 import AuthFooter from '../components/Auth/AuthFooter.vue';
 import InputGroup from '../components/InputGroup.vue';
 import UserService from '../services/api/user.service';
@@ -96,7 +96,6 @@ export default {
           response = response.data;
           if (response.status) {
             this.errors = {};
-            alert(response.message);
             this.$notify({
               group: 'user',
               title: 'Successful',

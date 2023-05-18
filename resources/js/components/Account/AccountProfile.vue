@@ -4,50 +4,13 @@
       <div class="space-y-4">
         <!-- Profile Photo File Input -->
         <div class="mx-auto mt-1 flex flex-col items-center">
-          <span
-            class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center dark:bg-jovieDark-800">
-            <img
-              id="profile_pic_url_img"
-              ref="profile_pic_url_img"
-              :src="
-                $store.state.AuthState.user.profile_pic_url ??
-                $store.state.AuthState.user.default_image
-              " />
-          </span>
-
-          <label
-            for="profile_pic_url"
-            class="mx-auto mt-2 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700">
-            Add photo
-          </label>
-          <input
-            :disabled="updating"
-            type="file"
-            ref="profile_pic_url"
-            @change="fileChanged($event)"
-            name="profile_pic_url"
-            id="profile_pic_url"
-            style="display: none" />
-          <span v-if="uploadProgress">{{ uploadProgress }} %</span>
-          <p v-if="errors.profile_pic_url" class="mt-2 text-sm text-red-600">
-            {{ errors.profile_pic_url[0] }}
-          </p>
+          <ContactAvatar
+            :editable="true"
+            @updateAvatar="updateProfile($event)"
+            :loading="!$store.state.AuthState.user.id"
+            :contact="$store.state.AuthState.user"
+            class="mr-2" />
         </div>
-
-        <button
-          @click="removeProfilePhoto()"
-          v-if="$store.state.AuthState.user.profile_pic_url"
-          type="button"
-          class="mx-auto mt-2 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700">
-          Remove Photo
-        </button>
-        <button
-          @click="removeProfilePhoto()"
-          v-else
-          type="button"
-          class="mx-auto mt-2 cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700">
-          Add a photo
-        </button>
         <!-- Name -->
         <div class="col-span-6 flex space-x-4">
           <div class="col-span-3">
@@ -119,7 +82,7 @@
 
                     <label
                       for="profile_pic_url"
-                      class="cursor-pointer rounded-md border border-slate-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+                      class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
                       Change
                     </label>
                     <input
@@ -142,7 +105,7 @@
                     @click="removeProfilePhoto()"
                     v-if="$store.state.AuthState.user.profile_pic_url"
                     type="button"
-                    class="mt-2 mr-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+                    class="mr-2 mt-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
                     Remove Photo
                   </button>
                 </div>
@@ -182,6 +145,7 @@
                     placeholder="Email"
                     type="text" />
                 </div>
+                <AccountMobile :phone="$store.state.AuthState.user.phone" />
                 <!-- Title -->
                 <div class="col-span-3">
                   <InputGroup
@@ -319,6 +283,13 @@
       </div>
     </div>
   </div>
+  <ActionPanel
+    v-if="!onboarding"
+    title="Delete Account"
+    buttonstyle="danger"
+    description="This is permanent and cannot be undone."
+    buttonText="Delete"
+    @action-click="toggleDeleteModal()" />
   <ModalPopup
     @primaryButtonClick="deleteAccount()"
     :open="deleteModalOpen"
@@ -326,23 +297,29 @@
 </template>
 
 <script>
+import ActionPanel from '../../components/ActionPanel.vue';
 import UserService from '../../services/api/user.service';
-import InputGroup from '../../components/InputGroup';
-import CardHeading from '../../components/CardHeading';
-import CardLayout from '../../components/CardLayout';
-import ButtonGroup from '../../components/ButtonGroup';
+import InputGroup from '../../components/InputGroup.vue';
+import CardHeading from '../../components/CardHeading.vue';
+import CardLayout from '../../components/CardLayout.vue';
+import ButtonGroup from '../../components/ButtonGroup.vue';
 import ImportService from '../../services/api/import.service';
-import ModalPopup from '../../components/ModalPopup';
-import SocialIcons from '../../components/SocialIcons';
+import ModalPopup from '../../components/ModalPopup.vue';
+import SocialIcons from '../../components/SocialIcons.vue';
+import ContactAvatar from '../ContactAvatar.vue';
+import AccountMobile from './AccountMobile.vue';
 
 export default {
   name: 'AccountProfile',
   components: {
+    AccountMobile,
     InputGroup,
     CardHeading,
     CardLayout,
+    ContactAvatar,
     ButtonGroup,
     ModalPopup,
+    ActionPanel,
     SocialIcons,
   },
   props: {
@@ -424,10 +401,19 @@ export default {
       }).then((response) => {
         this.bucketResponse = response;
         this.$refs.profile_pic_url_img.src = src;
-        this.updateProfile()
+        this.updateProfile();
       });
     },
-    updateProfile() {
+    // updateAvatar(pic) {
+    //   console.log('hello');
+    //   this.$emit('updateContact', {
+    //     id: this.contact.id,
+    //     index: this.contact.index,
+    //     key: 'profile_pic_url',
+    //     value: pic,
+    //   });
+    // },
+    updateProfile(pic = null) {
       let data = new FormData();
       data.append(
         'first_name',
@@ -437,8 +423,8 @@ export default {
         'last_name',
         this.$store.state.AuthState.user.last_name ?? ''
       );
-      if (this.bucketResponse && this.bucketResponse.uuid) {
-        data.append('profile_pic_url', this.bucketResponse.uuid ?? '');
+      if (pic) {
+        data.append('profile_pic_url', pic);
       }
       this.updating = true;
       UserService.updateProfile(data)

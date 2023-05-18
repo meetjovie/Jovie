@@ -8,6 +8,7 @@ use App\Jobs\EnrichList;
 use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
 use App\Traits\CustomFieldsTrait;
+use App\Traits\GeneralTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,6 +20,8 @@ use Illuminate\Support\Arr;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 use OwenIt\Auditing\Events\AuditCustom;
 
@@ -27,6 +30,7 @@ class Contact extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
     use CustomFieldsTrait;
+    use GeneralTrait;
 
     protected $fillable = [
         'user_id',
@@ -504,7 +508,7 @@ class Contact extends Model implements Auditable
 
     public function setYoutube($value)
     {
-        $oldYoutube = $this->youtube ?? null;
+        $oldYoutube = json_decode($this->getRawOriginal('youtube')) ?? (object) [];
         if (!count((array)$value)) {
             return !empty($oldYoutube) ? json_encode($oldYoutube) : null;
         }
@@ -700,6 +704,21 @@ class Contact extends Model implements Auditable
         return array_intersect_key($data, array_flip(self::OVERRIDEABLE));
     }
 
+    public static function setContactData(&$contact, $data)
+    {
+        foreach ($data as $key => $value) {
+            if ($key == 'profile_pic_url' && Str::isUuid($value)) {
+                $contact->profile_pic_url = self::updateProfilePic($contact, $value);
+            } else {
+                $contact->{$key} = $value;
+            }
+            if (in_array($key, ['first_name', 'last_name'])) {
+                $contact->full_name = $contact->getName();
+            }
+        }
+        return $contact;
+    }
+
     public static function saveContact($data, $listId = null)
     {
         if (!isset($data['user_id']) || !isset($data['team_id'])) {
@@ -716,11 +735,8 @@ class Contact extends Model implements Auditable
         }
 
         $contact = new Contact();
-        foreach ($contactData as $key => $value) {
-            $contact->{$key} = $value;
-        }
-        $stageId = UserList::getListStages()->first()->id;
-        $contact->stage = $stageId;
+
+        $contact = self::setContactData($contact, $contactData);
         $contact->save();
 
         if ($listId) {
@@ -746,9 +762,7 @@ class Contact extends Model implements Auditable
             if ($contact->last_enriched_at && !$overrideAll) {
                 $overrideableData = self::getOverrideableDataForContactDuringEnrich($contactData);
             }
-            foreach ($overrideableData ?? $contactData as $key => $value) {
-                $contact->{$key} = $value;
-            }
+            $contact = self::setContactData($contact, $overrideableData ?? $contactData);
             $contact->save();
             if (!$areContacts) {
                 if ($listId) {
@@ -814,6 +828,17 @@ class Contact extends Model implements Auditable
         return count($contacts) ? $contacts : false;
     }
 
+    public static function updateProfilePic($contact, $uuid) {
+        $oldPath = null;
+        if ($contact->profile_pic_url) {
+            $filename = explode(Creator::CREATORS_MEDIA_PATH, $contact->profile_pic_url)[1] ?? null;
+            if (! is_null($filename)) {
+                $oldPath = Creator::CREATORS_MEDIA_PATH.$filename;
+            }
+        }
+        return self::uploadFileFromTempUuid($uuid, Creator::CREATORS_MEDIA_PATH, $oldPath);
+    }
+
     public static function updateContact($data, $id, $merge = false)
     {
         $contact = Contact::query()->where('id', $id)->first();
@@ -821,24 +846,12 @@ class Contact extends Model implements Auditable
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
-        foreach ($contactData as $key => $value) {
 
-            if (in_array($key, ['first_name', 'last_name'])) {
-                $contact->full_name = $contact->getName();
-            }
-            if ($key == 'stage' && isset($data['list'])) {
-                $userList = $contact->userLists()->where('user_list_id', $data['list'])->first();
-                $pivot = $userList->pivot;
-                $pivot->stage = $value;
-                $pivot->save();
-            } else {
-                $contact->{$key} = $value;
-            }
-        }
+        $contact = self::setContactData($contact, $contactData);
 
         $user = auth()->user();
         if ($contact->isDirty()) {
-            if (count(array_intersect(Creator::NETWORKS, array_keys($contact->getDirty()))) > 0) {
+            if (count(array_intersect(Creator::NETWORKS, array_keys(array_filter($contact->getDirty())))) > 0) {
                 if ($user->currentTeam->autoEnrichUpdateEnabled()) {
                     $contact->enrichContact();
                 }
@@ -892,11 +905,16 @@ class Contact extends Model implements Auditable
         if (!is_array($contactIds)) {
             $contactIds = [$contactIds];
         }
+        if (!is_array($listId)) {
+            $listId = [$listId];
+        }
 
-        $list = UserList::query()->where('id', $listId)->first();
+        $lists = UserList::query()->whereIn('id', $listId)->get();
         $contacts = Contact::query()->select(['id', 'team_id'])->whereIn('id', $contactIds)->get();
         foreach ($contacts as $contact) {
-            $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+            foreach ($lists as $list) {
+                $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+            }
         }
         foreach ($contactIds as $contactId) {
             ContactImported::dispatch($contactId, $teamId, $listId, $updatingExisting);

@@ -1,6 +1,7 @@
 import App from './App.vue';
 
-require('./bootstrap');
+import './bootstrap';
+import '../css/app.css';
 
 import * as Vue from 'vue';
 import router from './router/index';
@@ -12,8 +13,12 @@ import VueMousetrapPlugin from 'vue-mousetrap';
 import VueCookies from 'vue-cookies';
 import Notifications from 'notiwind';
 import { createHead } from '@vueuse/head';
+import Vapor from 'laravel-vapor';
 
-window.Vapor = require('laravel-vapor');
+Vapor.withBaseAssetUrl(import.meta.env.VITE_VAPOR_ASSET_URL);
+window.Vapor = Vapor;
+
+/* window.Vapor = require('laravel-vapor'); */
 
 const myMixin = {};
 
@@ -28,14 +33,14 @@ app.mixin({
     },
   },
   methods: {
-      generateUniqueNumericString(length = 10) {
-          let timestamp = new Date().getTime().toString();
-          let random = '';
-          for (let i = 0; i < length - timestamp.length; i++) {
-              random += Math.floor(Math.random() * 10);
-          }
-          return timestamp + random;
-      },
+    generateUniqueNumericString(length = 10) {
+      let timestamp = new Date().getTime().toString();
+      let random = '';
+      for (let i = 0; i < length - timestamp.length; i++) {
+        random += Math.floor(Math.random() * 10);
+      }
+      return timestamp + random;
+    },
     async reconnectPusher() {
       return new Promise(async (resolve, reject) => {
         await Echo.disconnect();
@@ -115,8 +120,8 @@ app.mixin({
       return time.format('ddd MMM DD, YYYY [at] HH:mm a');
     },
     switchToDefaultImage(e) {
-        console.log(this.asset('img/noimage.webp'))
-        console.log(e)
+      console.log(this.asset('img/noimage.webp'));
+      console.log(e);
       e.target.src = this.asset('img/noimage.webp');
     },
   },

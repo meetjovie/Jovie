@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomFieldsController;
 use App\Http\Controllers\FieldsController;
 use App\Http\Controllers\TemplateSettingController;
 use App\Http\Controllers\TemplateController;
+use App\Http\Controllers\HeadersController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,10 @@ Route::post('verify-email', [\App\Http\Controllers\Auth\AuthController::class, '
 Route::post('logout', [\App\Http\Controllers\Auth\AuthController::class, 'logout']);
 Route::post('/forgot-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'forgotPassword']);
 Route::post('/reset-password', [\App\Http\Controllers\Teamwork\AuthController::class, 'resetPassword']);
+
+
+Route::post('/get-otp', [\App\Http\Controllers\TwillioController::class, 'getOtp']);
+Route::post('/verify-otp', [\App\Http\Controllers\TwillioController::class, 'verifyOtp']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -132,8 +137,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);
-    Route::post('set-field-attributes/{id}', [FieldsController::class, 'setFieldAttributes']);
-    Route::post('toggle-field-hide/{id}', [FieldsController::class, 'toggleFieldHide']);
+    Route::post('set-field-order/{id}', [FieldsController::class, 'setFieldOrder']);
     Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
 
     // Templates
@@ -142,7 +146,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('template-settings/{userList}', [TemplateSettingController::class, 'update']);
 
     // HEADERS
-    Route::get('header-fields/{listId?}', [FieldsController::class, 'headerFields']);
+    Route::get('header-fields/{listId?}', [HeadersController::class, 'headerFields']);
+    Route::post('set-header-order/{id}', [HeadersController::class, 'setHeaderOrder']);
+    Route::post('set-header-width/{id}', [HeadersController::class, 'setHeaderWidth']);
+    Route::post('toggle-header-hide/{id}', [HeadersController::class, 'toggleHeaderHide']);
 
     /**
      * Teamwork routes

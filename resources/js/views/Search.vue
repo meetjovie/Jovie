@@ -182,7 +182,7 @@
                               }"
                               class="border-1 group flex border-collapse flex-row items-center overflow-y-visible border border-slate-200 active:bg-indigo-100">
                               <div
-                                class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap py-1 px-4 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 lg:table-cell">
+                                class="mx-auto hidden flex-none items-center justify-between whitespace-nowrap px-4 py-1 text-center text-xs font-bold text-slate-300 group-hover:text-slate-500 lg:table-cell">
                                 <div class="mx-auto items-center">
                                   <div class="group mx-auto w-4">
                                     <span class="mx-auto group-hover:hidden">
@@ -231,7 +231,7 @@
                                       class="flex text-xs font-medium text-slate-900">
                                       <span
                                         @click="sidebarOpen = true"
-                                        class="cursor-pointer line-clamp-1">
+                                        class="line-clamp-1 cursor-pointer">
                                         {{
                                           item.instagram_name ??
                                           item.twitter_name
@@ -251,7 +251,7 @@
                                       </p>
                                     </div>
                                     <div
-                                      class="pt-.05 pb-1 text-xs font-medium text-slate-900 line-clamp-1">
+                                      class="pt-.05 line-clamp-1 pb-1 text-xs font-medium text-slate-900">
                                       <ContactTags
                                         v-if="item.instagram_category"
                                         size="xs"
@@ -415,7 +415,7 @@
                                   <img
                                     v-for="media in item.instagram_media"
                                     :key="media"
-                                    class="only-child:rounded-md aspect-square h-24 w-24 object-cover object-center line-clamp-1 first:rounded-l-md last:rounded-r-md"
+                                    class="only-child:rounded-md line-clamp-1 aspect-square h-24 w-24 object-cover object-center first:rounded-l-md last:rounded-r-md"
                                     :src="media.display_url" />
                                 </div>
                               </div>
@@ -608,7 +608,7 @@
                   v-if="sidebarOpen"
                   class="fixed right-0 z-10 hidden w-60 shrink-0 bg-slate-50 shadow-lg lg:flex">
                   <div
-                    class="absolute top-0 right-0 z-50 mb-12 h-screen w-192 border border-slate-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
+                    class="absolute right-0 top-0 z-50 mb-12 h-screen w-192 border border-slate-200 bg-white/60 bg-clip-padding shadow-xl backdrop-blur-xl backdrop-brightness-150 backdrop-saturate-150 backdrop-filter">
                     <div class="mt-4 flex justify-between px-4">
                       <div class="group" @click="sidebarOpen = false">
                         <XMarkIcon
@@ -682,7 +682,7 @@
                       </div>
                     </div>
 
-                    <div class="grid grid-cols-5 py-2 px-4">
+                    <div class="grid grid-cols-5 px-4 py-2">
                       <ContactAvatar
                         :imageUrl="
                           selectedCreator.instagram_meta.profile_pic_url ??
@@ -693,7 +693,7 @@
                         as="div"
                         class="col-span-1 aspect-square items-center"
                         size="md" />
-                      <div class="col-span-3 block pr-6 pl-8">
+                      <div class="col-span-3 block pl-8 pr-6">
                         <div
                           class="text-md relative z-10 inline-flex items-center font-bold text-slate-700">
                           <!--  <VerifiedBadge
@@ -706,7 +706,7 @@
                           }}</span>
                         </div>
                         <div
-                          class="mt-1 h-20 text-xs font-medium text-slate-500 line-clamp-4">
+                          class="mt-1 line-clamp-4 h-20 text-xs font-medium text-slate-500">
                           {{
                             selectedCreator.instagram_biography ??
                             selectedCreator.twitter_biography
@@ -950,7 +950,7 @@
                               @click="
                                 copyToClipboard(selectedCreator.emails[0])
                               "
-                              class="h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:mt-0.5 active:mr-0.5 active:text-slate-500"
+                              class="active:mr-0.5 active:mt-0.5 h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:text-slate-500"
                               aria-hidden="true" />
                           </div>
                           <input
@@ -962,7 +962,7 @@
                         </div>
                         <button
                           type="submit"
-                          class="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2.5 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                          class="mt-3 inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2.5 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm">
                           Add to contacts
                         </button>
                       </form>
@@ -976,18 +976,18 @@
                           class="mx-auto aspect-square h-full justify-center object-cover object-center" />
 
                         <div
-                          class="flex justify-between border-t border-b border-slate-200 bg-slate-200/20 px-6 py-0.5 text-center text-slate-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
+                          class="flex justify-between border-b border-t border-slate-200 bg-slate-200/20 px-6 py-0.5 text-center text-slate-700 backdrop-blur-xl backdrop-saturate-150 backdrop-filter">
                           <div class="inline-flex text-xs">
-                            <HandThumbUpIcon class="mt-0.5 mr-0.5 h-3 w-3" />
+                            <HandThumbUpIcon class="mr-0.5 mt-0.5 h-3 w-3" />
                             {{ formatCount(media.likes) }}
                           </div>
                           <div class="inline-flex text-xs">
-                            <PlayIcon class="mt-0.5 mr-0.5 h-3 w-3" />
+                            <PlayIcon class="mr-0.5 mt-0.5 h-3 w-3" />
                             {{ formatCount(media.views) }}
                           </div>
                           <div class="inline-flex text-xs">
                             <ChatBubbleBottomCenterIcon
-                              class="mt-0.5 mr-0.5 h-3 w-3" />
+                              class="mr-0.5 mt-0.5 h-3 w-3" />
                             {{ formatCount(media.comments) }}
                           </div>
                         </div>
@@ -1385,8 +1385,8 @@ export default {
         // '9ZQ4XlF5a1deb6f2afa4e8a643ffcf6ad22e4c33bbdc691f4b668e96aacc5e3566731267',
         'https://devsearch.jov.ie/',
         '937727d693987b10931e1c19b300901debde4cef7b3d785a0eca34317c16220e',
-        /*      process.env.MIX_MEILISEARCH_HOST,
-        process.env.MIX_MEILISEARCH_FRONT_KEY, */
+        /*      process.env.VITE_MEILISEARCH_HOST,
+        process.env.VITE_MEILISEARCH_FRONT_KEY, */
         {
           placeholderSearch: true, // default: true.
           primaryKey: 'id', // default: undefined

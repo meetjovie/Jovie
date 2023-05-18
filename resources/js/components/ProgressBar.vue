@@ -1,9 +1,17 @@
 <template>
   <div
-    class="relative h-3 w-full overflow-hidden bg-slate-200"
-    :class="[{ 'rounded-full': rounded }, { indeterminate: indeterminate }]">
+    class="relative w-full overflow-hidden bg-slate-200"
+    :class="[
+      { 'h-2': size === 'sm' },
+      { 'h-4': size === 'lg' },
+      { 'h-3': size === 'md' },
+      { 'h-5': size === 'xl' },
+      { 'h-1': size === 'xs' },
+      { 'rounded-full': rounded },
+      { indeterminate: indeterminate },
+    ]">
     <div
-      class="progressbar h-full"
+      class="h-full"
       :class="[
         { 'bg-red-500': percentage === 100 && invertedColor },
         { 'bg-green-500': percentage === 100 && !invertedColor },
@@ -19,7 +27,7 @@
       aria-valuemax="100">
       <span class="mx-auto flex h-full items-center text-center">
         <p
-          v-if="percentage"
+          v-if="percentage && (!size === 'sm' || !size === 'xs')"
           class="middle-0 absolute mx-auto w-full text-center text-[8px] font-bold transition-all"
           :class="[
             { 'text-white': percentage > 50 },
@@ -50,6 +58,10 @@ export default {
     label: {
       type: String,
       default: '',
+    },
+    size: {
+      type: String,
+      default: 'md',
     },
     rounded: {
       type: Boolean,

@@ -6,10 +6,14 @@
       subheader="Let's get you set up">
       <div class="space-y-6">
         <AccountProfile onboarding />
+        <AccountMobile
+          @verified="verifyMobile"
+          :phone="$store.state.AuthState.user.phone"
+          @disableContinue="disableContinue" />
         <AccountPassword class="" onboarding />
         <ButtonGroup
           @click="step = 2"
-          :loading="updating"
+          :disabled="!mobileVerified"
           text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>
@@ -52,7 +56,10 @@
             The name of your company or organization
           </h3>
         </div>
-        <ButtonGroup @click="setupWorkspace" :loading="updating" text="Continue"></ButtonGroup>
+        <ButtonGroup
+          @click="setupWorkspace"
+          :loading="updating"
+          text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>
     <OnboardingStep
@@ -62,7 +69,10 @@
       <div class="mt-4 space-y-6">
         ok
 
-        <ButtonGroup @click="setupWorkspace" :loading="updating" text="Continue"></ButtonGroup>
+        <ButtonGroup
+          @click="setupWorkspace"
+          :loading="updating"
+          text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>
   </div>
@@ -75,7 +85,8 @@ import AccountPassword from '../components/Account/AccountPassword.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import EmojiPickerModal from '../components/EmojiPickerModal.vue';
 import OnboardingStep from '../components/OnboardingStep.vue';
-import TeamService from "../services/api/team.service";
+import TeamService from '../services/api/team.service';
+import AccountMobile from '../components/Account/AccountMobile.vue';
 export default {
   name: 'Onboarding',
   data() {
@@ -99,48 +110,58 @@ export default {
           description: 'Use Jovie for yourself and your personal projects.',
         },
       ],
+      mobileVerified: false,
     };
   },
-    mounted() {
-      if (this.currentUser.first_name && this.currentUser.password_set) {
-          this.step = 2
-      }
-    },
+  mounted() {
+    if (this.currentUser.first_name && this.currentUser.password_set) {
+      this.step = 2;
+    }
+  },
   methods: {
+    verifyMobile() {
+      this.mobileVerified = true;
+    },
+    disableContinue() {
+      this.mobileVerified = false;
+    },
     setAccountType() {
-        this.step = 3;
+      this.step = 3;
     },
     emojiSelected(emoji) {
       this.emoji = emoji;
       this.closeEmojiModal = !this.closeEmojiModal;
     },
-      setupWorkspace() {
-          let data = {
-              emoji: this.emoji,
-              name: this.workspace ? this.workspace : (`${this.currentUser.first_name}' s`)
+    setupWorkspace() {
+      let data = {
+        emoji: this.emoji,
+        name: this.workspace
+          ? this.workspace
+          : `${this.currentUser.first_name}' s`,
+      };
+      this.updating = true;
+      TeamService.createTeam(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$store.commit('setAuthStateUser', response.user);
+            this.errors = {};
+            this.$router.push('Contacts');
           }
-          this.updating = true;
-          TeamService.createTeam(data)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$store.commit('setAuthStateUser', response.user);
-                      this.errors = {};
-                      this.$router.push('Contacts')
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                  }
-              })
-              .finally((response) => {
-                  this.updating = false;
-              });
-      },
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.updating = false;
+        });
+    },
   },
   components: {
+    AccountMobile,
     AccountProfile,
     AccountPassword,
     OnboardingStep,

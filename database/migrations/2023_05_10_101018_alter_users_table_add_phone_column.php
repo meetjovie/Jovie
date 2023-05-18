@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('field_attributes', function (Blueprint $table) {
-            $table->uuid('user_list_id')->after('id')->nullable();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('phone')->nullable()->after('title');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('field_attributes', function (Blueprint $table) {
-            //
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('phone');
         });
     }
 };

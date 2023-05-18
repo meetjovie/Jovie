@@ -171,11 +171,15 @@ class ImportController extends Controller
 
     public function importContact(Request $request)
     {
+        $request->validate([
+            'first_name' => 'required'
+        ]);
         try {
             $data = $request->all();
             $user = Auth::user();
             $data['user_id'] = $user->id;
             $data['team_id'] = $user->currentTeam->id;
+            $data['full_name'] = $data['first_name'] ? ($data['first_name']. ' ' . $data['last_name'] ?? null) : null;
             $contact = Contact::saveContact($data, $request->list_id)->first();
 
             if ($user->currentTeam->autoEnrichImportEnabled()) {

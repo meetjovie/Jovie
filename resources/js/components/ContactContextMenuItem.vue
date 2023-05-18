@@ -41,14 +41,8 @@
         v-if="contactMethod == 'instagram'"
         name="Instagram DM"
         color="text-instagram-600 dark:text-instagram-400"
-        @click="
-          instagramDMContact(
-            contact.instagram || contact.instagram
-          )
-        "
-        :disabled="
-          !contact.instgaram && !contact.instagram
-        "
+        @click="instagramDMContact(contact.instagram || contact.instagram)"
+        :disabled="!contact.instgaram && !contact.instagram"
         icon="ChatBubbleLeftEllipsisIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'whatsapp'"
@@ -142,9 +136,9 @@ export default {
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
           this.currentUser.first_name
-        } ${this.currentUser.last_name} <> ${
-          contact.name
-        }&details=Created by ${this.currentUser.first_name} ${
+        } ${this.currentUser.last_name} <> ${contact.name}&details=Created by ${
+          this.currentUser.first_name
+        } ${
           this.currentUser.last_name
         } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
           contact.emails[0] || ''

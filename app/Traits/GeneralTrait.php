@@ -42,7 +42,7 @@ trait GeneralTrait
             Log::error($e->getMessage());
             Log::error('************ Error While Uploading File End **************');
 
-            return $e->getMessage();
+            return null;
         }
     }
 
@@ -67,5 +67,19 @@ trait GeneralTrait
         } else {
             return intval($number);
         }
+    }
+
+    public static function uploadFileFromTempUuid($id, $path, $oldPath = null)
+    {
+        Storage::disk('s3')->copy(
+            ('tmp/'.$id),
+            ($path.$id)
+        );
+        $path = Storage::disk('s3')->url(($path.$id));
+
+        if (!is_null($oldPath)) {
+            Storage::disk('s3')->delete($oldPath);
+        }
+        return $path;
     }
 }

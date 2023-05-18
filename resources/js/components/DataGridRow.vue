@@ -89,7 +89,12 @@
         <div
           @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center">
-          <ContactAvatar :contact="contact" class="mr-2" />
+          <ContactAvatar
+            :editable="true"
+            @updateAvatar="updateAvatar($event)"
+            :loading="!contact.id"
+            :contact="contact"
+            class="mr-2" />
           <div
             v-if="cellActive"
             class="line-clamp-1 items-center text-sm text-slate-900 dark:text-jovieDark-100">
@@ -141,6 +146,22 @@
             :open="contact.showContextMenu"
             :contact="contact">
             <DropdownMenuItem
+              name="Open Contact"
+              icon="ViewfinderCircleIcon"
+              color="text-blue-600 dark:text-blue-400"
+              @click="
+                $router.push({
+                  name: 'Contact Overview',
+                  params: { id: contact.id },
+                })
+              " />
+            <DropdownMenuItem
+              name="Refresh"
+              color="text-green-600 dark:text-green-400"
+              icon="ArrowPathIcon"
+              @click="$emit('refresh', contact)" />
+
+            <DropdownMenuItem
               :name="
                 filters.type == 'archived' && contact.archived
                   ? 'Unarchived'
@@ -152,27 +173,13 @@
               color="text-blue-600
             dark:text-blue-400" />
             <DropdownMenuItem
-              name="Refresh"
-              color="text-green-600 dark:text-green-400"
-              icon="ArrowPathIcon"
-              @click="$emit('refresh', contact)" />
-            <DropdownMenuItem
               v-if="filters.list"
               name="Remove from list"
               icon="TrashIcon"
+              danger
               color="text-red-600 dark:text-red-400"
               @click="
                 $emit('toggleContactsFromList', contact.id, filters.list, true)
-              " />
-            <DropdownMenuItem
-              name="Contact Overview"
-              icon="TrashIcon"
-              color="text-red-600 dark:text-red-400"
-              @click="
-                $router.push({
-                  name: 'Contact Overview',
-                  params: { id: contact.id },
-                })
               " />
           </ContactContextMenu>
         </div>
@@ -219,10 +226,12 @@ import {
   XMarkIcon,
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
+import JovieSpinner from './JovieSpinner.vue';
 
 export default {
   name: 'DataGridRow',
   components: {
+    JovieSpinner,
     DataGridCell,
     ContactContextMenu,
     DropdownMenuItem,
@@ -243,6 +252,15 @@ export default {
     },
   },
   methods: {
+    updateAvatar(pic) {
+      console.log('hello');
+      this.$emit('updateContact', {
+        id: this.contact.id,
+        index: this.contact.index,
+        key: 'profile_pic_url',
+        value: pic,
+      });
+    },
     checkContactsEnrichable(ids) {
       this.$emit('checkContactsEnrichable', ids);
     },
@@ -287,6 +305,7 @@ export default {
     width: String,
     columnName: String,
     neverHide: Boolean,
+    loading: Boolean,
     cellActive: Boolean | String,
     otherColumns: Array,
     columnIndex: Number,

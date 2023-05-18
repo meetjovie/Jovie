@@ -26,65 +26,154 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel class="mx-auto w-full">
-              <GlassmorphismContainer size="3xl">
-                <div
-                  class="relative w-full transform overflow-hidden rounded-lg px-4 pb-6 pt-4">
-                  <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
-                    <button
-                      type="button"
-                      class="dark:hover:text-slate-500focus-visible:outline-none rounded-md bg-white text-slate-400 hover:text-slate-500 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-700 dark:text-jovieDark-300"
-                      @click="closeModal">
-                      <span class="sr-only">Close</span>
-                      <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-                    </button>
-                  </div>
-                  <div class="sm:flex sm:items-start">
-                    <div
-                      class="mt-3 w-full text-center sm:mt-0 sm:ml-4 sm:text-left">
-                      <DialogTitle
-                        as="h3"
-                        class="text-lg font-medium leading-6 dark:text-jovieDark-100">
-                        Import a contact
-                      </DialogTitle>
-
-                      <p
-                        class="text-2xs text-slate-500 dark:text-jovieDark-300">
-                        Type or
-                        <span
-                          class="decoration cursor-pointer"
-                          @click="pasteFromClipboard()"
-                          >paste</span
-                        >
-                        a link to a social media profile.
-                      </p>
+              <GlassmorphismContainer size="xl">
+                <div class="relative w-full transform overflow-hidden">
+                  <div>
+                    <div class="mt-2" v-if="fromSocial">
+                      <SocialInput
+                        :list="list"
+                        v-model="socialMediaProfileUrl"
+                        @finishImport="closeModal" />
                     </div>
-                  </div>
-                    <div>
-                        <div class="mt-2" v-if="fromSocial">
-                            <SocialInput
-                                :list="list"
-                                v-model="socialMediaProfileUrl"
-                                @finishImport="closeModal" />
-                        </div>
-                        <div class="mt-2" v-else>
-                            <template v-for="contactKey in Object.keys(contact).filter(k => k != 'override' && k != 'list_id')">
-                                <InputGroup
-                                    v-model="contact[contactKey]"
-                                    :id="contactKey"
-                                    :disabled="importing"
-                                    :name="contactKey"
-                                    :label="getLabel(contactKey)"
-                                    :placeholder="getLabel(contactKey)"
-                                    type="text"
-                                    required="" />
-                            </template>
-                            <div>
-                                <CheckboxInput v-model="contact.override" />
-                                marking this will override data for all the contacts that match any of social handles if provided.
+                    <div class="" v-else>
+                      <form action="#" class="relative">
+                        <div
+                          class="overflow-hidden rounded-lg border border-gray-300 px-2 shadow-sm">
+                          <!--  <ContactAvatar /> -->
+                          <div class="mt-2 flex items-center justify-between">
+                            <div class="flex items-center">
+                              <div
+                                class="inline-flex items-center rounded bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
+                                <InitialBox
+                                  :name="currentUser.current_team.name"
+                                  :height="12" />
+                                <span class="ml-1"
+                                  >{{ currentUser.current_team.name }}
+                                </span>
+                              </div>
+                              <ChevronRightIcon class="mr-1 h-3 w-4" />
+                              <span
+                                class="items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
+                                >New contact</span
+                              >
                             </div>
-                            <ButtonGroup @click="importContact" :loader="importing" text="Import" />
+                            <button
+                              type="button"
+                              class="rounded-md text-slate-400 hover:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-700 dark:text-jovieDark-300 dark:hover:text-slate-500"
+                              @click="closeModal">
+                              <span class="sr-only">Close</span>
+                              <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                            </button>
+                          </div>
+                          <div class="mt-4 flex px-4">
+                            <ContactAvatar
+                              @updateAvatar="contact.profile_pic = $event"
+                              :contact="contact"
+                              :editable="true"
+                              class="h-14 w-14 flex-shrink-0 text-gray-300 sm:-ml-1" />
+                            <label for="first_name" class="sr-only"
+                              >First Name</label
+                            >
+                            <input
+                              type="text"
+                              :disabled="importing"
+                              name="first_name"
+                              tabindex="-1"
+                              id="first_name"
+                              class="w-38 block border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
+                              placeholder="First Name"
+                              v-model="contact.first_name" />
+                              <div v-if="errors.first_name" class="mt-2 text-xs text-red-600 dark:text-red-400">
+                                  {{ errors.first_name[0] }}
+                              </div>
+                            <label for="first_name" class="sr-only"
+                              >Last Name</label
+                            >
+                            <input
+                              type="text"
+                              :disabled="importing"
+                              name="last_name"
+                              tabindex="-1"
+                              id="last_name"
+                              class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
+                              placeholder="Last Name"
+                              v-model="contact.last_name" />
+                          </div>
+
+                          <label for="description" class="sr-only"
+                            >Description</label
+                          >
+                          <!--  <textarea
+                            rows="2"
+                            name="description"
+                            id="description"
+                            class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            placeholder="Write a description..." /> -->
+                          <div
+                            class="mt-8 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">
+                            <template v-for="field in contactFields">
+                              <DataInputGroup
+                                v-model="contact[field.model]"
+                                :id="field.model"
+                                :disabled="importing"
+                                :sortable="false"
+                                :name="field.model"
+                                :label="field.name"
+                                :icon="field.icon"
+                                :socialicon="field.socialicon"
+                                :placeholder="field.placeholder"
+                                type="text"
+                                required="" />
+                            </template>
+                          </div>
+                          <InputLists
+                            @updateLists="updateContactLists"
+                            :contactId="contact.id ?? 0"
+                            :lists="contact.user_lists" />
+                          <!-- Spacer element to match the height of the toolbar -->
+                          <div aria-hidden="true">
+                            <div class="py-2">
+                              <div class="h-9" />
+                            </div>
+                            <div class="h-px" />
+                            <div class="py-2">
+                              <div class="py-px">
+                                <div class="h-9" />
+                              </div>
+                            </div>
+                          </div>
                         </div>
+                        <div class="absolute inset-x-px bottom-0">
+                          <div
+                            class="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
+                            <div class="flex">
+                              <!--  <button
+                                type="button"
+                                class="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400">
+                                <PaperClipIcon
+                                  class="-ml-1 mr-2 h-4 w-4 group-hover:text-gray-500"
+                                  aria-hidden="true" />
+                              </button> -->
+                            </div>
+                            <div
+                              class="flex flex-shrink-0 items-center justify-end">
+                              <div
+                                class="mr-2 text-xs font-light text-slate-400 dark:text-jovieDark-300">
+                                <CheckboxInput v-model="contact.override" />
+
+                                Override data
+                              </div>
+                              <ButtonGroup
+                                @click="importContact"
+                                :loader="importing"
+                                class="px-2 py-0.5 text-xs"
+                                text="Create contact" />
+                            </div>
+                          </div>
+                        </div>
+                      </form>
                     </div>
+                  </div>
                 </div>
               </GlassmorphismContainer>
             </DialogPanel>
@@ -99,27 +188,40 @@
 import {
   Dialog,
   DialogPanel,
-  DialogTitle,
   TransitionChild,
   TransitionRoot,
 } from '@headlessui/vue';
-import { XMarkIcon } from '@heroicons/vue/24/outline';
+import {
+  XMarkIcon,
+  UserGroupIcon,
+  ChevronRightIcon,
+} from '@heroicons/vue/24/outline';
+import InitialBox from '../components/InitialBox.vue';
 import SocialInput from '../components/SocialInput.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
-import InputGroup from "./InputGroup.vue";
-import ButtonGroup from "./ButtonGroup.vue";
-import ImportService from "../services/api/import.service";
-import CheckboxInput from "./CheckboxInput.vue";
+import InputGroup from './InputGroup.vue';
+import ButtonGroup from './ButtonGroup.vue';
+import ImportService from '../services/api/import.service';
+import CheckboxInput from './CheckboxInput.vue';
+import ContactAvatar from './ContactAvatar.vue';
+
+import InputLists from './InputLists.vue';
+import DataInputGroup from './DataInputGroup.vue';
 export default {
   components: {
-      CheckboxInput,
-      ButtonGroup,
-      InputGroup,
+    DataInputGroup,
+    CheckboxInput,
+    ButtonGroup,
+    InputGroup,
     Dialog,
     DialogPanel,
-    DialogTitle,
     TransitionChild,
     TransitionRoot,
+    ContactAvatar,
+    InputLists,
+    ChevronRightIcon,
+    UserGroupIcon,
+    InitialBox,
     XMarkIcon,
     SocialInput,
     GlassmorphismContainer,
@@ -128,22 +230,96 @@ export default {
     return {
       importing: false,
       contact: {
-          first_name: '',
-          last_name: '',
-          emails: '',
-          phones: '',
-          company: '',
-          title: '',
-          instagram: '',
-          twitter: '',
-          twitch: '',
-          linkedin: '',
-          titkok: '',
-          snapchat: '',
-          youtube: '',
-          override: false
+        id: 0,
+        profile_pic: '',
+        first_name: '',
+        last_name: '',
+        emails: '',
+        phones: '',
+        company: '',
+        title: '',
+        instagram: '',
+        twitter: '',
+        twitch: '',
+        linkedin: '',
+        titkok: '',
+        snapchat: '',
+        youtube: '',
+        override: false,
+        user_lists: [],
+        list_id: [],
       },
-      socialMediaProfileUrl: ''
+        fields: [
+            {
+                'name': 'First Name',
+                'icon': 'UserIcon',
+                'model': 'first_name',
+                'placeholder': 'First Name',
+            },{
+                'name': 'Last Name',
+                'icon': 'UserIcon',
+                'model': 'last_name',
+                'placeholder': 'Last Name',
+            },{
+                'name': 'Email',
+                'icon': 'EnvelopeIcon',
+                'model': 'emails',
+                'placeholder': 'Email',
+            },
+            {
+                'name': 'Phone',
+                'icon': 'PhoneIcon',
+                'model': 'phones',
+                'placeholder': 'Phone',
+            },
+            {
+                'name': 'Website',
+                'icon': 'LinkIcon',
+                'model': 'website',
+                'placeholder': 'Website',
+            },
+            {
+                'name': 'Instagram',
+                'socialicon': 'instagram',
+                'actionIcon2': 'ArrowTopRightOnSquareIcon',
+                'model': 'instagram',
+                'method2': 'instagramDMContact',
+                'placeholder': 'Instagram',
+            },
+            {
+                'name': 'Twitter',
+                'socialicon': 'twitter',
+                'model': 'twitter',
+
+                'placeholder': 'Twitter',
+            },
+            {
+                'name': 'TikTok',
+                'socialicon': 'tiktok',
+                'model': 'tiktok',
+                'placeholder': 'TikTok',
+            },
+            {
+                'name': 'Youtube',
+                'socialicon': 'youtube',
+                'model': 'youtube',
+                'placeholder': 'Youtube',
+            },
+            {
+                'name': 'Twitch',
+                'socialicon': 'twitch',
+                'model': 'twitch',
+                'placeholder': 'Twitch',
+            },
+            {
+                'name': 'Linkedin',
+                'socialicon': 'linkedin',
+                'model': 'linkedin',
+                'placeholder': 'Linkedin',
+            },
+        ],
+      socialMediaProfileUrl: '',
+      errors: {}
     };
   },
   props: {
@@ -151,61 +327,97 @@ export default {
       type: Boolean,
       default: false,
     },
-    list: {
-    },
+    list: {},
     fromSocial: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+  },
+  computed: {
+    contactFields() {
+      return this.fields.filter(
+        (field) =>
+          field.model != 'override' &&
+          field.model != 'list_id' &&
+          field.model != 'first_name' &&
+          field.model != 'last_name' &&
+          field.model != 'profile_pic_url' &&
+          field.model != 'profile_pic' &&
+          field.model != 'id' &&
+          field.model != 'user_lists'
+      );
+    },
   },
   methods: {
-      closeModal() {
-          this.$emit('closeModal')
-          Object.assign(this.$data, this.$options.data());
-      },
-      getLabel(contactKey) {
-          return contactKey.split('_').join(' ')
-      },
+    closeModal() {
+      this.$emit('closeModal');
+      Object.assign(this.$data, this.$options.data());
+    },
     pasteFromClipboard() {
       navigator.clipboard.readText().then((text) => {
         //set it as the socialMediaProfileUrl
         this.socialMediaProfileUrl = text;
       });
     },
-      importContact() {
-          this.importing = true
-          this.contact.list_id = this.list ? this.list : ''
-          ImportService.importContact(this.contact)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          title: 'Imported',
-                          text: response.message,
-                      });
-                      this.closeModal()
-                      this.$emit('contactImported', {contact: response.contact, list: response.list})
-                  } else {
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          title: 'Error',
-                          text: response.message,
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                  }
-              })
-              .finally((response) => {
-                  this.importing = false
-              });
-      }
+    updateContactLists(payload) {
+        if (payload.add) {
+            if (!this.contact.user_lists.filter((l) => l.id === payload.list.id).length) {
+                this.contact.user_lists.push(payload.list);
+                console.log('this.contact.user_lists');
+                console.log(this.contact.user_lists);
+            }
+            if (! this.contact.list_id.includes(payload.list.id)) {
+                this.contact.list_id.push(payload.list.id)
+            }
+        } else {
+            this.contact.user_lists = this.contact.user_lists.filter(
+                (l) => l.id !== payload.list.id
+            );
+            this.contact.list_id = this.contact.list_id.filter(id => id !== payload.list.id)
+        }
+    },
+    importContact() {
+      this.importing = true;
+      this.contact.list_id = this.contact.list_id
+        ? this.contact.list_id
+        : this.list
+        ? this.list
+        : '';
+      let contact = JSON.parse(JSON.stringify(this.contact));
+      contact.profile_pic_url = contact.profile_pic;
+      ImportService.importContact(contact)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              title: 'Imported',
+              text: response.message,
+            });
+            this.closeModal();
+            this.$emit('contactImported', {
+              contact: response.contact,
+              list: response.list,
+            });
+          } else {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              title: 'Error',
+              text: response.message,
+            });
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status == 422) {
+            this.errors = error.response.data.errors;
+          }
+        })
+        .finally((response) => {
+          this.importing = false;
+        });
+    },
   },
 };
 </script>

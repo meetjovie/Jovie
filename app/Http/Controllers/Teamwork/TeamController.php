@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Teamwork;
 use App\Jobs\DefaultCrm;
 use App\Models\FieldAttribute;
 use App\Models\User;
+use App\Services\AttributesService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
@@ -64,16 +65,7 @@ class TeamController extends Controller
             $team->credits = 10;
             $team->save();
             DefaultCrm::dispatch($request->user()->id, $team->id);
-            foreach (FieldAttribute::DEFAULT_FIELDS as $k => $field) {
-                FieldAttribute::query()->updateOrCreate([
-                    'field_id' => $field['id'],
-                    'user_id' => $request->user()->id,
-                    'team_id' => $team->id,
-                ], [
-                    'type' => 'default',
-                    'order' => $k
-                ]);
-            }
+            AttributesService::setAttributes($request->user(), $team, 1);
         }
         return response([
             'status' => true,

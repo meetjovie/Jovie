@@ -171,8 +171,8 @@ class ContactService
 
         $commonLists = $contact1->userLists->merge($contact2->userLists)->unique('id');
         $mergedContact->user_lists = $commonLists;
-        $mergedContact->user_id = $mergedContact->user_lists->first()->user_id;
-        $mergedContact->team_id = $mergedContact->user_lists->first()->team_id;
+        $mergedContact->user_id = $latestUpdated->user_id;
+        $mergedContact->team_id = $latestUpdated->team_id;
         $mergedContact->comments = $this->getAvailableComments($contact1->comments, $contact2->comments, $latestUpdated->comments);
 
         return $mergedContact;

@@ -1,8 +1,8 @@
 <template>
   <div
-    class="rounded-lg border-b border-jovieDark-200 px-4 py-5 dark:border-jovieDark-border sm:px-6">
+    class="border-b border-jovieDark-200 px-4 py-5 dark:border-jovieDark-border sm:px-6">
     <div
-      class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
+      class="-ml-4 mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
       <div class="ml-4 mt-4">
         <h3
           v-if="title"

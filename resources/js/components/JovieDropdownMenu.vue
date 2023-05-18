@@ -71,15 +71,23 @@
                     as="div"
                     v-slot="{ active }">
                     <div
-                      class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
+                      class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
                       :class="{
-                        'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+                        'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
                           active,
                       }">
                       <div class="flex items-center">
                         <div v-if="item.emoji" class="mr-2 text-xs font-bold">
                           {{ item.emoji }}
                         </div>
+                          <div v-else-if="item.socialicon">
+                              <SocialIcons
+                                  class="mr-2 text-slate-400 opacity-40 dark:text-jovieDark-600"
+                                  link="#"
+                                  width="12px"
+                                  height="12px"
+                                  :icon="item.socialicon" />
+                          </div>
                         <div
                           v-else-if="item.icon"
                           class="mr-2 items-center text-xs font-bold">
@@ -87,8 +95,12 @@
                         </div>
                         <div v-else></div>
 
-                        <div class="text-xs font-normal tracking-wider">
+                        <div
+                          class="flex justify-between text-xs font-normal tracking-wider">
                           {{ item[nameKey] }}
+                          <CheckIcon
+                            v-if="item.id == activeItem"
+                            class="ml-1 h-3 w-3 text-slate-600 dark:text-jovieDark-200"></CheckIcon>
                         </div>
                       </div>
                     </div>
@@ -99,16 +111,21 @@
                   disabled
                   as="div"
                   v-slot="{ active }"
-                  v-if="filteredItems.length === 0">
+                  v-if="filteredItems.length === 0 && searchable">
                   <div
-                    :class="{ 'bg-slate-200 dark:bg-jovieDark-500': active }"
-                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
+                    :class="{ 'bg-slate-100 dark:bg-jovieDark-500': active }"
+                    class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200">
                     <div class="mx-auto flex">
                       <div
-                        v-if="createIfNotFound"
+                        v-if="createIfNotFound && searchQuery"
                         @click="createItem()"
                         class="text-center text-xs font-medium text-slate-600 dark:text-jovieDark-200">
                         Create "{{ searchQuery }}"
+                      </div>
+                      <div
+                        v-else-if="createIfNotFound && !searchQuery"
+                        class="text-center text-xs font-medium text-slate-600 dark:text-jovieDark-200">
+                        Start typing to search or add an item
                       </div>
                       <div
                         v-else
@@ -169,8 +186,13 @@ import {
   ArrowLeftOnRectangleIcon,
   LifebuoyIcon,
   CloudArrowDownIcon,
+    MapPinIcon,
+    EnvelopeIcon,
+    PhoneIcon,
+    LinkIcon,
 } from '@heroicons/vue/24/solid';
 import { Float } from '@headlessui-float/vue';
+import SocialIcons from '../components/SocialIcons.vue';
 
 export default {
   components: {
@@ -179,6 +201,7 @@ export default {
     TransitionRoot,
     Menu,
     EyeSlashIcon,
+    SocialIcons,
     PencilIcon,
     ChevronUpIcon,
     XMarkIcon,
@@ -196,6 +219,10 @@ export default {
     ArrowLeftOnRectangleIcon,
     CloudArrowDownIcon,
     LifebuoyIcon,
+      MapPinIcon,
+      EnvelopeIcon,
+      PhoneIcon,
+      LinkIcon,
   },
   data() {
     return {
@@ -220,6 +247,10 @@ export default {
     searchText: {
       type: String,
       default: 'Search',
+    },
+    activeItem: {
+      type: String,
+      default: '',
     },
     size: {
       type: String,

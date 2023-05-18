@@ -10,17 +10,17 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
     <div class="flex">
       <div
-        class="min-w-60 max-w-96 overflow-none top-0 z-30 mx-auto flex h-screen w-60 resize-x flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
+        class="min-w-60 max-w-96 overflow-none top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
         <div>
           <slot name="header">
             <div class="w-full flex-col px-2">
               <div class="items-center" @click="navigateBack()" v-if="menu">
                 <div
-                  class="items-cemter flex cursor-pointer justify-between text-xl font-light tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
+                  class="items-cemter flex cursor-pointer text-lg font-medium tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
                   <ChevronLeftIcon
-                    class="mr-2 h-5 w-5 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
+                    class="h-4 w-4 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                     aria-hidden="true" />
-                  {{ menu || 'Back' }}
+                  <span class="ml-2 items-center">{{ menu || 'Back' }}</span>
                 </div>
               </div>
               <div v-else class="flex h-8 w-full items-center justify-between">
@@ -28,28 +28,35 @@
                 <div>
                   <JovieDropdownMenu
                     :items="currentUser.teams"
+                    :activeItem="currentUser.current_team.id"
                     :numbered="true"
-                    size="md"
+                    placement="bottom-start"
+                    size="lg"
                     :searchable="false">
                     <template #triggerButton>
                       <div
                         class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
-                        <div class="flex">
+                        <div class="group/teammenu flex items-center space-x-1">
+                          <InitialBox
+                            :name="currentUser.current_team.name"
+                            :height="18" />
                           <div
-                            class="items-center text-2xs font-medium text-slate-700 line-clamp-1 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
+                            class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
                             {{
                               currentUser.current_team
                                 ? currentUser.current_team.name
                                 : 'Select a team'
                             }}
                           </div>
+                          <ChevronDownIcon
+                            class="group/teammenu-hover:dark:text-jovieDark-200 group/teammenu-hover:text-slate-700 h-4 w-4 text-slate-700/0 dark:text-jovieDark-200/0" />
                         </div>
                       </div>
                     </template>
                     <template #menuTop>
                       <div class="">
                         <div
-                          class="border-b border-slate-200 px-4 pt-2 pb-1 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
+                          class="border-b border-slate-200 px-4 pb-1 pt-2 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
                           Your workspaces:
                         </div>
                       </div>
@@ -62,7 +69,7 @@
                           active
                             ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
                             : 'text-sm text-slate-700 dark:text-jovieDark-300',
-                          'group flex w-full items-center px-2 py-2 text-2xs  ',
+                          'group flex w-full items-center px-2 py-2 text-xs  ',
                         ]">
                         <PlusCircleIcon
                           :active="active"
@@ -77,6 +84,7 @@
                   <JovieDropdownMenu
                     :searchable="false"
                     size="lg"
+                    placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
                       <img
@@ -110,11 +118,11 @@
                               name="View profile"
                               :icon="UserIcon" />
                           </router-link>
-                          <router-link v-else to="edit-profile">
+                          <!-- <router-link v-else to="edit-profile">
                             <DropdownMenuItem
                               name="Setup profile"
                               icon="WrenchScrewdriverIcon" />
-                          </router-link>
+                          </router-link> -->
                         </div>
                       </div>
                     </template>
@@ -169,56 +177,56 @@
 import {
   Menu,
   MenuButton,
-  MenuItems,
   MenuItem,
-  TransitionRoot,
-  SwitchGroup,
+  MenuItems,
   Switch,
+  SwitchGroup,
+  TransitionRoot,
 } from '@headlessui/vue';
 import {
-  ChevronDownIcon,
-  CreditCardIcon,
-  ChevronLeftIcon,
-  CogIcon,
-  ChevronRightIcon,
-  CloudArrowDownIcon,
-  CheckIcon,
-  UserGroupIcon,
-  EllipsisVerticalIcon,
-  PlusIcon,
-  PlusCircleIcon,
-  HeartIcon,
-  UserIcon,
   ArchiveBoxIcon,
-  CloudArrowUpIcon,
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
   BellIcon,
-  SunIcon,
-  FireIcon,
-  RocketLaunchIcon,
-  MoonIcon,
   BoltIcon,
-  WrenchScrewdriverIcon,
-  ComputerDesktopIcon,
-  LifebuoyIcon,
   ChartBarIcon,
   ChatBubbleLeftIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CloudArrowDownIcon,
+  CloudArrowUpIcon,
+  CogIcon,
+  CreditCardIcon,
+  EllipsisVerticalIcon,
+  FireIcon,
+  HeartIcon,
+  LifebuoyIcon,
+  MoonIcon,
+  PlusCircleIcon,
+  PlusIcon,
+  RocketLaunchIcon,
+  SunIcon,
+  UserGroupIcon,
+  UserIcon,
+  WrenchScrewdriverIcon,
 } from '@heroicons/vue/24/solid';
 
-import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
-import JovieTooltip from '../components/JovieTooltip';
-import UserService from '../services/api/user.service';
-import ProgressBar from '../components/ProgressBar';
-
 import { Float } from '@headlessui-float/vue';
-import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
+import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
 import DropdownMenuItem from '../components/DropdownMenuItem.vue';
+import InitialBox from '../components/InitialBox.vue';
+import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
+import JovieTooltip from '../components/JovieTooltip.vue';
+import ProgressBar from '../components/ProgressBar.vue';
+import UserService from '../services/api/user.service';
 
 export default {
   components: {
     CreditCardIcon,
     UserIcon,
+    InitialBox,
     CogIcon,
     DropdownMenuItem,
     BoltIcon,
@@ -236,7 +244,6 @@ export default {
     MoonIcon,
     MenuItem,
     MenuItems,
-
     HeartIcon,
     RocketLaunchIcon,
 

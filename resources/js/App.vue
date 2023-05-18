@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import App from './layouts/App';
-import Default from './layouts/Default';
-import Minimal from './layouts/Minimal';
-import Loading from './layouts/Loading';
+import App from './layouts/App.vue';
+import Default from './layouts/Default.vue';
+import Minimal from './layouts/Minimal.vue';
+import Loading from './layouts/Loading.vue';
 import router from './router';
 
 export default {

@@ -146,31 +146,31 @@ export default {
     window.analytics.page('Manage Security');
   },
   methods: {
-      setPassword() {
-          this.updating = true;
-          UserService.setPassword(this.user)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.errors = {};
-                      this.$notify({
-                          group: 'user',
-                          title: 'Successful',
-                          text: response.message,
-                          type: 'success',
-                      });
-                  }
-              })
-              .catch((error) => {
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.errors = error.data.errors;
-                  }
-              })
-              .finally(() => {
-                  this.updating = false;
-              });
-      },
+    setPassword() {
+      this.updating = true;
+      UserService.setPassword(this.user)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.errors = {};
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: response.message,
+              type: 'success',
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          this.updating = false;
+        });
+    },
     updatePassword() {
       this.updating = true;
       UserService.updatePassword(this.user)

@@ -3,7 +3,7 @@
     <div class="flex h-full w-full flex-col">
       <div class="h-full pb-10">
         <header
-          class="flex w-full items-center justify-between border-slate-300 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
+          class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
             :loading="loading"
             :taskLoading="taskLoading"
@@ -19,7 +19,6 @@
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <div @click="suggestMerge([])">Suggest Merge</div>
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -130,7 +129,7 @@
                                     <Switch
                                       :name="column.name"
                                       v-model="column.visible"
-                                      @click="toggleFieldHide(column, index)"
+                                      @click="toggleHeaderHide(column, index)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -251,7 +250,9 @@
                   itemKey="key"
                   ghost-class="ghost-header"
                   tag="tr"
-                  @end="sortFields"
+                  @end="sortHeaders"
+                  @start="startHeaderDrag"
+                  handle=".drag-head"
                   class="sticky h-8 items-center">
                   <template #header>
                     <th
@@ -358,7 +359,7 @@
                                           : 'text-slate-700 dark:text-jovieDark-200',
                                         'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
                                       ]">
-                                      <ArchiveBoxIcon
+                                      <SparklesIcon
                                         :active="active"
                                         class="mr-2 h-3 w-3 text-sky-400"
                                         aria-hidden="true" />
@@ -378,6 +379,7 @@
                       </div>
                       <div v-else>
                         <DataGridColumnHeader
+                          :show-resizeable="false"
                           icon="Bars3BottomLeftIcon"
                           :column="fullNameColumn"
                           @sortData="
@@ -397,15 +399,20 @@
                       :id="element.id"
                       v-show="!element.hide"
                       scope="col"
-                      :class="'w-40'"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      :style="`width: ${element.width}px`"
+                      class="dark:border-slate-border sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
+                        @updateColumnWidth="updateColumnWidth($event)"
+                        @reflectColumnWidth="reflectColumnWidth($event)"
                         @editField="editCustomFieldsModal"
                         @sortData="sortData"
-                        @hideColumn="toggleFieldHide(element, index, true)"
+                        @hideColumn="toggleHeaderHide(element, index, true)"
                         @deleteField="deleteField(element)"
-                        :column="element" />
+                        :index="index"
+                        :last-column-index="headers.length - 1"
+                        :column="element"
+                        :previous-column="getPreviousColumn(index)" />
                     </th>
                   </template>
                   <template #footer>
@@ -442,10 +449,10 @@
                 :sort="false"
                 itemKey="id"
                 tag="tbody"
-                :disabled="disableDrag"
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
+                    :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
                     :currentCell="currentCell"
@@ -490,6 +497,42 @@
               <PlusIcon class="mr-2 h-4 w-4" />
               Add new contact
             </div>
+            <div
+              v-if="contactRecords.length < 1"
+              class="mx-auto h-full items-center py-12">
+              <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+                <h3 class="text-base font-semibold leading-6 text-gray-900">
+                  There are no contacts to display
+                </h3>
+                <p class="mt-1 text-sm text-gray-500">You can add some:</p>
+
+                <div class="mt-5">
+                  <button
+                    @click="$emit('addContact')"
+                    type="button"
+                    class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-0.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    Add Contact
+                  </button>
+                  <Menu as="div" class="relative inline-block text-left">
+                    <MenuItems
+                      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      <div class="py-1">
+                        <JovieMenuItem :active="active" name="Add contact" />
+                        <JovieMenuItem
+                          :active="active"
+                          name="Add from social" />
+                        <JovieMenuItem
+                          :active="active"
+                          name="Import from file" />
+                        <JovieMenuItem
+                          :active="active"
+                          name="Install the Jovie Chrome extension" />
+                      </div>
+                    </MenuItems>
+                  </Menu>
+                </div>
+              </div>
+            </div>
 
             <Pagination
               class="z-50 w-full bg-blue-500"
@@ -525,6 +568,7 @@
 <script>
 import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
+import JovieMenuItem from '../components/JovieMenuItem.vue';
 import ModalPopup from './ModalPopup.vue';
 import {
   Menu,
@@ -562,6 +606,7 @@ import {
   EnvelopeIcon,
   HeartIcon,
   LinkIcon,
+  SparklesIcon,
   ListBulletIcon,
   MagnifyingGlassIcon,
   NoSymbolIcon,
@@ -581,11 +626,11 @@ import DataGridHeaderContent from './DataGridHeaderContent.vue';
 import DataGridRow from './DataGridRow.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
 import GlassmorphismContainer from './GlassmorphismContainer.vue';
-import InputLists from './InputLists';
+import InputLists from './InputLists.vue';
 import JovieSpinner from './JovieSpinner.vue';
 import JovieTooltip from './JovieTooltip.vue';
-import KeyboardShortcut from './KeyboardShortcut';
-import Pagination from './Pagination';
+import KeyboardShortcut from './KeyboardShortcut.vue';
+import Pagination from './Pagination.vue';
 import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
@@ -604,12 +649,9 @@ export default {
     DataGridCellTextInput,
     DataGridHeaderContent,
     CustomFieldsMenu,
-
     ArchiveBoxIcon,
-
     KeyboardShortcut,
     MagnifyingGlassIcon,
-
     GlassmorphismContainer,
     ButtonGroup,
     CloudArrowUpIcon,
@@ -620,10 +662,12 @@ export default {
     Switch,
     MenuButton,
     Float,
+    SparklesIcon,
     StarIcon,
     ArrowPathIcon,
     MenuItems,
     MenuItem,
+    JovieMenuItem,
     EllipsisVerticalIcon,
     ModalPopup,
     SocialIcons,
@@ -721,6 +765,7 @@ export default {
       suggestingMerge: false,
       openMergeSuggestion: false,
       contactIds: null,
+      disableDragging: false,
     };
   },
   props: [
@@ -957,6 +1002,17 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    getPreviousColumn(index) {
+      return index > 0 ? this.headers[index - 1] : false;
+    },
+    updateColumnWidth(data) {
+      data.self = this;
+      data.listId = this.filters.list;
+      this.$store.dispatch('updateColumnWidth', data);
+    },
+    reflectColumnWidth(data) {
+      this.headers.find((h) => h.id == data.id).width = data.width;
+    },
     acceptMerge(data) {
       let contactIds = [];
       if (this.contactIds && this.contactIds.length) {
@@ -1093,16 +1149,15 @@ export default {
           this.$emit('getHeaders');
         });
     },
-    toggleFieldHide(column, index, forceHide = false) {
+    toggleHeaderHide(column, index, forceHide = false) {
       this.$nextTick(() => {
         if (forceHide) {
           column.visible = !column.visible;
         }
         column = JSON.parse(JSON.stringify(column));
-        this.headers[index].hide = column.hide = forceHide
-          ? forceHide
-          : !column.visible;
-        this.$store.dispatch('toggleFieldHide', {
+        this.headers.find((header) => header.id === column.id).hide =
+          column.hide = forceHide ? forceHide : !column.visible;
+        this.$store.dispatch('toggleHeaderHide', {
           self: this,
           listId: this.filters.list,
           itemId: column.id,
@@ -1111,10 +1166,10 @@ export default {
         });
       });
     },
-    sortFields(e) {
+    sortHeaders(e) {
       e.newIndex -= 3;
       e.oldIndex -= 3;
-      this.$store.dispatch('sortFields', {
+      this.$store.dispatch('sortHeaders', {
         self: this,
         newIndex: e.newIndex,
         oldIndex: e.oldIndex,

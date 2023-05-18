@@ -6,7 +6,7 @@
       <router-link
         v-if="user.username == currentUser?.username"
         to="/edit-profile"
-        class="dark:text-indigio-200 absolute top-0 right-0 cursor-pointer py-2 px-4 text-xs font-bold text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400">
+        class="dark:text-indigio-200 absolute right-0 top-0 cursor-pointer px-4 py-2 text-xs font-bold text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400">
         Edit profile
       </router-link>
       <div>
@@ -42,20 +42,28 @@
           </a>
         </p>
       </div>
-      <div class="mt-2 2xl:mt-8" v-if="user.contact.social_links_with_followers">
+      <div
+        class="mt-2 2xl:mt-8"
+        v-if="user.contact.social_links_with_followers">
         <fieldset class="mt-0 2xl:mt-2">
           <legend class="sr-only">Social links</legend>
           <div
             class="flex grid-cols-3 items-center justify-between gap-2 sm:grid-cols-6">
-            <template v-for="socialLink in user.contact.social_links_with_followers" :key="socialLink.network">
-                <SocialIcons
-                    :countsVisible="true"
-                    :linkDisabled="!socialLink.url"
-                    class="mx-auto"
-                    height="14px"
-                    :followers="socialLink.followers ? formatCount(socialLink.followers) : socialLink.followers"
-                    :link="socialLink.url ?? '#'"
-                    :icon="socialLink.network" />
+            <template
+              v-for="socialLink in user.contact.social_links_with_followers"
+              :key="socialLink.network">
+              <SocialIcons
+                :countsVisible="true"
+                :linkDisabled="!socialLink.url"
+                class="mx-auto"
+                height="14px"
+                :followers="
+                  socialLink.followers
+                    ? formatCount(socialLink.followers)
+                    : socialLink.followers
+                "
+                :link="socialLink.url ?? '#'"
+                :icon="socialLink.network" />
             </template>
           </div>
         </fieldset>
@@ -65,7 +73,7 @@
       <a href="#">
         <button
           @click="generateVCF(user)"
-          class="mt-2 mb-0 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-700">
+          class="mb-0 mt-2 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-indigo-700">
           Save contact
         </button>
       </a>
@@ -96,7 +104,7 @@ import ButtonGroup from '../components/ButtonGroup.vue';
 import { EnvelopeOpenIcon } from '@heroicons/vue/24/solid';
 import store from '../store';
 import router from '../router';
-import SocialIcons from '../components/SocialIcons';
+import SocialIcons from '../components/SocialIcons.vue';
 
 export default {
   name: 'ContactProfile',
@@ -148,14 +156,11 @@ export default {
       //add a note Saved from Jovie
       vCard += 'NOTE:Saved from Jovie\n';
       //if creator has a twitter
-        user.contact.social_links_with_followers.forEach(val => {
-            if (val.url) {
-                vCard +=
-                    `X-SOCIALPROFILE;TYPE=${val.network}:` +
-                    val.url +
-                    '\n';
-            }
-        })
+      user.contact.social_links_with_followers.forEach((val) => {
+        if (val.url) {
+          vCard += `X-SOCIALPROFILE;TYPE=${val.network}:` + val.url + '\n';
+        }
+      });
       console.log(vCard);
       vCard += 'END:VCARD';
       //download the vcard

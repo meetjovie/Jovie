@@ -6,7 +6,7 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
+              class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
@@ -47,7 +47,7 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
+              class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
@@ -86,7 +86,7 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
+              class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
@@ -127,7 +127,7 @@
         <li>
           <div class="relative pb-8">
             <span
-              class="absolute top-4 left-4 -ml-px h-full w-0.5 bg-slate-200"
+              class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-slate-200"
               aria-hidden="true"></span>
             <div class="relative flex space-x-3">
               <div>
@@ -202,7 +202,7 @@
         </li>
       </ul>
     </div>
-    <div class="justify-stretch mt-6 flex flex-col">
+    <div class="mt-6 flex flex-col justify-stretch">
       <button
         v-if="button"
         type="button"

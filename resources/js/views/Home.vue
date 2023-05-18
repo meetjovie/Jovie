@@ -183,7 +183,7 @@
             class="mx-auto -mt-24 h-[400px] w-[400px] rounded-full bg-gradient-to-b from-indigo-500 via-purple-500/0 to-purple-500/0 sm:h-[500px] sm:w-[500px] lg:h-[1000px] lg:w-[1000px]">
             <div class="mx-auto max-w-7xl items-center p-8 sm:p-10 lg:p-14">
               <p
-                class="mt-24 mb-12 text-center text-xl font-bold text-white sm:text-2xl lg:text-3xl">
+                class="mb-12 mt-24 text-center text-xl font-bold text-white sm:text-2xl lg:text-3xl">
                 One space for everyone you follow
               </p>
               <div
@@ -255,7 +255,7 @@
       <section class="mx-auto py-24">
         <div
           class="mx-auto flex max-w-5xl flex-col justify-between overflow-hidden rounded-3xl border-2 border-fuchsia-600 dark:bg-white md:h-80 md:flex-row">
-          <div class="w-full py-8 px-8 md:w-1/3">
+          <div class="w-full px-8 py-8 md:w-1/3">
             <div
               class="text-xl font-bold text-slate-700 dark:text-jovieDark-300">
               <span class="text-pink-500">Add</span> the Jovie Chrome<br />
@@ -267,7 +267,7 @@
             <router-link
               to="/chrome-extension"
               class="group mt-8 flex cursor-pointer rounded-md bg-gradient-to-r from-indigo-500 via-indigo-600 to-purple-500 text-center shadow-xl shadow-pink-500/20 hover:shadow-pink-500/30">
-              <div class="flex w-full items-center justify-between py-4 px-4">
+              <div class="flex w-full items-center justify-between px-4 py-4">
                 <div
                   class="w-full transform text-left text-xs font-medium text-white transition-transform duration-300 ease-in-out group-hover:underline">
                   Download Chrome Extension
@@ -301,47 +301,26 @@
 
 <style></style>
 <script>
-import {
-  InboxIcon,
-  PencilIcon,
-  TrashIcon,
-  UsersIcon,
-} from '@heroicons/vue/24/outline';
-import JovieReplaces from '../components/External/JovieReplaces.vue';
 import UserService from '../services/api/user.service';
-import HomeLogoCloud from '../components/Home/HomeLogoCloud';
-import HomeFeatureSequences from '../components/Home/HomeFeatureSequences';
-import HomeFeatureDiscovery from '../components/Home/HomeFeatureDiscovery';
-import HomeHeroSection from '../components/Home/HomeHeroSection';
-import HomeCTA from '../components/Home/HomeCTA';
-import HomeTestimonials from '../components/Home/HomeTestimonials';
-import HomeCTA4 from '../components/Home/HomeCTA4';
-import HomeFeatureCRM from '../components/Home/HomeFeatureCRM';
-import HomeCreatorSearch from '../components/Home/HomeCreatorSearch';
-import Enrichment from '../components/Enrichment.vue';
+
+import HomeHeroSection from '../components/Home/HomeHeroSection.vue';
+
+import HomeCTA4 from '../components/Home/HomeCTA4.vue';
+import HomeFeatureCRM from '../components/Home/HomeFeatureCRM.vue';
+
 import SocialIcons from '../components/SocialIcons.vue';
 import JovieLogo from '../components/JovieLogo.vue';
 
-import CallToAction from '../components/CallToAction';
-
-import ButtonGroup from '@/components/ButtonGroup';
 export default {
   name: 'Home',
   components: {
-    HomeLogoCloud,
     JovieLogo,
-    HomeFeatureSequences,
-    HomeCreatorSearch,
-    HomeFeatureDiscovery,
-    Enrichment,
+
     HomeHeroSection,
-    HomeCTA,
-    ButtonGroup,
-    HomeTestimonials,
-    CallToAction,
+
     HomeCTA4,
     HomeFeatureCRM,
-    JovieReplaces,
+
     SocialIcons,
   },
   data() {
