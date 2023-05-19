@@ -509,7 +509,7 @@ class Contact extends Model implements Auditable
 
     public function setYoutube($value)
     {
-        $oldYoutube = json_decode($this->getRawOriginal('youtube')) ?? (object) [];
+        $oldYoutube = json_decode($this->getRawOriginal('youtube')) ?? (object)[];
         if (!count((array)$value)) {
             return !empty($oldYoutube) ? json_encode($oldYoutube) : null;
         }
@@ -520,10 +520,18 @@ class Contact extends Model implements Auditable
             $oldYoutube->channel_id = $matches[1];
             return json_encode($oldYoutube);
         } // Regex for verifying a youtube URL - channel name
-        elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
+        elseif (preg_match(
+            '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:c)\/([A-Za-z0-9-_\.]+)/',
+            $value,
+            $matches
+        )) {
             $oldYoutube->channel_name = $matches[1];
             return json_encode($oldYoutube);
-        } elseif (preg_match('/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/', $value, $matches)) {
+        } elseif (preg_match(
+            '/(?:(?:http|https):\/\/)?(?:www\.)?(?:youtube\.com\/)?(?:user)\/([A-Za-z0-9-_\.]+)/',
+            $value,
+            $matches
+        )) {
             $oldYoutube->channel_name = $matches[1];
             return json_encode($oldYoutube);
         } elseif (in_array(substr($value, 0, 2), ['UC', 'HC'])) {
@@ -589,7 +597,7 @@ class Contact extends Model implements Auditable
             $contact = $this;
         }
 
-        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name.' '.$contact->last_name) : null);
+        return $contact->full_name ?: ($contact->first_name ? ($contact->first_name . ' ' . $contact->last_name) : null);
     }
 
     public static function getContacts($params)
@@ -616,6 +624,10 @@ class Contact extends Model implements Auditable
         } elseif (isset($params['type']) && $params['type'] == 'favourites') {
             $contacts = $contacts->where(function ($q) {
                 $q->where('favourite', true);
+            });
+        } elseif (isset($params['type']) && $params['type'] == 'birthday') {
+            $contacts = $contacts->where(function ($q) {
+                $q->whereBetween('dob', [Carbon::now()->startOfDay(), Carbon::now()->endOfDay()]);
             });
         } elseif (isset($params['type']) && $params['type'] == 'list' && !empty($params['list'])) {
             $listId = $params['list'];
@@ -673,9 +685,13 @@ class Contact extends Model implements Auditable
 
     public static function getCrmCounts()
     {
-        $counts = Contact::query()->selectRaw('team_id, sum(case when archived = false then 1 else 0 end) AS total,
-        sum(case when favourite = true then 1 else 0 end) AS favourites,
-        sum(case when archived = true then 1 else 0 end) AS archived')->groupBy('team_id')->first();
+        $counts = Contact::query()->selectRaw(
+            "team_id,
+            sum(case when archived = false then 1 else 0 end) AS total,
+            sum(case when DATE(dob) = CURDATE() then 1 else 0 end) AS birthday,
+            sum(case when favourite = true then 1 else 0 end) AS favourites,
+            sum(case when archived = true then 1 else 0 end) AS archived"
+        )->groupBy('team_id')->first();
 
         if ($counts) {
             $counts = $counts->makeHidden(['stage_name']);
@@ -685,6 +701,7 @@ class Contact extends Model implements Auditable
                 'archived' => 0,
                 'favourite' => 0,
                 'total' => 0,
+                'birthday' => 0,
             ];
         }
         return $counts;
@@ -742,8 +759,12 @@ class Contact extends Model implements Auditable
         return collect([$contact]);
     }
 
-    public static function updateMultipleExistingContactsWithSocial($data, $contacts, $listId = null, $areContacts = false)
-    {
+    public static function updateMultipleExistingContactsWithSocial(
+        $data,
+        $contacts,
+        $listId = null,
+        $areContacts = false
+    ) {
         $contactData = self::getFillableData($data);
         foreach ($contacts as &$contact) {
             $overrideableData = null;
@@ -817,12 +838,13 @@ class Contact extends Model implements Auditable
         return count($contacts) ? $contacts : false;
     }
 
-    public static function updateProfilePic($contact, $uuid) {
+    public static function updateProfilePic($contact, $uuid)
+    {
         $oldPath = null;
         if ($contact->profile_pic_url) {
             $filename = explode(Creator::CREATORS_MEDIA_PATH, $contact->profile_pic_url)[1] ?? null;
-            if (! is_null($filename)) {
-                $oldPath = Creator::CREATORS_MEDIA_PATH.$filename;
+            if (!is_null($filename)) {
+                $oldPath = Creator::CREATORS_MEDIA_PATH . $filename;
             }
         }
         return self::uploadFileFromTempUuid($uuid, Creator::CREATORS_MEDIA_PATH, $oldPath);
@@ -851,7 +873,7 @@ class Contact extends Model implements Auditable
         $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
-        foreach ($customFields as  $customField) {
+        foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];
                 $oldValue = $cc->getFieldValueByModel($customField, $contact);
@@ -863,17 +885,17 @@ class Contact extends Model implements Auditable
                     'value' => $value,
                 ]);
 
-                    $contact->auditEvent = 'update';
-                    $contact->isCustomEvent = true;
+                $contact->auditEvent = 'update';
+                $contact->isCustomEvent = true;
 
-                    $newValue = $cc->getFieldValueByModel($customField, $contact);
-                    $contact->auditCustomOld = [
-                        $customField->code => $oldValue
-                    ];
-                    $contact->auditCustomNew = [
-                        $customField->code => $newValue
-                    ];
-                    Event::dispatch(AuditCustom::class, [$contact]);
+                $newValue = $cc->getFieldValueByModel($customField, $contact);
+                $contact->auditCustomOld = [
+                    $customField->code => $oldValue
+                ];
+                $contact->auditCustomNew = [
+                    $customField->code => $newValue
+                ];
+                Event::dispatch(AuditCustom::class, [$contact]);
             }
         }
         return $contact;
@@ -909,8 +931,15 @@ class Contact extends Model implements Auditable
         }
     }
 
-    public static function saveContactFromSocial(Creator $creator, $listId = null, $userId = null, $teamId = null, $source = null, $override = false, $contactId = null)
-    {
+    public static function saveContactFromSocial(
+        Creator $creator,
+        $listId = null,
+        $userId = null,
+        $teamId = null,
+        $source = null,
+        $override = false,
+        $contactId = null
+    ) {
         if (is_null($userId) || is_null($teamId)) {
             return false;
         }
@@ -1067,7 +1096,7 @@ class Contact extends Model implements Auditable
                 $q->where('favourite', true);
             });
         } elseif (isset($params['type']) && $params['type'] == 'list' && !empty($params['list'])) {
-            $contacts = $contacts->whereHas('userLists', function($query) use ($params) {
+            $contacts = $contacts->whereHas('userLists', function ($query) use ($params) {
                 $query->where('user_list_id', $params['list']);
             });
         } else {
@@ -1087,7 +1116,7 @@ class Contact extends Model implements Auditable
         }
 
         if (!empty($params['username']) && !empty($params['network'])) {
-            $contacts = $contacts->where(($params['network'].'_handler'), $params['username'])->limit(1);
+            $contacts = $contacts->where(($params['network'] . '_handler'), $params['username'])->limit(1);
         }
 
         if (!empty($params['contacts']) && count($params['contacts'])) {
