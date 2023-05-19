@@ -495,48 +495,67 @@
               :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
               :cta="`Upgrade`"
               ctaLink="Billing" />
-
-            <DataGrid
-              v-if="columns.length"
-              ref="crmTableGrid"
-              @addContact="openImportContactModal()"
-              @addContactFromSocial="openImportContactModal(true)"
-              @updateContact="updateContact"
-              @crmCounts="crmCounts"
-              :counts="counts"
-              @updateListCount="updateListCount"
-              @pageChanged="pageChanged"
-              @getCrmContacts="getCrmContacts"
-              @setCurrentContact="setCurrentContact"
-              @openSidebar="openSidebarContact"
-              @getHeaders="getHeaders"
-              @checkContactsEnrichable="checkContactsEnrichable"
-              @setOrder="setOrder"
-              @getUserLists="getUserLists"
-              @export="exportCrmContacts"
-              @updateFiltersContact="updateFiltersContact"
-              @suggestionExists="toggleMergeSuggestion"
-              @updateCrmCount="crmCounts"
-              :header="
-                filters.type === 'list'
-                  ? filters.currentList
-                    ? filters.currentList.name
-                    : ''
-                  : filters.type
-              "
-              :subheader="counts"
-              :filters="filters"
-              :userLists="userLists"
-              :networks="networks"
-              :stages="stages"
-              :columns="columns"
-              :loading="loading"
-              :taskLoading="taskLoading"
-              :contactsMeta="contactsMeta"
-              :suggestMerge="suggestMerge"
-              :headersLoaded="headersLoaded">
-              <slot header="header"></slot>
-            </DataGrid>
+            <div
+              v-else-if="showImporting && !contacts.length"
+              class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+              <div class="mx-auto max-w-xl">
+                <div
+                  class="container mx-auto mt-24 max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
+                  <div>
+                    <ArrowPathIcon
+                      class="mr-2 mt-1 h-4 w-4 animate-spin-slow items-center" />
+                    <h1 class="text-md font-bold">
+                      You've just initated an import.
+                    </h1>
+                    <span class="text-sm font-medium text-slate-900"
+                      >You'll see contacts populate this space soon.</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Show the crm if there are contacts -->
+            <div v-if="columns.length">
+              <button @click="togglePipelineView">SwitchView</button>
+              <Pipeline v-if="pipelineView" />
+              <DataGrid
+                v-else
+                ref="crmTableGrid"
+                @addContact="openImportContactModal()"
+                @updateContact="updateContact"
+                @crmCounts="crmCounts"
+                :counts="counts"
+                @updateListCount="updateListCount"
+                @pageChanged="pageChanged"
+                @getCrmContacts="getCrmContacts"
+                @setCurrentContact="setCurrentContact"
+                @openSidebar="openSidebarContact"
+                @getHeaders="getHeaders"
+                @checkContactsEnrichable="checkContactsEnrichable"
+                @setOrder="setOrder"
+                @getUserLists="getUserLists"
+                @export="exportCrmContacts"
+                @updateFiltersContact="updateFiltersContact"
+                :header="
+                  filters.type === 'list'
+                    ? filters.currentList
+                      ? filters.currentList.name
+                      : ''
+                    : filters.type
+                "
+                :subheader="counts"
+                :filters="filters"
+                :userLists="userLists"
+                :networks="networks"
+                :stages="stages"
+                :columns="columns"
+                :loading="loading"
+                :taskLoading="taskLoading"
+                :contactsMeta="contactsMeta"
+                :headersLoaded="headersLoaded">
+                <slot header="header"></slot>
+              </DataGrid>
+            </div>
           </div>
         </div>
 
@@ -649,7 +668,7 @@ import {
 import DataGrid from '../components/DataGrid.vue';
 import JovieMenuItem from '../components/JovieMenuItem.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
-
+import Pipeline from './Pipeline.vue';
 import ImportContactModal from '../components/ImportContactModal.vue';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension.vue';
 import SocialInput from '../components/SocialInput.vue';
@@ -731,7 +750,7 @@ export default {
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
-
+    Pipeline,
     CloudArrowUpIcon,
     vueMousetrapPlugin: VueMousetrapPlugin,
     ContactTags,
@@ -745,6 +764,7 @@ export default {
   },
   data() {
     return {
+      pipelineView: false,
       dropdownmenuitems: [
         {
           name: 'Chrome Extension',
@@ -1549,6 +1569,9 @@ export default {
 
         fileLink.click();
       });
+    },
+    togglePipelineView() {
+      this.pipelineView = !this.pipelineView;
     },
     updateContact(params) {
       console.log('paramsparams');

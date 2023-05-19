@@ -102,6 +102,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/suggest-merge', [\App\Http\Controllers\CrmController::class, 'suggestMerge']);
     Route::post('/merge-contacts', [\App\Http\Controllers\CrmController::class, 'mergeContacts']);
 
+    Route::get('/staged-contacts', [\App\Http\Controllers\CrmController::class, 'stagedContacts']);
+
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 

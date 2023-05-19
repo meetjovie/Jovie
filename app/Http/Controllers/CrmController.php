@@ -49,6 +49,27 @@ class CrmController extends Controller
         ], 200);
     }
 
+    public function stagedContacts(Request $request)
+    {
+        $params = $request->all();
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        $contacts = Contact::getContacts($params, true);
+//        $contacts->orderBy('id');
+        $counts = Contact::getCrmCounts();
+        $limitExceedBy = Auth::user()->currentTeam->contactsLimitExceeded();
+        $totalAvailable = Contact::getAllContactsCount();
+        return response()->json([
+            'status' => true,
+            'limit_exceeded_by' => $limitExceedBy,
+            'total_available' => $totalAvailable,
+            'contacts' => $contacts,
+            'counts' => $counts,
+            'networks' => Creator::NETWORKS,
+            'stages' => Crm::stages(),
+        ], 200);
+    }
+
     public function crmCounts()
     {
         $counts = Contact::getCrmCounts();
