@@ -789,6 +789,7 @@ export default {
     'counts',
     'columns',
     'headersLoaded',
+    'suggestMerge',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
@@ -797,6 +798,9 @@ export default {
       handler: function () {
         localStorage.setItem('settings', JSON.stringify(this.settings));
       },
+    },
+    suggestMerge() {
+      this.suggestContactsMerge();
     },
     contacts: function (val) {
       this.contactRecords = val;
@@ -821,6 +825,7 @@ export default {
     },
   },
   mounted() {
+    this.suggestContactsMerge([], true);
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
       event.preventDefault();
@@ -1035,7 +1040,7 @@ export default {
       this.contactRecords.splice(this.contactRecords.indexOf(newContact), 1);
       this.contactRecords[this.contactRecords.indexOf(oldContact)] =
         data.newContact;
-      this.suggestMerge([]);
+      this.suggestContactsMerge([]);
     },
     rejectMerge(id) {
       let contactIds = [];
@@ -1046,9 +1051,9 @@ export default {
         this.contactIds = contactIds;
       }
       this.contactIds.splice(this.contactIds.indexOf(id), 1);
-      this.suggestMerge(this.contactIds);
+      this.suggestContactsMerge(this.contactIds);
     },
-    suggestMerge(contactIds = []) {
+    suggestContactsMerge(contactIds = [], checkSuggestionsOnly = false) {
       this.suggestingMerge = true;
       let data = {};
       data.contact_ids = contactIds;
@@ -1056,8 +1061,13 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
+            if (checkSuggestionsOnly) {
+              this.$emit('suggestionExists', true);
+              return;
+            }
             this.mergeSuggestion = response.data;
             if (!this.mergeSuggestion) {
+              this.$emit('suggestionExists', false);
               this.$notify({
                 group: 'user',
                 type: 'success',
@@ -1069,9 +1079,12 @@ export default {
             } else {
               this.openMergeSuggestion = true;
             }
-            document
-              .querySelector('#suggestion-modal')
-              .scrollTo({ top: 0, behavior: 'smooth' });
+            let modal = document.querySelector('#suggestion-modal');
+            if (modal) {
+              document
+                .querySelector('#suggestion-modal')
+                .scrollTo({ top: 0, behavior: 'smooth' });
+            }
           } else {
             this.$notify({
               group: 'user',
