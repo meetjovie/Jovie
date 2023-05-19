@@ -143,6 +143,15 @@ class FieldAttribute extends Model
             'isCopyable' => true,
             'placeholder' => '',
         ],
+        [
+            'name' => 'Date of Birth',
+            'icon' => 'CalendarDaysIcon',
+            'id' => 11,
+            'model' => 'dob',
+            'value' => 'dob',
+            'isCopyable' => true,
+            'placeholder' => '',
+        ],
     ];
 
     protected $fillable = [
