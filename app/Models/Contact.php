@@ -650,10 +650,10 @@ class Contact extends Model implements Auditable
 
         $contacts = $contacts->paginate(15);
 
+        $cc = new Contact();
+        $customFields = $cc->getFieldsByTeam($params['team_id']);
         foreach ($contacts as &$contact) {
             // custom fields
-            $cc = new Contact();
-            $customFields = $cc->getFieldsByTeam($params['team_id']);
             foreach ($customFields as $customField) {
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
             }
@@ -1090,7 +1090,7 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->where(($params['network'].'_handler'), $params['username'])->limit(1);
         }
 
-        if ($params['contacts'] && count($params['contacts'])) {
+        if (!empty($params['contacts']) && count($params['contacts'])) {
             $contacts = $contacts->whereIn('id', $params['contacts']);
         }
 
@@ -1113,7 +1113,26 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->orderByDesc('id');
         }
 
-        return $contacts->get();
+        $contacts = $contacts->get();
+        $customHeadings = [];
+        $cc = new Contact();
+        $customFields = $cc->getFieldsByTeam($params['team_id']);
+        foreach ($contacts as &$contact) {
+            // custom fields
+            $customFieldsData = [];
+            foreach ($customFields as $customField) {
+                if (!in_array($customField->name, $customHeadings)) {
+                    $customHeadings[] = $customField->name;
+                }
+                $customFieldsData[$customField->code] = $cc->getInputValues($customField, $contact->id);
+            }
+            $contact->custom_fields = $customFieldsData;
+        }
+
+        return [
+            'contacts' => $contacts,
+            'custom_headings' => $customHeadings,
+        ];
     }
 
 }
