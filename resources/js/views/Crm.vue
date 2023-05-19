@@ -182,6 +182,7 @@
                         <MenuItem
                           as="div"
                           @click="setFiltersType('birthday')"
+                          v-if="counts.birthday > 0"
                           v-slot="{ active }">
                           <button
                             class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
@@ -213,8 +214,9 @@
                     <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
                     <MenuItem
                       class="w-full"
+                      v-if="suggestionExists"
                       as="div"
-                      @click="suggestMerge([])"
+                      @click="suggestMerge = !suggestMerge"
                       v-slot="{ active }">
                       <button
                         class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
@@ -675,6 +677,7 @@
                           @getUserLists="getUserLists"
                           @export="exportCrmContacts"
                           @updateFiltersContact="updateFiltersContact"
+                          @suggestionExists="toggleMergeSuggestion"
                           :header="
                             filters.type === 'list'
                               ? filters.currentList
@@ -691,6 +694,7 @@
                           :loading="loading"
                           :taskLoading="taskLoading"
                           :contactsMeta="contactsMeta"
+                          :suggestMerge="suggestMerge"
                           :headersLoaded="headersLoaded">
                           <slot header="header"></slot>
                         </DataGrid>
@@ -966,6 +970,8 @@ export default {
       },
       notifications: [],
       newNotification: false,
+      suggestMerge: false,
+      suggestionExists: false,
     };
   },
   watch: {
@@ -1204,6 +1210,9 @@ export default {
     });
   },
   methods: {
+    toggleMergeSuggestion(checkExists) {
+      this.suggestionExists = checkExists;
+    },
     updateFiltersContact(selectedContacts) {
       this.filters.contacts = selectedContacts;
     },
