@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\CustomField;
 use App\Models\FieldAttribute;
+use App\Models\HeaderAttribute;
 use App\Models\SettingAttribute;
 use App\Models\Template;
 use App\Models\TemplateField;
+use App\Models\TemplateHeader;
 use App\Models\TemplateSetting;
 use App\Models\TemplateStage;
 use Illuminate\Database\Seeder;
@@ -73,6 +75,13 @@ class TemplateSeeder extends Seeder
             TemplateSetting::create([
                 'template_id' => $template->id,
                 'setting_id' => $SETTING['id'],
+            ]);
+        }
+
+        foreach (HeaderAttribute::DEFAULT_HEADERS as $HEADER) {
+            TemplateHeader::create([
+                'template_id' => $template->id,
+                'header_id' => $HEADER['id'],
             ]);
         }
 
@@ -157,9 +166,17 @@ class TemplateSeeder extends Seeder
                 'setting_id' => 2,
             ]);
 
+        foreach (HeaderAttribute::DEFAULT_HEADERS as $HEADER) {
+            if(!in_array($HEADER['id'], [4,3,5])) {
+                TemplateHeader::create([
+                    'template_id' => $template->id,
+                    'header_id' => $HEADER['id'],
+                ]);
+            }
+        }
 
         foreach (FieldAttribute::DEFAULT_FIELDS as $FIELD) {
-            if(!in_array($FIELD['id'], [4,2])){
+            if(!in_array($FIELD['id'], [4, 2, 5])){
                 TemplateField::create(
                     [
                         'template_id' => $template->id,

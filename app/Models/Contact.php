@@ -508,7 +508,7 @@ class Contact extends Model implements Auditable
 
     public function setYoutube($value)
     {
-        $oldYoutube = json_decode($this->getRawOriginal('youtube')) ?? (object) [];
+        $oldYoutube = json_decode($this->getRawOriginal('youtube')) ?? (object)[];
         if (!count((array)$value)) {
             return !empty($oldYoutube) ? json_encode($oldYoutube) : null;
         }
@@ -735,17 +735,13 @@ class Contact extends Model implements Auditable
         }
 
         $contact = new Contact();
-
+        $stageId = UserList::getListStages()->first()->id;
+        $contactData['stage'] = $stageId;
         $contact = self::setContactData($contact, $contactData);
         $contact->save();
 
         if ($listId) {
             Contact::addContactsToList($contact->id, $listId, $data['team_id']);
-            $stageId = UserList::getListStages($listId)->first()->id;
-            $userList = $contact->userLists()->where('user_list_id', $listId)->first();
-            $pivot = $userList->pivot;
-            $pivot->stage = $stageId;
-            $pivot->save();
         } else { // if list is there then import event is dispatched from within it for multiple contacts. else it is dispatched as single without list
             ContactImported::dispatch($contact->id, $data['team_id'], $listId);
         }
@@ -828,12 +824,13 @@ class Contact extends Model implements Auditable
         return count($contacts) ? $contacts : false;
     }
 
-    public static function updateProfilePic($contact, $uuid) {
+    public static function updateProfilePic($contact, $uuid)
+    {
         $oldPath = null;
         if ($contact->profile_pic_url) {
             $filename = explode(Creator::CREATORS_MEDIA_PATH, $contact->profile_pic_url)[1] ?? null;
-            if (! is_null($filename)) {
-                $oldPath = Creator::CREATORS_MEDIA_PATH.$filename;
+            if (!is_null($filename)) {
+                $oldPath = Creator::CREATORS_MEDIA_PATH . $filename;
             }
         }
         return self::uploadFileFromTempUuid($uuid, Creator::CREATORS_MEDIA_PATH, $oldPath);
@@ -846,7 +843,12 @@ class Contact extends Model implements Auditable
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
         }
-
+        if (isset($contactData['stage']) && isset($data['list'])) {
+            $contact->auditSyncWithoutDetaching('userLists', [$data['list'] => [
+                'stage' => $contactData['stage']
+            ]]);
+            unset($contactData['stage']);
+        }
         $contact = self::setContactData($contact, $contactData);
 
         $user = auth()->user();
@@ -913,7 +915,14 @@ class Contact extends Model implements Auditable
         $contacts = Contact::query()->select(['id', 'team_id'])->whereIn('id', $contactIds)->get();
         foreach ($contacts as $contact) {
             foreach ($lists as $list) {
-                $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+                if ($updatingExisting) {
+                    $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+                } else {
+                    $stageId = UserList::getListStages($list->id)->first()->id;
+                    $contact->auditSyncWithoutDetaching('userLists', [$list->id => [
+                        'stage' => $stageId
+                    ]]);
+                }
             }
         }
         foreach ($contactIds as $contactId) {
@@ -926,7 +935,6 @@ class Contact extends Model implements Auditable
         if (is_null($userId) || is_null($teamId)) {
             return false;
         }
-
         $user = User::query()->where('id', $userId)->first();
         $team = Team::query()->where('id', $teamId)->first();
 

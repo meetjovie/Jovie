@@ -688,6 +688,7 @@
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
+              :list="filters.list"
               :contactData="currentContact" />
           </aside>
         </TransitionRoot>

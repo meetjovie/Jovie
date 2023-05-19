@@ -95,7 +95,7 @@ class CrmController extends Controller
             if ($request->remove) {
                 $contact->auditDetach('userLists', [$list->id]);
             } else {
-                $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+                Contact::addContactsToList($contact['id'], $list->id, $contact['team_id']);
             }
         }
         return response()->json([

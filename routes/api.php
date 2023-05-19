@@ -133,7 +133,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
 
     // FIELDS
-    Route::get('fields/{creatorId}', [FieldsController::class, 'fields']);
+    Route::get('fields', [FieldsController::class, 'fields']);
     Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);

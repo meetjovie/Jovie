@@ -182,6 +182,11 @@ class Template extends Model
         return $this->hasMany(TemplateStage::class);
     }
 
+    public function templateHeaders()
+    {
+        return $this->hasMany(TemplateHeader::class);
+    }
+
     public function templateFields()
     {
         return $this->hasMany(TemplateField::class);

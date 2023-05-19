@@ -7,6 +7,8 @@ use App\Models\FieldAttribute;
 use App\Models\HeaderAttribute;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserList;
+use App\Models\Template;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -28,6 +30,13 @@ class HeadersController extends Controller
             $header['hide'] = $headerAttributesKeyed[$header['id']]['hide'] ?? 0;
             $header['width'] = intval($headerAttributesKeyed[$header['id']]['width'] ?? 160);
         }
+        $UserList = UserList::find($listId);
+        $template = $UserList ? $UserList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        $userListTemplateHeaders = $template->templateHeaders->pluck('header_id')->toArray();
+        $headers = array_values(array_filter($headers, function ($value) use ($userListTemplateHeaders) {
+            return in_array($value['id'], $userListTemplateHeaders);
+        }));
+
         $headerFields = $this->orderFields($headers, $headerAttributes->pluck('header_id')->toArray());
         array_unshift($headerFields, HeaderAttribute::FULL_NAME_HEADER);
         return response()->json([
@@ -49,7 +58,7 @@ class HeadersController extends Controller
             $header = CustomField::query()->where('id', $id)->first();
         } else {
             $defaultsFields = collect(HeaderAttribute::DEFAULT_HEADERS);
-            $header = (object) $defaultsFields->where('id', $id)->first();
+            $header = (object)$defaultsFields->where('id', $id)->first();
         }
 
         if (!$header) {
@@ -70,7 +79,7 @@ class HeadersController extends Controller
             $header = CustomField::query()->where('id', $id)->first();
         } else {
             $defaultsFields = collect(HeaderAttribute::DEFAULT_HEADERS);
-            $header = (object) $defaultsFields->where('id', $id)->first();
+            $header = (object)$defaultsFields->where('id', $id)->first();
         }
 
         if (!$header) {
@@ -114,7 +123,7 @@ class HeadersController extends Controller
             $header = CustomField::query()->where('id', $id)->first();
         } else {
             $defaultsFields = collect(HeaderAttribute::DEFAULT_HEADERS);
-            $header = (object) $defaultsFields->where('id', $id)->first();
+            $header = (object)$defaultsFields->where('id', $id)->first();
         }
 
         if (!$header) {
