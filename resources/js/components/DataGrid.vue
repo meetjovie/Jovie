@@ -1061,7 +1061,7 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            if (checkSuggestionsOnly) {
+            if (checkSuggestionsOnly && response.data) {
               this.$emit('suggestionExists', true);
               return;
             }
