@@ -1562,9 +1562,10 @@ export default {
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
+        let date = new Date().toLocaleDateString('en', { year: '2-digit', month: '2-digit', day: '2-digit' });
         fileLink.setAttribute(
           'download',
-          `${this.filters.list ? this.filters.list.name : 'contacts'}.csv`
+          `Jovie ${date} ${this.filters.list ? this.filters.currentList.name : 'contacts'}.csv`
         );
         document.body.appendChild(fileLink);
 
