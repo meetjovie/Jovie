@@ -178,6 +178,36 @@
                             </div>
                           </button>
                         </MenuItem>
+
+                        <MenuItem
+                          as="div"
+                          @click="setFiltersType('birthday')"
+                          v-slot="{ active }">
+                          <button
+                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
+                            :class="[
+                              filters.type == 'birthday'
+                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
+                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
+                              active
+                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
+                                : '',
+                            ]">
+                            <div
+                              class="flex items-center text-xs tracking-wide">
+                              <ArchiveBoxIcon
+                                class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
+                                aria-hidden="true" />Birthday
+                            </div>
+                            <div
+                              class="items-center rounded p-1 hover:text-slate-50 dark:hover:text-slate-800">
+                              <span
+                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
+                                >{{ counts.birthday }}</span
+                              >
+                            </div>
+                          </button>
+                        </MenuItem>
                       </div>
                     </TransitionRoot>
                     <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
@@ -1517,6 +1547,7 @@ export default {
             this.userLists.forEach((list) => {
               this.counts[`list_${list.id}`] = list.contacts_count;
             });
+            this.getCrmContacts();
           }
         })
         .catch((error) => {
@@ -1562,10 +1593,16 @@ export default {
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
-        let date = new Date().toLocaleDateString('en', { year: '2-digit', month: '2-digit', day: '2-digit' });
+        let date = new Date().toLocaleDateString('en', {
+          year: '2-digit',
+          month: '2-digit',
+          day: '2-digit',
+        });
         fileLink.setAttribute(
           'download',
-          `Jovie ${date} ${this.filters.list ? this.filters.currentList.name : 'contacts'}.csv`
+          `Jovie ${date} ${
+            this.filters.list ? this.filters.currentList.name : 'contacts'
+          }.csv`
         );
         document.body.appendChild(fileLink);
 
