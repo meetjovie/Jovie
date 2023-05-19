@@ -161,6 +161,17 @@ class HeaderAttribute extends Model
             'width' => '40',
             'type' => 'text',
         ],
+        [
+            'id' => 14,
+            'name' => 'Date of Birth',
+            'key' => 'dob',
+            'icon' => 'CalendarDaysIcon',
+            'hide' => true,
+            'default' => true,
+            'breakpoint' => '2xl',
+            'width' => '40',
+            'type' => 'date',
+        ],
     ];
 
     const FULL_NAME_HEADER = [
