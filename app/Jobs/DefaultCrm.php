@@ -13,7 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class DefaultCrm implements ShouldQueue
+class DefaultCrm
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
