@@ -429,11 +429,12 @@
           " />
         <div class="flex h-8 justify-between">
           <span
-            class="text-right text-sm font-semibold text-slate-400 dark:text-slate-600"
+            class="px-2 text-right text-xs font-semibold text-slate-400 dark:text-jovieDark-400"
             v-if="contact.description_updated_by"
             >Last update by: {{ contact.description_updated_by }}</span
           >
-          <span class="text-xs font-medium text-slate-400 dark:text-slate-600"
+          <span
+            class="text-xs font-medium text-slate-400 dark:text-jovieDark-300"
             >Saved</span
           >
         </div>

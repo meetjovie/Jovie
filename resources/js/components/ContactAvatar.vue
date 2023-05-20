@@ -2,31 +2,26 @@
   <div :class="'h-' + height + ' w-' + height + ' relative flex-shrink-0'">
     <label :for="`profile_pic_url_${contact.id}`">
       <span
-        :class="[loading ? 'animate-pulse' : '']"
-        class="group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-400 ring-2 ring-slate-300 dark:bg-jovieDark-600 dark:ring-jovieDark-500">
+        :class="[
+          loading ? 'animate-pulse' : '',
+          height < 24 ? 'ring-2' : 'ring-4',
+        ]"
+        class="group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 ring-slate-200 dark:bg-jovieDark-600 dark:ring-jovieDark-500">
         <span
           :class="[
-            height < 8
-              ? 'text-[8px]'
-              : height == 8
-              ? 'text-2xs'
-              : height == 12
-              ? 'text-sm'
-              : height == 18
+            height < 12
               ? 'text-md'
-              : height == 24
+              : height > 12 && height < 16
+              ? 'text-base'
+              : height > 16 && height < 24
+              ? 'text-lg'
+              : height > 24 && height < 32
               ? 'text-xl'
-              : height == 32
+              : height > 32 && height < 40
               ? 'text-2xl'
-              : height == 40
+              : height > 40 && height < 48
               ? 'text-3xl'
-              : height == 48
-              ? 'text-5xl'
-              : height == 56
-              ? 'text-6xl'
-              : height == 64
-              ? 'text-7xl'
-              : 'text-2xs',
+              : 'text-4xl',
           ]"
           class="relative inline-block">
           <span
@@ -97,7 +92,6 @@ export default {
     contact: { type: Object, required: true },
     editable: { type: Boolean, default: false },
     height: { type: Number, default: 8 },
-    loading: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -125,6 +119,13 @@ export default {
         const firstInitial = this.contact.first_name[0];
         const lastInitial = this.contact.last_name[0];
         return firstInitial + lastInitial;
+      }
+    },
+    loading() {
+      if (this.contact.id == null) {
+        return true;
+      } else {
+        return false;
       }
     },
   },

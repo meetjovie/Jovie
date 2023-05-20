@@ -1,16 +1,13 @@
 <template>
   <div class="pl-6">
-    <div class="pt-6 pb-2">
+    <div class="pb-2 pt-6">
       <h2 class="text-sm font-semibold">Comments</h2>
     </div>
     <div>
       <ul role="list" class="divide-y divide-slate-200">
         <li v-for="comment in comments" :key="comment.id" class="py-4">
           <div class="flex space-x-3">
-            <ContactAvatar
-              :imageUrl="comment.user.profile_pic_url"
-              size="xxsm"
-              :name="comment.user.full_name" />
+            <ContactAvatar :contact="comment.user" :height="10" />
             <div class="flex-1 space-y-1">
               <div class="flex items-center justify-between">
                 <h3 class="text-sm font-medium">
@@ -39,7 +36,7 @@
   </div>
 </template>
 <script>
-import ContactAvatar from './Contact/ContactAvatar.vue';
+import ContactAvatar from './ContactAvatar.vue';
 
 export default {
   name: 'CommentThread',
