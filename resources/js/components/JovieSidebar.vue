@@ -90,13 +90,16 @@
                     placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
-                      <img
+                      <ContactAvatar
+                        :height="8"
+                        :contact="$store.state.AuthState.user" />
+                      <!--  <img
                         class="inline-block aspect-square h-6 w-6 rounded-full border-2 border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
                         :src="
                           $store.state.AuthState.user.profile_pic_url ??
                           $store.state.AuthState.user.default_image
                         "
-                        alt="User Avatar" />
+                        alt="User Avatar" /> -->
                     </template>
                     <template #menuTop>
                       <div
@@ -215,6 +218,7 @@ import {
   UserIcon,
   WrenchScrewdriverIcon,
 } from '@heroicons/vue/24/solid';
+import ContactAvatar from './ContactAvatar.vue';
 
 import { Float } from '@headlessui-float/vue';
 import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
@@ -229,6 +233,7 @@ export default {
   components: {
     CreditCardIcon,
     UserIcon,
+    ContactAvatar,
     InitialBox,
     CogIcon,
     DropdownMenuItem,
