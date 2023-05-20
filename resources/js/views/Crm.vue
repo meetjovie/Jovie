@@ -1120,28 +1120,25 @@ export default {
         `contactImported.${this.currentUser.current_team.id}`,
         'ContactImported',
         (data) => {
-          console.log('datadata');
-          console.log(data);
-          if (!data.list) {
+
+          if (!data.list.length) {
             this.$store.state.importProgressSingleCount--;
           }
           if (
-            (data.list && this.filters.type != 'list') ||
-            (!data.list && this.filters.type != 'all')
+            (data.list.length && this.filters.type != 'list') ||
+            (!data.list.length && this.filters.type != 'all')
           ) {
             return;
           }
 
           if (
-            (data.list && data.list == this.filters.list) ||
+            (data.list.length && data.list.includes(this.filters.list)) ||
             this.filters.type == 'all'
           ) {
             let newContact = JSON.parse(window.atob(data.contact));
             let index = this.contacts.findIndex(
               (contact) => contact.id == newContact.id
             );
-            console.log('indexindexindex');
-            console.log(index);
             if (index >= 0) {
               this.contacts[index] = newContact;
             } else if (!data.updating_existing) {
