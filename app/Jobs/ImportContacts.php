@@ -117,23 +117,19 @@ class ImportContacts implements ShouldQueue
                 $contact['linkedin'] = isset($this->payload->mappedColumns->linkedin) ? $row[$this->payload->mappedColumns->linkedin] : null;
                 $contact['snapchat'] = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
                 $contact['wiki'] = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
-                $contact = Contact::saveContact($contact)->first();
+                $contact = Contact::saveContact($contact, $this->payload->list->id)->first();
 
                 $team = Team::find($contact->team_id);
                 if ($team->autoEnrichImportEnabled()) {
                     $contact->enrichContact();
                 }
-
-                $contactIds[] = $contact->id;
-            }
-
-            if ($this->payload->list) {
-                Contact::addContactsToList($contactIds, $this->payload->list->id, $this->payload->teamId);
             }
 
             if ($this->page >= ceil($this->payload->totalRecords / Import::PER_PAGE) - 1) {
                 if ($this->payload->list) {
-                    UserList::query()->where('id', $this->payload->list->id)->update(['updating' => false]);
+                    $list = UserList::query()->where('id', $this->payload->list->id)->first();
+                    $list->importing = false;
+                    $list->save();
                     UserListImported::dispatch($this->payload->list->id, $this->payload->userId, $this->payload->teamId);
                 }
             }

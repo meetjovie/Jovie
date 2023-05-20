@@ -108,7 +108,7 @@
                 <div
                   class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
                   <ArrowPathIcon
-                    v-if="element.updating"
+                    v-if="element.updating_list"
                     class="mx-auto mr-2 mt-1 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
                   <span
                     v-else

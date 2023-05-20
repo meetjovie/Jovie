@@ -12,7 +12,7 @@ use Illuminate\Validation\ValidationException;
 
 class HeadersController extends Controller
 {
-    public function headerFields($listId)
+    public function headerFields($listId = null)
     {
         $customFields = CustomField::query()->with('customFieldOptions')->get();
         foreach ($customFields as &$customField) {

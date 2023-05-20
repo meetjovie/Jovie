@@ -28,6 +28,7 @@ class UserList extends Model implements Auditable
         'user_id',
         'emoji',
         'team_id',
+        'importing',
         'updating',
     ];
 
@@ -224,6 +225,9 @@ class UserList extends Model implements Auditable
      */
     protected function updatingList(): Attribute
     {
+        return Attribute::make(
+            get: fn() => ($this->updating || $this->importing)
+        );
         return Attribute::make(
             get: fn() => (JobBatch::where('type', 'duplicating')->where('finished_at', null)->where('cancelled_at', null)->where('user_list_id', $this->id)->count() ||
                 Import::orderByDesc('created_at')
