@@ -15,6 +15,26 @@ export default {
         options: ['sm', 'md', 'lg'],
       },
     },
+    editable: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    updating: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    imageUrl: {
+      control: {
+        type: 'text',
+      },
+    },
+    name: {
+      control: {
+        type: 'text',
+      },
+    },
   },
 };
 
@@ -60,26 +80,9 @@ Editable.args = {
   editable: true,
 };
 
-export const CustomSize = Template.bind({});
-CustomSize.args = {
-  contact: {
-    id: 5,
-    full_name: 'John Doe',
-  },
-  height: 16,
-};
-
-export const Loading = Template.bind({});
-Loading.args = {
-  loading: true,
-};
-
-export const UpdatingWithProgress = Template.bind({});
-UpdatingWithProgress.args = {
-  contact: {
-    id: 6,
-    full_name: 'John Smith',
-  },
-  updating: true,
-  uploadProgress: 25,
+export const CustomImage = Template.bind({});
+CustomImage.args = {
+  imageUrl:
+    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80',
+  name: 'Custom Name',
 };
