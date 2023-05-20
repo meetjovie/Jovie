@@ -26,43 +26,59 @@
         class="animate-pulse rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600"></div>
       <div
         class="rounded-full bg-slate-400 p-0.5 dark:bg-jovieDark-600"
-        v-else-if="contact.profile_pic_url && !imageLoadError">
+        v-else-if="hasProfilePic">
         <div class="dark:bg-jovieDark-950 rounded-full bg-white p-0">
-          <img
-            :class="
-              'h- rounded-full object-cover object-center' +
-              height +
-              ' w-' +
-              height
-            "
-            :ref="`profile_pic_url_img_${contact.id}`"
-            :id="`profile_pic_url_img_${contact.id}`"
-            :src="contact.profile_pic_url"
-            @error="imageLoadError = true"
-            :alt="
-              contact.full_name
-                ? contact.full_name + ' Profile Picture'
-                : 'Profile Picture'
-            " />
+          <span class="relative inline-block">
+            <img
+              :class="
+                'h- rounded-full object-cover object-center' +
+                height +
+                ' w-' +
+                height
+              "
+              :ref="`profile_pic_url_img_${contact.id}`"
+              :id="`profile_pic_url_img_${contact.id}`"
+              :src="contact.profile_pic_url"
+              @error="imageLoadError = true"
+              :alt="
+                contact.full_name
+                  ? contact.full_name + ' Profile Picture'
+                  : 'Profile Picture'
+              " />
+            <span
+              v-if="editable"
+              class="mx-auto hidden h-full w-full items-center rounded-full group-hover:block">
+              <PencilIcon
+                class="mx-auto h-1/2 w-1/2 items-center text-slate-400/50 dark:text-jovieDark-300" />
+            </span>
+          </span>
         </div>
       </div>
       <span
         v-else
         :class="'h-' + height + ' w-' + height"
-        class="inline-flex items-center justify-center rounded-full bg-gray-500">
-        <span
-          :class-name="[
-            height < 8
-              ? 'text-xs'
-              : height < 12
-              ? 'text-sm'
-              : height < 18
-              ? 'text-xl'
-              : 'text-4xl',
-          ]"
-          class="font-medium capitalize leading-none text-white"
-          >{{ intials }}</span
-        >
+        class="group inline-flex items-center justify-center rounded-full bg-slate-500 dark:bg-jovieDark-600">
+        <span class="relative inline-block">
+          <span
+            :class-name="[
+              height < 8
+                ? 'text-xs'
+                : height < 12
+                ? 'text-sm'
+                : height < 18
+                ? 'text-xl'
+                : 'text-4xl',
+            ]"
+            class="font-medium capitalize leading-none text-white"
+            >{{ intials }}</span
+          >
+          <span
+            v-if="editable"
+            class="mx-auto hidden h-full w-full items-center rounded-full group-hover:block">
+            <PencilIcon
+              class="mx-auto h-1/2 w-1/2 items-center text-white/50 dark:text-jovieDark-300/50" />
+          </span>
+        </span>
       </span>
     </label>
     <input
@@ -78,14 +94,13 @@
 
 <script>
 import { PencilIcon } from '@heroicons/vue/24/solid';
-
 export default {
   name: 'ContactAvatar',
   props: {
     contact: { type: Object, required: true },
     editable: { type: Boolean, default: false },
     height: { type: Number, default: 8 },
-    loading: { type: Boolean, default: true },
+    loading: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -96,13 +111,23 @@ export default {
   },
   components: { PencilIcon },
   computed: {
-    intials() {
-      return this.contact.full_name
-        ? this.contact.full_name
-            .split(' ')
-            .map((n) => n[0])
-            .join('')
-        : 'A';
+    hasProfilePic() {
+      return this.contact.profile_pic_url && !this.imageLoadError;
+    },
+    hasErrorOrNoProfilePic() {
+      return !this.hasProfilePic || this.imageLoadError;
+    },
+    initials() {
+      if (this.contact.full_name) {
+        return this.contact.full_name
+          .split(' ')
+          .map((n) => n[0])
+          .join('');
+      } else {
+        const firstInitial = this.contact.first_name[0];
+        const lastInitial = this.contact.last_name[0];
+        return firstInitial + lastInitial;
+      }
     },
   },
   methods: {
