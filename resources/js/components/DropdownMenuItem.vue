@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="separator"
-    class="w-full divide-y divide-slate-200 dark:divide-jovieDark-border" />
-  <MenuItem disabled v-else-if="searchBox" v-slot="{ active }" as="div">
+  <MenuItem disabled v-if="searchBox" v-slot="{ active }" as="div">
     <div
       class="relative flex items-center border-b border-slate-300 dark:border-jovieDark-border">
       <input
@@ -15,6 +12,11 @@
       <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
         <KBShortcut hasBg :shortcutKey="['s']" />
       </div>
+    </div>
+  </MenuItem>
+  <MenuItem disabled v-else-if="separator">
+    <div class="inset-0 flex items-center" aria-hidden="true">
+      <div class="w-full border-t border-gray-300" />
     </div>
   </MenuItem>
   <MenuItem v-else :disabled="disabled" as="div" v-slot="{ active }">
