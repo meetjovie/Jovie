@@ -71,9 +71,10 @@ class SaveImport implements ShouldQueue
             $reader = Reader::createFromStream($stream);
 
             $totalRecords = $reader->count();
+            $list = null;
             if ($this->contacts) { // empty contacts
                 $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId, null, true);
-                $list->updating = true;
+                $list->importing = true;
                 $list->save();
             }
             if ($totalRecords > 1) {
@@ -88,13 +89,12 @@ class SaveImport implements ShouldQueue
                 for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
                     if ($this->contacts) { // empty contacts
                         if ($page == 0) {
-                            if ($list->wasRecentlyCreated) {
+                            if ($list && $list->wasRecentlyCreated) {
                                 ImportListCreated::dispatch($this->teamId, $list);
                             }
                             UserListImportTriggered::dispatch($list->id, $this->userId, $this->teamId);
-                            ImportContacts::dispatch($this->file, $page, $payload);
                         }
-//                        ImportContacts::dispatch($this->file, $page, $payload);
+                        ImportContacts::dispatch($this->file, $page, $payload);
                     } else {
                         $command = "save:import-chunk $this->file $page $payload";
                         Artisan::queue($command);

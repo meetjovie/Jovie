@@ -439,9 +439,9 @@ class Contact extends Model implements Auditable
             $value = json_decode($value);
         }
 
-        if (isset($value->channel_name)) {
+        if (!empty($value->channel_name)) {
             return 'https://youtube.com/c/' . $value->channel_name;
-        } elseif (isset($value->channel_id)) {
+        } elseif (!empty($value->channel_id)) {
             return 'https://youtube.com/channel/' . $value->channel_id;
         }
         return null;

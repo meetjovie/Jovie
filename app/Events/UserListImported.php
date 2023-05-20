@@ -50,10 +50,12 @@ class UserListImported implements ShouldBroadcast, ShouldBroadcastNow
     public function broadcastWith()
     {
         $list = UserList::where('id', $this->listId)->first();
+        $list->importing = false;
+        $list->save();
         if ($list) {
             return ['status' => true, 'data' => [
                 'list' => $this->listId,
-                'remaining' => UserList::query()->where('updating', 1)->count()
+                'remaining' => UserList::query()->where('importing', 1)->count()
             ], 'message' => "$list->name imported"];
         }
     }
