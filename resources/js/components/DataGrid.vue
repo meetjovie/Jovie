@@ -202,6 +202,10 @@
                               @click="importCSV()"
                               name="Import CSV"
                               icon="CloudArrowUpIcon" />
+                            <DropdownMenuItem
+                              @click="$emit('export')"
+                              name="Export CSV"
+                              icon="CloudArrowDownIcon" />
                           </div>
                         </GlassmorphismContainer>
                       </MenuItems>
@@ -502,9 +506,6 @@
               <span class="flex" @click="$emit('addContact')">
                 <PlusIcon class="mr-2 h-4 w-4" />
                 Add new contact
-              </span>
-              <span>
-                <ButtonGroup @click="$emit('export')" :text="'Export'" />
               </span>
             </div>
             <div

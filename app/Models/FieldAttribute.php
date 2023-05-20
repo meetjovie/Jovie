@@ -144,8 +144,8 @@ class FieldAttribute extends Model
             'placeholder' => '',
         ],
         [
-            'name' => 'Date of Birth',
-            'icon' => 'CalendarDaysIcon',
+            'name' => 'Birthday',
+            'icon' => 'CakeIcon',
             'id' => 11,
             'model' => 'dob',
             'value' => 'dob',
