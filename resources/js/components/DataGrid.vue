@@ -1100,13 +1100,15 @@ export default {
             this.mergeSuggestion = response.data;
             if (!this.mergeSuggestion) {
               this.$emit('suggestionExists', false);
-              this.$notify({
-                group: 'user',
-                type: 'success',
-                duration: 15000,
-                title: 'Successful',
-                text: response.message,
-              });
+              if (! checkSuggestionsOnly) {
+                  this.$notify({
+                      group: 'user',
+                      type: 'success',
+                      duration: 15000,
+                      title: 'Successful',
+                      text: response.message,
+                  });
+              }
               this.openMergeSuggestion = false;
             } else {
               this.openMergeSuggestion = true;
