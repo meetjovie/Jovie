@@ -115,6 +115,14 @@
                                 placeholder: 'Add columns...',
                               }" />
                           </div>
+                          <DropdownMenuItem
+                            disabled
+                            name="Name"
+                            icon="UserIcon">
+                            <template #toggle>
+                              <LockClosedIcon class="h-4 w-5" />
+                            </template>
+                          </DropdownMenuItem>
                           <div
                             v-for="(column, index) in filteredColumnList"
                             :key="column.name">
@@ -607,6 +615,7 @@ import {
   EnvelopeIcon,
   HeartIcon,
   LinkIcon,
+  LockClosedIcon,
   SparklesIcon,
   ListBulletIcon,
   MagnifyingGlassIcon,
@@ -657,6 +666,7 @@ export default {
     InputLists,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
+    LockClosedIcon,
     Switch,
     MenuButton,
     Float,
