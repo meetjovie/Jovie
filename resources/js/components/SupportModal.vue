@@ -25,8 +25,8 @@
             leave-from="opacity-100 translate-x-0"
             leave-to="opacity-0 translate-x-100">
             <DialogPanel
-              class="absolute right-4 top-4 mb-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all dark:bg-jovieDark-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
-              <div class="absolute top-0 right-0 hidden pt-4 pr-4 sm:block">
+              class="absolute right-4 top-4 mb-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-jovieDark-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
+              <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                 <button
                   type="button"
                   class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:bg-jovieDark-800 dark:text-gray-300"
@@ -45,7 +45,7 @@
                     aria-hidden="true" />
                 </div>
                 <div
-                  class="mt-3 text-center dark:text-gray-300 sm:text-left sm:dark:mt-0 sm:dark:ml-4">
+                  class="mt-3 text-center dark:text-gray-300 sm:text-left sm:dark:ml-4 sm:dark:mt-0">
                   <DialogTitle
                     as="h3"
                     class="text-lg font-medium leading-6 text-gray-900 dark:text-jovieDark-300"
@@ -99,7 +99,7 @@
                 </li>
               </ul>
               <div
-                class="mt-4 rounded-md border border-slate-300 bg-slate-100 py-6 px-4 dark:border-jovieDark-border dark:bg-jovieDark-800">
+                class="mt-4 rounded-md border border-slate-300 bg-slate-100 px-4 py-6 dark:border-jovieDark-border dark:bg-jovieDark-800">
                 <div
                   class="prose font-bold text-slate-600 dark:text-jovieDark-300">
                   Keyboard Shortcuts
@@ -107,7 +107,7 @@
                 <div class="mt-2">
                   <p
                     class="font-semi-bold text-sm text-gray-500 dark:text-gray-300">
-                    We're here to help and other awesome thigns.
+                    Speed up your workflow with these shortcuts.
                   </p>
                 </div>
                 <div class="mt-2 space-y-2 px-4">
@@ -144,7 +144,8 @@
                   <div class="mt-2">
                     <p
                       class="font-semi-bold text-sm text-gray-500 dark:text-gray-300">
-                      We're here to help and other awesome thigns.
+                      Join our Slack community to chat with other Jovie users
+                      and the Jovie team.
                     </p>
                   </div>
                 </div>
@@ -190,7 +191,8 @@ import {
   DocumentTextIcon,
   ChatBubbleLeftIcon,
   CloudArrowUpIcon,
-    ChevronRightIcon,
+  ChevronRightIcon,
+  HandRaisedIcon,
 } from '@heroicons/vue/24/outline';
 export default {
   name: 'SupportModal',
@@ -247,6 +249,15 @@ export default {
           visible: true,
         },
         {
+          name: 'Request A Feature',
+          icon: HandRaisedIcon,
+          description:
+            'Request a feature for Jovie. We love hearing from our users.',
+          href: 'https://roadmap.jov.ie',
+          iconColor: 'bg-orange-500',
+          visible: true,
+        },
+        {
           name: 'Join our Slack community',
           icon: CloudArrowUpIcon,
           //use define component t put the svg of the slack icon
@@ -271,7 +282,8 @@ export default {
     QuestionMarkCircleIcon,
     DocumentTextIcon,
     XMarkIcon,
-      ChevronRightIcon,
+    ChevronRightIcon,
+    HandRaisedIcon,
   },
 
   methods: {

@@ -38,7 +38,10 @@
                         class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
                         <div class="group/teammenu flex items-center space-x-1">
                           <InitialBox
-                            :name="currentUser.current_team.name"
+                            :name="
+                              currentUser.current_team.emoji ||
+                              currentUser.current_team.name
+                            "
                             :height="18" />
                           <div
                             class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
