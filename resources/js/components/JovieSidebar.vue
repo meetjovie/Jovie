@@ -86,7 +86,7 @@
                 <div class="items-center">
                   <JovieDropdownMenu
                     :searchable="false"
-                    size="lg"
+                    size="md"
                     placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
@@ -140,7 +140,7 @@
                         shortcutKey="?"
                         shortcutSequence
                         @click="toggleShowSupportModal()"
-                        name="Get Help"
+                        name="Help"
                         icon="ChatBubbleLeftIcon" />
                       <div
                         class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
@@ -297,24 +297,24 @@ export default {
           shortcutKey: ['g', 's'],
           shortcutSequence: true,
         },
-        {
+        /*   {
           id: 3,
           name: 'Billing',
           route: '/billing',
           icon: CreditCardIcon,
-        },
+        }, */
         /*      {
           id: 6,
           name: 'Request a feature',
           route: '/request-a-feature',
           icon: LightBulbIcon,
         }, */
-        {
+        /*   {
           id: 5,
           name: 'Download Chrome Extension',
           route: '/chrome-extension',
           icon: CloudArrowDownIcon,
-        },
+        }, */
 
         {
           id: 7,
