@@ -2,7 +2,7 @@ import App from './App.vue';
 
 import './bootstrap';
 import '../css/app.css';
-
+import.meta.glob(['../img/**']);
 import * as Vue from 'vue';
 import router from './router/index';
 import store from './store/index';
