@@ -38,7 +38,7 @@
               <div
               v-else
               class="h-18 w-18 object-fit mt-2 aspect-square animate-pulse rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"></div> -->
-            <ContactAvatar editable :height="18" :contact="contact" />
+            <ContactAvatar editable :height="24" :contact="contact" />
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
