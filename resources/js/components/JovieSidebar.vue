@@ -90,9 +90,7 @@
                     placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
-                      <ContactAvatar
-                        :height="8"
-                        :contact="$store.state.AuthState.user" />
+                      <ContactAvatar :height="8" :contact="currentUser" />
                       <!--  <img
                         class="inline-block aspect-square h-6 w-6 rounded-full border-2 border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
                         :src="
