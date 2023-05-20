@@ -18,7 +18,7 @@
             class="mr-1 h-4 w-4 rounded-md text-purple-400"
             aria-hidden="true" />
 
-          {{ headerText + ' Contacts' }}
+          {{ headerText === 'birthdays' ? headerText : headerText + ' Contacts' }}
         </template>
       </h1>
       <p v-if="!taskLoading" class="text-2xs font-light text-slate-600">
