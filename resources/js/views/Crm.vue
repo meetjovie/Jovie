@@ -196,7 +196,7 @@
                             ]">
                             <div
                               class="flex items-center text-xs tracking-wide">
-                              <ArchiveBoxIcon
+                              <Cakecon
                                 class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
                                 aria-hidden="true" />Birthday
                             </div>
@@ -799,6 +799,7 @@ import {
   PlusIcon,
   PlusCircleIcon,
   HeartIcon,
+  CakeIcon,
   UserIcon,
   ArchiveBoxIcon,
   CloudArrowUpIcon,
@@ -856,6 +857,7 @@ export default {
     DataGrid,
     Float,
     CloudArrowDownIcon,
+    CakeIcon,
     PlusIcon,
     PlusCircleIcon,
     SwitchTeams,
