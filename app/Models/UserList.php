@@ -7,6 +7,7 @@ use App\Events\Notification;
 use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
 use App\Models\Scopes\TeamScope;
+use App\Services\GPTService;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -90,6 +91,11 @@ class UserList extends Model implements Auditable
             if ($emoji) {
                 $data['emoji'] = $emoji;
                 $data['updating'] = $updating;
+            }
+            if (empty($data['emoji'])) {
+                $gptClient = new GPTService();
+                $emoji = $gptClient->getEmoji($listName);
+                $data['emoji'] = $emoji;
             }
             $list = UserList::create($data);
             $syncData = [];

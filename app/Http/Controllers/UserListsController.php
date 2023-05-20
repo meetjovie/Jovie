@@ -148,10 +148,6 @@ class UserListsController extends Controller
         }
 
         $emoji = $request->emoji;
-        if (is_null($emoji)) {
-            $gptClient = new GPTService();
-            $emoji = $gptClient->getEmoji($request->name);
-        }
         $list = UserList::firstOrCreateList(Auth::id(), $name, null, $emoji);
 
         return response()->json([
