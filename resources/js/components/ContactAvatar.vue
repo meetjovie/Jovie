@@ -62,9 +62,9 @@
           <span
             v-if="contact.full_name || contact.first_name"
             :class="[
-              editable
-                ? 'block group-hover:hidden'
-                : height == 8
+              editable ? 'block group-hover:hidden' : '',
+
+              height == 8
                 ? 'text-xs'
                 : height == 12
                 ? 'text-sm'
