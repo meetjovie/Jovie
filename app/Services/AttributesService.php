@@ -9,6 +9,10 @@ class AttributesService
 {
     public static function setAttributes($user, $team, $reset = 0)
     {
+        if ($reset) {
+            FieldAttribute::query()->delete();
+            HeaderAttribute::query()->delete();
+        }
         $customFields = $team->customFields;
         $defaultFieldIds = array_column(FieldAttribute::DEFAULT_FIELDS, 'id');
 
