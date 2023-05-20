@@ -8,7 +8,7 @@ use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
 use App\Models\Team;
-use App\Traits\GeneralTrait;
+use App\Traits\SocialScrapperTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -22,7 +22,7 @@ class ImportContacts implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    use GeneralTrait;
+    use SocialScrapperTrait;
 
     private $file;
     private $page;
