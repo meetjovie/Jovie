@@ -57,7 +57,7 @@
                 </div>
               </TransitionRoot>
               <div>
-                <ContactAvatarCluster />
+                <ShareMenu />
               </div>
               <div v-if="!searchVisible">
                 <JovieTooltip
@@ -574,6 +574,7 @@
 </template>
 
 <script>
+import ShareMenu from './ShareMenu.vue';
 import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieMenuItem from '../components/JovieMenuItem.vue';
@@ -669,6 +670,7 @@ export default {
     ArrowSmallLeftIcon,
     LockClosedIcon,
     Switch,
+    ShareMenu,
     MenuButton,
     Float,
     SparklesIcon,

@@ -1,11 +1,7 @@
 <template>
   <div class="flex items-start space-x-4">
     <div class="flex-shrink-0">
-      <ContactAvatar
-        size="xsm"
-        :contact="user"
-        :imageUrl="user.profile_pic_url"
-        :name="user.full_name" />
+      <ContactAvatar height="10" :contact="user" />
     </div>
     <div class="min-w-0 flex-1">
       <form action="#" class="relative">
@@ -145,7 +141,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
-import ContactAvatar from './Contact/ContactAvatar.vue';
+import ContactAvatar from './ContactAvatar.vue';
 
 const moods = [
   {

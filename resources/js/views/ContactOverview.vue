@@ -100,9 +100,7 @@
             <section aria-labelledby="applicant-information-title">
               <div class="grid-cols-2 bg-white shadow sm:rounded-lg">
                 <div class="pt-5">
-                  <ContactAvatar
-                    size="md"
-                    :imageUrl="contact.profile_pic_url" />
+                  <ContactAvatar height="32" :contact="contact" />
                 </div>
                 <div class="grid-cols-1 px-4 pb-5 pt-2 sm:px-6">
                   <h2
@@ -427,7 +425,7 @@
   </div>
 </template>
 <script>
-import ContactAvatar from '../components/Contact/ContactAvatar.vue';
+import ContactAvatar from '../components/ContactAvatar.vue';
 import ContactContentBar from '../components/Contact/ContactContentBar.vue';
 import SocialIcons from '../components/SocialIcons.vue';
 import InputGroup from '../components/InputGroup.vue';
