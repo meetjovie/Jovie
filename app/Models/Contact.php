@@ -241,6 +241,16 @@ class Contact extends Model implements Auditable
         );
     }
 
+    /**
+     * Get the profile pic of contact.
+     */
+    public function profilePicUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value ?? asset('img/noimage.webp')
+        );
+    }
+
     public function getSocialLinksWithFollowers()
     {
         $socialLinks = collect();
