@@ -155,7 +155,7 @@ class HeaderAttribute extends Model
             'name' => 'Description',
             'key' => 'description',
             'icon' => 'Bars3BottomLeftIcon',
-            'hide' => false,
+            'hide' => true,
             'default' => true,
             'breakpoint' => '2xl',
             'width' => '40',
