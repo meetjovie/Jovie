@@ -129,11 +129,11 @@
                             <SwitchGroup>
                               <SwitchLabel>
                                 <DropdownMenuItem
-                                  :name="column.name +'----'+ column.visible"
+                                  :name="column.name"
                                   :icon="column.icon">
                                   <template #toggle>
                                     <Switch
-                                      :name="column.name + column.hide"
+                                      :name="column.name"
                                       v-model="column.visible"
                                       @click="toggleHeaderHide(column, index)"
                                       as="template"
@@ -146,7 +146,7 @@
                                         "
                                         class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                                         <span class="sr-only">{{
-                                          column.name + column.hide
+                                          column.name
                                         }}</span>
                                         <span
                                           :class="
