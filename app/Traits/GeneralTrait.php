@@ -3,7 +3,6 @@
 namespace App\Traits;
 
 use Carbon\Carbon;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -82,19 +81,5 @@ trait GeneralTrait
             Storage::disk('s3')->delete($oldPath);
         }
         return $path;
-    }
-
-    public function getUserGender($name)
-    {
-        try {
-            $client = new Client();
-            $response = $client->get(
-                'https://gender-api.com/get?name=' . $name . '&key=cElJXXxpyXcZSBCUKqaDLChNqmAD9kSb2tDF'
-            );
-
-            return json_decode($response->getBody()->getContents());
-        } catch (Exception $exception) {
-            return (object) ['gender' => null];
-        }
     }
 }
