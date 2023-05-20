@@ -81,7 +81,7 @@ class HeaderAttribute extends Model
             'icon' => 'UsersIcon',
             'width' => '40',
             'sortable' => true,
-            'hide' => false,
+            'hide' => true,
             'breakpoint' => 'md',
             'type' => 'select',
         ],
