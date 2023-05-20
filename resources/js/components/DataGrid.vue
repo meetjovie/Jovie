@@ -129,11 +129,11 @@
                             <SwitchGroup>
                               <SwitchLabel>
                                 <DropdownMenuItem
-                                  :name="column.name"
+                                  :name="column.name +'----'+ column.visible"
                                   :icon="column.icon">
                                   <template #toggle>
                                     <Switch
-                                      :name="column.name"
+                                      :name="column.name + column.hide"
                                       v-model="column.visible"
                                       @click="toggleHeaderHide(column, index)"
                                       as="template"
@@ -146,7 +146,7 @@
                                         "
                                         class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                                         <span class="sr-only">{{
-                                          column.name
+                                          column.name + column.hide
                                         }}</span>
                                         <span
                                           :class="
@@ -844,6 +844,9 @@ export default {
       immediate: true,
       handler: function (val) {
         this.headers = val.filter((column) => column.key != 'full_name');
+          for (let i = 0; i < this.columns.length; i++) {
+              this.columns[i].visible = !this.columns[i].hide;
+          }
       },
     },
     selectedContacts(val) {
@@ -987,10 +990,6 @@ export default {
     this.contactRecords = this.contactRecords.length
       ? this.contactRecords
       : this.contacts;
-
-    for (let i = 0; i < this.columns.length; i++) {
-      this.columns[i].visible = !this.columns[i].hide;
-    }
   },
   computed: {
     sidebarOpen() {
