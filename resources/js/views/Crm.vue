@@ -663,6 +663,7 @@
                           v-if="columns.length"
                           ref="crmTableGrid"
                           @addContact="openImportContactModal()"
+                          @addContactFromSocial="openImportContactModal(true)"
                           @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"

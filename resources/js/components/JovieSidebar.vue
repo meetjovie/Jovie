@@ -18,7 +18,7 @@
                 <div
                   class="items-cemter flex cursor-pointer text-lg font-medium tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
                   <ChevronLeftIcon
-                    class="h-4 w-4 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
+                    class="mt-1.5 h-4 w-4 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                     aria-hidden="true" />
                   <span class="ml-2 items-center">{{ menu || 'Back' }}</span>
                 </div>
@@ -292,7 +292,7 @@ export default {
         {
           id: 2,
           name: 'Settings',
-          route: 'Account',
+          route: 'Settings',
           icon: CogIcon,
           shortcutKey: ['g', 's'],
           shortcutSequence: true,
