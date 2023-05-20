@@ -181,13 +181,12 @@
 
                         <MenuItem
                           as="div"
-                          @click="setFiltersType('birthday')"
-                          v-if="counts.birthday > 0"
+                          @click="setFiltersType('birthdays')"
                           v-slot="{ active }">
                           <button
                             class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
                             :class="[
-                              filters.type == 'birthday'
+                              filters.type == 'birthdays'
                                 ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
                                 : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
                               active
@@ -198,7 +197,7 @@
                               class="flex items-center text-xs tracking-wide">
                               <Cakecon
                                 class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
-                                aria-hidden="true" />Birthday
+                                aria-hidden="true" />Birthdays
                             </div>
                             <div
                               class="items-center rounded p-1 hover:text-slate-50 dark:hover:text-slate-800">
