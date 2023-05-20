@@ -303,12 +303,12 @@ export default {
           route: '/billing',
           icon: CreditCardIcon,
         },
-        {
+        /*      {
           id: 6,
           name: 'Request a feature',
           route: '/request-a-feature',
           icon: LightBulbIcon,
-        },
+        }, */
         {
           id: 5,
           name: 'Download Chrome Extension',
@@ -322,12 +322,12 @@ export default {
           route: '/changelog',
           icon: SparklesIcon,
         },
-        {
+        /*    {
           id: 4,
           name: 'Slack Community',
           route: '/slack-community',
           icon: LifebuoyIcon,
-        },
+        }, */
       ],
     };
   },
