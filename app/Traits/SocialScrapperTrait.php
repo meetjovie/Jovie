@@ -110,7 +110,7 @@ trait SocialScrapperTrait
 
             return json_decode($response->getBody()->getContents());
         } catch (Exception $exception) {
-            return 'unknown';
+            return (object) ['gender' => null];
         }
     }
 
