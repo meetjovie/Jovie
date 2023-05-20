@@ -414,7 +414,7 @@
               />
             </div> -->
       <div
-        class="mt-2 bg-white px-2 py-2 dark:bg-jovieDark-900"
+        class="relative mt-2 bg-white px-2 py-2 dark:bg-jovieDark-900"
         v-if="contact.id">
         <TextAreaInput
           ref="noteInput"
@@ -427,9 +427,16 @@
               value: contact.description,
             })
           " />
-        <span v-if="contact.description_updated_by"
-          >Last update by: {{ contact.description_updated_by }}</span
-        >
+        <div class="flex h-8 justify-between">
+          <span
+            class="text-right text-sm font-semibold text-slate-400 dark:text-slate-600"
+            v-if="contact.description_updated_by"
+            >Last update by: {{ contact.description_updated_by }}</span
+          >
+          <span class="text-xs font-medium text-slate-400 dark:text-slate-600"
+            >Saved</span
+          >
+        </div>
       </div>
     </div>
     <div class="mx-auto h-full items-center py-2" v-else-if="sidebarLoading">
@@ -708,9 +715,9 @@ export default {
     },
     setFieldsForDisplay() {
       this.displayAbleFields = this.fields.filter((field) => {
-          if (field.name == 'Phone' || field.name == 'Email') {
-              return true
-          }
+        if (field.name == 'Phone' || field.name == 'Email') {
+          return true;
+        }
         if (this.ignoreFieldIdForNonDisplay.includes(field.id)) {
           return true;
         }
