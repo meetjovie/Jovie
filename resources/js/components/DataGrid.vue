@@ -509,12 +509,16 @@
             </div>
             <div
               v-if="contactRecords.length < 1"
-              class="mx-auto h-full items-center py-12">
-              <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
-                <h3 class="text-base font-semibold leading-6 text-gray-900">
+              class="mx-auto h-full w-full max-w-4xl items-center py-12">
+              <div
+                class="border-b border-gray-200 bg-white px-4 py-5 dark:bg-jovieDark-900 sm:px-6">
+                <h3
+                  class="text-base font-semibold leading-6 text-slate-900 dark:text-jovieDark-200">
                   There are no contacts to display
                 </h3>
-                <p class="mt-1 text-sm text-gray-500">You can add some:</p>
+                <p class="mt-1 text-sm text-slate-500 dark:text-jovieDark-200">
+                  You can add some:
+                </p>
 
                 <div class="mt-5">
                   <button
@@ -523,23 +527,21 @@
                     class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-0.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     Add Contact
                   </button>
-                  <Menu as="div" class="relative inline-block text-left">
-                    <MenuItems
-                      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <div class="py-1">
-                        <JovieMenuItem :active="active" name="Add contact" />
-                        <JovieMenuItem
-                          :active="active"
-                          name="Add from social" />
-                        <JovieMenuItem
-                          :active="active"
-                          name="Import from file" />
-                        <JovieMenuItem
-                          :active="active"
-                          name="Install the Jovie Chrome extension" />
-                      </div>
-                    </MenuItems>
-                  </Menu>
+
+                  <div class="mt-4 py-1">
+                    <Menu>
+                      <MenuItems class="space-y-2" static>
+                        <div v-for="item in menuItems" :key="item.name">
+                          <JovieMenuItem
+                            class="rounded py-2"
+                            :active="active"
+                            :icon="item.icon"
+                            @click="item.action"
+                            :name="item.name" />
+                        </div>
+                      </MenuItems>
+                    </Menu>
+                  </div>
                 </div>
               </div>
             </div>
@@ -748,6 +750,29 @@ export default {
       view: {
         atTopOfPage: true,
       },
+      menuItems: [
+        {
+          name: 'Add new contact',
+          icon: 'UserPlusIcon',
+          action: () => this.$emit('addContact'),
+        },
+        {
+          name: 'Import a social media profile',
+          icon: 'SparklesIcon',
+          action: () => this.$emit('addContactFromSocial'),
+        },
+
+        {
+          name: 'Upload a CSV file',
+          icon: 'CloudArrowUpIcon',
+          action: () => this.importCSV(),
+        },
+        {
+          name: 'Install the Jovie Chrome extension',
+          icon: 'GlobeAltIcon',
+          action: () => this.downloadChromeExtension(),
+        },
+      ],
       showCustomFieldsModal: false,
       currentEditingField: null,
       contactRecords: [],
@@ -833,6 +858,10 @@ export default {
     },
     openMergeSuggestion(val) {
       console.log('csdfcsdc', val);
+    },
+    downloadChromeExtension() {
+      //route push to chrome-extension
+      this.$router.push({ name: 'Chrome Extension' });
     },
   },
   mounted() {

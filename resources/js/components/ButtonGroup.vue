@@ -30,7 +30,7 @@
           design == 'secondary',
       },
       {
-        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-jovieDark-800':
+        'group flex cursor-pointer items-center  rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-700':
           design == 'toolbar',
       },
       {
