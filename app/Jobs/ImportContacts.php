@@ -8,6 +8,7 @@ use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
 use App\Models\Team;
+use App\Traits\GeneralTrait;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -20,6 +21,8 @@ use League\Csv\Reader;
 class ImportContacts implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    use GeneralTrait;
 
     private $file;
     private $page;
@@ -100,6 +103,12 @@ class ImportContacts implements ShouldQueue
                 $contact['phones'] = isset($this->payload->mappedColumns->phone) ? $row[$this->payload->mappedColumns->phone] : null;
                 $contact['website'] = isset($this->payload->mappedColumns->website) ? $row[$this->payload->mappedColumns->website] : null;
                 $contact['gender'] = isset($this->payload->mappedColumns->gender) ? $row[$this->payload->mappedColumns->gender] : null;
+
+                if (empty($contact['gender'])) {
+                    $genderResponse = self::getUserGender($contact['full_name']);
+                    $contact['gender'] = $genderResponse->gender ?? null;
+                }
+
                 $contact['emails'] = $emails;
                 $contact['city'] = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
                 $contact['country'] = $country;
