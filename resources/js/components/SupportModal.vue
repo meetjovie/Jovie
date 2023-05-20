@@ -13,7 +13,7 @@
           class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
       </TransitionChild>
 
-      <div class="fixed inset-0 z-40 overflow-y-auto px-8">
+      <div class="fixed inset-0 z-40 my-2 overflow-y-auto rounded-md px-8">
         <div
           class="flex min-h-full items-end justify-center text-center sm:items-center">
           <TransitionChild
@@ -33,17 +33,17 @@
                   @click="close()">
                   <span class="sr-only">Close</span>
                   <XMarkIcon
-                    class="h-6 w-6 dark:text-gray-300"
+                    class="h-4 w-4 dark:text-gray-300"
                     aria-hidden="true" />
                 </button>
               </div>
-              <div class="sm:flex sm:items-start">
-                <div
-                  class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+              <div class="overflow-y-scroll sm:flex sm:items-start">
+                <!-- <div
+                  class="mx-auto flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
                   <QuestionMarkCircleIcon
-                    class="h-6 w-6 text-indigo-600"
+                    class="h-4 w-4 text-indigo-600"
                     aria-hidden="true" />
-                </div>
+                </div> -->
                 <div
                   class="mt-3 text-center dark:text-gray-300 sm:text-left sm:dark:ml-4 sm:dark:mt-0">
                   <DialogTitle
@@ -60,7 +60,7 @@
                 </div>
               </div>
               <ul
-                class="mt-8 h-full space-y-8 text-slate-700 dark:text-jovieDark-200">
+                class="mt-8 h-full space-y-2 text-slate-700 dark:text-jovieDark-200">
                 <li v-for="(item, itemIdx) in items" :key="itemIdx">
                   <div
                     v-if="item.visible"
@@ -86,7 +86,8 @@
                         </a>
                       </div>
 
-                      <p class="text-sm text-slate-500 dark:text-jovieDark-400">
+                      <p
+                        class="text-2xs text-slate-500 dark:text-jovieDark-400">
                         {{ item.description }}
                       </p>
                     </div>
@@ -110,7 +111,7 @@
                     Speed up your workflow with these shortcuts.
                   </p>
                 </div>
-                <div class="mt-2 space-y-2 px-4">
+                <div class="mt-2 space-y-2 overflow-y-scroll px-4">
                   <div
                     v-for="shortcut in shortcuts"
                     :key="shortcut.id"
@@ -123,41 +124,14 @@
                   </div>
                 </div>
               </div>
-              <router-link
-                to="/slack-community"
-                class="boder-slate-300 mt-4 flex cursor-pointer items-center rounded-md border border bg-slate-100 px-4 py-6 hover:bg-slate-200 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:hover:bg-jovieDark-border">
-                <div class="items-center">
-                  <svg
-                    role="img"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <title>Slack</title>
-                    <path
-                      d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" />
-                  </svg>
-                </div>
-                <div>
-                  <div
-                    class="text-sm font-bold text-slate-700 dark:text-jovieDark-200">
-                    Join our Slack community
-                  </div>
-                  <div class="mt-2">
-                    <p
-                      class="font-semi-bold text-sm text-gray-500 dark:text-gray-300">
-                      Join our Slack community to chat with other Jovie users
-                      and the Jovie team.
-                    </p>
-                  </div>
-                </div>
-              </router-link>
 
               <div
                 class="mt-8 items-center justify-between border-t border-slate-300 py-6 dark:border-jovieDark-border sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
-                  class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-0.5 text-2xs font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                  class="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-0.5 text-2xs font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto"
                   @click="launchSupportChat()">
-                  <ChatBubbleLeftIcon class="mr-2 mt-1 h-3 w-3" />
+                  <ChatBubbleLeftIcon class="mr-2 h-3 w-3" />
                   Contact us
                 </button>
                 <router-link
@@ -262,7 +236,8 @@ export default {
           icon: CloudArrowUpIcon,
           //use define component t put the svg of the slack icon
 
-          description: 'Upload a CSV File to Jovie.',
+          description:
+            'Join our Slack community to chat with other Jovie users and the Jovie team.',
           href: '/slack-community',
           iconColor: 'bg-purple-500',
 
