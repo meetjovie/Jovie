@@ -115,6 +115,7 @@ import KBShortcut from './KBShortcut.vue';
 
 import {
   PencilIcon,
+  CakeIcon,
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
@@ -172,6 +173,7 @@ export default {
     ColorDot,
     ArchiveBoxIcon,
     PhoneIcon,
+    CakeIcon,
     TrashIcon,
     SunIcon,
     MoonIcon,
