@@ -145,7 +145,8 @@
           <ContactContextMenu
             :open="contact.showContextMenu"
             :contact="contact">
-            <DropdownMenuItem
+            <!--  Kill this option til we fix the Contact Overview page -->
+            <!--  <DropdownMenuItem
               name="Open Contact"
               icon="ViewfinderCircleIcon"
               color="text-blue-600 dark:text-blue-400"
@@ -154,7 +155,7 @@
                   name: 'Contact Overview',
                   params: { id: contact.id },
                 })
-              " />
+              " /> -->
             <DropdownMenuItem
               name="Refresh"
               color="text-green-600 dark:text-green-400"
@@ -164,7 +165,7 @@
             <DropdownMenuItem
               :name="
                 filters.type == 'archived' && contact.archived
-                  ? 'Unarchived'
+                  ? 'Unarchive'
                   : 'Archive'
               "
               icon="ArchiveBoxIcon"
