@@ -510,7 +510,7 @@
             </div>
             <div
               v-if="contactRecords.length < 1"
-              class="mx-auto h-full w-full max-w-4xl items-center py-12">
+              class="mx-auto mt-4 h-full w-full max-w-xl items-center py-12">
               <div
                 class="border-b border-gray-200 bg-white px-4 py-5 dark:bg-jovieDark-900 sm:px-6">
                 <h3
@@ -522,14 +522,7 @@
                 </p>
 
                 <div class="mt-5">
-                  <button
-                    @click="$emit('addContact')"
-                    type="button"
-                    class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-0.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    Add Contact
-                  </button>
-
-                  <div class="mt-4 py-1">
+                  <div class="py-1">
                     <Menu>
                       <MenuItems class="space-y-2" static>
                         <div v-for="item in menuItems" :key="item.name">

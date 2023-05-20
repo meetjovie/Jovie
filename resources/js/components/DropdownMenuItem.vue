@@ -16,7 +16,8 @@
   </MenuItem>
   <MenuItem disabled v-else-if="separator">
     <div class="inset-0 flex items-center" aria-hidden="true">
-      <div class="w-full border-t border-gray-300" />
+      <div
+        class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
     </div>
   </MenuItem>
   <MenuItem v-else :disabled="disabled" as="div" v-slot="{ active }">
