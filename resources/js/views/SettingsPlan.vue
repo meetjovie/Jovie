@@ -5,7 +5,7 @@
       title="Manage billing"
       buttonText="Manage"
       :loading="loading"
-      :buttonStyle="compact"
+      buttonStyle="primary"
       description="Manage your billing
     information"
       @action-click="stripePortal()" />

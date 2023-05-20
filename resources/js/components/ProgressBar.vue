@@ -2,6 +2,7 @@
   <div
     class="relative w-full overflow-hidden bg-slate-200"
     :class="[
+      { 'h-1': size === 'xs' },
       { 'h-2': size === 'sm' },
       { 'h-4': size === 'lg' },
       { 'h-3': size === 'md' },
