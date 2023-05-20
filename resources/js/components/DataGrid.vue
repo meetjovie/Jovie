@@ -56,6 +56,9 @@
                   </div>
                 </div>
               </TransitionRoot>
+              <div>
+                <ContactAvatarCluster />
+              </div>
               <div v-if="!searchVisible">
                 <JovieTooltip
                   text="Search"
@@ -623,6 +626,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/solid';
+import ContactAvatarCluster from './ContactAvatarCluster.vue';
 import ImportService from './../services/api/import.service';
 import ButtonGroup from './ButtonGroup.vue';
 import DataGridColumnHeader from './DataGridColumnHeader.vue';
@@ -658,6 +662,7 @@ export default {
     GlassmorphismContainer,
     ButtonGroup,
     CloudArrowUpIcon,
+    ContactAvatarCluster,
     Menu,
     InputLists,
     EnvelopeIcon,
@@ -844,9 +849,9 @@ export default {
       immediate: true,
       handler: function (val) {
         this.headers = val.filter((column) => column.key != 'full_name');
-          for (let i = 0; i < this.columns.length; i++) {
-              this.columns[i].visible = !this.columns[i].hide;
-          }
+        for (let i = 0; i < this.columns.length; i++) {
+          this.columns[i].visible = !this.columns[i].hide;
+        }
       },
     },
     selectedContacts(val) {
@@ -1100,14 +1105,14 @@ export default {
             this.mergeSuggestion = response.data;
             if (!this.mergeSuggestion) {
               this.$emit('suggestionExists', false);
-              if (! checkSuggestionsOnly) {
-                  this.$notify({
-                      group: 'user',
-                      type: 'success',
-                      duration: 15000,
-                      title: 'Successful',
-                      text: response.message,
-                  });
+              if (!checkSuggestionsOnly) {
+                this.$notify({
+                  group: 'user',
+                  type: 'success',
+                  duration: 15000,
+                  title: 'Successful',
+                  text: response.message,
+                });
               }
               this.openMergeSuggestion = false;
             } else {
