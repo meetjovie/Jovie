@@ -11,7 +11,7 @@
         <component
           :is="icon"
           :active="active"
-          class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-600"
+          class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
           aria-hidden="true" />
         {{ name }}
       </div>
