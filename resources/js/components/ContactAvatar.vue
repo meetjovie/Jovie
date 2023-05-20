@@ -60,14 +60,28 @@
         class="group inline-flex items-center justify-center rounded-full bg-slate-500 dark:bg-jovieDark-600">
         <span class="relative inline-block">
           <span
-            :class-name="[
-              height < 8
+            :class="[
+              editable
+                ? 'block group-hover:hidden'
+                : height == 8
                 ? 'text-xs'
-                : height < 12
+                : height == 12
                 ? 'text-sm'
-                : height < 18
+                : height == 18
                 ? 'text-xl'
-                : 'text-4xl',
+                : height == 24
+                ? 'text-2xl'
+                : height == 32
+                ? 'text-3xl'
+                : height == 40
+                ? 'text-4xl'
+                : height == 48
+                ? 'text-5xl'
+                : height == 56
+                ? 'text-6xl'
+                : height == 64
+                ? 'text-7xl'
+                : 'text-xs',
             ]"
             class="font-medium capitalize leading-none text-white"
             >{{ intials }}</span
@@ -76,7 +90,7 @@
             v-if="editable"
             class="mx-auto hidden h-full w-full items-center rounded-full group-hover:block">
             <PencilIcon
-              class="mx-auto h-1/2 w-1/2 items-center text-white/50 dark:text-jovieDark-300/50" />
+              class="mx-auto h-1/3 w-1/3 items-center text-white/50 dark:text-jovieDark-300/50" />
           </span>
         </span>
       </span>
@@ -117,7 +131,7 @@ export default {
     hasErrorOrNoProfilePic() {
       return !this.hasProfilePic || this.imageLoadError;
     },
-    initials() {
+    intials() {
       if (this.contact.full_name) {
         return this.contact.full_name
           .split(' ')
