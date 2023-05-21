@@ -42,20 +42,9 @@
     </div>
     <div v-else class="mx-auto max-w-7xl items-center py-10 sm:px-6 lg:px-8">
       <div class="md:grid md:grid-cols-3 md:gap-6">
-        <div class="flex justify-between md:col-span-1">
-          <div class="px-4 sm:px-0">
-            <h3
-              class="text-lg font-medium text-slate-900 dark:text-jovieDark-100">
-              Profile Information
-            </h3>
-
-            <p class="mt-1 text-sm text-slate-600 dark:text-jovieDark-300">
-              Update your account information and email address.
-            </p>
-          </div>
-
-          <div class="px-4 sm:px-0"></div>
-        </div>
+        <SectionHeader
+          header=" Profile Information"
+          subheader="   Update your account information and email address." />
 
         <div class="mt-5 md:col-span-2 md:mt-0">
           <form
@@ -69,17 +58,7 @@
                 <div class="col-span-6 sm:col-span-4">
                   <!-- Profile Photo File Input -->
                   <div class="mt-1 flex items-center space-x-5">
-                    <span
-                      class="inline-block h-20 w-20 overflow-hidden rounded-full bg-slate-100 object-cover object-center dark:bg-jovieDark-800">
-                      <img
-                        id="profile_pic_url_img"
-                        ref="profile_pic_url_img"
-                        :src="
-                          $store.state.AuthState.user.profile_pic_url ??
-                          $store.state.AuthState.user.default_image
-                        " />
-                    </span>
-
+                    <ContactAvatar :height="20" :contact="currentUser" />
                     <label
                       for="profile_pic_url"
                       class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
@@ -184,21 +163,9 @@
             </div>
           </form>
         </div>
-
-        <div class="flex justify-between md:col-span-1">
-          <div class="px-4 sm:px-0">
-            <h3
-              class="text-lg font-medium text-slate-900 dark:text-jovieDark-100">
-              Social Handles
-            </h3>
-
-            <p class="mt-1 text-sm text-slate-600 dark:text-jovieDark-300">
-              Add your social network handles.
-            </p>
-          </div>
-
-          <div class="px-4 sm:px-0"></div>
-        </div>
+        <SectionHeader
+          header="Social Handles"
+          subheader="  Add your social network handles." />
 
         <div class="mt-5 md:col-span-2 md:mt-0">
           <form
@@ -275,25 +242,8 @@
           </form>
         </div>
       </div>
-
-      <div class="hidden sm:block">
-        <div class="py-8">
-          <div class="border-t border-slate-200"></div>
-        </div>
-      </div>
     </div>
   </div>
-  <ActionPanel
-    v-if="!onboarding"
-    title="Delete Account"
-    buttonstyle="danger"
-    description="This is permanent and cannot be undone."
-    buttonText="Delete"
-    @action-click="toggleDeleteModal()" />
-  <ModalPopup
-    @primaryButtonClick="deleteAccount()"
-    :open="deleteModalOpen"
-    title="Deactivate account" />
 </template>
 
 <script>
@@ -308,6 +258,7 @@ import ModalPopup from '../../components/ModalPopup.vue';
 import SocialIcons from '../../components/SocialIcons.vue';
 import ContactAvatar from '../ContactAvatar.vue';
 import AccountMobile from './AccountMobile.vue';
+import SectionHeader from '../SectionHeader.vue';
 
 export default {
   name: 'AccountProfile',
@@ -321,6 +272,7 @@ export default {
     ModalPopup,
     ActionPanel,
     SocialIcons,
+    SectionHeader,
   },
   props: {
     onboarding: {
@@ -334,29 +286,12 @@ export default {
       updating: false,
       bucketResponse: null,
       uploadProgress: 0,
-      deleteModalOpen: false,
     };
   },
   mounted() {
     window.analytics.page('Manage Profile');
   },
   methods: {
-    deleteAccount() {
-      console.log('deleteAccount');
-      this.$notify({
-        group: 'user',
-        type: 'success',
-        title: 'Deleting account',
-        text: 'This may take a few minutes.',
-      });
-      //add a function to cancel users current billing plan
-      //add a function to logout the user
-      //redirect user to the homepage
-      this.$router.push('/');
-    },
-    toggleDeleteModal() {
-      this.deleteModalOpen = !this.deleteModalOpen;
-    },
     updateSocialHandlers() {
       this.updating = true;
       let data = new FormData();
