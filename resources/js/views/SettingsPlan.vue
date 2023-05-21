@@ -9,19 +9,23 @@
       description="Manage your billing
     information"
       @action-click="stripePortal()" />
+    <DataStatCards :stats="stats" />
   </div>
 </template>
 <script>
 import SectionHeader from './../components/SectionHeader.vue';
 import ActionPanel from './../components/ActionPanel.vue';
 import axios from 'axios';
+import DataStatCards from './../components/DataStatCards.vue';
 
 export default {
   name: 'SettingsPlan',
   components: {
     SectionHeader,
     ActionPanel,
+    DataStatCards,
   },
+
   data() {
     return {
       loading: false,
