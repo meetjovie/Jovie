@@ -345,7 +345,7 @@ export default {
       this.$emit('toggleShowSupportModal');
     },
     navigateBack() {
-      this.$router.go(-1);
+      this.$router.push({ name: 'Home' });
     },
   },
 };
