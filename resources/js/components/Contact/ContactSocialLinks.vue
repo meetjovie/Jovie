@@ -17,8 +17,9 @@
             :link="socialLink.url ?? '#'"
             :icon="socialLink.network" />
         </div>
-        <div class="mx-auto text-center text-2xs text-slate-500">
-          v-if=socialLink.followers
+        <div
+          class="mx-auto text-center text-2xs text-slate-500"
+          v-if="socialLink.followers">
           {{ formatCount(socialLink.followers) }}
         </div>
       </div>
