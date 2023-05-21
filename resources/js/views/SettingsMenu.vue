@@ -19,6 +19,11 @@
     </div>
   </div>
 </template>
+<style>
+active {
+  @apply text-white;
+}
+</style>
 
 <script>
 import SidebarNavMenu from '../components/SidebarNavMenu.vue';
