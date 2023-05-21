@@ -1,39 +1,71 @@
 <template>
-  <div>
-    <!-- Other parent component content -->
-
-    <!-- Reference the SidebarNavMenu component and pass the items prop -->
-    <SidebarNavMenu :items="menuItems" />
+  <div class="space-y-4 px-4">
+    <div v-for="item in userMenuItems" :key="item.id">
+      <!-- Other parent component content -->
+      <div
+        :class="[
+          active
+            ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+            : 'text-slate-900 dark:text-jovieDark-100',
+          'group flex w-full items-center rounded px-2 py-1 text-xs capitalize',
+        ]">
+        <component
+          :is="item.icon"
+          class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
+          aria-hidden="true" />
+        {{ item.name }}
+      </div>
+      <SidebarNavMenu :items="item.items" />
+    </div>
   </div>
 </template>
 
 <script>
 import SidebarNavMenu from '../components/SidebarNavMenu.vue';
-
+import JovieMenuItem from '../components/JovieMenuItem.vue';
+import { UserIcon, UserGroupIcon } from '@heroicons/vue/24/solid';
 export default {
   components: {
     SidebarNavMenu,
+    JovieMenuItem,
+    UserIcon,
+    UserGroupIcon,
   },
+
   data() {
     return {
-      menuItems: [
-        {
-          name: 'Workspace',
-          icon: 'workspace',
-          component: 'SettingsWorkspace',
+      userMenuItems: {
+        workspace: {
+          id: '2',
+          name: 'workspace',
+          icon: 'UserGroupIcon',
+          items: [
+            {
+              name: 'General',
+              icon: 'SparklesIcon',
+              component: 'SettingsWorkspace',
+            },
+            { name: 'Plan', icon: 'CreditCardIcon', component: 'SettingsPlan' },
+            {
+              name: 'Profile',
+              icon: 'UserIcon',
+              component: 'SettingsProfile',
+            },
+          ],
         },
-        { name: 'Plan', icon: 'plan', component: 'SettingsPlan' },
-        {
-          name: 'Profile',
-          icon: 'profile',
-          component: 'SettingsProfile',
+        account: {
+          id: '1',
+          name: 'account',
+          icon: 'UserIcon',
+          items: [
+            {
+              name: 'Security',
+              icon: 'LockClosedIcon',
+              component: 'SettingsSecurity',
+            },
+          ],
         },
-        {
-          name: 'Security',
-          icon: 'security',
-          component: 'SettingsSecurity',
-        },
-      ],
+      },
     };
   },
 };
