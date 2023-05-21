@@ -62,7 +62,7 @@
         ref="editInput"
         v-on:keyup.enter="add()"
         tabindex="1"
-        class="block w-full rounded-md border-slate-300 px-1 py-1 pl-8 text-2xs focus-visible:border-indigo-700 focus-visible:ring-indigo-700 dark:border-jovieDark-border dark:text-jovieDark-100"
+        class="block w-full rounded-md border border-slate-300 px-1 py-1 pl-8 text-2xs outline-none focus-visible:border-indigo-700 focus-visible:ring-indigo-700 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-100"
         placeholder="Enter or paste social link here" />
       <div class="group/exit absolute inset-y-0 right-0 flex items-center pr-3">
         <!--  WIP this should will allow you to open a new one with a search on the social network. It will autuo populate the search with the creators name. -->

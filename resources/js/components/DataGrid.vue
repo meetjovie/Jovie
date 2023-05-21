@@ -37,9 +37,9 @@
                     <div
                       class="content-right relative flex flex-grow items-center py-1 focus-within:z-10">
                       <div
-                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 dark:text-jovieDark-50">
                         <MagnifyingGlassIcon
-                          class="h-4 w-4 text-slate-400 dark:text-jovieDark-600"
+                          class="h-4 w-4 text-slate-400 dark:text-jovieDark-50"
                           aria-hidden="true" />
                       </div>
                       <input
