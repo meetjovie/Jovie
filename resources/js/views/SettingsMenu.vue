@@ -51,11 +51,6 @@ export default {
               component: 'SettingsWorkspace',
             },
             { name: 'Plan', icon: 'CreditCardIcon', component: 'SettingsPlan' },
-            {
-              name: 'Profile',
-              icon: 'UserIcon',
-              component: 'SettingsProfile',
-            },
           ],
         },
         account: {
@@ -67,6 +62,11 @@ export default {
               name: 'Security',
               icon: 'LockClosedIcon',
               component: 'SettingsSecurity',
+            },
+            {
+              name: 'Profile',
+              icon: 'UserIcon',
+              component: 'SettingsProfile',
             },
           ],
         },

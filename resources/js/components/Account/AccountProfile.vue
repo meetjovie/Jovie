@@ -42,59 +42,51 @@
     </div>
     <div v-else class="mx-auto">
       <div class="flex flex-col space-y-16 py-12">
-        <SectionHeader
-          header=" Profile Information"
-          subheader="   Update your account information and email address." />
         <SeciontWrapper>
           <form
             class="space-y-8"
             @submit.prevent="updateProfile()"
             method="post"
             enctype="multipart/form-data">
-            <ContactAvatar :height="20" :contact="currentUser" />
-            <label
-              for="profile_pic_url"
-              class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
-              Change
-            </label>
-            <input
-              :disabled="updating"
-              type="file"
-              ref="profile_pic_url"
-              @change="fileChanged($event)"
-              name="profile_pic_url"
-              id="profile_pic_url"
-              style="display: none" />
-            <span v-if="uploadProgress">{{ uploadProgress }} %</span>
-            <p v-if="errors.profile_pic_url" class="mt-2 text-sm text-red-600">
-              {{ errors.profile_pic_url[0] }}
-            </p>
+            <div class="flex w-full items-center justify-between">
+              <ContactAvatar
+                :editable="true"
+                :height="24"
+                :contact="currentUser" />
 
-            <button
-              @click="removeProfilePhoto()"
-              v-if="$store.state.AuthState.user.profile_pic_url"
-              type="button"
-              class="mr-2 mt-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
-              Remove Photo
-            </button>
-
-            <InputGroup
-              v-model="$store.state.AuthState.user.first_name"
-              :error="errors?.first_name?.[0]"
-              :disabled="updating"
-              name="first_name"
-              label="First Name"
-              placeholder="First Name"
-              type="text" />
-
-            <InputGroup
-              v-model="$store.state.AuthState.user.last_name"
-              :error="errors?.last_name?.[0]"
-              :disabled="updating"
-              name="last_name"
-              label="Last Name"
-              placeholder="Last Name"
-              type="text" />
+              <input
+                :disabled="updating"
+                type="file"
+                ref="profile_pic_url"
+                @change="fileChanged($event)"
+                name="profile_pic_url"
+                id="profile_pic_url"
+                style="display: none" />
+              <span v-if="uploadProgress">{{ uploadProgress }} %</span>
+              <p
+                v-if="errors.profile_pic_url"
+                class="mt-2 text-sm text-red-600">
+                {{ errors.profile_pic_url[0] }}
+              </p>
+              <div class="flex w-full space-x-4 px-4">
+                <InputGroup
+                  v-model="$store.state.AuthState.user.first_name"
+                  :error="errors?.first_name?.[0]"
+                  :disabled="updating"
+                  name="first_name"
+                  label="First Name"
+                  placeholder="First Name"
+                  type="text" />
+                <InputGroup
+                  v-model="$store.state.AuthState.user.last_name"
+                  :error="errors?.last_name?.[0]"
+                  :disabled="updating"
+                  name="last_name"
+                  label="Last Name"
+                  placeholder="Last Name"
+                  type="text" />
+              </div>
+            </div>
 
             <InputGroup
               :value="$store.state.AuthState.user.email"
