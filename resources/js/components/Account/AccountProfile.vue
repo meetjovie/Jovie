@@ -40,207 +40,167 @@
         </div>
       </div>
     </div>
-    <div v-else class="mx-auto max-w-7xl items-center py-10 sm:px-6 lg:px-8">
-      <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div v-else class="mx-auto">
+      <div class="flex flex-col space-y-16 py-12">
         <SectionHeader
           header=" Profile Information"
           subheader="   Update your account information and email address." />
-
-        <div class="mt-5 md:col-span-2 md:mt-0">
+        <SeciontWrapper>
           <form
+            class="space-y-8"
             @submit.prevent="updateProfile()"
             method="post"
             enctype="multipart/form-data">
-            <div
-              x-data="{photoName: null, photoPreview: null}"
-              class="bg-white px-4 py-5 shadow dark:bg-jovieDark-800 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
-              <div class="grid grid-cols-6 gap-6">
-                <div class="col-span-6 sm:col-span-4">
-                  <!-- Profile Photo File Input -->
-                  <div class="mt-1 flex items-center space-x-5">
-                    <ContactAvatar :height="20" :contact="currentUser" />
-                    <label
-                      for="profile_pic_url"
-                      class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
-                      Change
-                    </label>
-                    <input
-                      :disabled="updating"
-                      type="file"
-                      ref="profile_pic_url"
-                      @change="fileChanged($event)"
-                      name="profile_pic_url"
-                      id="profile_pic_url"
-                      style="display: none" />
-                    <span v-if="uploadProgress">{{ uploadProgress }} %</span>
-                    <p
-                      v-if="errors.profile_pic_url"
-                      class="mt-2 text-sm text-red-600">
-                      {{ errors.profile_pic_url[0] }}
-                    </p>
-                  </div>
+            <ContactAvatar :height="20" :contact="currentUser" />
+            <label
+              for="profile_pic_url"
+              class="cursor-pointer rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium leading-4 text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+              Change
+            </label>
+            <input
+              :disabled="updating"
+              type="file"
+              ref="profile_pic_url"
+              @change="fileChanged($event)"
+              name="profile_pic_url"
+              id="profile_pic_url"
+              style="display: none" />
+            <span v-if="uploadProgress">{{ uploadProgress }} %</span>
+            <p v-if="errors.profile_pic_url" class="mt-2 text-sm text-red-600">
+              {{ errors.profile_pic_url[0] }}
+            </p>
 
-                  <button
-                    @click="removeProfilePhoto()"
-                    v-if="$store.state.AuthState.user.profile_pic_url"
-                    type="button"
-                    class="mr-2 mt-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
-                    Remove Photo
-                  </button>
-                </div>
+            <button
+              @click="removeProfilePhoto()"
+              v-if="$store.state.AuthState.user.profile_pic_url"
+              type="button"
+              class="mr-2 mt-2 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-700 shadow-sm transition hover:text-slate-500 focus-visible:border-blue-300 focus-visible:outline-none focus-visible:ring focus-visible:ring-blue-200 active:bg-slate-50 active:text-slate-800 disabled:opacity-25 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:bg-jovieDark-900 dark:text-jovieDark-200">
+              Remove Photo
+            </button>
 
-                <!-- Name -->
-                <div class="col-span-3">
-                  <InputGroup
-                    v-model="$store.state.AuthState.user.first_name"
-                    :error="errors?.first_name?.[0]"
-                    :disabled="updating"
-                    name="first_name"
-                    label="First Name"
-                    placeholder="First Name"
-                    type="text" />
-                </div>
+            <InputGroup
+              v-model="$store.state.AuthState.user.first_name"
+              :error="errors?.first_name?.[0]"
+              :disabled="updating"
+              name="first_name"
+              label="First Name"
+              placeholder="First Name"
+              type="text" />
 
-                <!-- Name -->
-                <div class="col-span-3">
-                  <InputGroup
-                    v-model="$store.state.AuthState.user.last_name"
-                    :error="errors?.last_name?.[0]"
-                    :disabled="updating"
-                    name="last_name"
-                    label="Last Name"
-                    placeholder="Last Name"
-                    type="text" />
-                </div>
+            <InputGroup
+              v-model="$store.state.AuthState.user.last_name"
+              :error="errors?.last_name?.[0]"
+              :disabled="updating"
+              name="last_name"
+              label="Last Name"
+              placeholder="Last Name"
+              type="text" />
 
-                <!-- Email -->
-                <div class="col-span-6 sm:col-span-4">
-                  <InputGroup
-                    :value="$store.state.AuthState.user.email"
-                    :error="errors?.email?.[0]"
-                    :disabled="true"
-                    name="email"
-                    label="Email"
-                    placeholder="Email"
-                    type="text" />
-                </div>
-                <AccountMobile :phone="$store.state.AuthState.user.phone" />
-                <!-- Title -->
-                <div class="col-span-3">
-                  <InputGroup
-                    v-model="currentUser.title"
-                    :error="errors?.title?.[0]"
-                    :disabled="updating"
-                    name="title"
-                    label="Title"
-                    placeholder="Title"
-                    type="text" />
-                </div>
+            <InputGroup
+              :value="$store.state.AuthState.user.email"
+              :error="errors?.email?.[0]"
+              :disabled="true"
+              name="email"
+              label="Email"
+              placeholder="Email"
+              type="text" />
 
-                <!-- Employee -->
-                <div class="col-span-3">
-                  <InputGroup
-                    v-model="currentUser.employer"
-                    :error="errors?.employer?.[0]"
-                    :disabled="updating"
-                    name="Employer"
-                    label="Company"
-                    placeholder="Company"
-                    type="text" />
-                </div>
-              </div>
-            </div>
+            <AccountMobile :phone="$store.state.AuthState.user.phone" />
+            <!-- Title -->
 
-            <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-jovieDark-800 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
-              <ButtonGroup
-                type="submit"
-                design="primary"
-                text="Save"
-                :loading="updating"
-                :disabled="updating">
-              </ButtonGroup>
-            </div>
+            <InputGroup
+              v-model="currentUser.title"
+              :error="errors?.title?.[0]"
+              :disabled="updating"
+              name="title"
+              label="Title"
+              placeholder="Title"
+              type="text" />
+
+            <InputGroup
+              v-model="currentUser.employer"
+              :error="errors?.employer?.[0]"
+              :disabled="updating"
+              name="Employer"
+              label="Company"
+              placeholder="Company"
+              type="text" />
+
+            <ButtonGroup
+              type="submit"
+              design="primary"
+              text="Save"
+              :loading="updating"
+              :disabled="updating">
+            </ButtonGroup>
           </form>
-        </div>
-        <SectionHeader
-          header="Social Handles"
-          subheader="  Add your social network handles." />
+        </SeciontWrapper>
 
-        <div class="mt-5 md:col-span-2 md:mt-0">
+        <SectionWrapper
+          header="Social Handles"
+          subheader="Add your social network handles.">
+          <SectionHeader
+            header="Social Handles"
+            subheader="Add your social network handles." />
           <form
+            class="space-y-8"
             @submit.prevent="updateSocialHandlers()"
             method="post"
             enctype="multipart/form-data">
-            <div
-              x-data="{photoName: null, photoPreview: null}"
-              class="bg-white px-4 py-5 shadow dark:bg-jovieDark-800 sm:rounded-tl-md sm:rounded-tr-md sm:p-6">
-              <div class="grid grid-cols-6 gap-6">
-                <!-- Social -->
-                <div class="grid-col-2 col-span-6 grid sm:col-span-3">
-                  <InputGroup
-                    @blur="updateSocialHandlers()"
-                    v-model="currentUser.instagram_handler"
-                    :error="errors?.instagram_handler?.[0]"
-                    :disabled="updating"
-                    name="instagram_handler"
-                    socialicon="instagram"
-                    label="Instagram"
-                    placeholder="Instagram
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.instagram_handler"
+              :error="errors?.instagram_handler?.[0]"
+              :disabled="updating"
+              name="instagram_handler"
+              socialicon="instagram"
+              label="Instagram"
+              placeholder="Instagram
                     Username"
-                    type="text" />
-                </div>
-                <div class="col-span-6 sm:col-span-3">
-                  <InputGroup
-                    @blur="updateSocialHandlers()"
-                    v-model="currentUser.tiktok_handler"
-                    :error="errors?.tiktok_handler?.[0]"
-                    :disabled="updating"
-                    name="tiktok_handler"
-                    socialicon="tiktok"
-                    label="TikTok"
-                    placeholder="TikTok"
-                    type="text" />
-                </div>
-                <div class="col-span-6 sm:col-span-3">
-                  <InputGroup
-                    @blur="updateSocialHandlers()"
-                    v-model="currentUser.twitter_handler"
-                    :error="errors?.twitter_handler?.[0]"
-                    :disabled="updating"
-                    name="twitter_handler"
-                    socialicon="twitter"
-                    label="Twitter"
-                    placeholder="Twitter"
-                    type="text" />
-                </div>
-                <div class="col-span-6 sm:col-span-3">
-                  <InputGroup
-                    @blur="updateSocialHandlers()"
-                    v-model="currentUser.youtube_handler"
-                    :error="errors?.youtube_handler?.[0]"
-                    :disabled="updating"
-                    name="youtube_handler"
-                    socialicon="youtube"
-                    label="YouTube"
-                    placeholder="YouTube"
-                    type="text" />
-                </div>
-              </div>
-            </div>
+              type="text" />
 
-            <div
-              class="flex items-center justify-end bg-slate-50 px-4 py-3 text-right shadow dark:bg-jovieDark-800 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
-              <ButtonGroup
-                type="submit"
-                design="primary"
-                text="Save"
-                :loading="updating"
-                :disabled="updating">
-              </ButtonGroup>
-            </div>
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.tiktok_handler"
+              :error="errors?.tiktok_handler?.[0]"
+              :disabled="updating"
+              name="tiktok_handler"
+              socialicon="tiktok"
+              label="TikTok"
+              placeholder="TikTok"
+              type="text" />
+
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.twitter_handler"
+              :error="errors?.twitter_handler?.[0]"
+              :disabled="updating"
+              name="twitter_handler"
+              socialicon="twitter"
+              label="Twitter"
+              placeholder="Twitter"
+              type="text" />
+
+            <InputGroup
+              @blur="updateSocialHandlers()"
+              v-model="currentUser.youtube_handler"
+              :error="errors?.youtube_handler?.[0]"
+              :disabled="updating"
+              name="youtube_handler"
+              socialicon="youtube"
+              label="YouTube"
+              placeholder="YouTube"
+              type="text" />
+
+            <ButtonGroup
+              type="submit"
+              design="primary"
+              text="Save"
+              :loading="updating"
+              :disabled="updating">
+            </ButtonGroup>
           </form>
-        </div>
+        </SectionWrapper>
       </div>
     </div>
   </div>
