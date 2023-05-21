@@ -8,7 +8,9 @@
     <p class="mt-2 max-w-4xl text-sm text-slate-600 dark:text-jovieDark-400">
       {{ subheader }}
     </p>
-    <slot></slot>
+    <div class="spacey-4 mt-2 flex flex-col">
+      <slot> </slot>
+    </div>
   </div>
 </template>
 <script>

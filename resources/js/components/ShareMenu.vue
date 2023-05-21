@@ -1,6 +1,9 @@
 <template>
   <div>
-    <JovieDropdownMenu :items="contacts" placement="left-start">
+    <JovieDropdownMenu
+      :searchable="false"
+      :items="contacts"
+      placement="bottom-start">
       <template #triggerButton>
         <ContactAvatarCluster :contacts="contacts" />
       </template>
