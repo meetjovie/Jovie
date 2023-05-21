@@ -958,7 +958,7 @@
                             name="email"
                             id="email"
                             :value="selectedCreator.emails[0]"
-                            class="z-10 mt-0.5 block w-full rounded-md border-slate-300 bg-transparent bg-white/0 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                            class="z-10 mt-0.5 block w-full rounded-md border-slate-300 bg-white/0 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                         </div>
                         <button
                           type="submit"

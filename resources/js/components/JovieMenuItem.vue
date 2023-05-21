@@ -1,6 +1,6 @@
 <template>
-  <router-link :to="{ name: component }">
-    <MenuItem as="router-link" v-slot="{ active }">
+  <MenuItem v-slot="{ active }">
+    <router-link :to="{ name: component }">
       <div
         :class="[
           active
@@ -10,13 +10,12 @@
         ]">
         <component
           :is="icon"
-          :active="active"
           class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
           aria-hidden="true" />
         {{ name }}
       </div>
-    </MenuItem>
-  </router-link>
+    </router-link>
+  </MenuItem>
 </template>
 
 <script>
@@ -26,6 +25,9 @@ import {
   SparklesIcon,
   CloudArrowUpIcon,
   GlobeAltIcon,
+  CreditCardIcon,
+  UserIcon,
+  LockClosedIcon,
 } from '@heroicons/vue/24/solid';
 
 export default {
@@ -35,11 +37,19 @@ export default {
     SparklesIcon,
     CloudArrowUpIcon,
     GlobeAltIcon,
+    LockClosedIcon,
+    CreditCardIcon,
+    UserIcon,
   },
   props: {
     icon: {
       type: String,
       required: true,
+    },
+    header: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     active: {
       type: Boolean,
@@ -49,6 +59,11 @@ export default {
     name: {
       type: String,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     component: {
       type: String,
