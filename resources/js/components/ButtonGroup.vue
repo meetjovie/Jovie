@@ -34,7 +34,7 @@
           design == 'toolbar',
       },
       {
-        '  font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
+        '  line-clamp-1 font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
           design == 'primary',
       },
       {
@@ -101,7 +101,7 @@
       aria-hidden="true" />
     <p
       v-if="text"
-      class="mx-auto flex items-center text-center text-sm"
+      class="mx-auto line-clamp-1 flex items-center text-center text-sm"
       :class="[
         { 'text-2xs': size == 'xs' },
         { 'text-xs': size == 'sm' },
