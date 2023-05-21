@@ -3,6 +3,30 @@
     <SectionHeader
       header="Workspace"
       subheader="Manage your workspace settings" />
+    <SectionWrapper header="Team" :subheader="'Emoji'">
+      <div class="">
+        <EmojiPickerModal
+          xl
+          class="py-8"
+          @emojiSelected="emojiSelected($event)"
+          :currentEmoji="this.currentUser.current_team.emoji" />
+      </div>
+      <div class="font-base text-sm text-slate-600 dark:text-jovieDark-300">
+        Pick an emoji for your workspace
+      </div>
+    </SectionWrapper>
+    <SectionWrapper header="General">
+      <div class="md:w-1/2">
+        <InputGroup
+          class="py-8"
+          :error="errors?.name?.[0]"
+          name="workspace-name"
+          label="Workspace Name"
+          v-model="currentUser.current_team.name"
+          placeholder="Enter a Team Name" />
+        <ButtonGroup text="update" />
+      </div>
+    </SectionWrapper>
     <SectionWrapper
       header="Plan Usage"
       :subheader="
@@ -40,9 +64,12 @@
 </template>
 
 <script>
+import EmojiPickerModal from './../components/EmojiPickerModal.vue';
 import SectionHeader from './../components/SectionHeader.vue';
 import ProgressBar from './../components/ProgressBar.vue';
 import SectionWrapper from './../components/SectionWrapper.vue';
+import InputGroup from './../components/InputGroup.vue';
+import ButtonGroup from './../components/ButtonGroup.vue';
 
 export default {
   name: 'SettingsWorkspace',
@@ -50,6 +77,9 @@ export default {
     ProgressBar,
     SectionWrapper,
     SectionHeader,
+    EmojiPickerModal,
+    InputGroup,
+    ButtonGroup,
   },
   data() {
     return {

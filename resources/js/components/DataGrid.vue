@@ -19,6 +19,9 @@
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
+              <div>
+                <ShareMenu />
+              </div>
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -56,9 +59,7 @@
                   </div>
                 </div>
               </TransitionRoot>
-              <div>
-                <ShareMenu />
-              </div>
+
               <div v-if="!searchVisible">
                 <JovieTooltip
                   text="Search"
