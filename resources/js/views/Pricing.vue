@@ -1,20 +1,20 @@
 <template>
   <div class="py-6">
     <!-- Pricing with four tiers and toggle -->
-    <div class="bg-white dark:from-jovieDark-800 dark:to-jovieDark-900">
+    <div class="bg-white dark:bg-jovieDark-900">
       <div class="mx-auto max-w-7xl px-4 pt-12 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-4xl text-center">
           <h2
-            class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-300">
+            class="text-base font-semibold leading-7 text-indigo-600 dark:text-indigo-50">
             Pricing
           </h2>
           <p
-            class="mt-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-jovieDark-200 sm:text-5xl">
+            class="mt-2 text-4xl font-bold tracking-tight text-gray-900 dark:text-jovieDark-100 sm:text-5xl">
             Pricing plans for teams of&nbsp;all&nbsp;sizes
           </p>
         </div>
         <p
-          class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600 dark:text-jovieDark-300">
+          class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600 dark:text-jovieDark-200">
           Choose an affordable plan that’s packed with incredible features like
           Jovie AI.
         </p>
@@ -33,7 +33,7 @@
               <div
                 :class="[
                   checked ? 'bg-indigo-600 text-white' : 'text-gray-500',
-                  'cursor-pointer rounded-full py-1 px-2.5',
+                  'cursor-pointer rounded-full px-2.5 py-1',
                 ]">
                 <span>{{ option.label }}</span>
               </div>
@@ -46,37 +46,37 @@
           <div
             v-for="tier in tiers"
             :key="tier.name"
-            class="divide-y divide-slate-200 rounded-lg shadow-sm"
+            class="divide-y divide-slate-200 dark:divide-jovieDark-border rounded-lg shadow-sm"
             :class="[
-              { 'border-2 border-indigo-400': tier.featured == true },
-              'border border-slate-200',
+              { 'border-2  border-indigo-400': tier.featured == true },
+              'border dark:border-jovieDark-border border-slate-200',
             ]">
             <div class="p-6">
               <div class="flex items-center justify-between gap-x-4">
                 <h3
                   :id="tier.id"
                   :class="[
-                    { 'text-sky-600': tier.color == 'sky' },
-                    { 'text-indigo-600': tier.color == 'indigo' },
-                    { 'text-pink-600': tier.color == 'pink' },
-                    { 'text-violet-600': tier.color == 'violet' },
-                    { 'text-red-600': tier.color == 'red' },
-                    'text-lg font-medium leading-6 text-slate-900',
+                    { 'text-sky-600 dark:text-sky-400': tier.color == 'sky' },
+                    { 'text-indigo-600 dark:text-indigo-400': tier.color == 'indigo' },
+                    { 'text-pink-600 dark:text-spink-400': tier.color == 'pink' },
+                    { 'text-violet-600 dark:text-violet-400': tier.color == 'violet' },
+                    { 'text-red-600 dark:text-red-400': tier.color == 'red' },
+                    'text-lg font-medium leading-6 dark:text-jovieDark-100 text-slate-900',
                   ]"
-                  class="text-lg font-medium leading-6">
+                  class="text-lg xfont-medium leading-6">
                   {{ tier.name }}
                 </h3>
                 <p
                   v-if="tier.mostPopular"
-                  class="rounded-full bg-indigo-600/10 py-1 px-2.5 text-xs font-semibold leading-5 text-indigo-600 dark:bg-jovieDark-400/10">
+                  class="rounded-full bg-indigo-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-indigo-600 dark:text-indigo-300 dark:bg-jovieDark-400/10">
                   Most popular
                 </p>
               </div>
-              <p class="mt-4 text-sm text-slate-500">
+              <p class="mt-4 text-sm dark:text-jovieDark-300 text-slate-500">
                 {{ tier.description }}
               </p>
               <p class="mt-6 flex items-baseline gap-x-1">
-                <span class="text-4xl font-bold tracking-tight text-gray-900"
+                <span class="text-4xl font-bold tracking-tight dark:text-jovieDark-50 text-gray-900"
                   >${{ tier.price[frequency.value] }}</span
                 >
                 <span class="text-sm font-semibold leading-6 text-gray-600">{{
@@ -140,7 +140,7 @@
               <router-link
                 v-if="tier.name == 'Enterprise'"
                 :to="tier.href"
-                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white py-2 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white dark:bg-jovieDark-900 py-2 text-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white"
                 >Contact Sales</router-link
               >
               <router-link
@@ -151,13 +151,13 @@
               ><router-link
                 v-else
                 :to="tier.href"
-                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white py-2 text-center text-sm font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                class="mt-8 block w-full rounded-md border border-indigo-600 bg-white dark:bg-jovieDark-900 py-2 text-center text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:bg-indigo-600 hover:text-white"
                 >Get started</router-link
               >
             </div>
-            <div class="px-6 pt-6 pb-8">
+            <div class="px-6 pb-8 pt-6">
               <h3
-                class="text-xs font-medium uppercase tracking-wide text-slate-900">
+                class="text-xs font-medium dark:text-jovieDark-300 uppercase tracking-wide text-slate-900">
                 What's included
               </h3>
               <ul role="list" class="mt-6 space-y-4">
@@ -167,9 +167,9 @@
                   class="flex space-x-3">
                   <component
                     :is="feature.icon"
-                    class="h-5 w-5 flex-shrink-0 text-slate-400"
+                    class="h-5 w-5 flex-shrink-0 dark:text-jovieDark-200 text-slate-400"
                     aria-hidden="true" />
-                  <span class="text-sm text-slate-500">{{ feature.name }}</span>
+                  <span class="text-sm dark:text-jovieDark-100 text-slate-500">{{ feature.name }}</span>
                 </li>
               </ul>
             </div>
@@ -179,28 +179,28 @@
     </div>
     <!--Free Account-->
     <div
-      class="relative mx-auto mt-8 max-w-5xl bg-white px-4 sm:px-6 lg:mt-5 lg:px-8">
+      class="relative mx-auto mt-8 max-w-5xl px-4 sm:px-6 lg:mt-5 lg:px-8">
       <div class="mx-auto max-w-md lg:max-w-5xl">
         <div
-          class="rounded-lg bg-slate-50 px-6 py-8 sm:p-10 lg:flex lg:items-center">
+          class="rounded-lg bg-slate-50 dark:bg-jovieDark-700 border border-slate-200 dark:border-jovieDark-border px-6 py-8 sm:p-10 lg:flex lg:items-center">
           <div class="flex-1">
-            <div>
+            <div> 
               <h3
-                class="inline-flex rounded-md bg-slate-100 px-4 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                class="inline-flex rounded-md bg-slate-100 dark:bg-jovieDark-700 px-4 py-1 text-xs font-semibold uppercase tracking-wide dark:text-jovieDark-200 text-slate-600">
                 Get started with a free account
               </h3>
             </div>
-            <div class="mt-4 text-xs text-slate-600">
+            <div class="mt-4 text-xs dark:text-jovieDark-200 text-slate-600">
               Not ready to commit? Our basic plan is completely free.
-              <span class="font-semibold text-slate-900"
+              <span class="font-semibold dark:text-jovieDark-100 text-slate-900"
                 >No credit card required</span
               >.
             </div>
           </div>
-          <div class="mt-6 rounded-md shadow lg:mt-0 lg:ml-10 lg:flex-shrink-0">
+          <div class="mt-6 rounded-md shadow lg:ml-10 lg:mt-0 lg:flex-shrink-0">
             <router-link
               to="signup"
-              class="flex items-center justify-center rounded-md border border-transparent bg-white px-5 py-3 text-base font-medium text-slate-900 hover:bg-slate-50">
+              class="flex items-center justify-center rounded-md border border-transparent bg-white dark:bg-indigo-600 dark:text-white px-5 py-3 text-base font-medium text-slate-900 hover:bg-slate-50">
               Try Jovie free
             </router-link>
           </div>
@@ -211,10 +211,10 @@
 
   <!-- FAQ -->
   <div class="mt-4">
-    <div class="mx-auto max-w-7xl py-12 px-4 sm:py-16 sm:px-6 lg:py-24 lg:px-8">
+    <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
       <div class="mx-auto max-w-3xl divide-y-2 divide-slate-200">
         <h2
-          class="text-center text-3xl font-extrabold text-slate-900 dark:text-jovieDark-300 sm:text-4xl">
+          class="text-center text-3xl font-extrabold text-slate-900 dark:text-jovieDark-50 sm:text-4xl">
           Frequently asked questions
         </h2>
         <dl class="mt-6 space-y-6 divide-y divide-slate-200">
@@ -226,8 +226,8 @@
             v-slot="{ open }">
             <dt class="text-lg">
               <DisclosureButton
-                class="flex w-full items-start justify-between text-left text-slate-400">
-                <span class="font-medium text-slate-900">
+                class="flex w-full items-start justify-between text-left dark:text-jovieDark-100 text-slate-400">
+                <span class="font-medium text-slate-900 dark:text-jovieDark-100">
                   {{ faq.question }}
                 </span>
                 <span class="ml-6 flex h-7 items-center">
@@ -241,7 +241,7 @@
               </DisclosureButton>
             </dt>
             <DisclosurePanel as="dd" class="mt-2 pr-12">
-              <p class="text-base text-slate-500">
+              <p class="text-base text-slate-500 dark:text-jovieDark-200">
                 {{ faq.answer }}
               </p>
             </DisclosurePanel>
