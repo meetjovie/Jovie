@@ -182,6 +182,7 @@
 
                         <MenuItem
                           as="div"
+                          v-if="counts.birthday > 0"
                           @click="setFiltersType('birthdays')"
                           v-slot="{ active }">
                           <button
