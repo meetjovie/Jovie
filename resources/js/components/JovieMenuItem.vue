@@ -4,47 +4,17 @@
     as="template"
     :tooltipText="description">
     <MenuItem class="" v-slot="{ active }">
-      <router-link
-        v-if="!disableRouterLink"
+      <component
+        :is="routerLink ? 'router-link' : 'div'"
         @click="handleClick()"
         active-class="bg-slate-100  w-full dark:bg-jovieDark-500 rounded dark:text-jovieDark-200"
         :to="{ name: component }">
         <div
           :class="[
             active || selected
-              ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+              ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200 '
               : 'text-slate-900 dark:text-jovieDark-100',
-            'group flex w-full items-center justify-between rounded px-2 py-1 text-xs',
-          ]">
-          <div class="flex w-full items-center">
-            <component
-              :is="icon"
-              :class="`${iconColor}`"
-              class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true" />
-            {{ name }}
-          </div>
-
-          <div class="items-center rounded p-1 hover:text-slate-50">
-            <span
-              v-if="count"
-              class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-              >{{ count }}</span
-            >
-          </div>
-        </div>
-      </router-link>
-      <div
-        v-else
-        @click="handleClick()"
-        active-class="bg-slate-100  w-full dark:bg-jovieDark-500 rounded dark:text-jovieDark-200"
-        :to="{ name: component }">
-        <div
-          :class="[
-            active || selected
-              ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-              : 'text-slate-900 dark:text-jovieDark-100',
-            'group flex w-full items-center justify-between rounded px-2 py-1 text-xs',
+            'ui-selected:outline-none focus:ring-none group flex w-full items-center justify-between rounded px-2 py-1  text-xs focus:border-none  focus:outline-none ',
           ]">
           <div class="flex w-full items-center">
             <component
@@ -63,7 +33,7 @@
             >
           </div>
         </div>
-      </div>
+      </component>
     </MenuItem>
   </JovieTooltip>
 </template>
@@ -85,6 +55,7 @@ import {
   LockClosedIcon,
   ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
+import router from '../router';
 
 export default {
   components: {
@@ -127,6 +98,11 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    routerLink: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
     hide: {
       type: Boolean,

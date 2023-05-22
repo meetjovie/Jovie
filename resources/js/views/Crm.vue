@@ -119,7 +119,7 @@
                       <div class="flex flex-col space-y-1 pl-4">
                         <template v-for="item in menuItems">
                           <JovieMenuItem
-                            disableRouterLink
+                            :routerLink="false"
                             hideIfEmpty
                             @button-click="item.onClick"
                             class="w-full"
