@@ -73,6 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //
     //IMPORT CREATORS
     Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
+    Route::get('/get-columns-to-map/{id}', [\App\Http\Controllers\ImportController::class, 'getColumnsToMap']);
     Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
     Route::post('/import-contact', [\App\Http\Controllers\ImportController::class, 'importContact']);
 

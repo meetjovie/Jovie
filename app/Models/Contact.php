@@ -1163,15 +1163,80 @@ class Contact extends Model implements Auditable
                 if (!in_array($customField->name, $customHeadings)) {
                     $customHeadings[] = $customField->name;
                 }
-                $customFieldsData[$customField->code] = $cc->getInputValues($customField, $contact->id);
+                $value = $cc->getInputValues($customField, $contact->id);
+                if ($customField->type == 'select') {
+                    $customFieldOption = CustomFieldOption::query()->where('id', $value)->first();
+                    $customFieldsData[$customField->code] = $customFieldOption->value;
+                } else if ($customField->type == 'multi_select') {
+                        $valueArray = '';
+                        foreach ($value as $key => $option) {
+                            $customFieldOption = CustomFieldOption::query()->where('id', $option)->first();
+
+                            $valueArray .= ($customFieldOption->value . (count($value) - 1 === $key ? '' : ','));
+                        }
+                    $customFieldsData[$customField->code] = $valueArray;
+                } else {
+                    $customFieldsData[$customField->code] = $cc->getInputValues($customField, $contact->id);
+                }
             }
-            $contact->custom_fields = $customFieldsData;
+                $contact->custom_fields = $customFieldsData;
         }
 
         return [
             'contacts' => $contacts,
             'custom_headings' => $customHeadings,
         ];
+    }
+
+    public static function updateCustomFields($data, $merge = false, $contact)
+    {
+        $cc = new Contact();
+        $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
+        foreach ($customFields as $customField) {
+            if (array_key_exists($customField->code, $data) && !$merge) {
+                $value = $data[$customField->code];
+
+                if ($customField->type == 'select') {
+                    $customFieldOption = CustomFieldOption::query()->firstOrCreate([
+                        'custom_field_id' => $customField->id,
+                        'value' => $value
+                    ]);
+                    $value = $customFieldOption->id;
+                } else {
+                    if ($customField->type == 'multi_select') {
+                        $options = explode(',', $data[$customField->code]);
+                        $valueArray = [];
+                        foreach ($options as $option) {
+                            $customFieldOption = CustomFieldOption::query()->firstOrCreate([
+                                'custom_field_id' => $customField->id,
+                                'value' => $option
+                            ]);
+                            $valueArray[] = $customFieldOption->id;
+                        }
+                        $value = $valueArray;
+                    } else {
+                        if ($customField->type == 'currency') {
+                            $value = floatval($value);
+                        } else {
+                            if ($customField->type == 'checkbox') {
+                                $value = !(!$value || $value == 'false');
+                            } else {
+                                if ($customField->type == 'date') {
+                                    $value = Carbon::parse($value)->format('Y-m-d');
+                                }
+                            }
+                        }
+                    }
+                }
+                CustomFieldValue::query()->updateOrCreate([
+                    'custom_field_id' => $customField->id,
+                    'model_id' => $contact->id,
+                    'model_type' => Contact::class,
+                ], [
+                    'value' => $value,
+                ]);
+            }
+        }
     }
 
 }
