@@ -635,7 +635,7 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->where(function ($q) {
                 $q->where('favourite', true);
             });
-        } elseif (isset($params['type']) && $params['type'] == 'birthday') {
+        } elseif (isset($params['type']) && $params['type'] == 'birthdays') {
             $contacts = $contacts->where(function ($q) {
                 $q->whereBetween('dob', [Carbon::now()->startOfDay(), Carbon::now()->endOfDay()]);
             });
