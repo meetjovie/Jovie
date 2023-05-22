@@ -31,7 +31,8 @@
           </span>
           <img
             v-else-if="hasProfilePic"
-            :class="'h-full w-full rounded-full object-cover object-center'"
+            class="'h-full object-center' w-full rounded-full object-cover"
+            :class="[editable ? 'block group-hover:hidden' : '']"
             :ref="`profile_pic_url_img_${contact.id}`"
             :id="`profile_pic_url_img_${contact.id}`"
             :src="contact.profile_pic_url"
@@ -54,7 +55,7 @@
           <img
             v-else
             class="rounded-full object-cover object-center"
-            :class="'h-' + height + ' w-' + height"
+            :class="[editable ? 'block group-hover:hidden' : '']"
             :ref="`profile_pic_url_img_${contact.id}`"
             :id="`profile_pic_url_img_${contact.id}`"
             :src="defaultImage"
@@ -114,6 +115,8 @@ export default {
         return this.contact.full_name
           .split(' ')
           .map((n) => n[0])
+
+          .slice(0, 2) // Cap at 2 initials
           .join('');
       } else {
         const firstInitial = this.contact.first_name[0];
@@ -121,6 +124,7 @@ export default {
         return firstInitial + lastInitial;
       }
     },
+
     loading() {
       if (this.contact.id == null) {
         return true;
