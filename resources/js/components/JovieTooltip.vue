@@ -1,69 +1,57 @@
 <template>
-    <div>
-        <div class="group">
-            <slot>Trigger Goes Here</slot>
-        </div>
-        <div
-            class="absolute -top-2 -right-3 z-50 hidden w-auto translate-x-full flex-col items-center justify-between rounded-md border border-slate-200 bg-slate-800 px-2 py-1 text-xs text-slate-50 shadow-lg group-hover:flex group-hover:flex">
-            <div class="font-bold">{{ text }}</div>
-            <div>
-                <slot name="content"></slot>
-            </div>
-        </div>
-    </div>
+  <Popover class="relative">
+    <Float portal :offset="16" :placement="tooltipPlacement">
+      <PopoverButton
+        v-slot="{ open }"
+        :class="open ? '' : 'text-opacity-90'"
+        class=""
+        @mouseover="open = true"
+        @mouseleave="open = false">
+        <slot>Trigger</slot>
+      </PopoverButton>
+
+      <transition
+        v-show="open && tooltipText"
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="translate-y-1 opacity-0"
+        enter-to-class="translate-y-0 opacity-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="translate-y-0 opacity-100"
+        leave-to-class="translate-y-1 opacity-0">
+        <PopoverPanel static>
+          <GlassmorphismContainer
+            size="lg"
+            class="px-4 py-2 text-xs font-medium text-slate-600 dark:text-jovieDark-200">
+            {{ tooltipText }}
+          </GlassmorphismContainer>
+        </PopoverPanel>
+      </transition>
+    </Float>
+  </Popover>
 </template>
 
-<script>
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+<script setup>
 import { Float } from '@headlessui-float/vue';
-
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
+import { ChevronDownIcon } from '@heroicons/vue/20/solid';
+import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
+</script>
+<script>
 export default {
-  components: {
-    Popover,
-    PopoverButton,
-    PopoverPanel,
-    Float,
-  },
-  data() {
-    return {
-      show: false,
-    };
-  },
-  methods: {
-    setShowTooltip() {
-      //wait .2 seconds then show the tooltip
-
-      setTimeout(() => {
-        this.show = true;
-      }, 200);
-      /* //after 10 seconds, hide the tooltip
-      setTimeout(() => {
-        this.show = false;
-      }, 10000); */
-      //also hide the tooltip if another tooltip is opened
-    },
-    setHideTooltip() {
-      this.show = false;
-    },
-  },
   props: {
-    text: {
+    tooltipText: {
       type: String,
-      default: 'Helpful tooltip text',
+      default: 'Tooltip Text',
     },
-    placement: {
+    tooltipPlacement: {
       type: String,
       default: 'right',
     },
-    arrow: {
-      type: Boolean,
-      default: false,
-    },
-
-    shortcutKeys: {
-      type: Array,
-      default: () => ['Ctrl', 'Shift', 'I'],
-    },
+  },
+  data() {
+    return {
+      open: false,
+    };
   },
 };
 </script>
