@@ -1,27 +1,76 @@
 <template>
-  <MenuItem v-slot="{ active }">
-    <router-link
-      active-class="bg-slate-100 dark:bg-jovieDark-500 rounded dark:text-jovieDark-200"
-      :to="{ name: component }">
+  <JovieTooltip
+    v-if="!hideIfEmpty || !hide || count > 0"
+    as="template"
+    :tooltipText="description">
+    <MenuItem class="" v-slot="{ active }">
+      <router-link
+        v-if="!disableRouterLink"
+        @click="handleClick()"
+        active-class="bg-slate-100  w-full dark:bg-jovieDark-500 rounded dark:text-jovieDark-200"
+        :to="{ name: component }">
+        <div
+          :class="[
+            active || selected
+              ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+              : 'text-slate-900 dark:text-jovieDark-100',
+            'group flex w-full items-center justify-between rounded px-2 py-1 text-xs',
+          ]">
+          <div class="flex w-full items-center">
+            <component
+              :is="icon"
+              :class="`${iconColor}`"
+              class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
+              aria-hidden="true" />
+            {{ name }}
+          </div>
+
+          <div class="items-center rounded p-1 hover:text-slate-50">
+            <span
+              v-if="count"
+              class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
+              >{{ count }}</span
+            >
+          </div>
+        </div>
+      </router-link>
       <div
-        :class="[
-          active
-            ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-            : 'text-slate-900 dark:text-jovieDark-100',
-          'group flex w-full items-center rounded px-2 py-1 text-xs',
-        ]">
-        <component
-          :is="icon"
-          class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
-          aria-hidden="true" />
-        {{ name }}
+        v-else
+        @click="handleClick()"
+        active-class="bg-slate-100  w-full dark:bg-jovieDark-500 rounded dark:text-jovieDark-200"
+        :to="{ name: component }">
+        <div
+          :class="[
+            active || selected
+              ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
+              : 'text-slate-900 dark:text-jovieDark-100',
+            'group flex w-full items-center justify-between rounded px-2 py-1 text-xs',
+          ]">
+          <div class="flex w-full items-center">
+            <component
+              :is="icon"
+              :class="`${iconColor}`"
+              class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
+              aria-hidden="true" />
+            {{ name }}
+          </div>
+
+          <div class="items-center rounded hover:text-slate-50">
+            <span
+              v-if="count"
+              class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
+              >{{ count }}</span
+            >
+          </div>
+        </div>
       </div>
-    </router-link>
-  </MenuItem>
+    </MenuItem>
+  </JovieTooltip>
 </template>
 
 <script>
 import { MenuItem } from '@headlessui/vue';
+import JovieTooltip from './JovieTooltip.vue';
 import {
   UserPlusIcon,
   SparklesIcon,
@@ -29,15 +78,24 @@ import {
   GlobeAltIcon,
   CreditCardIcon,
   UserIcon,
+  DocumentDuplicateIcon,
+  HeartIcon,
   CogIcon,
+  CakeIcon,
   LockClosedIcon,
+  ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
 
 export default {
   components: {
     MenuItem,
+    JovieTooltip,
+    CakeIcon,
+    ArchiveBoxIcon,
     CogIcon,
     UserPlusIcon,
+    DocumentDuplicateIcon,
+    HeartIcon,
     SparklesIcon,
     CloudArrowUpIcon,
     GlobeAltIcon,
@@ -45,12 +103,32 @@ export default {
     CreditCardIcon,
     UserIcon,
   },
+  methods: {
+    handleClick() {
+      this.$emit('button-click');
+    },
+  },
   props: {
     icon: {
       type: String,
       required: true,
     },
+    disableRouterLink: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     header: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    hideIfEmpty: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    hide: {
       type: Boolean,
       required: false,
       default: false,
@@ -60,9 +138,28 @@ export default {
       required: false,
       default: false,
     },
+    count: {
+      type: Number,
+      required: false,
+    },
     name: {
       type: String,
       required: true,
+    },
+    selected: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    description: {
+      type: String,
+      required: false,
+      default: null,
+    },
+    iconColor: {
+      type: String,
+      required: false,
+      default: 'text-slate-400 dark:text-jovieDark-400',
     },
     disabled: {
       type: Boolean,

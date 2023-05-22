@@ -117,103 +117,46 @@
                       leave-from="transform opacity-100 scale-100"
                       leave-to="transform opacity-0 scale-95">
                       <div class="flex flex-col space-y-1 pl-4">
-                        <MenuItem
-                          v-if="counts.favourites > 0"
+                        <JovieMenuItem
+                          disableRouterLink
+                          hideIfEmpty
+                          @button-click="setFiltersType('favourites')"
                           class="w-full"
-                          as="div"
-                          @click="setFiltersType('favourites')"
-                          v-slot="{ active }">
-                          <button
-                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
-                            :class="[
-                              filters.type == 'favourites'
-                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                              active
-                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                                : '',
-                            ]">
-                            <div
-                              class="flex items-center text-xs tracking-wide">
-                              <HeartIcon
-                                class="mr-1 h-5 w-5 rounded p-1 text-red-400"
-                                aria-hidden="true" />Favorited
-                            </div>
-                            <div
-                              class="items-center rounded p-1 hover:text-slate-50">
-                              <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-                                >{{ counts.favourites }}</span
-                              >
-                            </div>
-                          </button>
-                        </MenuItem>
-
-                        <MenuItem
-                          v-if="counts.archived > 0"
-                          as="div"
-                          @click="setFiltersType('archived')"
-                          v-slot="{ active }">
-                          <button
-                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
-                            :class="[
-                              filters.type == 'archived'
-                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                              active
-                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                                : '',
-                            ]">
-                            <div
-                              class="flex items-center text-xs tracking-wide">
-                              <ArchiveBoxIcon
-                                class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
-                                aria-hidden="true" />Archived
-                            </div>
-                            <div
-                              class="items-center rounded p-1 hover:text-slate-50 dark:hover:text-slate-800">
-                              <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-                                >{{ counts.archived }}</span
-                              >
-                            </div>
-                          </button>
-                        </MenuItem>
-
-                        <MenuItem
-                          as="div"
-                          v-if="counts.birthday > 0"
-                          @click="setFiltersType('birthdays')"
-                          v-slot="{ active }">
-                          <button
-                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
-                            :class="[
-                              filters.type == 'birthdays'
-                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                              active
-                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                                : '',
-                            ]">
-                            <div
-                              class="flex items-center text-xs tracking-wide">
-                              <CakeIcon
-                                class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
-                                aria-hidden="true" />Birthdays
-                            </div>
-                            <div
-                              class="items-center rounded p-1 hover:text-slate-50 dark:hover:text-slate-800">
-                              <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-                                >{{ counts.birthday }}</span
-                              >
-                            </div>
-                          </button>
-                        </MenuItem>
+                          :selected="filters.type == 'favourites'"
+                          name="Favorites"
+                          icon="HeartIcon"
+                          :count="counts.favourites"
+                          description="See your favorite contacts" />
+                        <JovieMenuItem
+                          disableRouterLink
+                          hideIfEmpty
+                          @button-click="setFiltersType('archived')"
+                          name="Archived"
+                          icon="ArchiveBoxIcon"
+                          :selected="filters.type == 'archived'"
+                          :count="counts.archived"
+                          description="See contacts you've previously archived" />
+                        <JovieMenuItem
+                          disableRouterLink
+                          hideIfEmpty
+                          @button-click="setFiltersType('birthdays')"
+                          name="Birthdays"
+                          icon="CakeIcon"
+                          :selected="filters.type == 'birthdays'"
+                          :count="counts.birthday"
+                          description="See today's birthdays" />
+                        <JovieMenuItem
+                          hideIfEmpty
+                          disableRouterLink
+                          @button-click="suggestMerge = !suggestMerge"
+                          name="Duplicates"
+                          icon="DocumentDuplicateIcon"
+                          description="Find & merge duplicate contacts" />
+                        <!--  -->
                       </div>
                     </TransitionRoot>
                     <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
-                    <MenuItem
+                    <!--  <MenuItem
                       class="w-full"
                       v-if="suggestionExists"
                       as="div"
@@ -238,11 +181,11 @@
                           class="items-center rounded p-1 hover:text-slate-50">
                           <span
                             class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100">
-                            <!--  Count of duplicates goes here -->
+                           
                           </span>
                         </div>
                       </button>
-                    </MenuItem>
+                    </MenuItem> -->
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
@@ -815,6 +758,7 @@ import {
   ComputerDesktopIcon,
   FaceSmileIcon,
 } from '@heroicons/vue/24/solid';
+import JovieMenuItem from '../components/JovieMenuItem.vue';
 import DataGrid from '../components/DataGrid.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
@@ -877,6 +821,7 @@ export default {
     ContactSidebar,
     ChatBubbleLeftIcon,
     ProgressBar,
+    JovieMenuItem,
     SupportModal,
     TabList,
     Tab,
@@ -925,6 +870,7 @@ export default {
         { name: 'Billing', route: '/billing', icon: CreditCardIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
+
       contactMenuOpen: true,
       counts: {},
       stages: [],
@@ -1508,7 +1454,7 @@ export default {
     },
     getCrmContacts(filters = {}) {
       this.taskLoading = true;
-      let data = JSON.parse(JSON.stringify({...filters, ...this.filters}));
+      let data = JSON.parse(JSON.stringify({ ...filters, ...this.filters }));
       if (this.abortController) {
         this.abortController.abort();
       }

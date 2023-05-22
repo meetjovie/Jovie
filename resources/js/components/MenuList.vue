@@ -431,6 +431,7 @@
 import InputGroup from './../components/InputGroup.vue';
 import { PinIcon, PinnedIcon } from 'vue-tabler-icons';
 import JovieSpinner from './../components/JovieSpinner.vue';
+import JovieMenuItem from './../components/JovieMenuItem.vue';
 import { Float } from '@headlessui-float/vue';
 import {
   ChevronRightIcon,
@@ -876,6 +877,7 @@ export default {
   components: {
     UserListEditable,
     ChevronRightIcon,
+    JovieMenuItem,
     BookmarkIcon,
     Switch,
     SwitchGroup,

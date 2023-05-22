@@ -1,5 +1,5 @@
 <template>
-  <div class="space-y-4 px-4">
+  <div class="space-y-4">
     <div v-for="item in userMenuItems" :key="item.id">
       <!-- Other parent component content -->
       <div
@@ -45,16 +45,19 @@ export default {
           id: '2',
           name: 'workspace',
           icon: 'UserGroupIcon',
+
           items: [
             {
               name: 'General',
               icon: 'SparklesIcon',
+              description: 'Manage your workspace settings',
               component: 'SettingsWorkspace',
             },
             {
               name: 'Preferences',
               icon: 'CogIcon',
               component: 'SettingsPreferences',
+              description: 'Configure your workspace preferences',
             },
             { name: 'Plan', icon: 'CreditCardIcon', component: 'SettingsPlan' },
           ],
@@ -67,11 +70,13 @@ export default {
             {
               name: 'Security',
               icon: 'LockClosedIcon',
+              description: 'Configure your security options',
               component: 'SettingsSecurity',
             },
             {
               name: 'Profile',
               icon: 'UserIcon',
+              description: 'Edit your user profile',
               component: 'SettingsProfile',
             },
           ],
