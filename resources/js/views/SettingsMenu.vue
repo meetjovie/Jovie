@@ -33,6 +33,7 @@ export default {
   components: {
     SidebarNavMenu,
     JovieMenuItem,
+
     UserIcon,
     UserGroupIcon,
   },
@@ -52,7 +53,7 @@ export default {
             },
             {
               name: 'Preferences',
-              icon: 'SparklesIcon',
+              icon: 'CogIcon',
               component: 'SettingsPreferences',
             },
             { name: 'Plan', icon: 'CreditCardIcon', component: 'SettingsPlan' },

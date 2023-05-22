@@ -29,12 +29,14 @@ import {
   GlobeAltIcon,
   CreditCardIcon,
   UserIcon,
+  CogIcon,
   LockClosedIcon,
 } from '@heroicons/vue/24/solid';
 
 export default {
   components: {
     MenuItem,
+    CogIcon,
     UserPlusIcon,
     SparklesIcon,
     CloudArrowUpIcon,
