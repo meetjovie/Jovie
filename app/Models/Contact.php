@@ -654,6 +654,12 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->where('contacts.id', $params['id'])->limit(1);
         }
 
+        if (isset($params['search']) && !empty($params['search'])) {
+            $keyword = $params['search'];
+            $contacts = $contacts->whereRaw('LOWER(full_name) LIKE ?', ['%' . strtolower($keyword) . '%'])
+                ->orWhereRaw('LOWER(email) LIKE ?', ['%' . strtolower($keyword) . '%']);
+        }
+
         $order = 'DESC';
         $orderBy = null;
         if (!empty($params['order'])) {
@@ -670,7 +676,7 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->orderByDesc('contacts.id');
         }
 
-        $contacts = $contacts->paginate(15);
+        $contacts = $contacts->paginate(3);
 
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam($params['team_id']);
@@ -774,7 +780,8 @@ class Contact extends Model implements Auditable
         $contacts,
         $listId = null,
         $areContacts = false
-    ) {
+    )
+    {
         $contactData = self::getFillableData($data);
         foreach ($contacts as &$contact) {
             $overrideableData = null;
@@ -943,13 +950,14 @@ class Contact extends Model implements Auditable
 
     public static function saveContactFromSocial(
         Creator $creator,
-        $listId = null,
-        $userId = null,
-        $teamId = null,
-        $source = null,
-        $override = false,
-        $contactId = null
-    ) {
+                $listId = null,
+                $userId = null,
+                $teamId = null,
+                $source = null,
+                $override = false,
+                $contactId = null
+    )
+    {
         if (is_null($userId) || is_null($teamId)) {
             return false;
         }

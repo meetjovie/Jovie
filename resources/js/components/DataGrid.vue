@@ -12,10 +12,10 @@
             :list="filters.currentList"
             :subheader="subheader" />
           <!--  <span
-            class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">
-            >You're in Column: {{ currentCell.column }} Row:
-            {{ currentCell.row }}</span
-          > -->
+                      class="flex w-40 items-center text-xs text-slate-600 dark:text-jovieDark-200">
+                      >You're in Column: {{ currentCell.column }} Row:
+                      {{ currentCell.row }}</span
+                    > -->
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
@@ -65,10 +65,11 @@
                   text="Search"
                   class="w-full justify-end"
                   arrow
-                  placement="right-start"
-                  ><template #content
-                    ><KeyboardShortcut text="/" /> to search</template
-                  >
+                  placement="right-start">
+                  <template #content>
+                    <KeyboardShortcut text="/" />
+                    to search
+                  </template>
                   <ButtonGroup
                     :design="'toolbar'"
                     :text="'Search'"
@@ -87,10 +88,11 @@
                         text="Adjustments"
                         class="w-full justify-end"
                         arrow
-                        placement="bottom-end"
-                        ><template #content
-                          ><KeyboardShortcut text="/" /> to search</template
-                        >
+                        placement="bottom-end">
+                        <template #content>
+                          <KeyboardShortcut text="/" />
+                          to search
+                        </template>
                         <ButtonGroup
                           :design="'toolbar'"
                           :text="'Hide Columns'"
@@ -175,8 +177,8 @@
                                   :key="setting.name"
                                   :name="setting.name"
                                   v-for="setting in settings">
-                                  <template #toggle
-                                    ><Switch
+                                  <template #toggle>
+                                    <Switch
                                       v-if="setting.type === 'toggle'"
                                       name="columns-visible"
                                       v-model="setting.visible"
@@ -196,8 +198,9 @@
                                               : 'translate-x-0'
                                           "
                                           class="inline-block h-3 w-3 transform rounded-full bg-white transition dark:bg-jovieDark-100" />
-                                      </button> </Switch
-                                  ></template>
+                                      </button>
+                                    </Switch>
+                                  </template>
                                 </DropdownMenuItem>
                               </SwitchLabel>
                             </SwitchGroup>
@@ -380,10 +383,10 @@
                                     </button>
                                   </MenuItem>
                                   <!-- <DropdownMenuItem @click="toggleArchiveContacts(
-                                selectedContacts, filters.type == 'archived' ?
-                                false : true ) :name="( filters.type == 'archived'
-                                ? 'Unarchive' : 'Archive' )"
-                                :icon="ArchiveBoxIcon" /> -->
+                                                              selectedContacts, filters.type == 'archived' ?
+                                                              false : true ) :name="( filters.type == 'archived'
+                                                              ? 'Unarchive' : 'Archive' )"
+                                                              :icon="ArchiveBoxIcon" /> -->
                                 </GlassmorphismContainer>
                               </MenuItems>
                             </transition>
@@ -434,8 +437,8 @@
                       class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
-                          class=""
-                          @getHeaders="$emit('getHeaders')" /> -->
+                                              class=""
+                                              @getHeaders="$emit('getHeaders')" /> -->
                         <PlusIcon
                           class="mx-auto h-4 w-4 text-slate-500 dark:text-jovieDark-400"
                           aria-hidden="true" />
@@ -456,7 +459,7 @@
               <!--                {{ visibleColumns }}-->
               <draggable
                 class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
-                :list="filteredContacts"
+                :list="contactRecords"
                 ghost-class="ghost-row"
                 group="contacts"
                 :sort="false"
@@ -647,6 +650,7 @@ import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
+import { debounce } from 'lodash';
 
 export default {
   name: 'DataGrid',
@@ -848,6 +852,13 @@ export default {
     contactRecords: function () {
       this.selectedContacts = [];
     },
+    searchQuery: debounce(function (val) {
+      if (val != '') {
+        this.$emit('getCrmContacts', { search: val });
+      } else {
+        this.$emit('getCrmContacts');
+      }
+    }, 300),
     columns: {
       immediate: true,
       handler: function (val) {
@@ -959,7 +970,7 @@ export default {
           setTimeout(() => {
             this.$nextTick(() => {
               this.currentCell.column = 0;
-              if (this.currentCell.row < this.filteredContacts.length - 1) {
+              if (this.currentCell.row < this.contactRecords.length - 1) {
                 this.currentCell.row += 1;
               } else {
                 this.currentCell.row = 0;
@@ -1014,18 +1025,6 @@ export default {
     },
     visibleFields() {
       return this.headers.filter((header) => !header.hide);
-    },
-    filteredContacts() {
-      return this.contactRecords.filter((contact) => {
-        return (
-          (contact.name ?? '')
-            .toLowerCase()
-            .match(this.searchQuery.toLowerCase()) ||
-          contact.emails.some((email) =>
-            email.toString().toLowerCase().match(this.searchQuery.toLowerCase())
-          )
-        );
-      });
     },
     visibleColumns() {
       return this.columns
@@ -1291,7 +1290,7 @@ export default {
           }
           break;
         case 'ArrowDown':
-          if (this.currentCell.row < this.filteredContacts.length - 1) {
+          if (this.currentCell.row < this.contactRecords.length - 1) {
             this.currentCell.row += 1;
             this.scrollToFocusCell();
           }
@@ -1299,49 +1298,49 @@ export default {
       }
     },
     /* handleCellNavigation(event) {
-      switch (event) {
-        case 'ArrowRight':
-          while (true) {
-            if (this.currentCell.column === this.otherColumns.length - 1) {
+          switch (event) {
+            case 'ArrowRight':
+              while (true) {
+                if (this.currentCell.column === this.otherColumns.length - 1) {
+                  break;
+                }
+                this.currentCell.column += 1;
+                if (
+                  this.visibleColumns.includes(
+                    this.otherColumns[this.currentCell.column].key
+                  )
+                ) {
+                  break;
+                }
+              }
               break;
-            }
-            this.currentCell.column += 1;
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
+            case 'ArrowLeft':
+              while (true) {
+                if (this.currentCell.column === 0) {
+                  break;
+                }
+                this.currentCell.column -= 1;
+                if (
+                  this.visibleColumns.includes(
+                    this.otherColumns[this.currentCell.column].key
+                  )
+                ) {
+                  break;
+                }
+              }
               break;
-            }
-          }
-          break;
-        case 'ArrowLeft':
-          while (true) {
-            if (this.currentCell.column === 0) {
+            case 'ArrowUp':
+              if (this.currentCell.row > 0) {
+                this.currentCell.row -= 1;
+              }
               break;
-            }
-            this.currentCell.column -= 1;
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
+            case 'ArrowDown':
+              if (this.currentCell.row < this.contactRecords.length - 1) {
+                this.currentCell.row += 1;
+              }
               break;
-            }
           }
-          break;
-        case 'ArrowUp':
-          if (this.currentCell.row > 0) {
-            this.currentCell.row -= 1;
-          }
-          break;
-        case 'ArrowDown':
-          if (this.currentCell.row < this.filteredContacts.length - 1) {
-            this.currentCell.row += 1;
-          }
-          break;
-      }
-    }, */
+        }, */
     handleUpdateCurrentCell(newCell) {
       this.currentCell = {
         row: newCell.row,
@@ -1371,11 +1370,11 @@ export default {
     },
     openContextMenu(contact) {
       // Close the context menu for any other contacts that may have it open
-      /*  filteredContacts.forEach((c) => {
-          if (c !== contact && c.showContextMenu) {
-            c.showContextMenu = false;
-          }
-        }); */
+      /*  contactRecords.forEach((c) => {
+                if (c !== contact && c.showContextMenu) {
+                  c.showContextMenu = false;
+                }
+              }); */
       // Open the context menu for the given contact
       contact.showContextMenu = true;
     },
@@ -1443,7 +1442,7 @@ export default {
       }
     },
     exportCrmCreators() {
-      //export filteredContacts to a csv file
+      //export contactRecords to a csv file
       //write a function to export all contacts in the current table while accounting for filters and lists
     },
 
@@ -1567,68 +1566,68 @@ export default {
       //else set instagram to null
 
       /*       //if contact has an email
-       if (contact.emails[0]) {
-          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + contact.emails[0] + '\n';
-        } else if
-        {
-          vCard += 'EMAIL;TYPE=PREF,INTERNET:' + contact.emails + '\n';
-        } else {
-        };
-        //set employer
-        if (contact.employer) {
-          vCard += 'ORG:' + contact.employer + '\n';
-        } else {
-        };
-        //set title
-        if (contact.title) {
-          vCard += 'TITLE:' + contact.title + '\n';
-        } else {
-        };
-        if (Contact.location) {
-          vCard += 'ADR;TYPE=WORK:;;' + Contact.location + '\n';
-        }
-        //if contact.instagram_handler set instagram else if contact.instagram set instagram else log no instagram found
-        if (contact.instagram_handler) {
-          vCard += 'URL;TYPE=WORK:' + contact.instagram_handler + '\n';
-        } else if
-        {
-          vCard += 'URL;TYPE=WORK:' + contact.instagram + '\n';
-        } else {
-        };
-        //do the twitter and twitch and youtube and tiktok and linkedin
-        if (contact.twitter_handler) {
-          vCard += 'URL;TYPE=WORK:' + contact.twitter_handler + '\n';
-        } else if
-        {
-          vCard += 'URL;TYPE=WORK:' + contact.twitter + '\n';
-        } else {
-        };
-        if (contact.twitch_handler) {
-          vCard += 'URL;TYPE=WORK:' + contact.twitch_handler + '\n';
-        } else if
-        {
-          vCard += 'URL;TYPE=WORK:' + contact.twitch + '\n';
-        } else {
-        };
-        if (contact.youtube_handler) {
-          vCard += 'URL;TYPE=WORK:' + contact.youtube_handler + '\n';
-        } else if
-        {
-          vCard += 'URL;TYPE=WORK:' + contact.youtube + '\n';
-        } else {
-        };
-        if (contact.tiktok_handler) {
-          vCard += 'URL;TYPE=WORK:' + contact.tiktok_handler + '\n';
-        } else if
-        {
-          vCard += 'URL;TYPE=WORK:' + contact.tiktok + '\n';
-        } else {
-        };
-        if (contact.linkedin_handler) {
-          vCard += 'URL;TYPE=WORK:' + contact.linkedin_handler + '\n';
-        } else if {
-          vCard += 'URL;TYPE=WORK:' + contact.linkedin + '\n';
-        }; */
+             if (contact.emails[0]) {
+                vCard += 'EMAIL;TYPE=PREF,INTERNET:' + contact.emails[0] + '\n';
+              } else if
+              {
+                vCard += 'EMAIL;TYPE=PREF,INTERNET:' + contact.emails + '\n';
+              } else {
+              };
+              //set employer
+              if (contact.employer) {
+                vCard += 'ORG:' + contact.employer + '\n';
+              } else {
+              };
+              //set title
+              if (contact.title) {
+                vCard += 'TITLE:' + contact.title + '\n';
+              } else {
+              };
+              if (Contact.location) {
+                vCard += 'ADR;TYPE=WORK:;;' + Contact.location + '\n';
+              }
+              //if contact.instagram_handler set instagram else if contact.instagram set instagram else log no instagram found
+              if (contact.instagram_handler) {
+                vCard += 'URL;TYPE=WORK:' + contact.instagram_handler + '\n';
+              } else if
+              {
+                vCard += 'URL;TYPE=WORK:' + contact.instagram + '\n';
+              } else {
+              };
+              //do the twitter and twitch and youtube and tiktok and linkedin
+              if (contact.twitter_handler) {
+                vCard += 'URL;TYPE=WORK:' + contact.twitter_handler + '\n';
+              } else if
+              {
+                vCard += 'URL;TYPE=WORK:' + contact.twitter + '\n';
+              } else {
+              };
+              if (contact.twitch_handler) {
+                vCard += 'URL;TYPE=WORK:' + contact.twitch_handler + '\n';
+              } else if
+              {
+                vCard += 'URL;TYPE=WORK:' + contact.twitch + '\n';
+              } else {
+              };
+              if (contact.youtube_handler) {
+                vCard += 'URL;TYPE=WORK:' + contact.youtube_handler + '\n';
+              } else if
+              {
+                vCard += 'URL;TYPE=WORK:' + contact.youtube + '\n';
+              } else {
+              };
+              if (contact.tiktok_handler) {
+                vCard += 'URL;TYPE=WORK:' + contact.tiktok_handler + '\n';
+              } else if
+              {
+                vCard += 'URL;TYPE=WORK:' + contact.tiktok + '\n';
+              } else {
+              };
+              if (contact.linkedin_handler) {
+                vCard += 'URL;TYPE=WORK:' + contact.linkedin_handler + '\n';
+              } else if {
+                vCard += 'URL;TYPE=WORK:' + contact.linkedin + '\n';
+              }; */
 
       vCard += 'NOTE:Saved from Jovie\n';
 
@@ -1655,6 +1654,7 @@ export default {
       //else make it not visible
       else {
         this.searchVisible = false;
+        this.searchQuery = '';
       }
     },
     setCurrentRow(row) {

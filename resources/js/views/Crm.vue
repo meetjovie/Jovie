@@ -1508,7 +1508,7 @@ export default {
     },
     getCrmContacts(filters = {}) {
       this.taskLoading = true;
-      let data = JSON.parse(JSON.stringify(this.filters));
+      let data = JSON.parse(JSON.stringify({...filters, ...this.filters}));
       if (this.abortController) {
         this.abortController.abort();
       }
