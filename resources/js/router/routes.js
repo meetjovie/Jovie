@@ -64,6 +64,11 @@ export const routes = [
         path: 'security',
         component: () => import(`./../views/SettingsSecurity.vue`),
       },
+      {
+        name: 'SettingsPreferences',
+        path: 'preferences',
+        component: () => import(`./../views/SettingsPreferences.vue`),
+      },
     ],
   },
   {

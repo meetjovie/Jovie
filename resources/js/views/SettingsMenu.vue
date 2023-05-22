@@ -50,6 +50,11 @@ export default {
               icon: 'SparklesIcon',
               component: 'SettingsWorkspace',
             },
+            {
+              name: 'Preferences',
+              icon: 'SparklesIcon',
+              component: 'SettingsPreferences',
+            },
             { name: 'Plan', icon: 'CreditCardIcon', component: 'SettingsPlan' },
           ],
         },
