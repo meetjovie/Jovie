@@ -117,75 +117,20 @@
                       leave-from="transform opacity-100 scale-100"
                       leave-to="transform opacity-0 scale-95">
                       <div class="flex flex-col space-y-1 pl-4">
-                        <JovieMenuItem
-                          disableRouterLink
-                          hideIfEmpty
-                          @button-click="setFiltersType('favourites')"
-                          class="w-full"
-                          :selected="filters.type == 'favourites'"
-                          name="Favorites"
-                          icon="HeartIcon"
-                          :count="counts.favourites"
-                          description="See your favorite contacts" />
-                        <JovieMenuItem
-                          disableRouterLink
-                          hideIfEmpty
-                          @button-click="setFiltersType('archived')"
-                          name="Archived"
-                          icon="ArchiveBoxIcon"
-                          :selected="filters.type == 'archived'"
-                          :count="counts.archived"
-                          description="See contacts you've previously archived" />
-                        <JovieMenuItem
-                          disableRouterLink
-                          hideIfEmpty
-                          @button-click="setFiltersType('birthdays')"
-                          name="Birthdays"
-                          icon="CakeIcon"
-                          :selected="filters.type == 'birthdays'"
-                          :count="counts.birthday"
-                          description="See today's birthdays" />
-                        <JovieMenuItem
-                          hideIfEmpty
-                          disableRouterLink
-                          @button-click="suggestMerge = !suggestMerge"
-                          name="Duplicates"
-                          icon="DocumentDuplicateIcon"
-                          description="Find & merge duplicate contacts" />
-                        <!--  -->
+                        <template v-for="item in menuItems">
+                          <JovieMenuItem
+                            disableRouterLink
+                            hideIfEmpty
+                            @button-click="item.onClick"
+                            class="w-full"
+                            :selected="filters.type == item.type"
+                            :name="item.name"
+                            :icon="item.icon"
+                            :count="counts[item.type] || counts[item.count]"
+                            :description="item.description" />
+                        </template>
                       </div>
                     </TransitionRoot>
-                    <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
-                    <!--  <MenuItem
-                      class="w-full"
-                      v-if="suggestionExists"
-                      as="div"
-                      @click="suggestMerge = !suggestMerge"
-                      v-slot="{ active }">
-                      <button
-                        class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
-                        :class="[
-                          suggestion
-                            ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                            : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                          active
-                            ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                            : '',
-                        ]">
-                        <div class="flex items-center text-xs tracking-wide">
-                          <DocumentDuplicateIcon
-                            class="mr-1 h-5 w-5 rounded p-1 text-slate-400"
-                            aria-hidden="true" />Merge Duplicates
-                        </div>
-                        <div
-                          class="items-center rounded p-1 hover:text-slate-50">
-                          <span
-                            class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100">
-                           
-                          </span>
-                        </div>
-                      </button>
-                    </MenuItem> -->
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
@@ -922,6 +867,35 @@ export default {
       newNotification: false,
       suggestMerge: false,
       suggestionExists: false,
+      menuItems: [
+        {
+          type: 'favourites',
+          name: 'Favorites',
+          icon: 'HeartIcon',
+          description: 'See your favorite contacts',
+          onClick: () => this.setFiltersType('favourites'),
+        },
+        {
+          type: 'archived',
+          name: 'Archived',
+          description: "See contacts you've archived",
+          icon: 'ArchiveBoxIcon',
+          onClick: () => this.setFiltersType('archived'),
+        },
+        {
+          type: 'birthdays',
+          count: 'birthday',
+          name: 'Birthdays',
+          description: "Today's birthdays",
+          icon: 'CakeIcon',
+          onClick: () => this.setFiltersType('birthdays'),
+        },
+        {
+          onClick: () => (this.suggestMerge = !this.suggestMerge),
+          name: 'Duplicates',
+          icon: 'DocumentDuplicateIcon',
+        },
+      ],
     };
   },
   watch: {
