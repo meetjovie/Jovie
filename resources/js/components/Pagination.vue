@@ -4,11 +4,10 @@
       class="transiion-all flex w-full flex-auto items-center justify-between border-t border-slate-200 bg-white px-4 pb-2 dark:border-jovieDark-border dark:bg-jovieDark-900 sm:px-2">
       <div class="group flex">
         <a
-          v-if="isFirstPage"
-          :disabled="isFirstPage"
+          v-if="!isInFirstPage"
           @click="onClickPreviousPage"
           href="#"
-          class="inline-flex items-center border-t-2 border-transparent pt-2 pr-1 text-xs font-medium text-slate-400 disabled:cursor-none disabled:text-slate-200 group-hover:border-slate-300 group-hover:text-slate-700 disabled:group-hover:text-slate-300 dark:disabled:text-slate-800 group-hover:dark:disabled:text-slate-800">
+          class="inline-flex items-center border-t-2 border-transparent pr-1 pt-2 text-xs font-medium text-slate-400 disabled:cursor-none disabled:text-slate-200 group-hover:border-slate-300 group-hover:text-slate-700 disabled:group-hover:text-slate-300 dark:disabled:text-slate-800 group-hover:dark:disabled:text-slate-800">
           <ArrowLongLeftIcon
             class="mr-3 h-3 w-3 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700"
             aria-hidden="true" />
@@ -17,6 +16,8 @@
       </div>
       <div class="group hidden md:flex">
         <template v-for="page in pages">
+            <div
+                class="inline-flex items-center border-t-2 border-transparent px-4 pt-2 text-xs font-medium text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700">
           <a
             href="#"
             @click="onClickPage(page.name)"
@@ -24,10 +25,10 @@
             :class="{
               'border-indigo-500 text-indigo-700 dark:text-indigo-300':
                 currentPage == page.name,
-            }"
-            class="inline-flex items-center border-t-2 border-transparent px-4 pt-2 text-xs font-medium text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700">
+            }">
             {{ page.name }}
           </a>
+            </div>
         </template>
         <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-slate-400  dark:text-jovieDark-400 hover:text-slate-700 hover:border-slate-300" -->
         <!--            <a href="#" class="border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium" aria-current="page"> 2 </a>-->
@@ -35,10 +36,10 @@
       </div>
       <div class="group flex">
         <a
-          :disabled="isInLastPage"
           @click="onClickNextPage()"
+          v-if="!isInLastPage"
           href="#"
-          class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 disabled:cursor-none dark:text-jovieDark-400">
+          class="mr-6 inline-flex items-center border-t-2 border-transparent pl-1 pt-2 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 disabled:cursor-none dark:text-jovieDark-400">
           Next
           <ArrowLongRightIcon
             class="ml-3 h-5 w-5 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700 dark:text-jovieDark-400"
@@ -97,7 +98,11 @@ export default {
 
       // When on the last page
       if (this.currentPage === this.totalPages) {
-        return Math.abs(this.totalPages - this.maxVisibleButtons);
+        if (this.totalPages <= this.maxVisibleButtons) {
+          return Math.abs(this.totalPages - this.maxVisibleButtons);
+        } else {
+          return Math.abs(this.totalPages - this.maxVisibleButtons + 1);
+        }
       }
 
       // When inbetween
