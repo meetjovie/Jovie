@@ -130,15 +130,15 @@ class TeamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string',
+        $data = $request->validate([
+            'name' => 'string',
+            'emoji' => 'string',
         ]);
 
         $teamModel = config('teamwork.team_model');
 
         $team = $teamModel::findOrFail($id);
-        $team->name = $request->name;
-        $team->save();
+        $team->update($data);
 
         return response([
             'status' => true,

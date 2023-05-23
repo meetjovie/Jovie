@@ -120,6 +120,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-to-crm', [\App\Http\Controllers\CrmController::class, 'addCreatorToCreator']);
 
     // SUBSCRIPTIONS
+    Route::get('/subscription-stats', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscriptionStats']);
     Route::post('/cancel-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'cancelSubscription']);
     Route::post('/resume-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'resumeSubscription']);
     Route::post('/change-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'changeSubscription']);
