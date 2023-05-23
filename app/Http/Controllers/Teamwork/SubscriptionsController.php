@@ -195,9 +195,12 @@ class SubscriptionsController extends Controller
                 $stats = [
                     [
                         'name' => 'Contacts',
-                        'stat' => $teamContacts,
+                        'stat' => $currentSubscription->contacts - ($currentSubscription->contacts - $teamContacts) ?? 0,
                         'limit' => $currentSubscription->contacts,
                         'description' => 'The number of people you can add to your CRM. This limit',
+                        'totalContacts' => $teamContacts,
+                        'reached' => $teamContacts > $currentSubscription->contacts,
+                        'message' => "Your contact limit is reached, you can't work with " . ($teamContacts - $currentSubscription->contacts ?: null) . " other imported contacts.",
                     ],
                     [
                         'name' => 'AI Credits',
@@ -207,19 +210,11 @@ class SubscriptionsController extends Controller
                     ],
                     [
                         'name' => 'Enrichment Credits',
-                        'stat' => $user->currentTeam->credits,
+                        'stat' => $currentSubscription->credits - ($currentSubscription->credits - $user->currentTeam->credits) ?? 0,
                         'limit' => $currentSubscription->credits,
                         'description' => 'Enrichment credits are used everytime you enrich a contact.',
                     ],
                 ];
-                $contactStats = &$stats[0];
-                if ($contactStats['stat'] >= $contactStats['limit']) {
-                    $contactStats['totalContacts'] = $contactStats['stat'];
-                    $contactStats['stat'] = $contactStats['limit'];
-                    $contactStats['reached'] = true;
-                    $contactStats['message'] = "Your contact limits are reached, you can't work with" . ($contactStats['totalContacts'] - $contactStats['limit'] ? " " . ($contactStats['totalContacts'] - $contactStats['limit']) : "") . " other imported contacts.";
-                    $stats[0] = $contactStats;
-                }
                 return response([
                     'status' => true,
                     'data' => $stats,
