@@ -37,5 +37,7 @@ export default {
       required: true,
     },
   },
+  mounted() {
+  },
 };
 </script>

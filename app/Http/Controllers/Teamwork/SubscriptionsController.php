@@ -184,6 +184,47 @@ class SubscriptionsController extends Controller
         ]);
     }
 
+    public function subscriptionStats(Request $request)
+    {
+        $user = $request->user()->load('currentTeam');
+        if ($user->currentTeam) {
+            $teamContacts = count($user->currentTeam->activeContacts());
+            $currentSubscription = $user->currentTeam->currentSubscription();
+            if ($currentSubscription) {
+                $stats = [
+                    [
+                        'name' => 'Contacts',
+                        'stat' => $teamContacts,
+                        'limit' => $currentSubscription->contacts,
+                        'description' => 'The number of people you can add to your CRM. This limit',
+                    ],
+                    [
+                        'name' => 'AI Credits',
+                        'stat' => '100',
+                        'limit' => '500',
+                        'description' => 'AI Credits are used when you use our AI features such as AI Feilds, or AI copywriting.',
+                    ],
+                    [
+                        'name' => 'Enrichment Credits',
+                        'stat' => $user->currentTeam->credits,
+                        'limit' => $currentSubscription->credits,
+                        'description' => 'Enrichment credits are used everytime you enrich a contact.',
+                    ],
+                ];
+                return response([
+                    'status' => true,
+                    'data' => $stats,
+                    'message' => 'Stats for current team.',
+                ]);
+            }
+        }
+
+        return response([
+            'status' => false,
+            'message' => 'Stats are not available.',
+        ]);
+    }
+
     public function changeSubscription(Request $request)
     {
         $user = $request->user()->load('currentTeam');

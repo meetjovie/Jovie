@@ -24,7 +24,9 @@
           label="Workspace Name"
           v-model="currentUser.current_team.name"
           placeholder="Enter a Team Name" />
-        <ButtonGroup text="update" />
+        <ButtonGroup
+          text="update"
+          @click="updateTeam({ name: currentUser.current_team.name })" />
       </div>
     </SectionWrapper>
     <SectionWrapper
@@ -46,7 +48,8 @@ import ProgressBar from './../components/ProgressBar.vue';
 import SectionWrapper from './../components/SectionWrapper.vue';
 import InputGroup from './../components/InputGroup.vue';
 import ButtonGroup from './../components/ButtonGroup.vue';
-
+import TeamService from '../services/api/team.service';
+import userService from '../services/api/user.service';
 export default {
   name: 'SettingsWorkspace',
   components: {
@@ -60,30 +63,50 @@ export default {
   },
   data() {
     return {
-      stats: [
-        {
-          name: 'Contacts',
-          stat: '3',
-          limit: '100',
-          description:
-            'The number of people you can add to your CRM. This limit',
-        },
-        {
-          name: 'AI Credits',
-          stat: '100',
-          limit: '500',
-          description:
-            'AI Credits are used when you use our AI features such as AI Feilds, or AI copywriting.',
-        },
-        {
-          name: 'Enrichment Credits',
-          stat: '58',
-          limit: '100',
-          description:
-            'Enrichment credits are used everytime you enrich a contact.',
-        },
-      ],
+      stats: null,
     };
+  },
+  mounted() {
+    this.getSubscriptionStats();
+  },
+  methods: {
+    getSubscriptionStats() {
+      userService
+        .subscriptionStats()
+        .then((response) => {
+          response = response.data.data;
+          this.stats = response;
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          console.log('fetched');
+        });
+    },
+    emojiSelected(emoji) {
+      this.currentUser.current_team.emoji = emoji;
+      this.updateTeam({ emoji: emoji });
+    },
+    updateTeam(data) {
+      TeamService.updateTeam(data, this.currentUser.current_team.id)
+        .then((response) => {
+          response = response.data;
+          console.log(response);
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          console.log('fetched');
+        });
+    },
   },
 };
 </script>
