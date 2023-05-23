@@ -3,7 +3,10 @@
     v-if="!hideIfEmpty || !hide || count > 0"
     as="template"
     :tooltipText="description">
-    <MenuItem class="group/menuItem" v-slot="{ active }">
+    <MenuItem
+      @drop="$emit('onListDrop', id)"
+      class="group/menuItem"
+      v-slot="{ active }">
       <component
         :is="routerLink ? 'router-link' : 'div'"
         @click="handleClick()"
@@ -18,38 +21,71 @@
             'focus:ring-none group flex w-full items-center justify-between rounded px-2 py-1  text-xs focus:border-none  focus:outline-none ',
           ]">
           <div class="flex items-center">
-            <Bars3Icon
-              v-if="draggable"
-              class="h-3 w-3 cursor-grab text-slate-700/0 active:cursor-grabbing active:text-slate-900 group-hover/menuItem:text-slate-900 dark:text-jovieDark-300/0 dark:active:text-slate-100 dark:group-hover/menuItem:text-slate-100"></Bars3Icon>
-            <EmojiPickerModal
-              v-if="emoji"
-              class=""
-              @emojiSelected="emojiSelected($event)"
-              :currentEmoji="emoji" />
-            <component
-              v-if="icon"
-              :is="icon"
-              :class="`${iconColor}`"
-              class="h-3 w-3 text-slate-400 dark:text-jovieDark-400"
-              aria-hidden="true" />
+            <div v-if="draggable" class="flex h-4 w-6 items-center">
+              <Bars3Icon
+                class="hidden h-3 w-3 cursor-grab text-slate-400 active:cursor-grabbing active:text-slate-700 group-hover/menuItem:block dark:text-jovieDark-400 active:dark:text-jovieDark-300" />
+            </div>
+            <div class="flex w-6 items-center">
+              <EmojiPickerModal
+                v-if="emoji"
+                class=""
+                xs
+                @emojiSelected="emojiSelected($event)"
+                :currentEmoji="emoji" />
+              <component
+                v-if="icon"
+                :is="icon"
+                :class="`${iconColor}`"
+                class="h-4 w-4"
+                aria-hidden="true" />
+            </div>
           </div>
-          <div class="flex w-full px-2">
+          <div class="line-clamp-1 flex w-full">
             <slot name="name">
               <span class="line-clamp-1">{{ name }}</span></slot
             >
           </div>
 
-          <div class="items-center rounded hover:text-slate-50">
+          <div class="h-4 w-4 items-center rounded">
             <ArrowPathIcon
               v-if="loading"
-              class="mx-auto mr-2 mt-1 h-4 w-4 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
-
+              class="mx-auto h-3 w-3 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
             <span
               v-else-if="count"
-              :class="menuItems ? 'group/menuItem:hover:hidden' : ''"
+              :class="menuItems ? 'group-hover/menuItem:hidden' : ''"
               class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
               >{{ count }}</span
             >
+            <JovieDropdownMenu
+              v-if="menuItems"
+              :items="subMenuItems"
+              :searchable="false">
+              <template #triggerButton>
+                <EllipsisHorizontalIcon
+                  v-if="menuItems"
+                  class="hidden h-3 w-3 hover:text-slate-600 group-hover/menuItem:block hover:dark:text-jovieDark-400" />
+              </template>
+              <template #menuBottom>
+                <DropdownMenuItem
+                  name="Enrich"
+                  icon="SparklesIcon"
+                  @click="checkListsEnrichable(element.id)" />
+
+                <DropdownMenuItem
+                  name="Edit"
+                  icon="PencilIcon"
+                  @click="editList(element)" />
+                <DropdownMenuItem
+                  name="Duplicate"
+                  icon="DocumentDuplicateIcon"
+                  @click="duplicateList(element.id)" />
+
+                <DropdownMenuItem
+                  name="Delete"
+                  icon="TrashIcon"
+                  @click="confirmListDeletion(element.id)" />
+              </template>
+            </JovieDropdownMenu>
           </div>
         </div>
       </component>
@@ -61,6 +97,8 @@
 import { MenuItem, Menu, MenuButton } from '@headlessui/vue';
 import EmojiPickerModal from './EmojiPickerModal.vue';
 import { Float } from '@headlessui-float/vue';
+import JovieDropdownMenu from './JovieDropdownMenu.vue';
+import DropdownMenuItem from './DropdownMenuItem.vue';
 import JovieTooltip from './JovieTooltip.vue';
 import {
   UserPlusIcon,
@@ -79,6 +117,7 @@ import {
   LockClosedIcon,
   ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
+import JovieDropdownMenuVue from './JovieDropdownMenu.vue';
 
 export default {
   components: {
@@ -88,6 +127,8 @@ export default {
     JovieTooltip,
     Float,
     EmojiPickerModal,
+    JovieDropdownMenu,
+    DropdownMenuItem,
     EllipsisHorizontalIcon,
     CakeIcon,
     ArchiveBoxIcon,
@@ -117,6 +158,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    id: {
+      type: Number,
+      required: false,
     },
     icon: {
       type: String,
