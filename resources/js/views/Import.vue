@@ -9,7 +9,7 @@
       <div>
         <div
           v-show="!showMapping"
-          class="container mx-auto mt-6 max-w-3xl py-12 px-4 sm:px-6 lg:px-8">
+          class="container mx-auto mt-6 max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
           <div>
             <div class="space-y-6">
               <div class="min-h-screen items-center py-12">
@@ -62,8 +62,11 @@
                     {{ uploadProgress }}%
                   </p>
                 </ProgressBar>
-                <p v-if="errors.key" class="mt-2 text-sm text-red-600">
-                  {{ errors.key[0] }}
+                <p
+                  v-if="errors.key || errors.file"
+                  class="mt-2 text-sm text-red-600">
+                  <span v-if="errors.key">{{ errors.key[0] }}</span>
+                  <span v-if="errors.file">{{ errors.file }}</span>
                 </p>
 
                 <div v-if="importStarted" class="mx-auto items-center py-6">
@@ -96,6 +99,7 @@
         :columns="columns"
         :fileName="importSet.listName"
         :userLists="userLists"
+        :columnsToMap="columnsToMap"
         @listNameUpdated="updateListName" />
     </div>
   </div>
@@ -154,14 +158,26 @@ export default {
       bucketResponse: null,
       uploadProgress: 0,
       fileCheck: {},
+      columnsToMap: [],
     };
   },
   mounted() {
     //add segment analytics
     window.analytics.page(this.$route.path);
     this.getUserLists();
+    this.getColumnsToMap();
   },
   methods: {
+    getColumnsToMap() {
+      ImportService.getColumnsToMap(this.currentUser.current_team.id).then(
+        (response) => {
+          response = response.data;
+          if (response.status) {
+            this.columnsToMap = response.columns;
+          }
+        }
+      );
+    },
     toggleActive() {
       this.ActiveDrag = !this.ActiveDrag;
     },
@@ -183,6 +199,12 @@ export default {
       } else {
         file = e.dataTransfer.files[0];
       }
+      const fileName = file.name.toLowerCase();
+      if (!fileName.endsWith('.csv')) {
+        this.errors.file = 'Invalid file format. Please select a CSV file.';
+        return false;
+      }
+
       this.uploadProgress = 0;
       this.fetchingColumns = true;
       this.errors = [];
