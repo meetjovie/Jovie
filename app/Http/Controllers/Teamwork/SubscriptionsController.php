@@ -217,7 +217,7 @@ class SubscriptionsController extends Controller
                     $contactStats['totalContacts'] = $contactStats['stat'];
                     $contactStats['stat'] = $contactStats['limit'];
                     $contactStats['reached'] = true;
-                    $contactStats['message'] = "Your contact limits are reached, you can't see" . ($contactStats['totalContacts'] - $contactStats['limit'] ? " " . ($contactStats['totalContacts'] - $contactStats['limit']) : "") . " other imported contacts.";
+                    $contactStats['message'] = "Your contact limits are reached, you can't work with" . ($contactStats['totalContacts'] - $contactStats['limit'] ? " " . ($contactStats['totalContacts'] - $contactStats['limit']) : "") . " other imported contacts.";
                     $stats[0] = $contactStats;
                 }
                 return response([
