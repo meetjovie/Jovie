@@ -41,7 +41,10 @@
         'mt-3 flex w-full items-center justify-center rounded-md border-none bg-indigo-500 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:ml-3 sm:mt-0 sm:w-auto sm:flex-shrink-0':
           design == 'hero',
       },
-      { 'bg-red-500 text-white': design == 'danger' },
+      {
+        'bg-red-500 text-white dark:bg-red-500 dark:text-white':
+          design == 'danger',
+      },
       {
         'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
       },

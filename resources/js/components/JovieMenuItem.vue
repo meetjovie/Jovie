@@ -4,6 +4,7 @@
     as="template"
     :tooltipText="description">
     <MenuItem
+      @mouseover="lockMenuButton()"
       @drop="$emit('onListDrop', id)"
       class="group/menuItem"
       v-slot="{ active }">
@@ -25,7 +26,7 @@
               <Bars3Icon
                 class="hidden h-3 w-3 cursor-grab text-slate-400 active:cursor-grabbing active:text-slate-700 group-hover/menuItem:block dark:text-jovieDark-400 active:dark:text-jovieDark-300" />
             </div>
-            <div class="flex w-6 items-center">
+            <div class="flex w-6 items-center space-x-2">
               <EmojiPickerModal
                 v-if="emoji"
                 class=""
@@ -41,29 +42,43 @@
             </div>
           </div>
           <div class="line-clamp-1 flex w-full">
-            <slot name="name">
-              <span class="line-clamp-1">{{ name }}</span></slot
-            >
+            <span v-if="!editingName || !editable" class="line-clamp-1">{{
+              name
+            }}</span>
+            <input
+              v-else
+              :value="name"
+              class="rounded-md border px-2 text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
           </div>
 
           <div class="h-4 w-4 items-center rounded">
             <ArrowPathIcon
-              v-if="loading"
+              v-if="!loading"
+              :class="[
+                { hidden: menuButtonlocked },
+                { 'group-hover/menuItem:hidden': menuItems },
+              ]"
               class="mx-auto h-3 w-3 animate-spin-slow items-center group-hover/list:hidden group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200" />
             <span
               v-else-if="count"
-              :class="menuItems ? 'group-hover/menuItem:hidden' : ''"
+              :class="[
+                { hidden: menuButtonlocked },
+                { 'group-hover/menuItem:hidden': menuItems },
+              ]"
               class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
               >{{ count }}</span
             >
             <JovieDropdownMenu
               v-if="menuItems"
+              placement="bottom-end"
               :items="subMenuItems"
+              :offset="0"
               :searchable="false">
               <template #triggerButton>
                 <EllipsisHorizontalIcon
                   v-if="menuItems"
-                  class="hidden h-3 w-3 hover:text-slate-600 group-hover/menuItem:block hover:dark:text-jovieDark-400" />
+                  :class="[menuButtonlocked ? 'block' : 'hidden']"
+                  class="h-3 w-3 hover:text-slate-600 group-hover/menuItem:block hover:dark:text-jovieDark-400" />
               </template>
               <template #menuBottom>
                 <DropdownMenuItem
@@ -152,6 +167,18 @@ export default {
     emojiSelected() {
       this.$emit('emoji-selected');
     },
+    lockMenuButton() {
+      this.menuButtonLocked = true;
+    },
+    unlockMenuButton() {
+      this.menuButtonLocked = false;
+    },
+  },
+  data() {
+    return {
+      editingName: true,
+      menuButtonLocked: false,
+    };
   },
   props: {
     draggable: {
@@ -166,6 +193,11 @@ export default {
     icon: {
       type: String,
       required: true,
+    },
+    editable: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     loading: {
       type: Boolean,
