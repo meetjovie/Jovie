@@ -158,8 +158,4 @@ class Team extends TeamworkTeam
     {
         return TeamSetting::getSetting('auto_enrich_update') == 1;
     }
-
-    public function activeContacts(){
-        return Contact::where('team_id', $this->id)->where('archived', false)->get();
-    }
 }

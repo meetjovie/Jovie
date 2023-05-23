@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teamwork;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
@@ -188,7 +189,7 @@ class SubscriptionsController extends Controller
     {
         $user = $request->user()->load('currentTeam');
         if ($user->currentTeam) {
-            $teamContacts = count($user->currentTeam->activeContacts());
+            $teamContacts = Contact::getAllContactsCount();
             $currentSubscription = $user->currentTeam->currentSubscription();
             if ($currentSubscription) {
                 $stats = [
@@ -211,6 +212,14 @@ class SubscriptionsController extends Controller
                         'description' => 'Enrichment credits are used everytime you enrich a contact.',
                     ],
                 ];
+                $contactStats = &$stats[0];
+                if ($contactStats['stat'] >= $contactStats['limit']) {
+                    $contactStats['totalContacts'] = $contactStats['stat'];
+                    $contactStats['stat'] = $contactStats['limit'];
+                    $contactStats['reached'] = true;
+                    $contactStats['message'] = "Your contact limits are reached, you can't see" . ($contactStats['totalContacts'] - $contactStats['limit'] ? " " . ($contactStats['totalContacts'] - $contactStats['limit']) : "") . " other imported contacts.";
+                    $stats[0] = $contactStats;
+                }
                 return response([
                     'status' => true,
                     'data' => $stats,

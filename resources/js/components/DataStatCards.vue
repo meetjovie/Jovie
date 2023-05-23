@@ -16,6 +16,11 @@
         size="xs"
         :color="black"
         :percentage="Math.round((item.stat / item.limit) * 100)" />
+      <span
+        v-if="item.reached"
+        class="text-2xs text-red-600 dark:text-jovieDark-300">
+        {{ item.message }}
+      </span>
       <span class="text-2xs text-slate-600 dark:text-jovieDark-300">{{
         item.description
       }}</span>
