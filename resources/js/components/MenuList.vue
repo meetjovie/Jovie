@@ -45,12 +45,16 @@
           <div class="w-full" :key="element.id" :id="element.id">
             <JovieMenuItem
               @drop="$emit('onListDrop', element.id)"
-              @click="$emit('setFilterList', element.id)"
+              @button-click="$emit('setFilterList', element.id)"
               :routerLink="false"
               draggable
+              :emoji="element.emoji"
+              :selected="selectedList == element.id"
               :loading="element.updating_list"
               :description="element.name"
               :count="element.contacts_count"
+              menuItems
+              @emojiSelected="emojiSelected($event)"
               :name="element.name">
             </JovieMenuItem>
             <MenuItem
@@ -98,118 +102,37 @@
                     class="text-right text-xs font-light text-slate-700 group-hover:hidden group-hover:text-slate-800 dark:text-jovieDark-200 dark:group-hover:text-slate-200 dark:group-hover:text-slate-200"
                     >{{ element.contacts_count }}</span
                   >
-
-                  <Menu as="div" class="relative inline-block text-center">
-                    <Float portal :offset="12" placement="right-start">
-                      <div class="mx-auto text-center">
-                        <MenuButton
-                          class="hidden h-4 w-4 text-slate-400 group-hover:block dark:text-jovieDark-600">
-                          <EllipsisHorizontalIcon
-                            :class="{ 'dark:text-jovieDark-200': active }"
-                            class="mt-1 h-4 w-4 text-slate-400 active:text-slate-700 dark:text-jovieDark-600 dark:text-jovieDark-600 dark:active:text-slate-200"></EllipsisHorizontalIcon>
-                        </MenuButton>
+                  <JovieDropdownMenu :items="subMenuItems" :searchable="false">
+                    <template #triggerButton>
+                      <EllipsisHorizontalIcon
+                        :class="{ 'dark:text-jovieDark-200': active }"
+                        class="h-4 w-4 text-slate-400 active:text-slate-700 dark:text-jovieDark-600 dark:active:text-slate-200" />
+                    </template>
+                    <template #menuBottom>
+                      <div class="px-1 py-1">
+                        <DropdownMenuItem
+                          name="Enrich"
+                          icon="SparklesIcon"
+                          @click="checkListsEnrichable(element.id)" />
                       </div>
-
-                      <transition
-                        enter-active-class="transition duration-100 ease-out"
-                        enter-from-class="transform scale-95 opacity-0"
-                        enter-to-class="transform scale-100 opacity-100"
-                        leave-active-class="transition duration-75 ease-in"
-                        leave-from-class="transform scale-100 opacity-100"
-                        leave-to-class="transform scale-95 opacity-0">
-                        <MenuItems
-                          class="mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
-                          <div class="px-1 py-1">
-                            <MenuItem v-slot="{ active }">
-                              <button
-                                @click="checkListsEnrichable(element.id)"
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-                                    : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
-                                ]">
-                                <SparklesIcon
-                                  :active="active"
-                                  class="mr-2 h-4 w-4 text-purple-400 dark:text-purple-600"
-                                  aria-hidden="true" />
-                                Enrich
-                              </button>
-                            </MenuItem>
-                          </div>
-                          <div class="px-1 py-1">
-                            <MenuItem v-slot="{ active }">
-                              <button
-                                @click="editList(element)"
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100  dark:bg-jovieDark-700 dark:text-jovieDark-200'
-                                    : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
-                                ]">
-                                <PencilSquareIcon
-                                  :active="active"
-                                  class="mr-2 h-4 w-4 text-sky-400"
-                                  aria-hidden="true" />
-                                Edit
-                              </button>
-                            </MenuItem>
-                            <MenuItem v-slot="{ active }">
-                              <button
-                                @click="duplicateList(element.id)"
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-                                    : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
-                                ]">
-                                <DocumentDuplicateIcon
-                                  :active="active"
-                                  class="mr-2 h-3 w-3 text-teal-400 hover:text-slate-700"
-                                  aria-hidden="true" />
-                                Duplicate
-                              </button>
-                            </MenuItem>
-                            <!--  <MenuItem v-slot="{ active }">
-                              <button
-                                @click="unpinList(element.id)"
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-                                    : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
-                                ]">
-                                <PinIcon
-                                  :active="active"
-                                  class="mr-2 h-3 w-3 text-indigo-400 hover:text-slate-700 dark:text-indigo-700 dark:hover:text-slate-300"
-                                  aria-hidden="true" />
-                                Pin
-                              </button>
-                            </MenuItem> -->
-                          </div>
-
-                          <div class="px-1 py-1">
-                            <MenuItem v-slot="{ active }">
-                              <button
-                                @click="confirmListDeletion(element.id)"
-                                :class="[
-                                  active
-                                    ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200'
-                                    : 'text-slate-900 dark:text-jovieDark-100',
-                                  'group flex w-full items-center rounded px-2 py-1 text-xs',
-                                ]">
-                                <TrashIcon
-                                  :active="active"
-                                  class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-600"
-                                  aria-hidden="true" />
-                                Delete
-                              </button>
-                            </MenuItem>
-                          </div>
-                        </MenuItems>
-                      </transition>
-                    </Float>
-                  </Menu>
+                      <div class="px-1 py-1">
+                        <DropdownMenuItem
+                          name="Edit"
+                          icon="PencilIcon"
+                          @click="editList(element)" />
+                        <DropdownMenuItem
+                          name="Duplicate"
+                          icon="DocumentDuplicateIcon"
+                          @click="duplicateList(element.id)" />
+                      </div>
+                      <div class="px-1 py-1">
+                        <DropdownMenuItem
+                          name="Delete"
+                          icon="TrashIcon"
+                          @click="confirmListDeletion(element.id)" />
+                      </div>
+                    </template>
+                  </JovieDropdownMenu>
                 </div>
               </div>
             </MenuItem>
@@ -440,6 +363,8 @@ import {
   SwitchGroup,
   SwitchLabel,
 } from '@headlessui/vue';
+import DropdownMenuItem from './../components/DropdownMenuItem.vue';
+import JovieDropdownMenu from './../components/JovieDropdownMenu.vue';
 import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup.vue';
@@ -448,6 +373,28 @@ export default {
   data() {
     return {
       showMenu: true,
+      subMenuItems: [
+        {
+          name: 'Edit',
+          icon: 'PencilIcon',
+          click: 'editList',
+        },
+        {
+          name: 'Enrich',
+          icon: 'SparklesIcon',
+          click: 'checkListsEnrichable',
+        },
+        {
+          name: 'Duplicate',
+          icon: 'DocumentDuplicateIcon',
+          click: 'duplicateList',
+        },
+        {
+          name: 'Delete',
+          icon: 'TrashIcon',
+          click: 'confirmListDeletion',
+        },
+      ],
       editName: false,
       emoji: '',
       editListPopup: {
@@ -880,6 +827,7 @@ export default {
     MenuItems,
     MenuItem,
     PinIcon,
+    JovieDropdownMenu,
     PencilSquareIcon,
     draggable,
     ModalPopup,
@@ -887,6 +835,7 @@ export default {
     Float,
     ToggleGroup,
     ArrowPathIcon,
+    DropdownMenuItem,
   },
   computed: {
     menuItemsList: {

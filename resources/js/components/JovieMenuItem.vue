@@ -21,7 +21,13 @@
             <Bars3Icon
               v-if="draggable"
               class="h-3 w-3 cursor-grab text-slate-700/0 active:cursor-grabbing active:text-slate-900 group-hover/menuItem:text-slate-900 dark:text-jovieDark-300/0 dark:active:text-slate-100 dark:group-hover/menuItem:text-slate-100"></Bars3Icon>
+            <EmojiPickerModal
+              v-if="emoji"
+              class=""
+              @emojiSelected="emojiSelected($event)"
+              :currentEmoji="emoji" />
             <component
+              v-if="icon"
               :is="icon"
               :class="`${iconColor}`"
               class="h-3 w-3 text-slate-400 dark:text-jovieDark-400"
@@ -40,6 +46,7 @@
 
             <span
               v-else-if="count"
+              :class="menuItems ? 'group/menuItem:hover:hidden' : ''"
               class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
               >{{ count }}</span
             >
@@ -51,7 +58,9 @@
 </template>
 
 <script>
-import { MenuItem } from '@headlessui/vue';
+import { MenuItem, Menu, MenuButton } from '@headlessui/vue';
+import EmojiPickerModal from './EmojiPickerModal.vue';
+import { Float } from '@headlessui-float/vue';
 import JovieTooltip from './JovieTooltip.vue';
 import {
   UserPlusIcon,
@@ -62,6 +71,7 @@ import {
   CreditCardIcon,
   Bars3Icon,
   UserIcon,
+  EllipsisHorizontalIcon,
   DocumentDuplicateIcon,
   HeartIcon,
   CogIcon,
@@ -73,7 +83,12 @@ import {
 export default {
   components: {
     MenuItem,
+    MenuButton,
+    Menu,
     JovieTooltip,
+    Float,
+    EmojiPickerModal,
+    EllipsisHorizontalIcon,
     CakeIcon,
     ArchiveBoxIcon,
     CogIcon,
@@ -93,6 +108,9 @@ export default {
     handleClick() {
       this.$emit('button-click');
     },
+    emojiSelected() {
+      this.$emit('emoji-selected');
+    },
   },
   props: {
     draggable: {
@@ -109,10 +127,19 @@ export default {
       required: false,
       default: false,
     },
+    menuItems: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     disableRouterLink: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    emoji: {
+      type: String,
+      required: false,
     },
     header: {
       type: Boolean,
