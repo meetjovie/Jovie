@@ -74,7 +74,11 @@ class EnrichContact implements ShouldQueue
                 (new ImportFromSocialAndAddTOCrm($tiktok, 'tiktok', $this->params))->onQueue(config('import.tiktok_queue'))
             ]);
         }
-        Contact::query()->where('id', $this->contact->id)->update(['enriching' => $enriching]);
+        if (! $enriching) {
+            ContactEnriched::dispatch($this->contact->id, $this->contact->team_id, $this->params['list_id'] ?? null);
+        } else {
+            Contact::query()->where('id', $this->contact->id)->update(['enriching' => $enriching]);
+        }
     }
 
     public function getEnrichContactBatch()
