@@ -161,6 +161,7 @@
               name="Refresh"
               color="text-green-600 dark:text-green-400"
               icon="ArrowPathIcon"
+              v-if="currentUser.is_admin"
               @click="$emit('refresh', contact)" />
 
             <DropdownMenuItem

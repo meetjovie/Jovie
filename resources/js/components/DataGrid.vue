@@ -549,7 +549,7 @@
 
             <Pagination
               class="z-50 w-full bg-blue-500"
-              v-if="contactRecords.length > 50"
+              v-if="contactsMeta.total > contactsMeta.per_page"
               :totalPages="contactsMeta.last_page"
               :perPage="contactsMeta.per_page"
               :currentPage="contactsMeta.current_page"
