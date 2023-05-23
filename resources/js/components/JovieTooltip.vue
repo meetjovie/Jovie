@@ -1,23 +1,23 @@
 <template>
   <Popover class="relative">
-    <Float portal :offset="16" :placement="tooltipPlacement">
+    <Float portal :offset="8" :placement="tooltipPlacement">
       <PopoverButton
         v-slot="{ open }"
         :class="open ? '' : 'text-opacity-90'"
-        class=""
-        @mouseover="open = true"
-        @mouseleave="open = false">
+        class="w-full"
+        @mouseover="mouseover()"
+        @mouseleave="mouseleave()">
         <slot>Trigger</slot>
       </PopoverButton>
 
       <transition
         v-show="open && tooltipText"
-        enter-active-class="transition duration-200 ease-out"
-        enter-from-class="translate-y-1 opacity-0"
-        enter-to-class="translate-y-0 opacity-100"
-        leave-active-class="transition duration-150 ease-in"
-        leave-from-class="translate-y-0 opacity-100"
-        leave-to-class="translate-y-1 opacity-0">
+        enter="transition-opacity duration-75"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="transition-opacity duration-150"
+        leave-from="opacity-100"
+        leave-to="opacity-0">
         <PopoverPanel static>
           <GlassmorphismContainer
             size="lg"
@@ -49,9 +49,19 @@ export default {
     },
   },
   data() {
-    return {
-      open: false,
-    };
+    return { open: false, timer: null };
+  },
+  methods: {
+    mouseover() {
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.open = true;
+      }, 500);
+    },
+    mouseleave() {
+      clearTimeout(this.timer);
+      this.open = false;
+    },
   },
 };
 </script>

@@ -645,11 +645,11 @@
 </template>
 
 <script>
-import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
-import SupportModal from '../components/SupportModal.vue';
-import JovieSidebar from '../components/JovieSidebar.vue';
 import AlertBanner from '../components/AlertBanner.vue';
+import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
+import JovieSidebar from '../components/JovieSidebar.vue';
 import MenuList from '../components/MenuList.vue';
+import SupportModal from '../components/SupportModal.vue';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
 
@@ -657,77 +657,75 @@ import {
   Combobox,
   ComboboxButton,
   ComboboxInput,
-  ComboboxOptions,
   ComboboxOption,
-  TabGroup,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
+  ComboboxOptions,
   Menu,
   MenuButton,
-  MenuItems,
   MenuItem,
-  TransitionRoot,
-  TransitionChild,
+  MenuItems,
   Popover,
   PopoverButton,
-  PopoverPanel,
   PopoverGroup,
+  PopoverPanel,
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+  TransitionChild,
+  TransitionRoot,
 } from '@headlessui/vue';
 import {
-  ChevronDownIcon,
-  CreditCardIcon,
-  ArrowUpCircleIcon,
-  CogIcon,
-  ChevronRightIcon,
-  CloudArrowDownIcon,
-  CheckIcon,
-  UserGroupIcon,
-  DocumentDuplicateIcon,
-  EllipsisVerticalIcon,
-  PlusIcon,
-  PlusCircleIcon,
-  HeartIcon,
-  CakeIcon,
-  UserIcon,
   ArchiveBoxIcon,
-  CloudArrowUpIcon,
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
+  ArrowUpCircleIcon,
   BellIcon,
-  SunIcon,
-  MoonIcon,
+  CakeIcon,
   ChatBubbleLeftIcon,
-  SparklesIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  CloudArrowDownIcon,
+  CloudArrowUpIcon,
+  CogIcon,
   ComputerDesktopIcon,
+  CreditCardIcon,
+  DocumentDuplicateIcon,
+  EllipsisVerticalIcon,
   FaceSmileIcon,
+  HeartIcon,
+  MoonIcon,
+  PlusCircleIcon,
+  PlusIcon,
+  SparklesIcon,
+  SunIcon,
+  UserGroupIcon,
+  UserIcon,
 } from '@heroicons/vue/24/solid';
-import JovieMenuItem from '../components/JovieMenuItem.vue';
 import DataGrid from '../components/DataGrid.vue';
+import JovieMenuItem from '../components/JovieMenuItem.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
-import UserService from '../services/api/user.service';
 import ImportContactModal from '../components/ImportContactModal.vue';
-import SocialInput from '../components/SocialInput.vue';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension.vue';
+import SocialInput from '../components/SocialInput.vue';
+import UserService from '../services/api/user.service';
 
-import { defineAsyncComponent } from 'vue';
 import ProgressBar from '../components/ProgressBar.vue';
 import SwitchTeams from '../components/SwitchTeams.vue';
 
-import ContactSidebar from '../components/ContactSidebar.vue';
+import { Float } from '@headlessui-float/vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
 import ContactTags from '../components/Contact/ContactTags.vue';
-import { Float } from '@headlessui-float/vue';
-import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
-import ImportService from '../services/api/import.service';
-import KBShortcut from '../components/KBShortcut.vue';
-import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
-import FieldService from '../services/api/field.service';
+import ContactSidebar from '../components/ContactSidebar.vue';
 import DropdownMenuItem from '../components/DropdownMenuItem.vue';
-import ModalPopup from '../components/ModalPopup.vue';
 import importContactModal from '../components/ImportContactModal.vue';
+import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
+import KBShortcut from '../components/KBShortcut.vue';
+import ModalPopup from '../components/ModalPopup.vue';
+import FieldService from '../services/api/field.service';
+import ImportService from '../services/api/import.service';
 
 export default {
   name: 'CRM',

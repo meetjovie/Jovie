@@ -65,7 +65,7 @@
                   text="Search"
                   class="w-full justify-end"
                   arrow
-                  placement="right-start">
+                  placement="bottom-end">
                   <template #content>
                     <KeyboardShortcut text="/" />
                     to search
@@ -231,10 +231,10 @@
               ref="crmTable"
               class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
-                class="relative isolate z-20 w-full items-center overflow-auto">
+                class="relative isolate z-20 h-10 w-full items-center overflow-auto">
                 <tr
                   v-if="!headersLoaded"
-                  class="sticky top-0 z-50 h-8 w-full items-center">
+                  class="sticky top-0 z-50 w-full items-center">
                   <th
                     scope="col"
                     class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">

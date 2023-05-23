@@ -42,7 +42,17 @@
         itemKey="id"
         @change="$emit('sort')">
         <template #item="{ element, index }">
-          <div class="" :key="element.id" :id="element.id">
+          <div class="w-full" :key="element.id" :id="element.id">
+            <JovieMenuItem
+              @drop="$emit('onListDrop', element.id)"
+              @click="$emit('setFilterList', element.id)"
+              :routerLink="false"
+              draggable
+              :loading="element.updating_list"
+              :description="element.name"
+              :count="element.contacts_count"
+              :name="element.name">
+            </JovieMenuItem>
             <MenuItem
               @drop="$emit('onListDrop', element.id)"
               @click="$emit('setFilterList', element.id)"
@@ -73,37 +83,10 @@
                     class="h-full w-6 cursor-pointer items-center rounded px-1 text-center text-xs transition-all">
                     {{ element.emoji ?? '📄' }}
                   </div> -->
+
                   <UserListEditable
                     :list="element"
                     @updateUserList="$emit('updateUserList', $event)" />
-                  <!--                  <EmojiPickerModal-->
-                  <!--                    class="mr-1"-->
-                  <!--                    @emojiSelected="emojiSelected($event, element)"-->
-                  <!--                    :currentEmoji="element.emoji">-->
-                  <!--                  </EmojiPickerModal>-->
-
-                  <!--                  <div-->
-                  <!--                    @dblclick="enableEditName(element)"-->
-                  <!--                    class="w-full cursor-pointer">-->
-                  <!--                    <span-->
-                  <!--                      v-if="!element.editName"-->
-                  <!--                      :class="[-->
-                  <!--                        selectedList == element.id-->
-                  <!--                          ? 'font-bold text-slate-800 dark:text-jovieDark-200'-->
-                  <!--                          : 'font-light text-slate-700 dark:text-jovieDark-300',-->
-                  <!--                      ]"-->
-                  <!--                      class="cursor-pointer text-xs line-clamp-1 group-hover/list:text-slate-800 dark:group-hover/list:text-slate-200"-->
-                  <!--                      >{{ element.name }}</span-->
-                  <!--                    >-->
-                  <!--                    <input-->
-                  <!--                      v-model="element.name"-->
-                  <!--                      :ref="`list_${element.id}`"-->
-                  <!--                      @blur="updateList(element)"-->
-                  <!--                      @keyup.esc="disableEditName(element)"-->
-                  <!--                      @keyup.enter="updateList(element)"-->
-                  <!--                      v-else-->
-                  <!--                      class="text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />-->
-                  <!--                  </div>-->
                 </div>
                 <div
                   class="group mx-auto h-8 w-8 flex-none cursor-pointer items-center rounded p-1 text-center hover:bg-slate-300 hover:text-slate-50 hover:text-slate-700 dark:hover:bg-jovieDark-600">
