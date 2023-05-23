@@ -44,10 +44,11 @@
         <template #item="{ element, index }">
           <div class="w-full" :key="element.id" :id="element.id">
             <JovieMenuItem
-              @drop="$emit('onListDrop', element.id)"
+              @onListDrop="$emit('onListDrop', element.id)"
               @button-click="$emit('setFilterList', element.id)"
               :routerLink="false"
               draggable
+              :id="element.id"
               :emoji="element.emoji"
               :selected="selectedList == element.id"
               :loading="element.updating_list"
@@ -57,7 +58,7 @@
               @emojiSelected="emojiSelected($event)"
               :name="element.name">
             </JovieMenuItem>
-            <MenuItem
+            <!-- <MenuItem
               @drop="$emit('onListDrop', element.id)"
               @click="$emit('setFilterList', element.id)"
               v-slot="{ active }">
@@ -78,16 +79,6 @@
                 </div>
 
                 <div class="flex w-full items-center">
-                  <!-- <div
-                    @click="openEmojiPicker(element)"
-                    :class="{
-                      'bg-slate-100 hover:bg-slate-700 dark:bg-jovieDark-700 hover:dark:bg-jovieDark-900':
-                        active,
-                    }"
-                    class="h-full w-6 cursor-pointer items-center rounded px-1 text-center text-xs transition-all">
-                    {{ element.emoji ?? '📄' }}
-                  </div> -->
-
                   <UserListEditable
                     :list="element"
                     @updateUserList="$emit('updateUserList', $event)" />
@@ -135,7 +126,7 @@
                   </JovieDropdownMenu>
                 </div>
               </div>
-            </MenuItem>
+            </MenuItem> -->
           </div>
         </template>
         <div v-for="element in myArray" :key="element.id">

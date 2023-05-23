@@ -4,11 +4,12 @@
       <Float portal shift placement="right-start">
         <PopoverButton>
           <span
-            :class="
+            :class="[
+              xs ? 'text-xs' : '',
               xl
                 ? 'rounded-md px-4 py-4 text-4xl hover:bg-slate-100 dark:hover:bg-jovieDark-700'
-                : 'text-sm'
-            ">
+                : 'text-sm',
+            ]">
             {{ currentEmoji || '📄' }}
           </span>
         </PopoverButton>
@@ -53,6 +54,10 @@ export default {
   },
   props: {
     xl: {
+      type: Boolean,
+      default: false,
+    },
+    xs: {
       type: Boolean,
       default: false,
     },
