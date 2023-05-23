@@ -91,7 +91,6 @@
           <template v-for="social in contact.social_links_with_followers">
             <div>
               <SocialIcons
-                @click="editSocialNetworkURL(social.network, contact)"
                 v-if="social.url"
                 :icon="social.network"
                 :linkDisabled="!social.url"
