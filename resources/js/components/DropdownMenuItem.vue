@@ -172,7 +172,9 @@ export default {
     SwitchGroup,
     ColorDot,
     ArchiveBoxIcon,
+
     PhoneIcon,
+
     CakeIcon,
     TrashIcon,
     SunIcon,
