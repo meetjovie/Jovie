@@ -107,14 +107,14 @@ class CrmExport implements FromCollection, WithMapping, WithHeadings
             $contact->full_name,
             $contact->city,
             $contact->country,
-            $contact->emails[0] ?? null,
+            implode(',', $contact->emails),
 
             $contact->company,
             $contact->department,
             $contact->title,
             $contact->category,
             $contact->biography,
-            $contact->phone[0] ?? null,
+            implode(',', $contact->phones),
 
             $contact->website,
             $contact->gender,
