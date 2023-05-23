@@ -17,20 +17,22 @@
               : 'text-slate-900 dark:text-jovieDark-100',
             'focus:ring-none group flex w-full items-center justify-between rounded px-2 py-1  text-xs focus:border-none  focus:outline-none ',
           ]">
-          <div class="flex w-full items-center">
+          <div class="flex items-center">
             <Bars3Icon
               v-if="draggable"
               class="h-3 w-3 cursor-grab text-slate-700/0 active:cursor-grabbing active:text-slate-900 group-hover/menuItem:text-slate-900 dark:text-jovieDark-300/0 dark:active:text-slate-100 dark:group-hover/menuItem:text-slate-100"></Bars3Icon>
-
             <component
               :is="icon"
               :class="`${iconColor}`"
-              class="mr-2 h-3 w-3 text-slate-400 dark:text-jovieDark-400"
+              class="h-3 w-3 text-slate-400 dark:text-jovieDark-400"
               aria-hidden="true" />
+          </div>
+          <div class="flex w-full px-2">
             <slot name="name">
               <span class="line-clamp-1">{{ name }}</span></slot
             >
           </div>
+
           <div class="items-center rounded hover:text-slate-50">
             <ArrowPathIcon
               v-if="loading"

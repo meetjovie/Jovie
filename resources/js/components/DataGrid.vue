@@ -239,25 +239,25 @@
                     scope="col"
                     class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
                     <div
-                      class="h-4 w-3 animate-pulse rounded-md bg-slate-300"></div>
+                      class="h-4 w-4 animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="sticky left-[26.5px] top-0 z-50 w-4 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
-                      class="h-4 w-8 animate-pulse rounded-md bg-slate-300"></div>
+                      class="h-4 w-3 animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-700"></div>
                   </th>
                   <th
                     scope="col"
                     class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
                     <div
-                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300"></div>
+                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
                   <th
                     v-for="i in 10"
                     class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
-                      class="h-4 w-24 animate-pulse rounded-md bg-slate-300"></div>
+                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
                 </tr>
                 <draggable
