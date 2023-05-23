@@ -77,6 +77,10 @@ export default {
       type: Array,
       default: [],
     },
+    columnsToMap: {
+      type: Array,
+      default: [],
+    },
     fileName: {
       type: String,
       required: true,
@@ -100,33 +104,6 @@ export default {
   },
   data() {
     return {
-      columnsToMap: {
-        firstName: 'First Name',
-        lastName: 'Last Name',
-        city: 'City',
-        country: 'Country',
-        instagram: 'Instagram',
-        youtube: 'Youtube',
-        twitter: 'Twitter',
-        /*   'onlyFans', */
-        twitch: 'Twitch',
-        /*    'twitchId', */
-        tiktok: 'Tiktok',
-        /*  'linkedin',
-        'snapchat', */
-        /*       'instagramFollowersCount',
-        'youtubeFollowersCount',
-        'youtubeFollowersCount',
-        'twitterFollowersCount',
-        'onlyFansFollowersCount',
-        'twitchFollowersCount',
-        'tiktokFollowersCount', */
-        email1: 'Email 1',
-        email2: 'Email 2',
-        /*    'wikiId', */
-        phone: 'Phone',
-        /* 'gender', */
-      },
       mappedColumns: {},
     };
   },

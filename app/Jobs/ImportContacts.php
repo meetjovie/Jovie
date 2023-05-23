@@ -52,7 +52,11 @@ class ImportContacts implements ShouldQueue
             $reader = Reader::createFromStream($stream);
             $records = Import::records($reader, $this->page);
 
-            $usStates = (array)json_decode(file_get_contents('https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'));
+            $usStates = (array)json_decode(
+                file_get_contents(
+                    'https://gist.githubusercontent.com/mshafrir/2646763/raw/8b0dbb93521f5d6889502305335104218454c2bf/states_hash.json'
+                )
+            );
 
             $mappedColumns = collect($this->payload->mappedColumns);
             $maxColumn = max($mappedColumns->flatten()->toArray());
@@ -80,7 +84,10 @@ class ImportContacts implements ShouldQueue
 
                 // instagram
                 $country = isset($this->payload->mappedColumns->country) ? $row[$this->payload->mappedColumns->country] : null;
-                if (isset($this->payload->mappedColumns->country) && $country && in_array(strtolower(trim($row[$this->payload->mappedColumns->country])), array_map('strtolower', $usStates))) {
+                if (isset($this->payload->mappedColumns->country) && $country && in_array(
+                        strtolower(trim($row[$this->payload->mappedColumns->country])),
+                        array_map('strtolower', $usStates)
+                    )) {
                     $country = 'United States';
                 }
 
@@ -128,6 +135,17 @@ class ImportContacts implements ShouldQueue
                 $contact['wiki'] = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
                 $contact = Contact::saveContact($contact, $this->payload->list->id)->first();
 
+
+                $mappedColumns = get_object_vars($this->payload->mappedColumns);
+                $customKeys = array_filter(array_keys($mappedColumns), function ($key) {
+                    return strpos($key, "custom") !== false;
+                });
+                $data = [];
+                foreach ($customKeys as $customKey) {
+                    $data[$customKey] = $row[$this->payload->mappedColumns->$customKey];
+                }
+                Contact::updateCustomFields($data, $contact);
+
                 $team = Team::find($contact->team_id);
                 if ($team->autoEnrichImportEnabled()) {
                     $contact->enrichContact();
@@ -139,12 +157,17 @@ class ImportContacts implements ShouldQueue
                     $list = UserList::query()->where('id', $this->payload->list->id)->first();
                     $list->importing = false;
                     $list->save();
-                    UserListImported::dispatch($this->payload->list->id, $this->payload->userId, $this->payload->teamId);
+                    UserListImported::dispatch(
+                        $this->payload->list->id,
+                        $this->payload->userId,
+                        $this->payload->teamId
+                    );
                 }
             }
-
         } catch (\Exception $e) {
-            SendSlackNotification::dispatch(('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine()));
+            SendSlackNotification::dispatch(
+                ('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine())
+            );
         }
     }
 }
