@@ -1188,7 +1188,7 @@ class Contact extends Model implements Auditable
         ];
     }
 
-    public static function updateCustomFields($data, $merge = false, $contact)
+    public static function updateCustomFields($data, $contact, $merge = false)
     {
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
@@ -1207,11 +1207,13 @@ class Contact extends Model implements Auditable
                         $options = explode(',', $data[$customField->code]);
                         $valueArray = [];
                         foreach ($options as $option) {
-                            $customFieldOption = CustomFieldOption::query()->firstOrCreate([
-                                'custom_field_id' => $customField->id,
-                                'value' => $option
-                            ]);
-                            $valueArray[] = $customFieldOption->id;
+                            if (trim($option) !== '') {
+                                $customFieldOption = CustomFieldOption::query()->firstOrCreate([
+                                    'custom_field_id' => $customField->id,
+                                    'value' => trim($option),
+                                ]);
+                                $valueArray[] = $customFieldOption->id;
+                            }
                         }
                         $value = $valueArray;
                     } else {
