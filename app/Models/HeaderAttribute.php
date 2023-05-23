@@ -137,7 +137,7 @@ class HeaderAttribute extends Model
             'sortable' => true,
             'hide' => false,
             'breakpoint' => '2xl',
-            'width' => '40',
+            'width' => '14',
             'type' => 'rating',
         ],
         [
