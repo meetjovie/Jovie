@@ -676,7 +676,7 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->orderByDesc('contacts.id');
         }
 
-        $contacts = $contacts->paginate(3);
+        $contacts = $contacts->paginate(15);
 
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam($params['team_id']);
