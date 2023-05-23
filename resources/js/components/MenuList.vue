@@ -48,6 +48,7 @@
               @button-click="$emit('setFilterList', element.id)"
               :routerLink="false"
               draggable
+              editable
               :id="element.id"
               :emoji="element.emoji"
               :selected="selectedList == element.id"
