@@ -250,7 +250,15 @@ export default {
     return {
       row: 0,
       shiftDown: false,
-    },
+    }
+  },
+  mounted() {
+    window.addEventListener('keydown', this.onKeyDown);
+    window.addEventListener('keyup', this.onKeyUp);
+  },
+  beforeDestroy() {
+    window.removeEventListener('keydown', this.onKeyDown);
+    window.removeEventListener('keyup', this.onKeyUp);
   },
   computed: {
     selectedContactsModel: {
