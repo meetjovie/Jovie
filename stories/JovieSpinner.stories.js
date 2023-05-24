@@ -1,4 +1,4 @@
-import JovieSpinner from './JovieSpinner.vue';
+import JovieSpinner from '../resources/js/components/JovieSpinner.vue';
 
 export default {
   title: 'Components/JovieSpinner',

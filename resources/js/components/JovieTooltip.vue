@@ -11,7 +11,7 @@
       </PopoverButton>
 
       <transition
-        v-show="open && tooltipText"
+        v-show="open && tooltipText && !disabled"
         enter="transition-opacity duration-75"
         enter-from="opacity-0"
         enter-to="opacity-100"
@@ -42,6 +42,10 @@ export default {
     tooltipText: {
       type: String,
       default: 'Tooltip Text',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
     tooltipPlacement: {
       type: String,

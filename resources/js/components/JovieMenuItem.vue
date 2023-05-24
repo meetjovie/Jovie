@@ -2,11 +2,14 @@
   <JovieTooltip
     v-if="!hideIfEmpty || !hide || count > 0"
     as="template"
+    :disabled="tooltipDisabled"
     :tooltipText="description">
     <MenuItem
+      @dblclick="enableEditName(id)"
+      @keyup.enter="handleClick()"
       @mouseover="lockMenuButton()"
       @drop="$emit('onListDrop', id)"
-      class="group/menuItem"
+      class="group/menuItem focus:border-none focus:outline-none focus:ring-0"
       v-slot="{ active }">
       <component
         :is="routerLink ? 'router-link' : 'div'"
@@ -19,7 +22,7 @@
             active || selected
               ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200 '
               : 'text-slate-900 dark:text-jovieDark-100',
-            'focus:ring-none group flex w-full items-center justify-between rounded px-2 py-1  text-xs focus:border-none  focus:outline-none ',
+            'group flex h-8 w-full items-center justify-between rounded px-2 text-xs  focus:border-none focus:outline-none  focus:ring-0 ',
           ]">
           <div class="flex items-center">
             <div v-if="draggable" class="flex h-4 w-6 items-center">
@@ -41,11 +44,15 @@
                 aria-hidden="true" />
             </div>
           </div>
-          <div class="line-clamp-1 flex w-full">
+          <div class="line-clamp-1 flex w-full text-left">
             <span v-if="!editingName || !editable" class="line-clamp-1">{{
               name
             }}</span>
             <input
+              ref="menuItemInput"
+              @keyup.esc="disableEditName(list)"
+              @keyup.enter="updateValue(name)"
+              @blur="updateList(name)"
               v-else
               :value="name"
               class="rounded-md border px-2 text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
@@ -53,7 +60,7 @@
 
           <div class="h-4 w-4 items-center rounded">
             <ArrowPathIcon
-              v-if="!loading"
+              v-if="loading"
               :class="[
                 { hidden: menuButtonlocked },
                 { 'group-hover/menuItem:hidden': menuItems },
@@ -71,34 +78,15 @@
             <JovieDropdownMenu
               v-if="menuItems"
               placement="bottom-end"
+              @item-clicked="handleSubmenuClick($event)"
               :items="subMenuItems"
               :offset="0"
               :searchable="false">
               <template #triggerButton>
                 <EllipsisHorizontalIcon
                   v-if="menuItems"
-                  :class="[menuButtonlocked ? 'block' : 'hidden']"
-                  class="h-3 w-3 hover:text-slate-600 group-hover/menuItem:block hover:dark:text-jovieDark-400" />
-              </template>
-              <template #menuBottom>
-                <DropdownMenuItem
-                  name="Enrich"
-                  icon="SparklesIcon"
-                  @click="checkListsEnrichable(element.id)" />
-
-                <DropdownMenuItem
-                  name="Edit"
-                  icon="PencilIcon"
-                  @click="editList(element)" />
-                <DropdownMenuItem
-                  name="Duplicate"
-                  icon="DocumentDuplicateIcon"
-                  @click="duplicateList(element.id)" />
-
-                <DropdownMenuItem
-                  name="Delete"
-                  icon="TrashIcon"
-                  @click="confirmListDeletion(element.id)" />
+                  :class="[menuButtonlocked ? 'opacity-100' : 'opacity-0']"
+                  class="h-4 w-4 rounded p-0.5 hover:bg-slate-300 hover:text-slate-600 group-hover/menuItem:opacity-100 hover:dark:bg-jovieDark-400 hover:dark:text-jovieDark-700" />
               </template>
             </JovieDropdownMenu>
           </div>
@@ -132,7 +120,6 @@ import {
   LockClosedIcon,
   ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
-import JovieDropdownMenuVue from './JovieDropdownMenu.vue';
 
 export default {
   components: {
@@ -164,20 +151,63 @@ export default {
     handleClick() {
       this.$emit('button-click');
     },
+    handleSubmenuClick(item) {
+      this.$emit('subMenuItemClicked', item);
+    },
+    updateValue() {
+      //emit the new value to the parent
+    },
     emojiSelected() {
       this.$emit('emoji-selected');
+      this.$notify({
+        title: 'Emoji selected',
+        text: 'Emoji selected',
+        group: 'user',
+        type: 'success',
+      });
     },
+
     lockMenuButton() {
       this.menuButtonLocked = true;
+      this.tooltipDisabled = true;
+      //after 5 seconds unlock the menu button
+      setTimeout(() => {
+        this.unlockMenuButton();
+        this.tooltipDisabled = false;
+      }, 5000);
     },
     unlockMenuButton() {
       this.menuButtonLocked = false;
+      this.tooltipDisabled = false;
     },
   },
   data() {
     return {
-      editingName: true,
+      editingName: false,
       menuButtonLocked: false,
+      tooltipDisabled: false,
+      subMenuItems: [
+        {
+          name: 'Enrich',
+          icon: 'SparklesIcon',
+          id: 1,
+        },
+        {
+          name: 'Edit',
+          icon: 'PencilIcon',
+          id: 2,
+        },
+        {
+          name: 'Duplicate',
+          icon: 'DocumentDuplicateIcon',
+          id: 3,
+        },
+        {
+          name: 'Delete',
+          icon: 'TrashIcon',
+          id: 4,
+        },
+      ],
     };
   },
   props: {
@@ -192,7 +222,7 @@ export default {
     },
     icon: {
       type: String,
-      required: true,
+      required: false,
     },
     editable: {
       type: Boolean,

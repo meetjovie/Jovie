@@ -233,20 +233,6 @@ export default {
   data() {
     return {
       searchQuery: '',
-      /*  items: [
-        {
-          id: 1,
-          name: 'item one',
-          color: 'blue',
-          emoji: '👍',
-        },
-        {
-          id: 2,
-          name: 'Chloe',
-          color: 'pink',
-          emoji: '👍',
-        },
-      ], */
     };
   },
   props: {
@@ -317,6 +303,7 @@ export default {
   },
   methods: {
     itemClicked(item) {
+      console.log(item);
       this.$emit('itemClicked', item);
     },
     createItem() {
