@@ -34,7 +34,7 @@
                 v-if="emoji"
                 class=""
                 xs
-                @emojiSelected="emojiSelected($event)"
+                @emojiSelected="emojiSelected"
                 :currentEmoji="emoji" />
               <component
                 v-if="icon"
@@ -159,8 +159,8 @@ export default {
     updateValue() {
       //emit the new value to the parent
     },
-    emojiSelected() {
-      this.$emit('emoji-selected');
+    emojiSelected(emoji) {
+      this.$emit('emoji-selected', emoji);
       this.$notify({
         title: 'Emoji selected',
         text: 'Emoji selected',

@@ -77,12 +77,12 @@ export default {
     handleEmojiSelection(emoji) {
       this.emojiSelected(emoji.i);
       console.log(emoji.i);
-      close();
+      // close();
     },
 
     emojiSelected(emoji) {
       //emit the emoji to the parent component
-      this.$emit('updatedEmoji', emoji);
+      this.$emit('emojiSelected', emoji);
     },
   },
 };
