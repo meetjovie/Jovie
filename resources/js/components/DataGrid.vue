@@ -468,6 +468,7 @@
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
+                    @contextMenuClicked="openRightClickMenu($event, contact)"
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -568,6 +569,12 @@
         @getHeaders="$emit('getHeaders')" />
     </template>
   </ModalPopup>
+  <RightClickMenu
+    :contact="rightClickMenuContact"
+    @hideMenu="closeRightClickMenu()"
+    :show="rightClickMenuOpen"
+    :x="rightClickMenuCoordinates.x"
+    :y="rightClickMenuCoordinates.y" />
 
   <MergeContactsModal
     @close="closeMergeSuggestions"
@@ -579,6 +586,7 @@
 </template>
 
 <script>
+import RightClickMenu from '../components/RightClickMenu.vue';
 import ShareMenu from './ShareMenu.vue';
 import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
@@ -652,6 +660,7 @@ import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
 import { debounce } from 'lodash';
+import RightClickMenuVue from './RightClickMenu.vue';
 
 export default {
   name: 'DataGrid',
@@ -669,6 +678,7 @@ export default {
     GlassmorphismContainer,
     ButtonGroup,
     CloudArrowUpIcon,
+    RightClickMenu,
     ContactAvatarCluster,
     Menu,
     InputLists,
@@ -752,6 +762,8 @@ export default {
         row: 0,
         column: 0,
       },
+      rightClickMenuCoordinates: { x: 0, y: 0 }, // Initialize the coordinates
+      rightClickMenuOpen: false,
       contactMenu: false,
       view: {
         atTopOfPage: true,
@@ -1055,6 +1067,26 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    openRightClickMenu(contact) {
+      console.log('open menu for ' + contact.full_name);
+
+      const coordinates = {
+        x: event.pageX, // Extract the x-coordinate from the event
+        y: event.pageY, // Extract the y-coordinate from the event
+      };
+      this.rightClickMenuCoordinates.y = coordinates.y;
+      this.rightClickMenuCoordinates.x = coordinates.x;
+
+      console.log(coordinates.x, coordinates.y);
+
+      this.rightClickMenuOpen = true;
+      this.rightClickMenuContact = contact;
+    },
+    closeRightClickMenu() {
+      console.log('close');
+      this.rightClickMenuOpen = false;
+      this.rightClickMenuContact = {};
+    },
     getPreviousColumn(index) {
       return index > 0 ? this.headers[index - 1] : false;
     },

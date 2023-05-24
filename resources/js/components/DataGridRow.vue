@@ -1,5 +1,6 @@
 <template>
   <tr
+    @contextmenu.prevent="handleContextMenu($event, contact)"
     class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == contact.id
@@ -258,6 +259,17 @@ export default {
     },
   },
   methods: {
+    handleContextMenu(event, contact) {
+      event.preventDefault(); // Prevents the default context menu from showing up
+      const coordinates = {
+        x: event.pageX, // Extract the x-coordinate from the event
+        y: event.pageY, // Extract the y-coordinate from the event
+      };
+
+      console.log('context menu clicked ' + contact.full_name);
+      this.$emit('contextMenuClicked', contact, coordinates);
+    },
+
     updateAvatar(pic) {
       console.log('hello');
       this.$emit('updateContact', {
