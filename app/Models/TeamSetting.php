@@ -17,9 +17,22 @@ class TeamSetting extends Model
         'value',
     ];
 
-    const SETTING_KEYS = [
-        'auto_enrich_import',
-        'auto_enrich_update',
+    const SETTINGS = [
+        'auto_enrich_import' => [
+            'default' => false,
+            'type' => 'radio',
+            'description' => 'Automatically enrich contacts when imported'
+        ],
+        'auto_enrich_update' => [
+            'default' => false,
+            'type' => 'radio',
+            'description' => 'Automatically enrich contacts when updated'
+        ],
+        'calender_event_note'=> [
+            'default' => 'Added to Calender event in Jovie',
+            'type' => 'text',
+            'description' => 'Set default settings for new calender events'
+        ],
     ];
 
     protected static function booted()
@@ -37,6 +50,21 @@ class TeamSetting extends Model
         return $this->belongsTo(Team::class);
     }
 
+    public static function getAllTeamSettings(){
+        $settingKeys = array_keys(TeamSetting::SETTINGS);
+        $teamSettings = TeamSetting::whereIn('key', $settingKeys)
+            ->pluck('value','key')->toArray();
+        $defaultSettings = TeamSetting::SETTINGS;
+
+        $teamKeys = array_keys($teamSettings);
+
+        foreach ($settingKeys as $settingKey) {
+            if (in_array($settingKey, $teamKeys)) {
+                $defaultSettings[$settingKey]['value'] = isset($teamSettings[$settingKey]) ? $teamSettings[$settingKey] : TeamSetting::SETTINGS[$settingKey]['default'];
+            }
+        }
+        return $defaultSettings;
+    }
     public static function getSetting($key)
     {
         $setting = self::where('key', $key)->first();

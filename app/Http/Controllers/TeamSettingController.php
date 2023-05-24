@@ -9,29 +9,10 @@ class TeamSettingController extends Controller
 {
     public function index()
     {
-        $settingKeys = TeamSetting::SETTING_KEYS;
-
-        $teamSettings = TeamSetting::whereIn('key', $settingKeys)
-            ->select(['key', 'value'])
-            ->get()->toArray();
-
-        $teamKeys = [];
-        foreach ($teamSettings as $teamSetting) {
-            $teamKeys[] = $teamSetting['key'];
-        }
-
-        foreach ($settingKeys as $settingKey) {
-            if (!in_array($settingKey, $teamKeys)) {
-                $teamSettings[] = [
-                    'key' => $settingKey,
-                    'value' => ''
-                ];
-            }
-        }
-
+        $allSettings = TeamSetting::getAllTeamSettings();
         return response()->json([
             'status' => true,
-            'data' => $teamSettings,
+            'data' => $allSettings,
         ]);
     }
 
@@ -39,8 +20,8 @@ class TeamSettingController extends Controller
     {
         $updatedSettings = $request->teamSettings;
 
-        foreach ($updatedSettings as $updatedSetting) {
-            TeamSetting::setSetting($updatedSetting['key'], $updatedSetting['value']);
+            foreach ($updatedSettings as $key => $value) {
+            TeamSetting::setSetting($key, $value['value']);
         }
 
         return response()->json([

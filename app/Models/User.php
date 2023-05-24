@@ -12,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\TeamSetting;
 use Laravel\Scout\Searchable;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
@@ -68,6 +69,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
             }
         }
+        $user->workspace_preferences = TeamSetting::getAllTeamSettings();
         $user->makeVisible('password');
         $user->password_set = !! $user->password;
         $user->makeHidden('password');
