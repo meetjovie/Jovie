@@ -15,7 +15,7 @@
       <ProgressBar
         size="xs"
         :color="black"
-        :percentage="Math.round((item.stat / item.limit) * 100)" />
+        :percentage="item.progressBar" />
       <span
         v-if="item.reached"
         class="text-2xs text-red-600 dark:text-jovieDark-300">

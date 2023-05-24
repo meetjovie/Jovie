@@ -195,7 +195,7 @@ class SubscriptionsController extends Controller
                 $stats = [
                     [
                         'name' => 'Contacts',
-                        'stat' => $currentSubscription->contacts - ($currentSubscription->contacts - $teamContacts) ?? 0,
+                        'stat' => $teamContacts >= $currentSubscription->contacts ? $currentSubscription->contacts : $teamContacts,
                         'limit' => $currentSubscription->contacts,
                         'description' => 'The number of people you can add to your CRM. This limit',
                         'totalContacts' => $teamContacts,
@@ -215,6 +215,15 @@ class SubscriptionsController extends Controller
                         'description' => 'Enrichment credits are used everytime you enrich a contact.',
                     ],
                 ];
+
+                foreach($stats as &$stat){
+                    if ($stat['name'] === 'Contacts') {
+                        $stat['progressBar'] = round((($stat['limit'] - $stat['stat']) / $stat['limit']) * 100);
+                    } else {
+                        $stat['progressBar'] = round(($stat['stat'] / $stat['limit']) * 100);
+                    }
+                }
+                
                 return response([
                     'status' => true,
                     'data' => $stats,
