@@ -84,6 +84,11 @@ app.mixin({
     unSlugify(value) {
       return value.toString().replaceAll('_', ' ');
     },
+    toTitleCase(str) {
+      return str.toLowerCase().replace(/\b\w/g, function (match) {
+        return match.toLocaleUpperCase();
+      });
+    },
     formatCount(value) {
       value = value ? value : 0;
       try {
