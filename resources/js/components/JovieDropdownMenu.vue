@@ -303,7 +303,8 @@ export default {
   },
   methods: {
     itemClicked(item) {
-      console.log(item);
+      //log the name of the current component and the item that was clicked
+      console.log('Item clicked in JovieDropdownMenu.vue:' + item);
       this.$emit('itemClicked', item);
     },
     createItem() {

@@ -277,7 +277,7 @@
                       <div class="mx-auto items-center text-center">
                         <input
                           type="checkbox"
-                          class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400"
+                          class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
                           :checked="
                             intermediate ||
                             selectedContacts.length === contactRecords.length

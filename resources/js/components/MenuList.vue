@@ -49,7 +49,7 @@
               :routerLink="false"
               draggable
               editable
-              @subMenuItemClicked="handleSubMenuItemClicked($event)"
+              @subMenuItemClicked="handleSubMenuItemClicked($event, id)"
               :id="element.id"
               :emoji="element.emoji"
               :selected="selectedList == element.id"
@@ -418,15 +418,22 @@ export default {
       this.updateList(this.list);
       //if triggered from an item set the item emoji to the selected emoji if triggered from an element  set the element emoji to the selected emoji
     },
-    handleSubMenuItemClicked(payload) {
+    handleSubMenuItemClicked(payload, item) {
+      //log the payload and item
+      //log the name of the current component and the item that was clicked
+      console.log(
+        'Item clicked in MenuList.vue' + payload + ' List name' + item
+      );
+
+      console.log('list name' + item.name);
       if (payload == 1) {
-        this.checkListsEnrichable(payload);
+        this.checkListsEnrichable(item.id);
       } else if (payload == 2) {
-        this.editList(payload);
+        this.editList(item);
       } else if (payload == 3) {
-        this.duplicateList(payload);
+        this.duplicateList(item);
       } else if (payload == 4) {
-        this.confirmListDeletion(payload);
+        this.confirmListDeletion(item);
       }
     },
     updateList(item) {

@@ -78,7 +78,7 @@
             <JovieDropdownMenu
               v-if="menuItems"
               placement="bottom-end"
-              @item-clicked="handleSubmenuClick($event)"
+              @item-clicked="handleSubmenuClick($event, id)"
               :items="subMenuItems"
               :offset="0"
               :searchable="false">
@@ -151,8 +151,10 @@ export default {
     handleClick() {
       this.$emit('button-click');
     },
-    handleSubmenuClick(item) {
-      this.$emit('subMenuItemClicked', item);
+    handleSubmenuClick(item, id) {
+      //log the name of the current component and the item that was clicked
+      console.log('Item clicked in JovieMenuItem.vue: ', item);
+      this.$emit('subMenuItemClicked', item, id);
     },
     updateValue() {
       //emit the new value to the parent
