@@ -1070,6 +1070,7 @@ export default {
               }
             }
           }
+          this.crmCounts();
         }
       );
 
@@ -1494,7 +1495,7 @@ export default {
         if (params.remove) {
           selectedContacts.forEach((contact) => {
             if (
-              contact.user_lists.filter((l) => l.id == params.list_id).length
+              !contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
               list.contacts_count -= 1;
             }
@@ -1502,13 +1503,14 @@ export default {
         } else {
           selectedContacts.forEach((contact) => {
             if (
-              !contact.user_lists.filter((l) => l.id == params.list_id).length
+              contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
               list.contacts_count += 1;
             }
           });
         }
       }
+      this.crmCounts();
     },
     exportCrmContacts() {
       let obj = JSON.parse(JSON.stringify(this.filters));
