@@ -2,6 +2,7 @@
   <div class="flex flex-col">
     <div id="otp" class="mt-5 flex flex-row justify-center px-2 text-center">
       <input
+        @keydown="handleKeyDown($event)"
         v-for="(digit, index) in code"
         v-model="code[index]"
         @input="checkComplete($event)"
@@ -29,6 +30,7 @@
 
 <script>
 import JovieSpinner from '@/components/JovieSpinner.vue';
+
 export default {
   components: {
     JovieSpinner,
@@ -56,9 +58,17 @@ export default {
         nextInput.focus();
       }
     },
+    focusPreviousInput(event) {
+      const input = event.target;
+      const previousInput = input.previousElementSibling;
+      if (previousInput) {
+        previousInput.focus();
+      }
+    },
     clearInputs() {
       this.code = ['', '', '', '', '', ''];
     },
+
     async checkComplete(event) {
       if (event.type === 'paste') {
         // Get the pasted OTP code from the clipboard
@@ -78,12 +88,46 @@ export default {
       } else {
         this.focusNextInput(event);
       }
-
       if (this.code.every((digit) => digit !== '')) {
         this.$emit('update:modelValue', this.code.join(''));
         this.$emit('complete', this.code.join(''));
       }
     },
+    handleKeyDown(event) {
+      console.log('handleKeyDown');
+      //if the key is backspace, go to previous input
+      if (event.keyCode === 8) {
+        this.focusPreviousInput(event);
+      }
+      //if the key is delete, clear the input
+      else if (event.keyCode === 46) {
+        this.clearInputs();
+      }
+      //if the key is a number, go to next input
+      else if (event.keyCode >= 48 && event.keyCode <= 57) {
+        this.focusNextInput(event);
+      }
+      //if the key is a number on the numpad, go to next input
+      else if (event.keyCode >= 96 && event.keyCode <= 105) {
+        this.focusNextInput(event);
+      }
+      //if the key is a right arrow, go to next input
+      else if (event.keyCode === 39) {
+        this.focusNextInput(event);
+      }
+      //if the key is a left arrow, go to previous input
+      else if (event.keyCode === 37) {
+        this.focusPreviousInput(event);
+      }
+      //if they key is a tab, go to next input
+      else if (event.keyCode === 9) {
+        this.focusNextInput(event);
+      } else {
+        // Prevent the default keydown behavior
+        event.preventDefault();
+      }
+    },
+
     async checkClipboard(event) {
       // Check if the clipboard contains a valid OTP code
       let otpCode = await navigator.clipboard.readText();

@@ -8,7 +8,7 @@
       @dblclick="enableEditName(id)"
       @keyup.enter="handleClick()"
       @mouseover="lockMenuButton()"
-      @drop="$emit('onListDrop', id)"
+      @drop="handleDrop(id)"
       class="group/menuItem focus:border-none focus:outline-none focus:ring-0"
       v-slot="{ active }">
       <component
@@ -167,6 +167,9 @@ export default {
         group: 'user',
         type: 'success',
       });
+    },
+    handleDropdownClick() {
+      this.$emit('onListDrop', this.id);
     },
 
     lockMenuButton() {
