@@ -1,10 +1,4 @@
 <template>
-  <button
-    class="cursor-pointer rounded bg-slate-200 px-4 py-2 text-slate-700 active:scale-95"
-    @click="hideMenu()">
-    {{ show ? 'Hide' : 'Show' }} Menu
-  </button>
-
   <teleport to="#crm">
     <div
       style="z-index: 9999"
