@@ -100,7 +100,7 @@ export default {
       // When on the last page
       if (this.currentPage === this.totalPages) {
         if (this.totalPages <= this.maxVisibleButtons) {
-          return Math.abs(this.totalPages - this.maxVisibleButtons);
+          return 1;
         } else {
           return Math.abs(this.totalPages - this.maxVisibleButtons + 1);
         }

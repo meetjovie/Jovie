@@ -37,7 +37,7 @@
             { hidden: selectedContactsModel.includes(contact.id) },
             'block',
           ]">
-          {{ row + 1 }}
+          {{ rowCounter(row) }}
         </span>
       </div>
     </DataGridCell>
@@ -242,6 +242,11 @@ export default {
     SparklesIcon,
   },
   mounted() {},
+  data() {
+    return {
+      row: 0,
+    };
+  },
   computed: {
     selectedContactsModel: {
       get() {
@@ -288,6 +293,13 @@ export default {
       // Handle the "update:currentCell" event emitted by the cell component
       this.$emit('update:currentCell', payload); // Emit a new event to the parent table component
     },
+    rowCounter(row) {
+      return (
+        this.contactsMeta.per_page * (this.contactsMeta.current_page - 1) +
+        row +
+        1
+      );
+    },
   },
   props: {
     userLists: Array,
@@ -310,6 +322,7 @@ export default {
     cellActive: Boolean | String,
     otherColumns: Array,
     columnIndex: Number,
+    contactsMeta: Object,
   },
 };
 </script>

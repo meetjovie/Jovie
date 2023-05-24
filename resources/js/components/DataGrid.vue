@@ -474,6 +474,7 @@
                     :currentCell="currentCell"
                     :networks="networks"
                     :stages="stages"
+                    :contactsMeta="contactsMeta"
                     :visibleColumns="visibleColumns"
                     :settings="settings"
                     :otherColumns="headers"
