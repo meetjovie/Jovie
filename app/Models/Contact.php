@@ -681,6 +681,9 @@ class Contact extends Model implements Auditable
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam($params['team_id']);
         foreach ($contacts as &$contact) {
+            if ($contact->description_updated_at) {
+                $contact->description_updated_at = Carbon::parse($contact->description_updated_at)->diffForHumans();
+            }
             // custom fields
             foreach ($customFields as $customField) {
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
@@ -873,6 +876,7 @@ class Contact extends Model implements Auditable
         $contactData = self::getFillableData($data);
         if (isset($contactData['description'])) {
             $contactData['description_updated_by'] = Auth::id();
+            $contactData['description_updated_at'] = Carbon::now();
         }
         $contact = self::setContactData($contact, $contactData);
 
