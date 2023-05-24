@@ -4,8 +4,50 @@
     @click="hideMenu()">
     {{ show ? 'Hide' : 'Show' }} Menu
   </button>
+  <Menu>
+    <TransitionRoot
+      :show="show"
+      enter-active-class="transition ease-out duration-100"
+      enter-from-class="transform opacity-0 scale-95"
+      enter-to-class="transform opacity-100 scale-100"
+      leave-active-class="transition ease-in duration-75"
+      leave-from-class="transform opacity-100 scale-100"
+      leave-to-class="transform opacity-0 scale-95">
+      <MenuItems as="div" :style="{ top: y + 'px', left: x + 'px' }" static>
+        <GlassmorphismContainer
+          style="z-index: 9999"
+          class="z-10 mt-2 w-48 origin-top-right px-1 py-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
+          <div class="py-1">
+            <ContactContextMenuItem
+              :contact="contact"
+              :contactMethods="[
+                'email',
+                'phone',
+                'sms',
+                'calendar',
+                'instagram',
+
+                'twitter',
+
+                'whatsapp',
+                'separator',
+                'validate',
+              ]">
+            </ContactContextMenuItem>
+
+            <slot>{{ contact.full_name }}</slot>
+          </div>
+        </GlassmorphismContainer>
+      </MenuItems>
+    </TransitionRoot>
+  </Menu>
   <teleport to="#crm">
-    <div>jooooooofd</div>
+    <div
+      style="z-index: 9999"
+      :style="{ top: y + 'px', left: x + 'px' }"
+      class="p-50 absolute rounded-xl bg-blue-500">
+      {{ x }} {{ y }}
+    </div>
     <Menu>
       <TransitionRoot
         :show="show"
@@ -15,9 +57,8 @@
         leave-active-class="transition ease-in duration-75"
         leave-from-class="transform opacity-100 scale-100"
         leave-to-class="transform opacity-0 scale-95">
-        <MenuItems>
+        <MenuItems as="div" :style="{ top: y + 'px', left: x + 'px' }" static>
           <GlassmorphismContainer
-            :style="{ top: y + 'px', left: x + 'px' }"
             style="z-index: 9999"
             class="z-10 mt-2 w-48 origin-top-right px-1 py-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
             <div class="py-1">
@@ -38,7 +79,7 @@
                 ]">
               </ContactContextMenuItem>
 
-              <slot></slot>
+              <slot>{{ contact.full_name }}</slot>
             </div>
           </GlassmorphismContainer>
         </MenuItems>
