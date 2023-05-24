@@ -82,7 +82,7 @@ export default {
 
     emojiSelected(emoji) {
       //emit the emoji to the parent component
-      this.$emit('emojiSelected', emoji);
+      this.$emit('updatedEmoji', emoji);
     },
   },
 };

@@ -49,6 +49,7 @@
               :routerLink="false"
               draggable
               editable
+              @subMenuItemClicked="handleSubMenuItemClicked($event)"
               :id="element.id"
               :emoji="element.emoji"
               :selected="selectedList == element.id"
@@ -412,6 +413,72 @@ export default {
     };
   },
   methods: {
+    emojiSelected(emoji) {
+      this.list.emoji = emoji;
+      this.updateList(this.list);
+      //if triggered from an item set the item emoji to the selected emoji if triggered from an element  set the element emoji to the selected emoji
+    },
+    handleSubMenuItemClicked(payload) {
+      if (payload == 1) {
+        this.checkListsEnrichable(payload);
+      } else if (payload == 2) {
+        this.editList(payload);
+      } else if (payload == 3) {
+        this.duplicateList(payload);
+      } else if (payload == 4) {
+        this.confirmListDeletion(payload);
+      }
+    },
+    updateList(item) {
+      item.updating = true;
+      UserService.updateList({ name: item.name, emoji: item.emoji }, item.id)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+            this.$emit('updateUserList', response.data);
+            // if (this.$refs[`list_${item.id}`]) {
+            //     this.$refs[`list_${item.id}`].blur();
+            // }
+            item.editName = false;
+            this.currentEditingList = null;
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+            this.enableEditName(item, true);
+          }
+        })
+        .catch((error) => {
+          console.log('errorerrorerrorerror');
+          console.log(error);
+          error = error.response;
+          if (error.status == 422) {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
+            this.enableEditName(item, true);
+          }
+        })
+        .finally((response) => {
+          item.updating = false;
+        });
+    },
     checkListsEnrichable(ids) {
       this.$store.dispatch('checkListsEnrichable', ids).then((response) => {
         response = response.data;

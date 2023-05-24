@@ -1,4 +1,4 @@
-import ButtonGroup from './ButtonGroup.vue';
+import ButtonGroup from '../resources/js/components/ButtonGroup.vue';
 
 export default {
   title: 'Components/ButtonGroup',
