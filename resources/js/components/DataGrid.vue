@@ -1078,8 +1078,17 @@ export default {
       this.rightClickMenuCoordinates.x = coordinates.x;
 
       console.log(coordinates.x, coordinates.y);
+      //open the menu if its not already open else close it
+      if (!this.rightClickMenuOpen) {
+        this.rightClickMenuOpen = true;
+      } else {
+        //if the contact is the same as the one already open then close it
+        if (this.rightClickMenuContact.id == contact.id) {
+          this.rightClickMenuOpen = false;
+          return;
+        }
+      }
 
-      this.rightClickMenuOpen = true;
       this.rightClickMenuContact = contact;
     },
     closeRightClickMenu() {
