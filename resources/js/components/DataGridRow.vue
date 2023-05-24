@@ -1,6 +1,5 @@
 <template>
   <tr
-    @click.shift.prevent="toggleRow(contact.id)"
     class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == contact.id
@@ -8,6 +7,10 @@
         : 'bg-white dark:bg-jovieDark-900',
       selectedContactsModel.includes(contact.id) ? 'bg-blue-50' : '',
     ]">
+    <div
+      @click.shift.prevent="toggleRow(contact.id)"
+      v-if="shiftDown"
+      class="absolute z-50 h-14 w-full"></div>
     <DataGridCell
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
@@ -246,7 +249,8 @@ export default {
   data() {
     return {
       row: 0,
-    };
+      shiftDown: false,
+    },
   },
   computed: {
     selectedContactsModel: {
@@ -259,6 +263,16 @@ export default {
     },
   },
   methods: {
+    onKeyDown(event) {
+      if (event.key === 'Shift') {
+        this.shiftDown = true;
+      }
+    },
+    onKeyUp(event) {
+      if (event.key === 'Shift') {
+        this.shiftDown = false;
+      }
+    },
     toggleRow(id) {
       if (this.selectedContactsModel.includes(id)) {
         this.selectedContactsModel.splice(

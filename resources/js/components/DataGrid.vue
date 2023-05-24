@@ -1750,6 +1750,7 @@ export default {
               text: response.message,
             });
             this.$emit('getUserLists');
+            this.$emit('getCrmContacts');
             this.$emit('crmCounts');
           } else {
             this.$notify({
