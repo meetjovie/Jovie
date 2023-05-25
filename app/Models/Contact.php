@@ -1210,7 +1210,7 @@ class Contact extends Model implements Auditable
     public static function updateCustomFields($data, $contact, $merge = false)
     {
         $cc = new Contact();
-        $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
+        $customFields = $cc->getFieldsByTeam($data['team_id']);
         foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];

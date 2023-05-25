@@ -144,7 +144,11 @@ class ImportContacts implements ShouldQueue
                 foreach ($customKeys as $customKey) {
                     $data[$customKey] = $row[$this->payload->mappedColumns->$customKey];
                 }
-                Contact::updateCustomFields($data, $contact);
+                if (count($data)) {
+                    $data['team_id'] = $this->payload->teamId;
+                    $data['user_id'] = $this->payload->userId;
+                    Contact::updateCustomFields($data, $contact);
+                }
 
                 $team = Team::find($contact->team_id);
                 if ($team->autoEnrichImportEnabled()) {
