@@ -1,6 +1,7 @@
 <template>
   <teleport to="#crm">
     <div
+      ref="rightClickMenu"
       style="z-index: 9999"
       :style="{ top: y + 'px', left: x + 'px' }"
       class="absolute">
@@ -68,8 +69,6 @@
                       )
                     " />
                 </ContactContextMenuItem>
-
-                <slot></slot>
               </div>
             </GlassmorphismContainer>
           </MenuItems>
@@ -98,16 +97,28 @@ export default {
     CloudArrowDownIcon,
     GlassmorphismContainer,
   },
+  mounted() {
+    document.addEventListener('click', this.closeMenu);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.closeMenu);
+  },
   methods: {
     hideMenu() {
       console.log('hide menu');
       //emit event to parent
       this.$emit('hide-menu');
     },
-    showMenu(e) {
-      this.x = e.pageX;
-      this.y = e.pageY;
-      this.show = true;
+
+    closeMenu(event) {
+      //if click outside of menu and trigger is not menu-button then hideMenu()
+      if (
+        !this.$refs.rightClickMenu.contains(event.target) &&
+        this.trigger !== 'menu-button'
+      ) {
+        this.hideMenu();
+        console.log('Menu closed' + this.trigger);
+      }
     },
   },
   //add props
@@ -119,6 +130,10 @@ export default {
     show: {
       type: Boolean,
       default: false,
+    },
+    trigger: {
+      type: String,
+      default: 'right-click',
     },
     x: {
       type: Number,

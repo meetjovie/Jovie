@@ -468,7 +468,12 @@
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
-                    @contextMenuClicked="openRightClickMenu($event, contact)"
+                    @contextMenuClicked="
+                      openRightClickMenuContextClick($event, contact)
+                    "
+                    @contextMenuButtonClicked="
+                      openRightClickMenuButton($event, contact)
+                    "
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -570,6 +575,7 @@
     </template>
   </ModalPopup>
   <RightClickMenu
+    :trigger="contextMenuTrigger"
     :contact="rightClickMenuContact"
     @hideMenu="closeRightClickMenu()"
     :show="rightClickMenuOpen"
@@ -758,6 +764,7 @@ export default {
         description: 'hellooo hello hello',
         loading: false,
       },
+      contextMenuTrigger: '',
       currentCell: {
         row: 0,
         column: 0,
@@ -1090,6 +1097,21 @@ export default {
       }
 
       this.rightClickMenuContact = contact;
+    },
+    openRightClickMenuContextClick(contact) {
+      this.openRightClickMenu(contact);
+      console.log('right-click.');
+      this.contextMenuTrigger = 'right-click';
+    },
+    openRightClickMenuButton(contact) {
+      this.openRightClickMenu(contact);
+      console.log('menu button pressed.');
+      this.contextMenuTrigger = 'menu-button';
+      //set the contextMenuTrigger to menu-button then after .1 second reset it to ''
+      setTimeout(() => {
+        this.contextMenuTrigger = '';
+        console.log('reset contextMenuTrigger');
+      }, 100);
     },
     closeRightClickMenu() {
       console.log('close');

@@ -143,7 +143,8 @@
         </div>
         <div>
           <button
-            @click="handleContextMenu($event, contact)"
+            ref="contextMenuButton"
+            @click="handleMenuButton($event, contact)"
             class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
             <span class="sr-only">Open options</span>
             <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
@@ -276,6 +277,16 @@ export default {
 
       console.log('context menu clicked ' + contact.full_name);
       this.$emit('contextMenuClicked', contact, coordinates);
+    },
+    handleMenuButton(event, contact) {
+      event.preventDefault(); // Prevents the default context menu from showing up
+      const coordinates = {
+        x: event.pageX, // Extract the x-coordinate from the event
+        y: event.pageY, // Extract the y-coordinate from the event
+      };
+
+      console.log('context menu clicked ' + contact.full_name);
+      this.$emit('contextMenuButtonClicked', contact, coordinates);
     },
 
     updateAvatar(pic) {
