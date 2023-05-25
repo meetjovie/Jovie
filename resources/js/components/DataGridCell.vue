@@ -5,7 +5,7 @@
       'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium dark:border-jovieDark-border',
 
       freezeColumn
-        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-800'
+        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent  font-bold first:border-l last:border-r '
         : '',
 
       freezeColumn && currentContact.id == contact.id
