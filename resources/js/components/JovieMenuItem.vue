@@ -120,7 +120,7 @@ import {
   LockClosedIcon,
   ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
-import UserService from "../services/api/user.service";
+import UserService from '../services/api/user.service';
 
 export default {
   components: {
@@ -152,7 +152,7 @@ export default {
     async enableEditName(id, fallBackFocus = false) {
       console.log(this.menuItems, 'enableEdit');
       if (!fallBackFocus) {
-          this.newName = this.name;
+        this.newName = this.name;
       }
       this.editingName = true;
       await this.$nextTick(() => {
@@ -164,64 +164,64 @@ export default {
     disableEditName() {
       this.editingName = false;
     },
-      updateList() {
-          this.updating = true;
-          UserService.updateList({ name: this.newName, emoji: this.emoji }, this.id)
-              .then((response) => {
-                  response = response.data;
-                  if (response.status) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'success',
-                          duration: 15000,
-                          title: 'Successful',
-                          text: response.message,
-                      });
-                      this.$emit('updateUserList', response.data);
-                      // if (this.$refs[`list_${item.id}`]) {
-                      //     this.$refs[`list_${item.id}`].blur();
-                      // }
-                      this.editingName = false;
-                      this.currentEditingList = null;
-                  } else {
-                      // show toast error here later
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: response.message,
-                      });
-                      this.enableEditName(item, true);
-                  }
-              })
-              .catch((error) => {
-                  console.log('errorerrorerrorerror');
-                  console.log(error);
-                  error = error.response;
-                  if (error.status == 422) {
-                      this.$notify({
-                          group: 'user',
-                          type: 'error',
-                          duration: 15000,
-                          title: 'Error',
-                          text: Object.values(error.data.errors)[0][0],
-                      });
-                      this.enableEditName(this.id, true);
-                  }
-              })
-              .finally((response) => {
-                  this.updating = false;
-              });
-      },
+    updateList() {
+      this.updating = true;
+      UserService.updateList({ name: this.newName, emoji: this.emoji }, this.id)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.$notify({
+              group: 'user',
+              type: 'success',
+              duration: 15000,
+              title: 'Successful',
+              text: response.message,
+            });
+            this.$emit('updateUserList', response.data);
+            // if (this.$refs[`list_${item.id}`]) {
+            //     this.$refs[`list_${item.id}`].blur();
+            // }
+            this.editingName = false;
+            this.currentEditingList = null;
+          } else {
+            // show toast error here later
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: response.message,
+            });
+            this.enableEditName(item, true);
+          }
+        })
+        .catch((error) => {
+          console.log('errorerrorerrorerror');
+          console.log(error);
+          error = error.response;
+          if (error.status == 422) {
+            this.$notify({
+              group: 'user',
+              type: 'error',
+              duration: 15000,
+              title: 'Error',
+              text: Object.values(error.data.errors)[0][0],
+            });
+            this.enableEditName(this.id, true);
+          }
+        })
+        .finally((response) => {
+          this.updating = false;
+        });
+    },
     handleClick() {
       this.$emit('button-click');
     },
     handleSubmenuClick(id) {
-        // console.log(item, id)
+      // console.log(item, id)
       //log the name of the current component and the item that was clicked
       // console.log('Item clicked in JovieMenuItem.vue: ', item);
-      this.$emit('subMenuItemClicked',  id);
+      this.$emit('subMenuItemClicked', id);
     },
     updateValue() {
       //emit the new value to the parent
@@ -235,8 +235,8 @@ export default {
         type: 'success',
       });
     },
-    handleDropdownClick() {
-      this.$emit('onListDrop', this.id);
+    handleDrop(id) {
+      this.$emit('onListDrop', id);
     },
 
     lockMenuButton() {
