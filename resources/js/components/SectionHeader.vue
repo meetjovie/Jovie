@@ -1,11 +1,12 @@
 <template>
-  <div class="flex items-center justify-between">
-    <div
-      :class="
-        border
-          ? 'border-b border-gray-200 py-6 pb-5 leading-4 dark:border-jovieDark-border'
-          : 'border-none'
-      ">
+  <div
+    :class="
+      border
+        ? 'border-b border-gray-200 py-6 pb-5 leading-4 dark:border-jovieDark-border'
+        : 'border-none'
+    "
+    class="flex items-center justify-between">
+    <div class="leading-4">
       <h3
         :class="size === 'lg' ? 'text-lg' : 'text-2xl'"
         class="text-2xl font-medium leading-6 text-slate-900 dark:text-jovieDark-100">
