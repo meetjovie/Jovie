@@ -1,6 +1,6 @@
 <template>
   <tr
-    @contextmenu.prevent="handleContextMenu($event, contact)"
+    @contextmenu="handleContextMenu($event, contact)"
     class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == contact.id
@@ -142,11 +142,17 @@
           >
         </div>
         <div>
-          <ContactContextMenu
+          <button
+            @click="handleContextMenu(contact)"
+            class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
+            <span class="sr-only">Open options</span>
+            <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
+          </button>
+          <!-- <ContactContextMenu
             :open="contact.showContextMenu"
             :contact="contact">
-            <!--  Kill this option til we fix the Contact Overview page -->
-            <!--  <DropdownMenuItem
+           Kill this option til we fix the Contact Overview page 
+              <DropdownMenuItem
               name="Open Contact"
               icon="ViewfinderCircleIcon"
               color="text-blue-600 dark:text-blue-400"
@@ -155,7 +161,7 @@
                   name: 'Contact Overview',
                   params: { id: contact.id },
                 })
-              " /> -->
+              " /> 
             <DropdownMenuItem
               name="Refresh"
               color="text-green-600 dark:text-green-400"
@@ -183,7 +189,7 @@
               @click="
                 $emit('toggleContactsFromList', contact.id, filters.list, true)
               " />
-          </ContactContextMenu>
+          </ContactContextMenu> -->
         </div>
       </div>
     </DataGridCell>
@@ -224,6 +230,7 @@ import ContactContextMenu from './ContactContextMenu.vue';
 import ContactAvatar from './ContactAvatar.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
 import {
+  EllipsisVerticalIcon,
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
   SparklesIcon,
@@ -239,6 +246,7 @@ export default {
     DropdownMenuItem,
     ContactAvatar,
     ArrowTopRightOnSquareIcon,
+    EllipsisVerticalIcon,
     XMarkIcon,
     SparklesIcon,
   },
