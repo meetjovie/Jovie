@@ -8,7 +8,7 @@
       @dblclick="enableEditName(id)"
       @keyup.enter="handleClick()"
       @mouseover="lockMenuButton()"
-      @drop="$emit('onListDrop', id)"
+      @drop="handleDrop(id)"
       class="group/menuItem focus:border-none focus:outline-none focus:ring-0"
       v-slot="{ active }">
       <component
@@ -22,7 +22,7 @@
             active || selected
               ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200 '
               : 'text-slate-900 dark:text-jovieDark-100',
-            'group flex h-8 w-full items-center justify-between rounded px-2 text-xs  focus:border-none focus:outline-none  focus:ring-0 ',
+            'group flex h-8 w-full items-center justify-between rounded px-2 text-xs focus:border-none  focus:outline-none focus:ring-0  active:shadow ',
           ]">
           <div class="flex items-center">
             <div v-if="draggable" class="flex h-4 w-6 items-center">
@@ -167,6 +167,9 @@ export default {
         group: 'user',
         type: 'success',
       });
+    },
+    handleDropdownClick() {
+      this.$emit('onListDrop', this.id);
     },
 
     lockMenuButton() {

@@ -16,12 +16,14 @@
         <PopoverPanel
           v-slot="{ close }"
           class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border sm:px-0 lg:w-60">
-          <EmojiPicker
-            :class="{ 'dark-theme': $store.state.theme === 'dark' }"
-            disable-skin-tones
-            native
-            :theme="theme"
-            @select="handleEmojiSelection" />
+          <PopoverButton>
+            <EmojiPicker
+              :class="{ 'dark-theme': $store.state.theme === 'dark' }"
+              disable-skin-tones
+              native
+              :theme="theme"
+              @select="handleEmojiSelection" />
+          </PopoverButton>
         </PopoverPanel>
       </Float>
     </Popover>
@@ -77,12 +79,16 @@ export default {
     handleEmojiSelection(emoji) {
       this.emojiSelected(emoji.i);
       console.log(emoji.i);
-      // close();
+    },
+    closeModal() {
+      this.close = true;
     },
 
-    emojiSelected(emoji) {
+    async emojiSelected(emoji) {
       //emit the emoji to the parent component
       this.$emit('emojiSelected', emoji);
+      // close();
+      await this.close();
     },
   },
 };

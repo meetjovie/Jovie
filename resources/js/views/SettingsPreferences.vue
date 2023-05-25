@@ -6,14 +6,17 @@
         v-if="teamSetting.type == 'radio'"
         :header="toTitleCase(unSlugify(key))"
         :subheader="teamSetting.description">
-        <CheckboxInput
-          :checked="teamSetting.value == 1 ? true : false"
-          v-model="teamSetting.value"
-          :name="key"
-          :disabled="updating" />
-        <label :for="key">{{
-          teamSetting.value == 1 ? 'Disable' : 'Enable'
-        }}</label>
+        <div class="mt-2 flex items-center space-x-2">
+          <CheckboxInput
+            :checked="teamSetting.value == 1 ? true : false"
+            v-model="teamSetting.value"
+            :name="key"
+            :disabled="updating" />
+
+          <label class="text-slate-600 dark:text-jovieDark-300" :for="key">{{
+            teamSetting.value == 1 ? 'Disable' : 'Enable'
+          }}</label>
+        </div>
       </SectionWrapper>
       <SectionWrapper
         v-else
@@ -22,9 +25,7 @@
         <TextAreaInput v-model="teamSetting.value" />
       </SectionWrapper>
     </div>
-
-    <div
-      class="flex items-center justify-end text-right shadow dark:bg-jovieDark-900 dark:bg-jovieDark-900 sm:rounded-bl-md sm:rounded-br-md sm:px-6">
+    <div class="py-4">
       <ButtonGroup
         type="submit"
         design="primary"

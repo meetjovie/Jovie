@@ -21,17 +21,17 @@ class TeamSetting extends Model
         'auto_enrich_import' => [
             'default' => false,
             'type' => 'radio',
-            'description' => 'Automatically enrich contacts when imported'
+            'description' => 'Automatically enrich contacts when imported. This will use enrichment credits from your plan.'
         ],
         'auto_enrich_update' => [
             'default' => false,
             'type' => 'radio',
-            'description' => 'Automatically enrich contacts when updated'
+            'description' => 'Automatically enrich contacts when updated. This will use enrichment credits from your plan.'
         ],
         'calender_event_note'=> [
             'default' => 'Added to Calender event in Jovie',
             'type' => 'text',
-            'description' => 'Set default settings for new calender events'
+            'description' => 'Set a default note to be added to new calender events created by Jovie.'
         ],
     ];
 
