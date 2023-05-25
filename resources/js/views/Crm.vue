@@ -568,6 +568,7 @@
                           @export="exportCrmContacts"
                           @updateFiltersContact="updateFiltersContact"
                           @suggestionExists="toggleMergeSuggestion"
+                          @updateCrmCount="crmCounts"
                           :header="
                             filters.type === 'list'
                               ? filters.currentList
@@ -892,6 +893,8 @@ export default {
           onClick: () => (this.suggestMerge = !this.suggestMerge),
           name: 'Duplicates',
           icon: 'DocumentDuplicateIcon',
+          count: 'duplicates',
+            type: 'duplicates'
         },
       ],
     };

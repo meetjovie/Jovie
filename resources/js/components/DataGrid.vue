@@ -1122,6 +1122,7 @@ export default {
       this.contactRecords.splice(this.contactRecords.indexOf(newContact), 1);
       this.contactRecords[this.contactRecords.indexOf(oldContact)] =
         data.newContact;
+      this.$emit('updateCrmCount');
       this.suggestContactsMerge([]);
     },
     rejectMerge(id) {

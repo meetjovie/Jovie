@@ -20,6 +20,7 @@ class ContactService
         $contacts = Contact::getContacts($params);
 
         $duplicate = null;
+        $duplicates = [];
 
         // Loop through each contact and compare it to the others
         foreach ($contacts as $i => $contact1) {
@@ -34,13 +35,12 @@ class ContactService
                         'contacts' => [$contact1, $contact2, $mergedContact],
                         'matched_fields' => $matchedFields
                     ];
-                    break;
+                    $duplicates[] = $duplicate;
                 }
             }
         }
 
-
-        return $duplicate;
+        return collect($duplicates);
     }
 
     private function isDuplicate($contact1, $contact2)

@@ -7,6 +7,7 @@ use App\Jobs\EnrichContacts;
 use App\Jobs\EnrichList;
 use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
+use App\Services\ContactService;
 use App\Traits\CustomFieldsTrait;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
@@ -704,6 +705,7 @@ class Contact extends Model implements Auditable
 
     public static function getCrmCounts()
     {
+        $contactService = new ContactService();
         $counts = Contact::query()->selectRaw(
             "team_id,
             sum(case when archived = false then 1 else 0 end) AS total,
@@ -713,7 +715,11 @@ class Contact extends Model implements Auditable
         )->groupBy('team_id')->first();
 
         if ($counts) {
+            $params['user_id'] = Auth::id();
+            $params['team_id'] = Auth::user()->currentTeam->id;
+            $params['type'] = 'list';
             $counts = $counts->makeHidden(['stage_name']);
+            $counts->duplicates = $contactService->findDuplicates($params)->count() . '';
             unset($counts->team_id);
         } else {
             $counts = [
@@ -721,6 +727,7 @@ class Contact extends Model implements Auditable
                 'favourite' => 0,
                 'total' => 0,
                 'birthday' => 0,
+                'duplicates' => 0,
             ];
         }
         return $counts;
