@@ -69,11 +69,11 @@
                       )
                     " />
                 </ContactContextMenuItem>
-                <DropdownMenuItem
+                <!-- <DropdownMenuItem
                   name="Refresh"
                   color="text-green-600 dark:text-green-400"
                   icon="ArrowPathIcon"
-                  @click="$emit('refresh', contact)" />
+                  @click="$emit('refresh', contact)" /> -->
 
                 <!--  <DropdownMenuItem
                   :name="

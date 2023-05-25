@@ -131,14 +131,17 @@ export default {
       required: false,
     },
   },
+
   methods: {
     createCalendarEvent(contact) {
+      const defaultNote = 'hello world';
+
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
           this.currentUser.first_name
-        } ${this.currentUser.last_name} <> ${contact.name}&details=Created by ${
-          this.currentUser.first_name
-        } ${
+        } ${this.currentUser.last_name} <> ${
+          contact.full_name
+        }&details=${defaultNote} Created by ${this.currentUser.first_name} ${
           this.currentUser.last_name
         } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
           contact.emails[0] || ''
@@ -152,7 +155,7 @@ export default {
         window.open('mailto:' + email);
         //else log no email found
       } else {
-        console.log('No email found');
+        console.log('No emails found');
         this.$notify({
           title: 'No email found',
           message: 'This contact does not have an email address',
