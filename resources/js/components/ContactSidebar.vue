@@ -269,7 +269,7 @@
                 ghost-class="ghost-card"
                 :contact="contact"
                 @end="sortFields"
-                :list="displayAbleFields">
+                v-model="displayAbleFields">
                 <!-- v-if for contact[element.model] check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
@@ -705,6 +705,8 @@ export default {
       socialMediaProfileUrl: '',
       currentNetwork: '',
       ignoreFieldIdForNonDisplay: [],
+        displayAbleFields: [],
+        nonDisplayAbleFields: []
     };
   },
   methods: {

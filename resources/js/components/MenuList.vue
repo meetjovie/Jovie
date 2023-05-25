@@ -138,7 +138,7 @@
       </draggable>
     </ul>
     <ul v-if="showMenu && !draggable" class="">
-      <div v-for="item in menuItems" :key="item.id">
+      <div v-for="item in menuItemsList" :key="item.id">
         <MenuItem @click="$emit('setFilterList', item.id)" v-slot="{ active }">
           <div
             :class="[
@@ -411,6 +411,7 @@ export default {
       },
       creatingList: false,
       currentEditingList: null,
+        menuItemsList: []
     };
   },
   methods: {
@@ -852,26 +853,32 @@ export default {
     DropdownMenuItem,
   },
   computed: {
-    menuItemsList: {
-      get() {
-        return this.menuItems;
-      },
-      set(val) {
-        this.$emit('updateMenuItems', val);
-      },
-    },
+    // menuItemsList: {
+    //   get() {
+    //     return this.menuItems;
+    //   },
+    //   set(val) {
+    //     this.$emit('updateMenuItems', val);
+    //   },
+    // },
   },
   watch: {
-    menuItems(val) {
-      if (this.menuName == 'Lists' && this.currentEditingList) {
-        let enabledList = this.menuItems.find(
-          (list) => this.currentEditingList.id === list.id
-        );
-        if (enabledList) {
-          this.enableEditName(enabledList);
+    menuItems: {
+        deep: true,
+        immediate: true,
+        handler: function (val) {
+            if (this.menuName == 'Lists' && this.currentEditingList) {
+                let enabledList = this.menuItems.find(
+                    (list) => this.currentEditingList.id === list.id
+                );
+                if (enabledList) {
+                    this.enableEditName(enabledList);
+                }
+            }
+            this.menuItemsList = val;
+            this.$emit('updateMenuItems', val);
         }
-      }
-    },
+    }
   },
   props: {
     menuName: {
