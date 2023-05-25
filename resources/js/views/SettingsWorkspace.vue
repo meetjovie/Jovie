@@ -3,6 +3,16 @@
     <SectionHeader
       header="Workspace"
       subheader="Manage your workspace settings" />
+    <SectionWrapper
+      callToAction="Upgrade plan"
+      header="Plan Usage"
+      :subheader="
+        'You are currently on a ' +
+        currentUser.current_team.current_subscription.name
+      "
+      ctaLink="/plan">
+      <DataStatCards :stats="stats" />
+    </SectionWrapper>
     <SectionWrapper header="Team" :subheader="'Emoji'">
       <div class="">
         <EmojiPickerModal
@@ -28,14 +38,6 @@
           text="update"
           @click="updateTeam({ name: currentUser.current_team.name })" />
       </div>
-    </SectionWrapper>
-    <SectionWrapper
-      header="Plan Usage"
-      :subheader="
-        'You are currently on a ' +
-        currentUser.current_team.current_subscription.name
-      ">
-      <DataStatCards :stats="stats" />
     </SectionWrapper>
   </div>
 </template>
