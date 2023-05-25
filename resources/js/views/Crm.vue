@@ -1246,7 +1246,10 @@ export default {
         });
     },
     onListDrop(listId) {
-      this.$refs.crmTableGrid.toggleContactsFromList(
+        if (! this.$store.state.currentlyDraggedContact) {
+            return
+        }
+        this.$refs.crmTableGrid.toggleContactsFromList(
         this.$store.state.currentlyDraggedContact,
         listId,
         false

@@ -1,9 +1,4 @@
 <template>
-  <JovieTooltip
-    v-if="!hideIfEmpty || !hide || count > 0"
-    as="template"
-    :disabled="tooltipDisabled"
-    :tooltipText="description">
     <MenuItem
       @dblclick="enableEditName(id)"
       @keyup.enter="handleClick()"
@@ -93,7 +88,6 @@
         </div>
       </component>
     </MenuItem>
-  </JovieTooltip>
 </template>
 
 <script>
@@ -127,7 +121,6 @@ export default {
     MenuItem,
     MenuButton,
     Menu,
-    JovieTooltip,
     Float,
     EmojiPickerModal,
     JovieDropdownMenu,
