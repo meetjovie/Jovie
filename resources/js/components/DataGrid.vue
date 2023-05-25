@@ -489,6 +489,7 @@
                     :selectedContacts="selectedContacts"
                     @updateSelectedContacts="selectedContacts = $event"
                     :contact="element"
+                    @refresh="refresh(element)"
                     :row="index"
                     :column="currentCell.column"
                     :userLists="userLists"
@@ -499,7 +500,6 @@
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
                     "
-                    @refresh="refresh(element)"
                     @updateContact="$emit('updateContact', $event)"
                     @updateListCount="$emit('updateListCount', $event)"
                     @archive-contacts="
