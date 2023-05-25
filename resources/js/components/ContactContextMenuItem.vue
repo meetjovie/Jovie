@@ -134,7 +134,8 @@ export default {
 
   methods: {
     createCalendarEvent(contact) {
-      const defaultNote = this.currentUser.workspace_preferences.calender_event_note;
+      const defaultNote =
+        this.currentUser.workspace_preferences.calender_event_note;
 
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
