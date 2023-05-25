@@ -143,7 +143,7 @@
         </div>
         <div>
           <button
-            @click="handleContextMenu(contact)"
+            @click="handleContextMenu($event, contact)"
             class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
             <span class="sr-only">Open options</span>
             <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
