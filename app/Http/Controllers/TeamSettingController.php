@@ -20,8 +20,8 @@ class TeamSettingController extends Controller
     {
         $updatedSettings = $request->teamSettings;
 
-            foreach ($updatedSettings as $key => $value) {
-            TeamSetting::setSetting($key, $value['value']);
+        foreach ($updatedSettings as $key => $value) {
+            TeamSetting::setSetting($key, $value['value'] ?? $value['default']);
         }
 
         return response()->json([
