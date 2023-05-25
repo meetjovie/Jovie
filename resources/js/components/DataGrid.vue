@@ -901,6 +901,7 @@ export default {
       this.previousContact();
       this.handleCellNavigation('ArrowUp');
     });
+
     this.$mousetrap.bind('/', () => {
       if (!this.searchVisible) {
         this.searchVisible = true;

@@ -251,7 +251,7 @@ export default {
     return {
       row: 0,
       shiftDown: false,
-    }
+    };
   },
   mounted() {
     window.addEventListener('keydown', this.onKeyDown);
