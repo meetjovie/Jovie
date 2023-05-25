@@ -473,7 +473,7 @@ class CrmController extends Controller
         $params['list'] = $request->listId;
         $params['contact_ids'] = $request->contact_ids;
 
-        $mergeSuggestions = $contactService->findDuplicates($params)->first();
+        $mergeSuggestions = $contactService->findDuplicates($params);
 
         $message = 'Here are your merge suggestions.';
         if (is_null($mergeSuggestions)) {

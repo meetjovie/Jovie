@@ -719,7 +719,7 @@ class Contact extends Model implements Auditable
             $params['team_id'] = Auth::user()->currentTeam->id;
             $params['type'] = 'list';
             $counts = $counts->makeHidden(['stage_name']);
-            $counts->duplicates = $contactService->findDuplicates($params)->count() . '';
+            $counts->duplicates = $contactService->findDuplicates($params, true) . '';
             unset($counts->team_id);
         } else {
             $counts = [
