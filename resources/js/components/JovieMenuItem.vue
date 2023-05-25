@@ -49,12 +49,12 @@
               name
             }}</span>
             <input
-              ref="menuItemInput"
-              @keyup.esc="disableEditName(list)"
-              @keyup.enter="updateValue(name)"
+              :ref="`list_${id}`"
+              @keyup.esc="disableEditName"
+              @keyup.enter="updateList(name)"
               @blur="updateList(name)"
               v-else
-              :value="name"
+              v-model="newName"
               class="rounded-md border px-2 text-xs font-light text-slate-700 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
           </div>
 
@@ -78,7 +78,7 @@
             <JovieDropdownMenu
               v-if="menuItems"
               placement="bottom-end"
-              @item-clicked="handleSubmenuClick($event, id)"
+              @item-clicked="handleSubmenuClick($event)"
               :items="subMenuItems"
               :offset="0"
               :searchable="false">
@@ -120,6 +120,7 @@ import {
   LockClosedIcon,
   ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
+import UserService from "../services/api/user.service";
 
 export default {
   components: {
@@ -148,13 +149,79 @@ export default {
     UserIcon,
   },
   methods: {
+    async enableEditName(id, fallBackFocus = false) {
+      console.log(this.menuItems, 'enableEdit');
+      if (!fallBackFocus) {
+          this.newName = this.name;
+      }
+      this.editingName = true;
+      await this.$nextTick(() => {
+        if (this.$refs[`list_${id}`]) {
+          this.$refs[`list_${id}`].focus();
+        }
+      });
+    },
+    disableEditName() {
+      this.editingName = false;
+    },
+      updateList() {
+          this.updating = true;
+          UserService.updateList({ name: this.newName, emoji: this.emoji }, this.id)
+              .then((response) => {
+                  response = response.data;
+                  if (response.status) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'success',
+                          duration: 15000,
+                          title: 'Successful',
+                          text: response.message,
+                      });
+                      this.$emit('updateUserList', response.data);
+                      // if (this.$refs[`list_${item.id}`]) {
+                      //     this.$refs[`list_${item.id}`].blur();
+                      // }
+                      this.editingName = false;
+                      this.currentEditingList = null;
+                  } else {
+                      // show toast error here later
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: response.message,
+                      });
+                      this.enableEditName(item, true);
+                  }
+              })
+              .catch((error) => {
+                  console.log('errorerrorerrorerror');
+                  console.log(error);
+                  error = error.response;
+                  if (error.status == 422) {
+                      this.$notify({
+                          group: 'user',
+                          type: 'error',
+                          duration: 15000,
+                          title: 'Error',
+                          text: Object.values(error.data.errors)[0][0],
+                      });
+                      this.enableEditName(this.id, true);
+                  }
+              })
+              .finally((response) => {
+                  this.updating = false;
+              });
+      },
     handleClick() {
       this.$emit('button-click');
     },
-    handleSubmenuClick(item, id) {
+    handleSubmenuClick(id) {
+        // console.log(item, id)
       //log the name of the current component and the item that was clicked
-      console.log('Item clicked in JovieMenuItem.vue: ', item);
-      this.$emit('subMenuItemClicked', item, id);
+      // console.log('Item clicked in JovieMenuItem.vue: ', item);
+      this.$emit('subMenuItemClicked',  id);
     },
     updateValue() {
       //emit the new value to the parent
@@ -189,6 +256,7 @@ export default {
   data() {
     return {
       editingName: false,
+      newName: '',
       menuButtonLocked: false,
       tooltipDisabled: false,
       subMenuItems: [

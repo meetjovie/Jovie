@@ -49,6 +49,7 @@
               :routerLink="false"
               draggable
               editable
+              @updateUserList="$emit('updateUserList', $event)"
               @subMenuItemClicked="handleSubMenuItemClicked($event, element)"
               :id="element.id"
               :emoji="element.emoji"
@@ -421,19 +422,15 @@ export default {
     handleSubMenuItemClicked(payload, item) {
       //log the payload and item
       //log the name of the current component and the item that was clicked
-      console.log(
-        'Item clicked in MenuList.vue' + payload + ' List name' + item
-      );
 
-      console.log('list name' + item.name);
       if (payload == 1) {
-        this.checkListsEnrichable(item.id);
+        this.checkListsEnrichable(item);
       } else if (payload == 2) {
         this.editList(item);
       } else if (payload == 3) {
-        this.duplicateList(item);
+        this.duplicateList(item.id);
       } else if (payload == 4) {
-        this.confirmListDeletion(item);
+        this.confirmListDeletion(item.id);
       }
     },
     checkListsEnrichable(ids) {
@@ -697,6 +694,7 @@ export default {
       this.editListPopup.open = false;
     },
     duplicateList(id) {
+        console.log(id)
       UserService.duplicateList(id)
         .then((response) => {
           response = response.data;
