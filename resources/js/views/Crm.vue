@@ -1338,17 +1338,18 @@ export default {
       this.currentContact = contact;
     },
     setFiltersType(type) {
-      if (type != 'list') {
+
+      this.loading = true;
+      this.filters.type = this.filters.type == type ? 'all' : type;
+      if (this.filters.type != 'list') {
         if (this.filters.list) {
           let channelName = `presence-userOnUserlist.${
-            this.currentUser.current_team.id
+              this.currentUser.current_team.id
           }.${this.filters.list ?? 0}`;
           Echo.leave(channelName);
         }
         this.activeUsersOnList = [];
       }
-      this.loading = true;
-      this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
       this.$store.state.overviewList = null;
       this.filters.currentList = null;
@@ -1362,6 +1363,7 @@ export default {
           this.currentUser.current_team.id
         }.${this.filters.list ?? 0}`;
         Echo.leave(channelName);
+        this.activeUsersOnList = [];
       }
 
       this.filters.type = 'list';
