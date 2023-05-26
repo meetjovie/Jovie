@@ -10,12 +10,10 @@
       </dt>
       <dd
         class="mt-1 text-3xl font-semibold tracking-tight text-slate-900 dark:text-jovieDark-200">
-        {{ item.stat }} / {{ item.limit }}
+        {{ formatCount(item.stat) }} /
+        {{ formatCount(item.limit) }}
       </dd>
-      <ProgressBar
-        size="xs"
-        :color="black"
-        :percentage="item.progressBar" />
+      <ProgressBar size="xs" :color="black" :percentage="item.progressBar" />
       <span
         v-if="item.reached"
         class="text-2xs text-red-600 dark:text-jovieDark-300">
