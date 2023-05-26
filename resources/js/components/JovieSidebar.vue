@@ -133,9 +133,7 @@
 
                     <template #menuBottom>
                       <router-link v-if="currentUser.is_admin" to="/admin">
-                        <DropdownMenuItem
-                          name="Dashboard"
-                          icon="ChartBarIcon" />
+                        <DropdownMenuItem name="Admin" icon="ChartBarIcon" />
                       </router-link>
                       <DropdownMenuItem
                         shortcutKey="?"
