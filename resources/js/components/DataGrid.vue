@@ -578,7 +578,11 @@
     :trigger="contextMenuTrigger"
     :contact="rightClickMenuContact"
     @hideMenu="closeRightClickMenu()"
+    @refresh="refresh"
+    @archive-contacts="toggleArchiveContacts"
+    @toggleContactsFromList="toggleContactsFromList"
     :show="rightClickMenuOpen"
+    :filters="filters"
     :x="rightClickMenuCoordinates.x"
     :y="rightClickMenuCoordinates.y" />
 
@@ -1114,9 +1118,9 @@ export default {
       }, 100);
     },
     closeRightClickMenu() {
-      console.log('close');
       this.rightClickMenuOpen = false;
       this.rightClickMenuContact = {};
+      console.log('close', this.rightClickMenuOpen, this.rightClickMenuContact);
     },
     getPreviousColumn(index) {
       return index > 0 ? this.headers[index - 1] : false;

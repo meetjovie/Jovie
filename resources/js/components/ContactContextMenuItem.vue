@@ -6,7 +6,7 @@
         name="Email"
         color="text-purple-600 dark:text-purple-400"
         @click="emailContact(contact.emails[0])"
-        :disabled="!contact.emails.length"
+        :disabled="contact.emails && !contact.emails.length"
         icon="EnvelopeIcon" />
       <DropdownMenuItem v-if="contactMethod == 'separator'" separator />
       <DropdownMenuItem
@@ -14,14 +14,14 @@
         name="Call"
         color="text-blue-600 dark:text-blue-400"
         @click="callContact(contact.phones[0])"
-        :disabled="!contact.phones.length"
+        :disabled="contact.phones && !contact.phones.length"
         icon="PhoneIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'sms'"
         name="Send SMS"
         color="text-blue-600 dark:text-blue-400"
         @click="textContact(contact.phones[0])"
-        :disabled="!contact.phones.length"
+        :disabled="contact.phones && !contact.phones.length"
         icon="ChatBubbleLeftEllipsisIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'calendar'"
@@ -49,7 +49,7 @@
         name="Whatsapp"
         color="text-social-whatsapp"
         @click="whatsappContact(contact.phones[0])"
-        :disabled="!contact.phones.length"
+        :disabled="contact.phones && !contact.phones.length"
         icon="ChatBubbleOvalLeftEllipsisIcon" />
 
       <div v-if="currentUser.is_admin">
