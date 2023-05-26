@@ -423,7 +423,6 @@ export default {
     handleSubMenuItemClicked(payload, item) {
       //log the payload and item
       //log the name of the current component and the item that was clicked
-
       if (payload == 1) {
         this.checkListsEnrichable(item);
       } else if (payload == 2) {
@@ -432,6 +431,9 @@ export default {
         this.duplicateList(item.id);
       } else if (payload == 4) {
         this.confirmListDeletion(item.id);
+      } else if (payload == 5) {
+        console.log('snfblnklsn')
+        this.$emit('addContact', item);
       }
     },
     checkListsEnrichable(ids) {

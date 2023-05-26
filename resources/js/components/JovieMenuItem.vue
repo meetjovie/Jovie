@@ -279,6 +279,11 @@ export default {
           icon: 'TrashIcon',
           id: 4,
         },
+        {
+          name: 'Add Contact',
+          icon: 'PlusIcon',
+          id: 5,
+        },
       ],
     };
   },

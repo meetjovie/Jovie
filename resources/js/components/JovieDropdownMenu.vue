@@ -313,9 +313,11 @@ export default {
       this.$emit('createItem', this.searchQuery);
     },
     focusMenuSearch() {
-      this.$nextTick(() => {
-        this.$refs.menuSearchInput.focus();
-      });
+      if (this.searchable) {
+        this.$nextTick(() => {
+          this.$refs.menuSearchInput.focus();
+        });
+      }
     },
   },
 };
