@@ -430,7 +430,7 @@
           <span
             class="px-2 text-right text-xs font-semibold text-slate-400 dark:text-jovieDark-400"
             v-if="contact.description_updated_by"
-            >Last updated by: {{ contact.description_updated_by }}
+            >Last updated by: {{ contact.description_updated_user }}
             {{ contact.description_updated_at }}</span
           >
           <span

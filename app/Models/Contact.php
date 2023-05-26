@@ -615,7 +615,7 @@ class Contact extends Model implements Auditable
     {
         $contacts = Contact::query()->with('userLists')
             ->select('contacts.*')
-            ->addSelect('description_updated.first_name as description_updated_by');
+            ->addSelect('description_updated.first_name as description_updated_user');
         $contacts = $contacts->leftJoin('users as description_updated', function ($join) {
             $join->on('description_updated.id', '=', 'description_updated_by');
         });
@@ -684,6 +684,9 @@ class Contact extends Model implements Auditable
         foreach ($contacts as &$contact) {
             if ($contact->description_updated_at) {
                 $contact->description_updated_at = Carbon::parse($contact->description_updated_at)->diffForHumans();
+            }
+            if ($contact->description_updated_by == Auth::id()) {
+                $contact->description_updated_user = 'You';
             }
             // custom fields
             foreach ($customFields as $customField) {
