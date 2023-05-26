@@ -71,7 +71,7 @@
                   'text-slate-600 dark:text-jovieDark-200': !color,
                   [color]: color,
                 }">
-                {{ name }}
+                {{ name }} {{ color }}
               </div>
             </div>
             <div class="flex">
