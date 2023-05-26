@@ -150,7 +150,7 @@
                           @setListUpdating="setListUpdating"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
-                      <template #fallback> Loading... </template>
+                      <template #fallback> Loading...</template>
                     </Suspense>
                     <!--    Team Specific Lists -->
                     <Suspense>
@@ -171,7 +171,7 @@
                           @setListUpdating="setListUpdating"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
-                      <template #fallback> Loading... </template>
+                      <template #fallback> Loading...</template>
                     </Suspense>
                   </div>
                 </MenuItems>
@@ -219,7 +219,8 @@
                           <div class="flex items-center">
                             <CloudArrowUpIcon
                               class="mr-1 h-5 w-5 rounded p-1 font-medium text-sky-400 dark:text-sky-400"
-                              aria-hidden="true" />Upload A CSV
+                              aria-hidden="true" />
+                            Upload A CSV
                           </div>
                           <div class="items-center">
                             <ContactTags
@@ -500,52 +501,52 @@
                         ctaLink="Billing" />
                       <!--  Show import screen if no contacts -->
                       <!--  <div
-                        v-if="!loading && !contacts.length && !showImporting"
-                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
-                        <div class="mx-auto max-w-xl">
-                          <div
-                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                            <div>
-                              <h1
-                                class="text-md font-bold dark:text-jovieDark-100">
-                                You don't have any contacts yet.
-                              </h1>
-                              <span
-                                class="text-sm font-medium text-slate-900 dark:text-jovieDark-200"
-                                >Enter a Twitch or Instagram url to add someone
-                                to Jovie.</span
-                              >
-                            </div>
-                            <SocialInput
-                              class="py-12"
-                              :list="filters.list"
-                              @finishImport="closeImportContactModal" />
-                            <InternalMarketingChromeExtension class="mt-24" />
-                          </div>
-                        </div>
-                      </div>
+                                              v-if="!loading && !contacts.length && !showImporting"
+                                              class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
+                                              <div class="mx-auto max-w-xl">
+                                                <div
+                                                  class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                                                  <div>
+                                                    <h1
+                                                      class="text-md font-bold dark:text-jovieDark-100">
+                                                      You don't have any contacts yet.
+                                                    </h1>
+                                                    <span
+                                                      class="text-sm font-medium text-slate-900 dark:text-jovieDark-200"
+                                                      >Enter a Twitch or Instagram url to add someone
+                                                      to Jovie.</span
+                                                    >
+                                                  </div>
+                                                  <SocialInput
+                                                    class="py-12"
+                                                    :list="filters.list"
+                                                    @finishImport="closeImportContactModal" />
+                                                  <InternalMarketingChromeExtension class="mt-24" />
+                                                </div>
+                                              </div>
+                                            </div>
 
 
-                      <div
-                        v-else-if="showImporting && !contacts.length"
-                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                        <div class="mx-auto max-w-xl">
-                          <div
-                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                            <div>
-                              <ArrowPathIcon
-                                class="mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
-                              <h1 class="text-md font-bold">
-                                You've just initated an import.
-                              </h1>
-                              <span class="text-sm font-medium text-slate-900"
-                                >You'll see contacts populate this space
-                                soon.</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
+                                            <div
+                                              v-else-if="showImporting && !contacts.length"
+                                              class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
+                                              <div class="mx-auto max-w-xl">
+                                                <div
+                                                  class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+                                                  <div>
+                                                    <ArrowPathIcon
+                                                      class="mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
+                                                    <h1 class="text-md font-bold">
+                                                      You've just initated an import.
+                                                    </h1>
+                                                    <span class="text-sm font-medium text-slate-900"
+                                                      >You'll see contacts populate this space
+                                                      soon.</span
+                                                    >
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div> -->
                       <!-- Show the crm if there are contacts -->
                       <div>
                         <DataGrid
@@ -556,6 +557,7 @@
                           @updateContact="updateContact"
                           @crmCounts="crmCounts"
                           :counts="counts"
+                          :active-users-on-list="activeUsersOnList"
                           @updateListCount="updateListCount"
                           @pageChanged="pageChanged"
                           @getCrmContacts="getCrmContacts"
@@ -848,6 +850,16 @@ export default {
       currentSortBy: 'id',
       currentSortOrder: 'desc',
       columns: [],
+      activeUsersOnList: [],
+      shareMenuColors: [
+        'blue',
+        'green',
+        'indigo',
+        'pink',
+        'purple',
+        'red',
+        'yellow',
+      ],
       crmCounting: false,
       listKey: 0,
       showContactModal: false,
@@ -894,7 +906,7 @@ export default {
           name: 'Duplicates',
           icon: 'DocumentDuplicateIcon',
           count: 'duplicates',
-            type: 'duplicates'
+          type: 'duplicates',
         },
       ],
     };
@@ -1249,10 +1261,10 @@ export default {
         });
     },
     onListDrop(listId) {
-        if (! this.$store.state.currentlyDraggedContact) {
-            return
-        }
-        this.$refs.crmTableGrid.toggleContactsFromList(
+      if (!this.$store.state.currentlyDraggedContact) {
+        return;
+      }
+      this.$refs.crmTableGrid.toggleContactsFromList(
         this.$store.state.currentlyDraggedContact,
         listId,
         false
@@ -1319,13 +1331,22 @@ export default {
         }
       }
       /*  this.currentContact = contact;
-      this.$store.state.ContactSidebarOpen = true; */
+            this.$store.state.ContactSidebarOpen = true; */
     },
 
     setCurrentContact(contact) {
       this.currentContact = contact;
     },
     setFiltersType(type) {
+      if (type != 'list') {
+        if (this.filters.list) {
+          let channelName = `presence-userOnUserlist.${
+            this.currentUser.current_team.id
+          }.${this.filters.list ?? 0}`;
+          Echo.leave(channelName);
+        }
+        this.activeUsersOnList = [];
+      }
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       this.filters.list = null;
@@ -1336,12 +1357,42 @@ export default {
       this.loading = false;
     },
     setFilterList(list) {
+      if (this.filters.list) {
+        let channelName = `presence-userOnUserlist.${
+          this.currentUser.current_team.id
+        }.${this.filters.list ?? 0}`;
+        Echo.leave(channelName);
+      }
+
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
       if (this.filters.list) {
         list = this.userLists.find((l) => l.id === list);
         this.filters.currentList = list ?? null;
         this.$store.state.overviewList = list ?? null;
+        Echo.join(
+          `userOnUserlist.${this.currentUser.current_team.id}.${
+            this.filters.list ?? 0
+          }`
+        )
+          .here((users) => {
+            this.activeUsersOnList = users;
+            this.activeUsersOnList.forEach((user) => {
+              user.color = this.shareMenuColors.pop();
+            });
+          })
+          .joining((user) => {
+            this.activeUsersOnList.push(user);
+          })
+          .leaving((user) => {
+            this.activeUsersOnList = this.activeUsersOnList.filter(
+              (obj) => obj['id'] !== user.id
+            );
+            this.shareMenuColors.push(user.color);
+          })
+          .error((error) => {
+            console.error(error);
+          });
       } else {
         this.filters.type = 'all';
         this.filters.currentList = null;

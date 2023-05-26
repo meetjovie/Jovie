@@ -20,7 +20,7 @@
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
               <div>
-                <ShareMenu />
+                <ShareMenu :contacts="activeUsersOnList" />
               </div>
               <TransitionRoot
                 :show="searchVisible"
@@ -845,6 +845,7 @@ export default {
     'columns',
     'headersLoaded',
     'suggestMerge',
+    'activeUsersOnList',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
