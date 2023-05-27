@@ -1,7 +1,12 @@
 <template>
   <tr
     @contextmenu.prevent="handleContextMenu($event, contact)"
-    class="group w-full flex-row items-center overflow-y-visible">
+    class="group h-11 w-full flex-row items-center overflow-y-visible"
+    :class="[
+      currentContact.id == contact.id
+        ? 'relative ring-2 ring-slate-300 focus:z-20 dark:ring-indigo-400'
+        : '',
+    ]">
     <div
       @click.shift.prevent="toggleRow(contact.id)"
       v-if="shiftDown"
