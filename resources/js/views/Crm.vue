@@ -162,6 +162,7 @@
                           @setFiltersType="setFiltersType"
                           menuName="Lists"
                           @setFilterList="setFilterList"
+                          @addContact="openImportContactModal(false, $event)"
                           :selectedList="filters.list"
                           :draggable="true"
                           @updateUserList="updateUserList($event)"
@@ -626,7 +627,7 @@
       <ImportContactModal
         :open="showContactModal"
         :fromSocial="importFromSocial"
-        :list="filters.list"
+        :list="listToImport"
         @contactImported="contactImported($event)"
         @closeModal="closeImportContactModal()" />
 
@@ -909,6 +910,7 @@ export default {
           type: 'duplicates',
         },
       ],
+      currentImportingList: null,
     };
   },
   watch: {
@@ -916,6 +918,9 @@ export default {
       deep: true,
       handler: function (val) {
         delete val.page;
+        if (val.currentList) {
+          this.currentImportingList = null;
+        }
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
@@ -933,6 +938,12 @@ export default {
   computed: {
     importContactModal() {
       return importContactModal;
+    },
+    listToImport() {
+      if (this.currentImportingList) {
+        return this.currentImportingList
+      }
+      return this.filters.currentList;
     },
     showImporting() {
       if (this.userLists.length && this.filters.type == 'list') {
@@ -1208,7 +1219,11 @@ export default {
       this.$store.dispatch('enrichContacts', payload);
       this.resetPopup();
     },
-    openImportContactModal(fromSocial = false) {
+    openImportContactModal(fromSocial = false, list = null)
+    {
+      if (list) {
+        this.currentImportingList = list;
+      }
       this.importFromSocial = fromSocial;
       this.$nextTick(() => {
         this.showContactModal = true;
@@ -1289,6 +1304,7 @@ export default {
     },
     closeImportContactModal() {
       this.showContactModal = false;
+      this.currentImportingList = null;
     },
     closeUpgradeModal() {
       this.showUpgradeModal = !this.showUpgradeModal;

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="group flex cursor-pointer items-center justify-between rounded py-1">
+      class="bgred-500 group flex h-full cursor-pointer items-center justify-between rounded py-1">
       <div
         class="flex cursor-pointer items-center rounded py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
         <div
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <ul v-if="showMenu && draggable" class="overflow-auto">
+    <ul v-if="showMenu && draggable" class="h-full overflow-auto">
       <draggable
         v-model="menuItemsList"
         group="lists"
@@ -411,7 +411,7 @@ export default {
       },
       creatingList: false,
       currentEditingList: null,
-        menuItemsList: []
+      menuItemsList: [],
     };
   },
   methods: {
@@ -423,7 +423,6 @@ export default {
     handleSubMenuItemClicked(payload, item) {
       //log the payload and item
       //log the name of the current component and the item that was clicked
-
       if (payload == 1) {
         this.checkListsEnrichable(item);
       } else if (payload == 2) {
@@ -432,6 +431,9 @@ export default {
         this.duplicateList(item.id);
       } else if (payload == 4) {
         this.confirmListDeletion(item.id);
+      } else if (payload == 5) {
+        console.log('snfblnklsn');
+        this.$emit('addContact', item);
       }
     },
     checkListsEnrichable(ids) {
@@ -695,7 +697,7 @@ export default {
       this.editListPopup.open = false;
     },
     duplicateList(id) {
-        console.log(id)
+      console.log(id);
       UserService.duplicateList(id)
         .then((response) => {
           response = response.data;
@@ -864,21 +866,21 @@ export default {
   },
   watch: {
     menuItems: {
-        deep: true,
-        immediate: true,
-        handler: function (val) {
-            if (this.menuName == 'Lists' && this.currentEditingList) {
-                let enabledList = this.menuItems.find(
-                    (list) => this.currentEditingList.id === list.id
-                );
-                if (enabledList) {
-                    this.enableEditName(enabledList);
-                }
-            }
-            this.menuItemsList = val;
-            this.$emit('updateMenuItems', val);
+      deep: true,
+      immediate: true,
+      handler: function (val) {
+        if (this.menuName == 'Lists' && this.currentEditingList) {
+          let enabledList = this.menuItems.find(
+            (list) => this.currentEditingList.id === list.id
+          );
+          if (enabledList) {
+            this.enableEditName(enabledList);
+          }
         }
-    }
+        this.menuItemsList = val;
+        this.$emit('updateMenuItems', val);
+      },
+    },
   },
   props: {
     menuName: {

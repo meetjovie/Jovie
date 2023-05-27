@@ -260,6 +260,11 @@ export default {
       tooltipDisabled: false,
       subMenuItems: [
         {
+          name: 'Add Contact',
+          icon: 'PlusIcon',
+          id: 0,
+        },
+        {
           name: 'Enrich',
           icon: 'SparklesIcon',
           id: 1,

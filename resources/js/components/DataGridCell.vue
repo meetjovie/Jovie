@@ -2,18 +2,15 @@
   <td
     ref="cell_area"
     :class="[
-      'border-collapse items-center overflow-auto whitespace-nowrap border border-slate-300 text-center text-xs font-medium dark:border-jovieDark-border',
-
-      freezeColumn
-        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent  font-bold first:border-l last:border-r '
-        : '',
-
-      freezeColumn && currentContact.id == contact.id
-        ? 'bg-slate-100 text-slate-800 dark:bg-jovieDark-700 dark:text-slate-100'
-        : 'text-slate-600 dark:text-slate-200',
+      'border-collapse items-center overflow-auto whitespace-nowrap text-center text-xs font-medium dark:border-jovieDark-border',
       cellActive
-        ? 'bg-indigo-50  ring-2 ring-indigo-500  dark:bg-jovieDark-600 dark:ring-indigo-500'
+        ? 'relative isolate border-slate-100/0 bg-fuchsia-500 outline-8 outline-purple-600 ring-4 ring-pink-500 focus:z-50  dark:bg-jovieDark-600 dark:ring-indigo-500'
         : '',
+      freezeColumn && currentContact.id == contact.id ? 'relative z-50' : '',
+      freezeColumn
+        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-800'
+        : '',
+      currentContact.id == contact.id ? '' : '',
     ]"
     :key="rerenderKey"
     v-if="
@@ -24,21 +21,21 @@
     <slot></slot>
 
     <div @click.self="setFocus()" v-if="!freezeColumn">
-      <star-rating
-        v-if="column.type == 'rating'"
-        class="mx-auto px-2"
-        :star-size="12"
-        :increment="0.5"
-        v-model:rating="contact.rating"
-        @update:rating="
-          $emit('updateContact', {
-            id: contact.id,
-            index: row,
-            key: column.key,
-            value: contact.rating,
-          })
-        " />
-
+      <div class="mx-auto flex justify-center" v-if="column.type == 'rating'">
+        <star-rating
+          class="mx-auto"
+          :star-size="12"
+          :increment="0.5"
+          v-model:rating="contact.rating"
+          @update:rating="
+            $emit('updateContact', {
+              id: contact.id,
+              index: row,
+              key: column.key,
+              value: contact.rating,
+            })
+          " />
+      </div>
       <DataGridCellTextInput
         v-else-if="
           ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(

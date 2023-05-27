@@ -189,8 +189,11 @@ export default {
     },
     toggleContactsFromList(ids, list, remove) {
       if (!ids) {
-          this.$emit('updateLists', { list: this.items.find(l => l.id == list), add: !remove });
-          return
+        this.$emit('updateLists', {
+          list: this.items.find((l) => l.id == list),
+          add: !remove,
+        });
+        return;
       }
       this.$store
         .dispatch('toggleContactsFromList', {

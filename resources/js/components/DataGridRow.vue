@@ -4,14 +4,14 @@
     class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == contact.id
-        ? 'bg-slate-100  ring-2 ring-slate-300 dark:bg-jovieDark-700 dark:ring-indigo-400'
-        : 'bg-white dark:bg-jovieDark-900',
-      selectedContactsModel.includes(contact.id) ? 'bg-blue-50' : '',
+        ? 'relative ring-2 ring-slate-300 focus:z-20 dark:ring-indigo-400'
+        : '',
     ]">
     <div
       @click.shift.prevent="toggleRow(contact.id)"
       v-if="shiftDown"
       class="absolute z-50 h-14 w-full"></div>
+
     <DataGridCell
       :visibleColumns="visibleColumns"
       :currentContact="currentContact"
@@ -197,6 +197,11 @@
       v-for="(column, columnIndex) in otherColumns"
       :key="`${row}_${columnIndex}`">
       <DataGridCell
+        :class="[
+          selectedContactsModel.includes(contact.id)
+            ? 'bg-blue-50  dark:bg-indigo-950'
+            : '',
+        ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @mouseover="setCurrentCell(columnIndex)"
         :userLists="userLists"
