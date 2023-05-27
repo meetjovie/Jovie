@@ -11,7 +11,7 @@
           aria-hidden="true" />
       </div>
       <h1
-        class="flex h-full items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
+        class="flex h-full items-center text-xs font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
         <div v-if="list">
           <UserListEditable
             :loading="taskLoading"
@@ -20,12 +20,14 @@
         </div>
         <div class="flex" v-else>
           {{ headerText === 'birthdays' ? headerText : headerText }}
-          <div class="px-4 text-slate-600 dark:text-jovieDark-400">•</div>
+          <div class="px-4 text-xs text-slate-600 dark:text-jovieDark-400">
+            •
+          </div>
           <span class="items-center text-sm font-semibold" v-if="!taskLoading">
             {{ contactCount + ' contacts' }}</span
           >
           <span
-            class="items-center rounded bg-slate-300 text-sm font-semibold dark:bg-jovieDark-700"
+            class="items-center rounded bg-slate-300 text-xs font-semibold dark:bg-jovieDark-700"
             v-else></span>
         </div>
       </h1>

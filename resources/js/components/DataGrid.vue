@@ -273,13 +273,13 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 z-50 flex h-10 w-80 items-center border-r-2 border-slate-300 bg-slate-200 dark:border-jovieDark-border">
+                      class="sticky left-0 z-50 flex h-11 w-80 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
-                        class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-jovieDark-border">
+                        class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
                         <div class="mx-auto items-center text-center">
                           <input
                             type="checkbox"
-                            class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
+                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
                             :checked="
                               intermediate ||
                               selectedContacts.length === contactRecords.length
@@ -297,10 +297,10 @@
                         <span class="sr-only">Favorite</span>
                       </div>
                       <div
-                        class="isolate z-50 resize-x items-center text-left text-xs font-medium tracking-wider text-slate-600 dark:text-jovieDark-400">
+                        class="isolate z-50 w-full resize-x items-center text-left text-xs font-medium tracking-wider text-slate-600 dark:text-jovieDark-400">
                         <div
                           v-if="selectedContacts.length > 0"
-                          class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
+                          class="flex items-center justify-between space-x-3 bg-slate-100 px-2 dark:bg-jovieDark-700">
                           <!--   <ContactActionMenu /> -->
                           <Menu>
                             <Float portal :offset="2" placement="bottom-start">
@@ -320,7 +320,7 @@
                                 leave-to-class="transform scale-95 opacity-0">
                                 <MenuItems>
                                   <GlassmorphismContainer
-                                    class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
+                                    class="max-h-80 w-48 flex-col overflow-y-scroll px-1 py-1">
                                     <DropdownMenuItem
                                       v-if="filters.list"
                                       @click="
@@ -332,8 +332,8 @@
                                       "
                                       name="Remove from list"
                                       icon="TrashIcon" />
-                                    <MenuItem
-                                      v-slot="{ active }"
+
+                                    <DropdownMenuItem
                                       @click="
                                         toggleArchiveContacts(
                                           this.selectedContacts,
@@ -341,25 +341,23 @@
                                             ? false
                                             : true
                                         )
-                                      ">
-                                      <button
-                                        :class="[
-                                          active
-                                            ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                            : 'text-slate-700 dark:text-jovieDark-200',
-                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                        ]">
-                                        <ArchiveBoxIcon
-                                          :active="active"
-                                          class="mr-2 h-3 w-3 text-sky-400"
-                                          aria-hidden="true" />
-                                        {{
-                                          this.filters.type == 'archived'
-                                            ? 'Unarchive'
-                                            : 'Archive'
-                                        }}
-                                      </button>
-                                    </MenuItem>
+                                      "
+                                      :name="
+                                        this.filters.type == 'archived'
+                                          ? 'Unarchive'
+                                          : 'Archive'
+                                      "
+                                      icon="ArchiveBoxIcon" />
+                                    <DropdownMenuItem
+                                      @click="
+                                        $emit(
+                                          'checkContactsEnrichable',
+                                          selectedContacts
+                                        )
+                                      "
+                                      :name="'Enrich'"
+                                      icon="SparklesIcon" />
+                                    <!-- 
                                     <MenuItem
                                       v-slot="{ active }"
                                       @click="
@@ -381,21 +379,20 @@
                                           aria-hidden="true" />
                                         Enrich
                                       </button>
-                                    </MenuItem>
-                                    <!-- <DropdownMenuItem @click="toggleArchiveContacts(
-                                                              selectedContacts, filters.type == 'archived' ?
-                                                              false : true ) :name="( filters.type == 'archived'
-                                                              ? 'Unarchive' : 'Archive' )"
-                                                              :icon="ArchiveBoxIcon" /> -->
+                                    </MenuItem> -->
                                   </GlassmorphismContainer>
                                 </MenuItems>
                               </transition>
                             </Float>
                           </Menu>
+                          <div
+                            class="text-xs text-slate-600 dark:text-jovieDark-300">
+                            {{ selectedContacts.length }} Selected
+                          </div>
                         </div>
                         <div v-else>
                           <DataGridColumnHeader
-                            :show-resizeable="false"
+                            :showResizeable="false"
                             icon="Bars3BottomLeftIcon"
                             :column="fullNameColumn"
                             @sortData="

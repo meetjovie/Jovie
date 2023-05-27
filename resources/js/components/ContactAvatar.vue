@@ -36,7 +36,10 @@
         class="0 group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">
         <span
           :class="[
-            height < 12
+            //if height is less than 8 text-sm
+            height < 8
+              ? 'text-2xs'
+              : height > 8 && height < 12
               ? 'text-md'
               : height > 12 && height < 16
               ? 'text-base'

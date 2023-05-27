@@ -2,9 +2,9 @@
   <td
     ref="cell_area"
     :class="[
-      'border-collapse items-center overflow-auto whitespace-nowrap text-center text-xs font-medium dark:border-jovieDark-border',
+      'border-collapse items-center overflow-auto whitespace-nowrap border text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border  dark:text-jovieDark-200',
       cellActive
-        ? 'relative isolate z-50 border-slate-100/0 bg-purple-100 outline-8 outline-purple-600 ring-4 ring-blue-500 focus:z-50  dark:bg-jovieDark-600 dark:ring-indigo-500'
+        ? 'relative isolate z-40 border-slate-100/0  outline-8 outline-purple-600 ring-4 ring-blue-500  dark:bg-jovieDark-400 dark:ring-indigo-500'
         : '',
 
       currentContact.id == contact.id ? '' : '',

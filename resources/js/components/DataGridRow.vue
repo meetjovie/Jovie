@@ -1,23 +1,27 @@
 <template>
   <tr
     @contextmenu.prevent="handleContextMenu($event, contact)"
-    class="group h-11 w-full flex-row items-center overflow-y-visible"
+    class="group w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == contact.id
-        ? 'relative ring-2 ring-slate-300 focus:z-20 dark:ring-indigo-400'
+        ? 'bg-slate-200 dark:bg-jovieDark-border '
+        : '',
+      selectedContactsModel.includes(contact.id)
+        ? 'bg-blue-50  dark:bg-indigo-950'
         : '',
     ]">
     <div
       @click.shift.prevent="toggleRow(contact.id)"
       v-if="shiftDown"
-      class="absolute z-50 h-full w-full"></div>
+      class="absolute z-50 w-full"></div>
     <div
-      class="sticky left-0 isolate z-50 h-full w-full items-center border-r-2 border-slate-200 bg-slate-50 dark:border-jovieDark-border">
-      <DataGridCell
-        :visibleColumns="visibleColumns"
-        :currentContact="currentContact"
-        :contact="contact"
-        :row="row"
+      :class="[
+        currentContact.id == contact.id
+          ? 'bg-slate-200 dark:bg-jovieDark-border '
+          : '',
+      ]"
+      class="sticky left-0 isolate z-50 h-12 w-full items-center border-r-2 border-slate-200 bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-700">
+      <div
         class="flex h-full w-full items-center justify-between"
         freezeColumn
         width="full">
@@ -41,7 +45,7 @@
                 class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus:border-none focus:outline-none focus:ring-0 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400 sm:left-6" />
             </span>
             <span
-              class="text-xs font-light text-slate-600 group-hover:hidden dark:text-jovieDark-400"
+              class="text-xs font-semibold text-slate-500 group-hover:hidden dark:text-jovieDark-400"
               :class="[
                 { hidden: selectedContactsModel.includes(contact.id) },
                 'block',
@@ -50,7 +54,7 @@
             </span>
           </div>
           <div
-            class="hidden w-8 cursor-pointer items-center px-2 lg:block"
+            class="hidden w-8 cursor-pointer items-center px-2 text-slate-400 dark:text-jovieDark-400 lg:block"
             @click="
               $emit('updateContact', {
                 id: contact.id,
@@ -79,7 +83,7 @@
 
         <div
           @click="$emit('openSidebar', { contact: contact, index: row })"
-          class="flex w-full items-center justify-between truncate text-ellipsis">
+          class="flex w-full items-center justify-between truncate text-ellipsis px-2 py-1">
           <ContactAvatar
             @updateAvatar="updateAvatar($event)"
             :loading="!contact.id"
@@ -91,7 +95,7 @@
           </div>
           <div v-if="!contact.enriched_viewed">
             <span
-              class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
+              class="inline-flex items-center rounded-full border border-slate-200 bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-600 dark:text-jovieDark-300"
               >New</span
             >
           </div>
@@ -99,23 +103,23 @@
         <div class="flex items-center justify-between">
           <div
             @click="$emit('openSidebar', { contact: contact, index: row })"
-            class="mx-auto h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:border active:bg-slate-200 dark:text-jovieDark-300 dark:active:bg-slate-800">
+            class="mx-auto mt-1 h-6 w-6 items-center rounded-full bg-slate-200/0 pr-4 text-center text-slate-400 transition-all active:scale-95 active:bg-slate-200 dark:text-jovieDark-300 dark:active:bg-slate-800">
             <ArrowTopRightOnSquareIcon
               v-if="
                 !$store.state.ContactSidebarOpen ||
                 currentContact.id !== contact.id
               "
-              class="mx-auto ml-0.5 mt-0.5 hidden h-4 w-4 group-hover:block" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer group-hover:block" />
             <XMarkIcon
               v-else
-              class="mx-auto ml-1 mt-1 hidden h-4 w-4 group-hover:block" />
+              class="mx-auto hidden h-4 w-4 cursor-pointer group-hover:block" />
           </div>
           <div v-if="contact.enriching > 0">
             <JovieSpinner />
           </div>
           <div v-else @click="checkContactsEnrichable(currentContact.id)">
             <SparklesIcon
-              class="h-4 w-4 cursor-pointer rounded-full text-slate-400/0 transition-all active:border active:bg-slate-200 group-hover:text-slate-400 dark:text-jovieDark-300/0 dark:active:bg-slate-800 group-hover:dark:text-jovieDark-300" />
+              class="h-4 w-4 cursor-pointer rounded-full text-slate-400/0 transition-all active:scale-95 active:bg-slate-200 group-hover:text-slate-400 dark:text-jovieDark-300/0 dark:active:bg-slate-800 group-hover:dark:text-jovieDark-300" />
           </div>
 
           <div>
@@ -170,7 +174,7 @@
             </ContactContextMenu>
           </div>
         </div>
-      </DataGridCell>
+      </div>
     </div>
 
     <template
