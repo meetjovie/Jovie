@@ -273,138 +273,139 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
-                      <div class="mx-auto items-center text-center">
-                        <input
-                          type="checkbox"
-                          class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
-                          :checked="
-                            intermediate ||
-                            selectedContacts.length === contactRecords.length
-                          "
-                          :intermediate="intermediate"
-                          @change="
-                            selectedContacts = $event.target.checked
-                              ? contactRecords.map((c) => c.id)
-                              : []
-                          " />
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <span class="sr-only">Favorite</span>
-                    </th>
-                    <th
-                      scope="col"
-                      class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                      class="sticky left-0 z-50 flex h-10 w-80 items-center border-r-2 border-slate-300 bg-slate-200 dark:border-jovieDark-border">
                       <div
-                        v-if="selectedContacts.length > 0"
-                        class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
-                        <!--   <ContactActionMenu /> -->
-                        <Menu>
-                          <Float portal :offset="2" placement="bottom-start">
-                            <MenuButton
-                              class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
-                              <span class="line-clamp-1">Bulk Actions</span>
-                              <ChevronDownIcon
-                                class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
-                                aria-hidden="true" />
-                            </MenuButton>
-                            <transition
-                              enter-active-class="transition duration-100 ease-out"
-                              enter-from-class="transform scale-95 opacity-0"
-                              enter-to-class="transform scale-100 opacity-100"
-                              leave-active-class="transition duration-75 ease-in"
-                              leave-from-class="transform scale-100 opacity-100"
-                              leave-to-class="transform scale-95 opacity-0">
-                              <MenuItems>
-                                <GlassmorphismContainer
-                                  class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
-                                  <DropdownMenuItem
-                                    v-if="filters.list"
-                                    @click="
-                                      toggleContactsFromList(
-                                        selectedContacts,
-                                        filters.list,
-                                        true
-                                      )
-                                    "
-                                    name="Remove from list"
-                                    icon="TrashIcon" />
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    @click="
-                                      toggleArchiveContacts(
-                                        this.selectedContacts,
-                                        this.filters.type == 'archived'
-                                          ? false
-                                          : true
-                                      )
-                                    ">
-                                    <button
-                                      :class="[
-                                        active
-                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                          : 'text-slate-700 dark:text-jovieDark-200',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                      ]">
-                                      <ArchiveBoxIcon
-                                        :active="active"
-                                        class="mr-2 h-3 w-3 text-sky-400"
-                                        aria-hidden="true" />
-                                      {{
-                                        this.filters.type == 'archived'
-                                          ? 'Unarchive'
-                                          : 'Archive'
-                                      }}
-                                    </button>
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    @click="
-                                      $emit(
-                                        'checkContactsEnrichable',
-                                        selectedContacts
-                                      )
-                                    ">
-                                    <button
-                                      :class="[
-                                        active
-                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                          : 'text-slate-700 dark:text-jovieDark-200',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                      ]">
-                                      <SparklesIcon
-                                        :active="active"
-                                        class="mr-2 h-3 w-3 text-sky-400"
-                                        aria-hidden="true" />
-                                      Enrich
-                                    </button>
-                                  </MenuItem>
-                                  <!-- <DropdownMenuItem @click="toggleArchiveContacts(
+                        class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-jovieDark-border">
+                        <div class="mx-auto items-center text-center">
+                          <input
+                            type="checkbox"
+                            class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
+                            :checked="
+                              intermediate ||
+                              selectedContacts.length === contactRecords.length
+                            "
+                            :intermediate="intermediate"
+                            @change="
+                              selectedContacts = $event.target.checked
+                                ? contactRecords.map((c) => c.id)
+                                : []
+                            " />
+                        </div>
+                      </div>
+                      <div
+                        class="items-centertext-center z-50 text-xs font-thin tracking-wider text-slate-600 dark:text-jovieDark-400">
+                        <span class="sr-only">Favorite</span>
+                      </div>
+                      <div
+                        class="isolate z-50 resize-x items-center text-left text-xs font-medium tracking-wider text-slate-600 dark:text-jovieDark-400">
+                        <div
+                          v-if="selectedContacts.length > 0"
+                          class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
+                          <!--   <ContactActionMenu /> -->
+                          <Menu>
+                            <Float portal :offset="2" placement="bottom-start">
+                              <MenuButton
+                                class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
+                                <span class="line-clamp-1">Bulk Actions</span>
+                                <ChevronDownIcon
+                                  class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
+                                  aria-hidden="true" />
+                              </MenuButton>
+                              <transition
+                                enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems>
+                                  <GlassmorphismContainer
+                                    class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
+                                    <DropdownMenuItem
+                                      v-if="filters.list"
+                                      @click="
+                                        toggleContactsFromList(
+                                          selectedContacts,
+                                          filters.list,
+                                          true
+                                        )
+                                      "
+                                      name="Remove from list"
+                                      icon="TrashIcon" />
+                                    <MenuItem
+                                      v-slot="{ active }"
+                                      @click="
+                                        toggleArchiveContacts(
+                                          this.selectedContacts,
+                                          this.filters.type == 'archived'
+                                            ? false
+                                            : true
+                                        )
+                                      ">
+                                      <button
+                                        :class="[
+                                          active
+                                            ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <ArchiveBoxIcon
+                                          :active="active"
+                                          class="mr-2 h-3 w-3 text-sky-400"
+                                          aria-hidden="true" />
+                                        {{
+                                          this.filters.type == 'archived'
+                                            ? 'Unarchive'
+                                            : 'Archive'
+                                        }}
+                                      </button>
+                                    </MenuItem>
+                                    <MenuItem
+                                      v-slot="{ active }"
+                                      @click="
+                                        $emit(
+                                          'checkContactsEnrichable',
+                                          selectedContacts
+                                        )
+                                      ">
+                                      <button
+                                        :class="[
+                                          active
+                                            ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <SparklesIcon
+                                          :active="active"
+                                          class="mr-2 h-3 w-3 text-sky-400"
+                                          aria-hidden="true" />
+                                        Enrich
+                                      </button>
+                                    </MenuItem>
+                                    <!-- <DropdownMenuItem @click="toggleArchiveContacts(
                                                               selectedContacts, filters.type == 'archived' ?
                                                               false : true ) :name="( filters.type == 'archived'
                                                               ? 'Unarchive' : 'Archive' )"
                                                               :icon="ArchiveBoxIcon" /> -->
-                                </GlassmorphismContainer>
-                              </MenuItems>
-                            </transition>
-                          </Float>
-                        </Menu>
-                      </div>
-                      <div v-else>
-                        <DataGridColumnHeader
-                          :show-resizeable="false"
-                          icon="Bars3BottomLeftIcon"
-                          :column="fullNameColumn"
-                          @sortData="
-                            sortData({
-                              sortBy: fullNameColumn.key,
-                              sortOrder: fullNameColumn.sortOrder,
-                            })
-                          "
-                          menu="false" />
+                                  </GlassmorphismContainer>
+                                </MenuItems>
+                              </transition>
+                            </Float>
+                          </Menu>
+                        </div>
+                        <div v-else>
+                          <DataGridColumnHeader
+                            :show-resizeable="false"
+                            icon="Bars3BottomLeftIcon"
+                            :column="fullNameColumn"
+                            @sortData="
+                              sortData({
+                                sortBy: fullNameColumn.key,
+                                sortOrder: fullNameColumn.sortOrder,
+                              })
+                            "
+                            menu="false" />
+                        </div>
                       </div>
                     </th>
                   </template>
@@ -416,7 +417,7 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
                         @updateColumnWidth="updateColumnWidth($event)"

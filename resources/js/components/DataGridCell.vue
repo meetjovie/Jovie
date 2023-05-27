@@ -4,12 +4,9 @@
     :class="[
       'border-collapse items-center overflow-auto whitespace-nowrap text-center text-xs font-medium dark:border-jovieDark-border',
       cellActive
-        ? 'relative isolate border-slate-100/0 bg-fuchsia-500 outline-8 outline-purple-600 ring-4 ring-pink-500 focus:z-50  dark:bg-jovieDark-600 dark:ring-indigo-500'
+        ? 'relative isolate z-50 border-slate-100/0 bg-purple-100 outline-8 outline-purple-600 ring-4 ring-blue-500 focus:z-50  dark:bg-jovieDark-600 dark:ring-indigo-500'
         : '',
-      freezeColumn && currentContact.id == contact.id ? 'relative z-50' : '',
-      freezeColumn
-        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-800'
-        : '',
+
       currentContact.id == contact.id ? '' : '',
     ]"
     :key="rerenderKey"
@@ -221,6 +218,9 @@ export default {
     },
   },
   computed: {
+    colorClass() {
+      return `bg-${this.color}-100 dark:bg-${this.color}-700`;
+    },
     localModelValue: {
       get() {
         return this.modelValue;
@@ -269,6 +269,11 @@ export default {
     visibleColumns: Array,
     settings: Object,
     neverHide: Boolean,
+    //add color prop with default value of organge
+    color: {
+      type: String,
+      default: 'orange',
+    },
     row: Number,
     column: {
       type: Object,
