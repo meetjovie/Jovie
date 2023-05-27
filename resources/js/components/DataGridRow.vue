@@ -79,7 +79,7 @@
 
         <div
           @click="$emit('openSidebar', { contact: contact, index: row })"
-          class="flex items-center truncate text-ellipsis">
+          class="flex w-full items-center justify-between truncate text-ellipsis">
           <ContactAvatar
             @updateAvatar="updateAvatar($event)"
             :loading="!contact.id"
@@ -88,6 +88,12 @@
           <div
             class="w-20 truncate text-ellipsis text-sm text-slate-900 dark:text-jovieDark-100">
             {{ contact.full_name }}
+          </div>
+          <div v-if="!contact.enriched_viewed">
+            <span
+              class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
+              >New</span
+            >
           </div>
         </div>
         <div class="flex items-center justify-between">
@@ -111,12 +117,7 @@
             <SparklesIcon
               class="h-4 w-4 cursor-pointer rounded-full text-slate-400/0 transition-all active:border active:bg-slate-200 group-hover:text-slate-400 dark:text-jovieDark-300/0 dark:active:bg-slate-800 group-hover:dark:text-jovieDark-300" />
           </div>
-          <div v-if="!contact.enriched_viewed">
-            <span
-              class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800"
-              >New</span
-            >
-          </div>
+
           <div>
             <ContactContextMenu
               :open="contact.showContextMenu"
