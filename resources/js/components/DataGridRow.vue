@@ -10,11 +10,11 @@
       :class="[
         selectedContactsModel.includes(contact.id)
           ? currentContact.id === contact.id
-            ? 'bg-indigo-100 dark:bg-indigo-800'
-            : 'bg-indigo-50 dark:bg-indigo-950'
+            ? 'bg-indigo-100 dark:bg-indigo-600'
+            : 'bg-indigo-50 dark:bg-indigo-700'
           : currentContact.id === contact.id
-          ? 'bg-slate-100'
-          : 'bg-slate-50 dark:bg-jovieDark-700',
+          ? 'bg-slate-100 dark:bg-jovieDark-600'
+          : 'bg-slate-50 dark:bg-jovieDark-800',
       ]"
       class="sticky left-0 isolate z-50 h-12 w-full items-center border-r-2 border-slate-200 dark:border-jovieDark-border">
       <div
@@ -180,11 +180,11 @@
         :class="[
           selectedContactsModel.includes(contact.id)
             ? currentContact.id === contact.id
-              ? 'bg-indigo-100 dark:bg-indigo-800'
-              : 'bg-indigo-50 dark:bg-indigo-950'
+              ? 'bg-indigo-100 dark:bg-indigo-600'
+              : 'bg-indigo-50 dark:bg-indigo-700'
             : currentContact.id === contact.id
-            ? 'bg-slate-100'
-            : 'bg-slate-50 dark:bg-jovieDark-700',
+            ? 'bg-slate-100 dark:bg-jovieDark-600'
+            : 'bg-slate-50 dark:bg-jovieDark-800',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @mouseover="setCurrentCell(columnIndex)"
