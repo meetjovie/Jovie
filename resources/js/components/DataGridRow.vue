@@ -1,26 +1,22 @@
 <template>
   <tr
     @contextmenu.prevent="handleContextMenu($event, contact)"
-    class="group w-full flex-row items-center overflow-y-visible"
-    :class="[
-      currentContact.id == contact.id
-        ? 'bg-slate-200 dark:bg-jovieDark-border '
-        : '',
-      selectedContactsModel.includes(contact.id)
-        ? 'bg-blue-50  dark:bg-indigo-950'
-        : '',
-    ]">
+    class="group w-full flex-row items-center overflow-y-visible">
     <div
       @click.shift.prevent="toggleRow(contact.id)"
       v-if="shiftDown"
       class="absolute z-50 w-full"></div>
     <div
       :class="[
-        currentContact.id == contact.id
-          ? 'bg-slate-200 dark:bg-jovieDark-border '
-          : '',
+        selectedContactsModel.includes(contact.id)
+          ? currentContact.id === contact.id
+            ? 'bg-indigo-100 dark:bg-indigo-800'
+            : 'bg-indigo-50 dark:bg-indigo-950'
+          : currentContact.id === contact.id
+          ? 'bg-slate-100'
+          : 'bg-slate-50 dark:bg-jovieDark-700',
       ]"
-      class="sticky left-0 isolate z-50 h-12 w-full items-center border-r-2 border-slate-200 bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-700">
+      class="sticky left-0 isolate z-50 h-12 w-full items-center border-r-2 border-slate-200 dark:border-jovieDark-border">
       <div
         class="flex h-full w-full items-center justify-between"
         freezeColumn
@@ -130,7 +126,7 @@
               <!--  <DropdownMenuItem
               name="Open Contact"
               icon="ViewfinderCircleIcon"
-              color="text-blue-600 dark:text-blue-400"
+              color="text-indigo-600 dark:text-indigo-400"
               @click="
                 $router.push({
                   name: 'Contact Overview',
@@ -183,8 +179,12 @@
       <DataGridCell
         :class="[
           selectedContactsModel.includes(contact.id)
-            ? 'bg-blue-50  dark:bg-indigo-950'
-            : '',
+            ? currentContact.id === contact.id
+              ? 'bg-indigo-100 dark:bg-indigo-800'
+              : 'bg-indigo-50 dark:bg-indigo-950'
+            : currentContact.id === contact.id
+            ? 'bg-slate-100'
+            : 'bg-slate-50 dark:bg-jovieDark-700',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @mouseover="setCurrentCell(columnIndex)"

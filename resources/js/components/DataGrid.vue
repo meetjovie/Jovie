@@ -1,7 +1,7 @@
 <template>
-  <div class="h-full w-full flex-col overflow-hidden">
+  <div class="flex h-full w-full flex-col overflow-hidden">
     <div class="flex h-full w-full flex-col">
-      <div class="h-full pb-10">
+      <div class="flex h-full flex-col justify-between">
         <header
           class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
@@ -224,7 +224,7 @@
           </div>
         </header>
         <div
-          class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
+          class="flex h-full w-full justify-between overflow-x-auto scroll-smooth align-middle">
           <div
             class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
