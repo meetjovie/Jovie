@@ -62,10 +62,9 @@
 
               <div v-if="!searchVisible">
                 <JovieTooltip
-                  text="Search"
-                  class="w-full justify-end"
+                  tooltipText="Press"
                   arrow
-                  placement="bottom-end">
+                  tooltipPlacement="bottom">
                   <template #content>
                     <KeyboardShortcut text="/" />
                     to search
@@ -79,20 +78,15 @@
                 </JovieTooltip>
               </div>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
                       <JovieTooltip
-                        text="Adjustments"
-                        class="w-full justify-end"
+                        tooltipText="Adjustments"
                         arrow
-                        placement="bottom-end">
-                        <template #content>
-                          <KeyboardShortcut text="/" />
-                          to search
-                        </template>
+                        tooltipPlacement="bottom">
                         <ButtonGroup
                           :design="'toolbar'"
                           :text="'Hide Columns'"
@@ -220,6 +214,33 @@
                   </Float>
                 </Menu>
               </div>
+              <div
+                class="items-center text-slate-200 dark:text-jovieDark-border">
+                |
+              </div>
+              <JovieTooltip
+                :tooltipText="
+                  $store.state.ContactSidebarOpen
+                    ? 'Close Contact Sidebar'
+                    : 'Open Contact Sidebar'
+                "
+                arrow
+                tooltipPlacement="bottom">
+                <ButtonGroup
+                  @click="toggleContactSidebar()"
+                  :design="'toolbar'"
+                  :text="
+                    $store.state.ContactSidebarOpen
+                      ? 'Close Contact Sidebar'
+                      : 'Open Contact Sidebar'
+                  "
+                  :icon="
+                    $store.state.ContactSidebarOpen
+                      ? 'ArrowRightOnRectangleIcon'
+                      : 'ArrowLeftOnRectangleIcon'
+                  "
+                  hideText />
+              </JovieTooltip>
             </div>
           </div>
         </header>

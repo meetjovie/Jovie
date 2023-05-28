@@ -1,14 +1,8 @@
 <template>
   <td
+    class="border-collapse items-center overflow-auto whitespace-nowrap border text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
     ref="cell_area"
-    :class="[
-      'border-collapse items-center overflow-auto whitespace-nowrap border text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border  dark:text-jovieDark-200',
-      cellActive
-        ? 'relative isolate z-40 border-slate-100/0  outline-8 outline-purple-600 ring-4 ring-blue-500  dark:ring-indigo-500'
-        : '',
-
-      currentContact.id == contact.id ? '' : '',
-    ]"
+    :class="[activeCell ? 'ring ring-2 ring-inset ring-purple-500' : '']"
     :key="rerenderKey"
     v-if="
       freezeColumn ||

@@ -177,6 +177,7 @@
       v-for="(column, columnIndex) in otherColumns"
       :key="`${row}_${columnIndex}`">
       <DataGridCell
+        class="relative z-50"
         :class="[
           selectedContactsModel.includes(contact.id)
             ? currentContact.id === contact.id
@@ -251,6 +252,9 @@ export default {
     window.removeEventListener('keyup', this.onKeyUp);
   },
   computed: {
+    colorClass() {
+      return `ring-${this.ringColor}-500 dark:ring-${this.ringColor}-300`;
+    },
     selectedContactsModel: {
       get() {
         return this.selectedContacts;
@@ -356,6 +360,10 @@ export default {
     otherColumns: Array,
     columnIndex: Number,
     contactsMeta: Object,
+    ringColor: {
+      type: String,
+      default: 'red',
+    },
   },
 };
 </script>

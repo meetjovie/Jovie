@@ -1,6 +1,6 @@
 <template>
   <Popover class="relative">
-    <Float portal :offset="8" :placement="tooltipPlacement">
+    <Float portal shift :offset="8" :placement="tooltipPlacement">
       <PopoverButton
         v-slot="{ open }"
         :class="open ? '' : 'text-opacity-90'"
@@ -23,6 +23,7 @@
             size="lg"
             class="px-4 py-2 text-xs font-medium text-slate-600 dark:text-jovieDark-200">
             {{ tooltipText }}
+            <slot name="content"></slot>
           </GlassmorphismContainer>
         </PopoverPanel>
       </transition>
