@@ -378,7 +378,7 @@
                                       "
                                       :name="'Enrich'"
                                       icon="SparklesIcon" />
-                                    <!-- 
+                                    <!--
                                     <MenuItem
                                       v-slot="{ active }"
                                       @click="
@@ -858,6 +858,7 @@ export default {
       openMergeSuggestion: false,
       contactIds: null,
       disableDragging: false,
+        rightClickMenuContact: {},
     };
   },
   props: [

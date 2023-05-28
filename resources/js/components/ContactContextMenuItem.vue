@@ -52,16 +52,6 @@
         :disabled="contact.phones && !contact.phones.length"
         icon="ChatBubbleOvalLeftEllipsisIcon" />
 
-      <div v-if="currentUser.is_admin">
-        <DropdownMenuItem
-          v-if="contactMethod == 'refresh'"
-          name="Refresh"
-          color="text-slate-400 hover:text-slate-900"
-          @click="refresh(contact)"
-          :disabled="adding"
-          icon="ArrowPathIcon" />
-      </div>
-
       <DropdownMenuItem
         v-if="contactMethod == 'verify'"
         name="Verify Email"

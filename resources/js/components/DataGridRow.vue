@@ -132,54 +132,6 @@
             <span class="sr-only">Open options</span>
             <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
           </button>
-            <ContactContextMenu
-              :open="contact.showContextMenu"
-              :contact="contact">
-              <!--  Kill this option til we fix the Contact Overview page -->
-              <!--  <DropdownMenuItem
-
-              name="Open Contact"
-              icon="ViewfinderCircleIcon"
-              color="text-indigo-600 dark:text-indigo-400"
-              @click="
-                $router.push({
-                  name: 'Contact Overview',
-                  params: { id: contact.id },
-                })
-
-              " /> -->
-            <DropdownMenuItem
-              name="Refresh"
-              color="text-green-600 dark:text-green-400"
-              icon="ArrowPathIcon"
-              v-if="currentUser.is_admin"
-              @click="$emit('refresh', contact)" />
-
-
-              <DropdownMenuItem
-                :name="
-                  filters.type == 'archived' && contact.archived
-                    ? 'Unarchive'
-                    : 'Archive'
-                "
-                icon="ArchiveBoxIcon"
-                @blur="$emit('updateContact')"
-                @click="
-                  $emit('archive-contacts', contact.id, !contact.archived)
-                "
-                color="text-blue-600
-            dark:text-blue-400" />
-
-            <DropdownMenuItem
-              v-if="filters.list"
-              name="Remove from list"
-              icon="TrashIcon"
-              danger
-              color="text-red-600 dark:text-red-400"
-              @click="
-                $emit('toggleContactsFromList', contact.id, filters.list, true)
-              " />
-          </ContactContextMenu> -->
           </div>
 
         </div>
