@@ -250,7 +250,7 @@
             class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               ref="crmTable"
-              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
+              class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
                 class="relative isolate z-20 h-10 w-full items-center overflow-auto">
                 <tr
@@ -276,7 +276,7 @@
                   </th>
                   <th
                     v-for="i in 10"
-                    class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="sticky top-0 z-30 table-cell w-40 items-center border border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
                       class="h-4 w-40 animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
@@ -435,7 +435,7 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
                         @updateColumnWidth="updateColumnWidth($event)"
@@ -453,7 +453,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -467,17 +467,17 @@
                     <th
                       scope="col"
                       :class="[
-                        { 'border-b-2': view.atTopOfPage },
+                        { 'border-b-4': view.atTopOfPage },
                         'border-b-0',
                       ]"
-                      class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
+                      class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
                   </template>
                 </draggable>
               </thead>
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
               <draggable
-                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-300 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
                 :list="contactRecords"
                 ghost-class="ghost-row"
                 group="contacts"
@@ -545,7 +545,7 @@
               v-if="contactRecords.length < 1"
               class="mx-auto mt-4 h-full w-full max-w-xl items-center py-12">
               <div
-                class="border-b border-gray-200 bg-white px-4 py-5 dark:bg-jovieDark-900 sm:px-6">
+                class="border-b border-slate-300 bg-white px-4 py-5 dark:border-jovieDark-border dark:bg-jovieDark-900 sm:px-6">
                 <h3
                   class="text-base font-semibold leading-6 text-slate-900 dark:text-jovieDark-200">
                   There are no contacts to display
