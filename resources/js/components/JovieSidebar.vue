@@ -10,7 +10,7 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
     <div class="flex">
       <div
-        class="min-w-60 max-w-96 overflow-none top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
+        class="overflow-none top-0 z-30 mx-auto flex h-screen w-[268px] flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
         <div>
           <slot name="header">
             <div class="w-full flex-col px-2">
@@ -90,7 +90,7 @@
                     placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
-                      <ContactAvatar :height="8" :contact="currentUser" />
+                      <ContactAvatar :height="6" :contact="currentUser" />
                       <!--  <img
                         class="inline-block aspect-square h-6 w-6 rounded-full border-2 border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
                         :src="
