@@ -11,7 +11,7 @@ use OwenIt\Auditing\Events\AuditCustom;
 
 class ContactService
 {
-    public function findDuplicates($params)
+    public function findDuplicates($params, $count = false)
     {
         // Get all contacts for the given team
 //        $contacts = DB::table('contacts')->where('team_id', $team_id)->where('archived', 0)->get();
@@ -20,6 +20,7 @@ class ContactService
         $contacts = Contact::getContacts($params);
 
         $duplicate = null;
+        $duplicates = 0;
 
         // Loop through each contact and compare it to the others
         foreach ($contacts as $i => $contact1) {
@@ -34,12 +35,16 @@ class ContactService
                         'contacts' => [$contact1, $contact2, $mergedContact],
                         'matched_fields' => $matchedFields
                     ];
-                    break;
+                    if (!$count) {
+                        break;
+                    }
+                    $duplicates++;
                 }
             }
         }
-
-
+        if ($count) {
+            return $duplicates;
+        }
         return $duplicate;
     }
 

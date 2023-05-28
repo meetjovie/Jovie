@@ -251,7 +251,7 @@ export default {
 
     //open settings when hitting g then s
     this.$mousetrap.bind(['g s'], () => {
-      this.$router.push('/account');
+      this.$router.push('/settings');
     });
   },
 

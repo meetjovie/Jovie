@@ -269,7 +269,7 @@
                 ghost-class="ghost-card"
                 :contact="contact"
                 @end="sortFields"
-                :list="displayAbleFields">
+                v-model="displayAbleFields">
                 <!-- v-if for contact[element.model] check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
@@ -430,7 +430,7 @@
           <span
             class="px-2 text-right text-xs font-semibold text-slate-400 dark:text-jovieDark-400"
             v-if="contact.description_updated_by"
-            >Last updated by: {{ contact.description_updated_by }}
+            >Last updated by: {{ contact.description_updated_user }}
             {{ contact.description_updated_at }}</span
           >
           <span
@@ -705,6 +705,8 @@ export default {
       socialMediaProfileUrl: '',
       currentNetwork: '',
       ignoreFieldIdForNonDisplay: [],
+        displayAbleFields: [],
+        nonDisplayAbleFields: []
     };
   },
   methods: {

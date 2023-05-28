@@ -6,7 +6,7 @@
       <span class="text-md font-bold">$</span>
     </div>
     <input
-        ref="input"
+      ref="input"
       :class="{
         'pl-4': dataType == 'currency',
         'pr-3': dataType == 'email',
@@ -18,6 +18,7 @@
       :placeholder="placeholder"
       :pattern="dataType == 'currency' ? '\\d*' : null"
       :aria-describedby="fieldId"
+      @keydown.esc.prevent="handleEscKey"
       @change="onBlur" />
     <div
       tabindex="-1"
@@ -53,9 +54,15 @@ export default {
   props: ['modelValue', 'placeholder', 'fieldId', 'dataType', 'value'],
   emits: ['update:modelValue', 'blur'],
   methods: {
+    handleEscKey(event) {
+      if (event.key === 'Escape') {
+        this.$refs.input.value = this.modelValue;
+        this.$refs.input.blur(); // Blur the input field to remove focus
+      }
+    },
     onBlur(e) {
-        this.$emit('update:modelValue', e.target.value);
-        this.$emit('blur');
+      this.$emit('update:modelValue', e.target.value);
+      this.$emit('blur');
     },
     debouncedEmailCheck(email) {
       // Define the debounce function

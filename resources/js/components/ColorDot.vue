@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     colorClass() {
-      return `bg-${this.color}-500`;
+      return `bg-${this.color}-500 dark:bg-${this.color}-700`;
     },
   },
 };

@@ -162,6 +162,7 @@
                           @setFiltersType="setFiltersType"
                           menuName="Lists"
                           @setFilterList="setFilterList"
+                          @addContact="openImportContactModal(false, $event)"
                           :selectedList="filters.list"
                           :draggable="true"
                           @updateUserList="updateUserList($event)"
@@ -486,114 +487,55 @@
         <div
           class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
-            <div class="h-full w-full">
-              <div class="flex h-full w-full flex-col">
-                <div class="mx-auto h-full w-full p-0">
-                  <div class="inline-block h-full w-full align-middle">
-                    <div class="h-full w-full dark:bg-jovieDark-900">
-                      <AlertBanner
-                        v-if="limitExceedBy > 0 && totalAvailable"
-                        design="primary"
-                        :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                        :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                        :cta="`Upgrade`"
-                        ctaLink="Billing" />
-                      <!--  Show import screen if no contacts -->
-                      <!--  <div
-                        v-if="!loading && !contacts.length && !showImporting"
-                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
-                        <div class="mx-auto max-w-xl">
-                          <div
-                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                            <div>
-                              <h1
-                                class="text-md font-bold dark:text-jovieDark-100">
-                                You don't have any contacts yet.
-                              </h1>
-                              <span
-                                class="text-sm font-medium text-slate-900 dark:text-jovieDark-200"
-                                >Enter a Twitch or Instagram url to add someone
-                                to Jovie.</span
-                              >
-                            </div>
-                            <SocialInput
-                              class="py-12"
-                              :list="filters.list"
-                              @finishImport="closeImportContactModal" />
-                            <InternalMarketingChromeExtension class="mt-24" />
-                          </div>
-                        </div>
-                      </div>
+            <AlertBanner
+              v-if="limitExceedBy > 0 && totalAvailable"
+              design="primary"
+              :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+              :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+              :cta="`Upgrade`"
+              ctaLink="Billing" />
 
-
-                      <div
-                        v-else-if="showImporting && !contacts.length"
-                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                        <div class="mx-auto max-w-xl">
-                          <div
-                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                            <div>
-                              <ArrowPathIcon
-                                class="mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
-                              <h1 class="text-md font-bold">
-                                You've just initated an import.
-                              </h1>
-                              <span class="text-sm font-medium text-slate-900"
-                                >You'll see contacts populate this space
-                                soon.</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
-                      <!-- Show the crm if there are contacts -->
-                      <div>
-                        <DataGrid
-                          v-if="columns.length"
-                          ref="crmTableGrid"
-                          @addContact="openImportContactModal()"
-                          @addContactFromSocial="openImportContactModal(true)"
-                          @updateContact="updateContact"
-                          @crmCounts="crmCounts"
-                          :counts="counts"
-                          @updateListCount="updateListCount"
-                          @pageChanged="pageChanged"
-                          @getCrmContacts="getCrmContacts"
-                          @setCurrentContact="setCurrentContact"
-                          @openSidebar="openSidebarContact"
-                          @getHeaders="getHeaders"
-                          @checkContactsEnrichable="checkContactsEnrichable"
-                          @setOrder="setOrder"
-                          @getUserLists="getUserLists"
-                          @export="exportCrmContacts"
-                          @updateFiltersContact="updateFiltersContact"
-                          @suggestionExists="toggleMergeSuggestion"
-                          :header="
-                            filters.type === 'list'
-                              ? filters.currentList
-                                ? filters.currentList.name
-                                : ''
-                              : filters.type
-                          "
-                          :subheader="counts"
-                          :filters="filters"
-                          :userLists="userLists"
-                          :networks="networks"
-                          :stages="stages"
-                          :columns="columns"
-                          :loading="loading"
-                          :taskLoading="taskLoading"
-                          :contactsMeta="contactsMeta"
-                          :suggestMerge="suggestMerge"
-                          :headersLoaded="headersLoaded">
-                          <slot header="header"></slot>
-                        </DataGrid>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <DataGrid
+              v-if="columns.length"
+              ref="crmTableGrid"
+              @addContact="openImportContactModal()"
+              @addContactFromSocial="openImportContactModal(true)"
+              @updateContact="updateContact"
+              @crmCounts="crmCounts"
+              :counts="counts"
+              @updateListCount="updateListCount"
+              @pageChanged="pageChanged"
+              @getCrmContacts="getCrmContacts"
+              @setCurrentContact="setCurrentContact"
+              @openSidebar="openSidebarContact"
+              @getHeaders="getHeaders"
+              @checkContactsEnrichable="checkContactsEnrichable"
+              @setOrder="setOrder"
+              @getUserLists="getUserLists"
+              @export="exportCrmContacts"
+              @updateFiltersContact="updateFiltersContact"
+              @suggestionExists="toggleMergeSuggestion"
+              @updateCrmCount="crmCounts"
+              :header="
+                filters.type === 'list'
+                  ? filters.currentList
+                    ? filters.currentList.name
+                    : ''
+                  : filters.type
+              "
+              :subheader="counts"
+              :filters="filters"
+              :userLists="userLists"
+              :networks="networks"
+              :stages="stages"
+              :columns="columns"
+              :loading="loading"
+              :taskLoading="taskLoading"
+              :contactsMeta="contactsMeta"
+              :suggestMerge="suggestMerge"
+              :headersLoaded="headersLoaded">
+              <slot header="header"></slot>
+            </DataGrid>
           </div>
         </div>
 
@@ -623,7 +565,7 @@
       <ImportContactModal
         :open="showContactModal"
         :fromSocial="importFromSocial"
-        :list="filters.list"
+        :list="listToImport"
         @contactImported="contactImported($event)"
         @closeModal="closeImportContactModal()" />
 
@@ -892,8 +834,11 @@ export default {
           onClick: () => (this.suggestMerge = !this.suggestMerge),
           name: 'Duplicates',
           icon: 'DocumentDuplicateIcon',
+          count: 'duplicates',
+          type: 'duplicates',
         },
       ],
+      currentImportingList: null,
     };
   },
   watch: {
@@ -901,6 +846,9 @@ export default {
       deep: true,
       handler: function (val) {
         delete val.page;
+        if (val.currentList) {
+          this.currentImportingList = null;
+        }
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
@@ -918,6 +866,12 @@ export default {
   computed: {
     importContactModal() {
       return importContactModal;
+    },
+    listToImport() {
+      if (this.currentImportingList) {
+        return this.currentImportingList;
+      }
+      return this.filters.currentList;
     },
     showImporting() {
       if (this.userLists.length && this.filters.type == 'list') {
@@ -1193,7 +1147,10 @@ export default {
       this.$store.dispatch('enrichContacts', payload);
       this.resetPopup();
     },
-    openImportContactModal(fromSocial = false) {
+    openImportContactModal(fromSocial = false, list = null) {
+      if (list) {
+        this.currentImportingList = list;
+      }
       this.importFromSocial = fromSocial;
       this.$nextTick(() => {
         this.showContactModal = true;
@@ -1246,6 +1203,9 @@ export default {
         });
     },
     onListDrop(listId) {
+      if (!this.$store.state.currentlyDraggedContact) {
+        return;
+      }
       this.$refs.crmTableGrid.toggleContactsFromList(
         this.$store.state.currentlyDraggedContact,
         listId,
@@ -1271,6 +1231,7 @@ export default {
     },
     closeImportContactModal() {
       this.showContactModal = false;
+      this.currentImportingList = null;
     },
     closeUpgradeModal() {
       this.showUpgradeModal = !this.showUpgradeModal;

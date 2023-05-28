@@ -132,6 +132,8 @@ import {
   MagnifyingGlassIcon,
   NoSymbolIcon,
   PlusCircleIcon,
+  ArrowRightOnRectangleIcon,
+  ArrowLeftOnRectangleIcon,
   DocumentDuplicateIcon,
   MinusCircleIcon,
   MinusIcon,
@@ -140,8 +142,9 @@ import {
   ArrowRightIcon,
   PlusIcon,
   ChevronRightIcon,
+  XCircleIcon,
+  CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
-import { XCircleIcon, CheckCircleIcon } from '@heroicons/vue/24/solid';
 
 import JovieSpinner from '../components/JovieSpinner.vue';
 
@@ -226,6 +229,8 @@ export default {
     PlusCircleIcon,
     MinusCircleIcon,
     ChevronRightIcon,
+    ArrowRightOnRectangleIcon,
+    ArrowLeftOnRectangleIcon,
     JovieSpinner,
     DocumentDuplicateIcon,
     XCircleIcon,

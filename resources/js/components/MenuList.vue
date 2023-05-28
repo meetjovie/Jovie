@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="group flex cursor-pointer items-center justify-between rounded py-1">
+      class="bgred-500 group flex h-full cursor-pointer items-center justify-between rounded py-1">
       <div
         class="flex cursor-pointer items-center rounded py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
         <div
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <ul v-if="showMenu && draggable" class="overflow-auto">
+    <ul v-if="showMenu && draggable" class="h-full overflow-auto">
       <draggable
         v-model="menuItemsList"
         group="lists"
@@ -49,6 +49,7 @@
               :routerLink="false"
               draggable
               editable
+              @updateUserList="$emit('updateUserList', $event)"
               @subMenuItemClicked="handleSubMenuItemClicked($event, element)"
               :id="element.id"
               :emoji="element.emoji"
@@ -137,7 +138,7 @@
       </draggable>
     </ul>
     <ul v-if="showMenu && !draggable" class="">
-      <div v-for="item in menuItems" :key="item.id">
+      <div v-for="item in menuItemsList" :key="item.id">
         <MenuItem @click="$emit('setFilterList', item.id)" v-slot="{ active }">
           <div
             :class="[
@@ -410,6 +411,7 @@ export default {
       },
       creatingList: false,
       currentEditingList: null,
+      menuItemsList: [],
     };
   },
   methods: {
@@ -421,19 +423,17 @@ export default {
     handleSubMenuItemClicked(payload, item) {
       //log the payload and item
       //log the name of the current component and the item that was clicked
-      console.log(
-        'Item clicked in MenuList.vue' + payload + ' List name' + item
-      );
-
-      console.log('list name' + item.name);
       if (payload == 1) {
-        this.checkListsEnrichable(item.id);
+        this.checkListsEnrichable(item);
       } else if (payload == 2) {
         this.editList(item);
       } else if (payload == 3) {
-        this.duplicateList(item);
+        this.duplicateList(item.id);
       } else if (payload == 4) {
-        this.confirmListDeletion(item);
+        this.confirmListDeletion(item.id);
+      } else if (payload == 5) {
+        console.log('snfblnklsn');
+        this.$emit('addContact', item);
       }
     },
     checkListsEnrichable(ids) {
@@ -697,6 +697,7 @@ export default {
       this.editListPopup.open = false;
     },
     duplicateList(id) {
+      console.log(id);
       UserService.duplicateList(id)
         .then((response) => {
           response = response.data;
@@ -854,25 +855,31 @@ export default {
     DropdownMenuItem,
   },
   computed: {
-    menuItemsList: {
-      get() {
-        return this.menuItems;
-      },
-      set(val) {
-        this.$emit('updateMenuItems', val);
-      },
-    },
+    // menuItemsList: {
+    //   get() {
+    //     return this.menuItems;
+    //   },
+    //   set(val) {
+    //     this.$emit('updateMenuItems', val);
+    //   },
+    // },
   },
   watch: {
-    menuItems(val) {
-      if (this.menuName == 'Lists' && this.currentEditingList) {
-        let enabledList = this.menuItems.find(
-          (list) => this.currentEditingList.id === list.id
-        );
-        if (enabledList) {
-          this.enableEditName(enabledList);
+    menuItems: {
+      deep: true,
+      immediate: true,
+      handler: function (val) {
+        if (this.menuName == 'Lists' && this.currentEditingList) {
+          let enabledList = this.menuItems.find(
+            (list) => this.currentEditingList.id === list.id
+          );
+          if (enabledList) {
+            this.enableEditName(enabledList);
+          }
         }
-      }
+        this.menuItemsList = val;
+        this.$emit('updateMenuItems', val);
+      },
     },
   },
   props: {

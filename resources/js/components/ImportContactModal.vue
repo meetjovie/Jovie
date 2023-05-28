@@ -340,6 +340,22 @@ export default {
       default: false,
     },
   },
+  watch: {
+    list: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val && val.id) {
+          this.contact.user_lists = []
+          let payload = {
+            list: val,
+            add: true,
+          };
+          this.updateContactLists(payload);
+        }
+      },
+    },
+  },
   computed: {
     contactFields() {
       return this.fields.filter(

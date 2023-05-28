@@ -7,6 +7,7 @@ use App\Jobs\EnrichContacts;
 use App\Jobs\EnrichList;
 use App\Models\Scopes\ContactsLimitScope;
 use App\Models\Scopes\TeamScope;
+use App\Services\ContactService;
 use App\Traits\CustomFieldsTrait;
 use App\Traits\GeneralTrait;
 use Carbon\Carbon;
@@ -614,7 +615,7 @@ class Contact extends Model implements Auditable
     {
         $contacts = Contact::query()->with('userLists')
             ->select('contacts.*')
-            ->addSelect('description_updated.first_name as description_updated_by');
+            ->addSelect('description_updated.first_name as description_updated_user');
         $contacts = $contacts->leftJoin('users as description_updated', function ($join) {
             $join->on('description_updated.id', '=', 'description_updated_by');
         });
@@ -684,6 +685,9 @@ class Contact extends Model implements Auditable
             if ($contact->description_updated_at) {
                 $contact->description_updated_at = Carbon::parse($contact->description_updated_at)->diffForHumans();
             }
+            if ($contact->description_updated_by == Auth::id()) {
+                $contact->description_updated_user = 'You';
+            }
             // custom fields
             foreach ($customFields as $customField) {
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
@@ -704,6 +708,7 @@ class Contact extends Model implements Auditable
 
     public static function getCrmCounts()
     {
+        $contactService = new ContactService();
         $counts = Contact::query()->selectRaw(
             "team_id,
             sum(case when archived = false then 1 else 0 end) AS total,
@@ -713,7 +718,11 @@ class Contact extends Model implements Auditable
         )->groupBy('team_id')->first();
 
         if ($counts) {
+            $params['user_id'] = Auth::id();
+            $params['team_id'] = Auth::user()->currentTeam->id;
+            $params['type'] = 'list';
             $counts = $counts->makeHidden(['stage_name']);
+            $counts->duplicates = $contactService->findDuplicates($params, true) . '';
             unset($counts->team_id);
         } else {
             $counts = [
@@ -721,6 +730,7 @@ class Contact extends Model implements Auditable
                 'favourite' => 0,
                 'total' => 0,
                 'birthday' => 0,
+                'duplicates' => 0,
             ];
         }
         return $counts;
@@ -1203,7 +1213,7 @@ class Contact extends Model implements Auditable
     public static function updateCustomFields($data, $contact, $merge = false)
     {
         $cc = new Contact();
-        $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
+        $customFields = $cc->getFieldsByTeam($data['team_id']);
         foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];

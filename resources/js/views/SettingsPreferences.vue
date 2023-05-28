@@ -39,6 +39,7 @@
 <script>
 import SectionHeader from '../components/SectionHeader.vue';
 import SectionWrapper from '../components/SectionWrapper.vue';
+
 import TextAreaInput from '../components/TextAreaInput.vue';
 import CheckboxInput from '../components/CheckboxInput.vue';
 import TeamService from '../services/api/team.service';
