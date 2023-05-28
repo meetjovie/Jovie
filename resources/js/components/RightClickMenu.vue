@@ -69,27 +69,28 @@
                       )
                     " />
                 </ContactContextMenuItem>
-                <!-- <DropdownMenuItem
-                  name="Refresh"
-                  color="text-green-600 dark:text-green-400"
-                  icon="ArrowPathIcon"
-                  @click="$emit('refresh', contact)" /> -->
+                  <DropdownMenuItem
+                      v-if="currentUser.is_admin"
+                      name="Refresh"
+                      color="text-green-600 dark:text-green-400"
+                      icon="ArrowPathIcon"
+                      @click="$emit('refresh', contact)" />
 
-                <!--  <DropdownMenuItem
-                  :name="
+                  <DropdownMenuItem
+                      :name="
                     filters.type == 'archived' && contact.archived
                       ? 'Unarchive'
                       : 'Archive'
                   "
-                  icon="ArchiveBoxIcon"
-                  @blur="$emit('updateContact')"
-                  @click="
+                      icon="ArchiveBoxIcon"
+                      @blur="$emit('updateContact')"
+                      @click="
                     $emit('archive-contacts', contact.id, !contact.archived)
                   "
-                  color="text-blue-600
-            dark:text-blue-400" /> -->
-                <!-- v-if="filters.list" -->
+                      color="text-blue-600
+            dark:text-blue-400" />
                 <DropdownMenuItem
+                    v-if="filters.list"
                   name="Remove from list"
                   icon="TrashIcon"
                   danger
