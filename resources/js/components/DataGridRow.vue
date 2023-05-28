@@ -1,12 +1,7 @@
 <template>
   <tr
     @contextmenu="handleContextMenu($event, contact)"
-    class="group h-11 w-full flex-row items-center overflow-y-visible"
-    :class="[
-      currentContact.id == contact.id
-        ? 'relative ring-2 ring-slate-300 focus:z-20 dark:ring-indigo-400'
-        : '',
-    ]">
+    class="group h-11 w-full flex-row items-center overflow-y-visible">
     <div
       @click.shift.prevent="toggleRow(contact.id)"
       v-if="shiftDown"
@@ -141,7 +136,7 @@
       v-for="(column, columnIndex) in otherColumns"
       :key="`${row}_${columnIndex}`">
       <DataGridCell
-        class="relative z-50"
+        class="relative z-30"
         :class="[
           selectedContactsModel.includes(contact.id)
             ? currentContact.id === contact.id
