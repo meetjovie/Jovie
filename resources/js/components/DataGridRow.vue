@@ -126,62 +126,13 @@
 
           <div>
             <button
-            ref="contextMenuButton"
-            @click="handleMenuButton($event, contact)"
-            class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
-            <span class="sr-only">Open options</span>
-            <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
-          </button>
-            <ContactContextMenu
-              :open="contact.showContextMenu"
-              :contact="contact">
-              <!--  Kill this option til we fix the Contact Overview page -->
-              <!--  <DropdownMenuItem
-
-              name="Open Contact"
-              icon="ViewfinderCircleIcon"
-              color="text-indigo-600 dark:text-indigo-400"
-              @click="
-                $router.push({
-                  name: 'Contact Overview',
-                  params: { id: contact.id },
-                })
-
-              " /> -->
-            <DropdownMenuItem
-              name="Refresh"
-              color="text-green-600 dark:text-green-400"
-              icon="ArrowPathIcon"
-              v-if="currentUser.is_admin"
-              @click="$emit('refresh', contact)" />
-
-
-              <DropdownMenuItem
-                :name="
-                  filters.type == 'archived' && contact.archived
-                    ? 'Unarchive'
-                    : 'Archive'
-                "
-                icon="ArchiveBoxIcon"
-                @blur="$emit('updateContact')"
-                @click="
-                  $emit('archive-contacts', contact.id, !contact.archived)
-                "
-                color="text-blue-600
-            dark:text-blue-400" />
-
-            <DropdownMenuItem
-              v-if="filters.list"
-              name="Remove from list"
-              icon="TrashIcon"
-              danger
-              color="text-red-600 dark:text-red-400"
-              @click="
-                $emit('toggleContactsFromList', contact.id, filters.list, true)
-              " />
-          </ContactContextMenu> -->
+              ref="contextMenuButton"
+              @click="handleMenuButton($event, contact)"
+              class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
+              <span class="sr-only">Open options</span>
+              <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
+            </button>
           </div>
-
         </div>
       </div>
     </div>
