@@ -1,6 +1,7 @@
 <template>
   <teleport to="#crm">
     <div
+      ref="rightClickMenu"
       style="z-index: 9999"
       :style="{ top: y + 'px', left: x + 'px' }"
       class="absolute">
@@ -18,6 +19,25 @@
               style="z-index: 9999"
               class="z-10 mt-2 w-48 origin-top-right px-1 py-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
               <div class="py-1">
+                <DropdownMenuItem
+                  name="Refresh"
+                  color="text-green-600 dark:text-green-400"
+                  icon="ArrowPathIcon"
+                  @click="$emit('refresh', contact)" />
+
+                <DropdownMenuItem
+                  :name="
+                    filters.type == 'archived' && contact.archived
+                      ? 'Unarchive'
+                      : 'Archive'
+                  "
+                  icon="ArchiveBoxIcon"
+                  @blur="$emit('updateContact')"
+                  @click="
+                    $emit('archive-contacts', contact.id, !contact.archived)
+                  "
+                  color="text-blue-600
+            dark:text-blue-400" />
                 <ContactContextMenuItem
                   :contact="contact"
                   :contactMethods="[
@@ -33,9 +53,55 @@
                     'separator',
                     'validate',
                   ]">
+                  fsdfdfs
+                  <DropdownMenuItem
+                    v-if="filters.list"
+                    name="Remove from list"
+                    icon="TrashIcon"
+                    danger
+                    color="text-red-600 dark:text-red-400"
+                    @click="
+                      $emit(
+                        'toggleContactsFromList',
+                        contact.id,
+                        filters.list,
+                        true
+                      )
+                    " />
                 </ContactContextMenuItem>
+                <!-- <DropdownMenuItem
+                  name="Refresh"
+                  color="text-green-600 dark:text-green-400"
+                  icon="ArrowPathIcon"
+                  @click="$emit('refresh', contact)" /> -->
 
-                <slot></slot>
+                <!--  <DropdownMenuItem
+                  :name="
+                    filters.type == 'archived' && contact.archived
+                      ? 'Unarchive'
+                      : 'Archive'
+                  "
+                  icon="ArchiveBoxIcon"
+                  @blur="$emit('updateContact')"
+                  @click="
+                    $emit('archive-contacts', contact.id, !contact.archived)
+                  "
+                  color="text-blue-600
+            dark:text-blue-400" /> -->
+                <!-- v-if="filters.list" -->
+                <DropdownMenuItem
+                  name="Remove from list"
+                  icon="TrashIcon"
+                  danger
+                  color="text-red-600 dark:text-red-400"
+                  @click="
+                    $emit(
+                      'toggleContactsFromList',
+                      contact.id,
+                      filters.list,
+                      true
+                    )
+                  " />
               </div>
             </GlassmorphismContainer>
           </MenuItems>
@@ -64,16 +130,28 @@ export default {
     CloudArrowDownIcon,
     GlassmorphismContainer,
   },
+  mounted() {
+    document.addEventListener('click', this.closeMenu);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.closeMenu);
+  },
   methods: {
     hideMenu() {
       console.log('hide menu');
       //emit event to parent
       this.$emit('hide-menu');
     },
-    showMenu(e) {
-      this.x = e.pageX;
-      this.y = e.pageY;
-      this.show = true;
+
+    closeMenu(event) {
+      //if click outside of menu and trigger is not menu-button then hideMenu()
+      if (
+        !this.$refs.rightClickMenu.contains(event.target) &&
+        this.trigger !== 'menu-button'
+      ) {
+        this.hideMenu();
+        console.log('Menu closed' + this.trigger);
+      }
     },
   },
   //add props
@@ -86,6 +164,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    trigger: {
+      type: String,
+      default: 'right-click',
+    },
     x: {
       type: Number,
       default: 0,
@@ -93,6 +175,9 @@ export default {
     y: {
       type: Number,
       default: 0,
+    },
+    filters: {
+      required: false,
     },
   },
 };

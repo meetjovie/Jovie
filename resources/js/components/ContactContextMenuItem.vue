@@ -6,7 +6,7 @@
         name="Email"
         color="text-purple-600 dark:text-purple-400"
         @click="emailContact(contact.emails[0])"
-        :disabled="!contact.emails.length"
+        :disabled="contact.emails && !contact.emails.length"
         icon="EnvelopeIcon" />
       <DropdownMenuItem v-if="contactMethod == 'separator'" separator />
       <DropdownMenuItem
@@ -14,14 +14,14 @@
         name="Call"
         color="text-blue-600 dark:text-blue-400"
         @click="callContact(contact.phones[0])"
-        :disabled="!contact.phones.length"
+        :disabled="contact.phones && !contact.phones.length"
         icon="PhoneIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'sms'"
         name="Send SMS"
         color="text-blue-600 dark:text-blue-400"
         @click="textContact(contact.phones[0])"
-        :disabled="!contact.phones.length"
+        :disabled="contact.phones && !contact.phones.length"
         icon="ChatBubbleLeftEllipsisIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'calendar'"
@@ -49,7 +49,7 @@
         name="Whatsapp"
         color="text-social-whatsapp"
         @click="whatsappContact(contact.phones[0])"
-        :disabled="!contact.phones.length"
+        :disabled="contact.phones && !contact.phones.length"
         icon="ChatBubbleOvalLeftEllipsisIcon" />
 
       <div v-if="currentUser.is_admin">
@@ -131,14 +131,18 @@ export default {
       required: false,
     },
   },
+
   methods: {
     createCalendarEvent(contact) {
+      const defaultNote =
+        this.currentUser.workspace_preferences.calender_event_note;
+
       window.open(
         `https://calendar.google.com/calendar/r/eventedit?text=${
           this.currentUser.first_name
-        } ${this.currentUser.last_name} <> ${contact.name}&details=Created by ${
-          this.currentUser.first_name
-        } ${
+        } ${this.currentUser.last_name} <> ${
+          contact.full_name
+        }&details=${defaultNote} Created by ${this.currentUser.first_name} ${
           this.currentUser.last_name
         } on ${new Date().toLocaleDateString()}&location=&trp=false&sprop=&sprop=name:&dates=20200501T000000Z/20200501T000000Z&add=${
           contact.emails[0] || ''
@@ -152,7 +156,7 @@ export default {
         window.open('mailto:' + email);
         //else log no email found
       } else {
-        console.log('No email found');
+        console.log('No emails found');
         this.$notify({
           title: 'No email found',
           message: 'This contact does not have an email address',

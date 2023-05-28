@@ -1,6 +1,6 @@
 <template>
   <tr
-    @contextmenu.prevent="handleContextMenu($event, contact)"
+    @contextmenu="handleContextMenu($event, contact)"
     class="group h-11 w-full flex-row items-center overflow-y-visible"
     :class="[
       currentContact.id == contact.id
@@ -101,6 +101,7 @@
             >
           </div>
         </div>
+
         <div class="flex items-center justify-between">
           <div
             @click="$emit('openSidebar', { contact: contact, index: row })"
@@ -124,11 +125,19 @@
           </div>
 
           <div>
+            <button
+            ref="contextMenuButton"
+            @click="handleMenuButton($event, contact)"
+            class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
+            <span class="sr-only">Open options</span>
+            <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
+          </button>
             <ContactContextMenu
               :open="contact.showContextMenu"
               :contact="contact">
               <!--  Kill this option til we fix the Contact Overview page -->
               <!--  <DropdownMenuItem
+
               name="Open Contact"
               icon="ViewfinderCircleIcon"
               color="text-indigo-600 dark:text-indigo-400"
@@ -137,13 +146,15 @@
                   name: 'Contact Overview',
                   params: { id: contact.id },
                 })
+
               " /> -->
-              <DropdownMenuItem
-                name="Refresh"
-                color="text-green-600 dark:text-green-400"
-                icon="ArrowPathIcon"
-                v-if="currentUser.is_admin"
-                @click="$emit('refresh', contact)" />
+            <DropdownMenuItem
+              name="Refresh"
+              color="text-green-600 dark:text-green-400"
+              icon="ArrowPathIcon"
+              v-if="currentUser.is_admin"
+              @click="$emit('refresh', contact)" />
+
 
               <DropdownMenuItem
                 :name="
@@ -158,22 +169,19 @@
                 "
                 color="text-blue-600
             dark:text-blue-400" />
-              <DropdownMenuItem
-                v-if="filters.list"
-                name="Remove from list"
-                icon="TrashIcon"
-                danger
-                color="text-red-600 dark:text-red-400"
-                @click="
-                  $emit(
-                    'toggleContactsFromList',
-                    contact.id,
-                    filters.list,
-                    true
-                  )
-                " />
-            </ContactContextMenu>
+
+            <DropdownMenuItem
+              v-if="filters.list"
+              name="Remove from list"
+              icon="TrashIcon"
+              danger
+              color="text-red-600 dark:text-red-400"
+              @click="
+                $emit('toggleContactsFromList', contact.id, filters.list, true)
+              " />
+          </ContactContextMenu> -->
           </div>
+
         </div>
       </div>
     </div>
@@ -224,6 +232,7 @@ import ContactContextMenu from './ContactContextMenu.vue';
 import ContactAvatar from './ContactAvatar.vue';
 import DropdownMenuItem from './DropdownMenuItem.vue';
 import {
+  EllipsisVerticalIcon,
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
   SparklesIcon,
@@ -239,6 +248,7 @@ export default {
     DropdownMenuItem,
     ContactAvatar,
     ArrowTopRightOnSquareIcon,
+    EllipsisVerticalIcon,
     XMarkIcon,
     SparklesIcon,
   },
@@ -300,6 +310,18 @@ export default {
       console.log('context menu clicked ' + contact.full_name);
       this.$emit('contextMenuClicked', contact, coordinates);
     },
+
+    handleMenuButton(event, contact) {
+      event.preventDefault(); // Prevents the default context menu from showing up
+      const coordinates = {
+        x: event.pageX, // Extract the x-coordinate from the event
+        y: event.pageY, // Extract the y-coordinate from the event
+      };
+
+      console.log('context menu clicked ' + contact.full_name);
+      this.$emit('contextMenuButtonClicked', contact, coordinates);
+    },
+
     updateAvatar(pic) {
       console.log('hello');
       this.$emit('updateContact', {
