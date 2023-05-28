@@ -1,12 +1,7 @@
 <template>
   <tr
     @contextmenu="handleContextMenu($event, contact)"
-    class="group h-11 w-full flex-row items-center overflow-y-visible"
-    :class="[
-      currentContact.id == contact.id
-        ? 'relative ring-2 ring-slate-300 focus:z-20 dark:ring-indigo-400'
-        : '',
-    ]">
+    class="group h-11 w-full flex-row items-center overflow-y-visible">
     <div
       @click.shift.prevent="toggleRow(contact.id)"
       v-if="shiftDown"
@@ -21,7 +16,7 @@
           ? 'bg-slate-100 dark:bg-jovieDark-600'
           : 'bg-slate-50 dark:bg-jovieDark-800',
       ]"
-      class="sticky left-0 isolate z-50 h-12 w-full items-center border-r-2 border-slate-200 dark:border-jovieDark-border">
+      class="sticky left-0 isolate z-50 h-12 w-full items-center border-r-2 border-slate-300 dark:border-jovieDark-border">
       <div
         class="flex h-full w-full items-center justify-between"
         freezeColumn
@@ -126,12 +121,12 @@
 
           <div>
             <button
-            ref="contextMenuButton"
-            @click="handleMenuButton($event, contact)"
-            class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
-            <span class="sr-only">Open options</span>
-            <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
-          </button>
+              ref="contextMenuButton"
+              @click="handleMenuButton($event, contact)"
+              class="flex items-center rounded-full text-slate-400/0 transition-all hover:text-slate-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-100 active:bg-slate-200 group-hover:text-slate-400 dark:hover:text-slate-400 dark:active:bg-slate-800 dark:group-hover:text-slate-600">
+              <span class="sr-only">Open options</span>
+              <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
+            </button>
           </div>
 
         </div>
@@ -142,7 +137,7 @@
       v-for="(column, columnIndex) in otherColumns"
       :key="`${row}_${columnIndex}`">
       <DataGridCell
-        class="relative z-50"
+        class="relative z-30"
         :class="[
           selectedContactsModel.includes(contact.id)
             ? currentContact.id === contact.id

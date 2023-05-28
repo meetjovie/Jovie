@@ -1,6 +1,6 @@
 <template>
   <td
-    class="border-collapse items-center overflow-auto whitespace-nowrap border text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
+    class="isolate border-collapse items-center overflow-auto whitespace-nowrap border border-slate-200 text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
     ref="cell_area"
     :class="[
       cellActive ? 'ring-2 ring-inset' : '',

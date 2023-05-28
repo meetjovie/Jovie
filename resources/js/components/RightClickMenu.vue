@@ -19,6 +19,25 @@
               style="z-index: 9999"
               class="z-10 mt-2 w-48 origin-top-right px-1 py-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
               <div class="py-1">
+                <DropdownMenuItem
+                  name="Refresh"
+                  color="text-green-600 dark:text-green-400"
+                  icon="ArrowPathIcon"
+                  @click="$emit('refresh', contact)" />
+
+                <DropdownMenuItem
+                  :name="
+                    filters.type == 'archived' && contact.archived
+                      ? 'Unarchive'
+                      : 'Archive'
+                  "
+                  icon="ArchiveBoxIcon"
+                  @blur="$emit('updateContact')"
+                  @click="
+                    $emit('archive-contacts', contact.id, !contact.archived)
+                  "
+                  color="text-blue-600
+            dark:text-blue-400" />
                 <ContactContextMenuItem
                   :contact="contact"
                   :contactMethods="[
@@ -34,6 +53,21 @@
                     'separator',
                     'validate',
                   ]">
+                  fsdfdfs
+                  <DropdownMenuItem
+                    v-if="filters.list"
+                    name="Remove from list"
+                    icon="TrashIcon"
+                    danger
+                    color="text-red-600 dark:text-red-400"
+                    @click="
+                      $emit(
+                        'toggleContactsFromList',
+                        contact.id,
+                        filters.list,
+                        true
+                      )
+                    " />
                 </ContactContextMenuItem>
                   <DropdownMenuItem
                       v-if="currentUser.is_admin"
