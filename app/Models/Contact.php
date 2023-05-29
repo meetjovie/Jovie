@@ -678,7 +678,13 @@ class Contact extends Model implements Auditable
         }
 
         if($staged){
-            return $contacts->get()->groupBy('stage');
+            $contacts = $contacts->get()->groupBy('stage');
+            $contactArrays = [];
+
+            foreach ($contacts as $stage => $group) {
+                $contactArrays[$stage] = $group->toArray();
+            }
+            return $contactArrays;
         }else{
             $contacts = $contacts->paginate(15);
         }

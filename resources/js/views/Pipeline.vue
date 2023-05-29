@@ -8,7 +8,7 @@
     <div
       class="mx-auto grid h-full w-full auto-cols-max grid-flow-col justify-center py-4">
       <div
-        v-for="list in lists"
+        v-for="(list, index) in lists"
         class="mx-auto h-full justify-center divide-y divide-slate-200">
         <div class="border border-b-0 border-slate-200 lg:border-0">
           <!-- Completed Step -->
@@ -34,7 +34,7 @@
         </div>
         <draggable
           class="list-group my-1 cursor-pointer justify-center gap-6 space-y-2 px-4 py-4"
-          :list="filteredContacts"
+          :list="contacts[index]"
           group="people"
           @change="log"
           itemKey="name">
@@ -83,7 +83,7 @@
                       <div class="-mt-2 ml-2 block w-28 overflow-ellipsis">
                         <div
                           class="line-clamp-1 block text-ellipsis text-xs font-medium text-slate-900">
-                          {{ element.name }}
+                          {{ element.full_name }}
                         </div>
                         <div
                           class="elipsis line-clamp-1 block text-2xs text-slate-500">
@@ -413,6 +413,8 @@ export default {
         { name: 'Edgard', id: 6 },
         { name: 'Johnson', id: 7 },
       ],
+      lists: [],
+      contacts: [],
     };
   },
   methods: {
@@ -434,7 +436,11 @@ export default {
       contactService
         .getStagedContacts()
         .then((response) => {
-          console.log(response.data);
+          response = response.data;
+          if (response.status) {
+            this.lists = response.stages;
+            this.contacts = response.contacts
+          }
         })
         .catch((error) => {
           console.log(error);
