@@ -1,11 +1,13 @@
 <template>
   <div class="flex -space-x-1 overflow-hidden px-2 py-1">
-    <ContactAvatar
-      v-for="(contact, index) in contacts.slice(0, 5)"
-      :key="index"
-      :editable="false"
-      :height="8"
-      :contact="contact" />
+    <template v-if="contacts && contacts.length">
+      <ContactAvatar
+        v-for="(contact, index) in contacts.slice(0, 5)"
+        :key="index"
+        :editable="false"
+        :height="8"
+        :contact="contact" />
+    </template>
   </div>
 </template>
 <script>
