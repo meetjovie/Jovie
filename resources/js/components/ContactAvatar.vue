@@ -127,8 +127,8 @@ export default {
           .slice(0, 2) // Cap at 2 initials
           .join('');
       } else {
-        const firstInitial = this.contact.first_name[0];
-        const lastInitial = this.contact.last_name[0];
+        const firstInitial = this.contact.first_name[0] ?? '';
+        const lastInitial = this.contact.last_name[0] ?? '';
         return firstInitial + lastInitial;
       }
     },
