@@ -3,9 +3,9 @@
     @contextmenu="handleContextMenu($event, contact)"
     class="group h-11 w-full flex-row items-center overflow-y-visible">
     <div
-      @click.shift.prevent="toggleRow(contact.id)"
-      v-if="shiftDown"
-      class="absolute z-50 w-full"></div>
+      @click.prevent="toggleRow(contact.id)"
+      v-if="ctrlDown"
+      class="absolute z-50 h-14 w-full"></div>
     <div
       :class="[
         selectedContactsModel.includes(contact.id)
@@ -16,7 +16,7 @@
           ? 'bg-slate-100 dark:bg-jovieDark-600'
           : 'bg-slate-50 dark:bg-jovieDark-800',
       ]"
-      class="sticky left-0 isolate z-50 h-12 w-full items-center border-r-2 border-slate-300 dark:border-jovieDark-border">
+      class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-300 dark:border-jovieDark-border">
       <div
         class="flex h-full w-full items-center justify-between"
         freezeColumn
@@ -203,7 +203,7 @@ export default {
   data() {
     return {
       row: 0,
-      shiftDown: false,
+      ctrlDown: false,
     };
   },
   mounted() {
@@ -229,14 +229,12 @@ export default {
   },
   methods: {
     onKeyDown(event) {
-      if (event.key === 'Shift') {
-        this.shiftDown = true;
+      if (event.ctrlKey || event.metaKey) {
+        this.ctrlDown = true;
       }
     },
     onKeyUp(event) {
-      if (event.key === 'Shift') {
-        this.shiftDown = false;
-      }
+      this.ctrlDown = false;
     },
     toggleRow(id) {
       if (this.selectedContactsModel.includes(id)) {
