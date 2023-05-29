@@ -106,6 +106,7 @@ module.exports = {
         '6xl': '4rem',
         '7xl': '5rem',
       },
+
       spacing: {
         128: '32rem',
         192: '48rem',

@@ -51,9 +51,9 @@ class ContactService
     private function isDuplicate($contact1, $contact2)
     {
         // Compare the relevant fields to determine if the contacts are duplicates
-        if ((($contact1->full_name && $contact2->full_name) && ($contact1->full_name == $contact2->full_name))
-            || (($contact1->first_name && $contact2->first_name) && $contact1->first_name == $contact2->first_name)
-            || (($contact1->last_name && $contact2->last_name) && $contact1->last_name == $contact2->last_name)
+        if (((trim($contact1->full_name) && trim($contact2->full_name)) && ($contact1->full_name == $contact2->full_name))
+            || ((trim($contact1->first_name) && trim($contact2->first_name)) && $contact1->first_name == $contact2->first_name)
+            || ((trim($contact1->last_name) && trim($contact2->last_name)) && $contact1->last_name == $contact2->last_name)
             || count(array_intersect($contact1->phones, $contact2->phones))
             || count(array_intersect($contact1->emails, $contact2->emails))
             || $this->socialHandlesMatch($contact1, $contact2)

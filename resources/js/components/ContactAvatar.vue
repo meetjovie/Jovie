@@ -14,8 +14,11 @@
         class="0 group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">
         <span
           :class="[
-            height < 12
-              ? 'text-md'
+            //if height is less than 8 text-sm
+            height < 8
+              ? 'text-2xs'
+              : height > 8 && height < 12
+              ? 'text-sm'
               : height > 12 && height < 16
               ? 'text-base'
               : height > 16 && height < 24
@@ -26,7 +29,7 @@
               ? 'text-2xl'
               : height > 40 && height < 48
               ? 'text-3xl'
-              : 'text-4xl',
+              : 'text-sm',
           ]"
           class="relative inline-block">
           <span

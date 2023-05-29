@@ -217,6 +217,7 @@ export default {
     DocumentDuplicateIcon,
     SparklesIcon,
     EyeSlashIcon,
+
     SocialIcons,
     PencilIcon,
     ChevronUpIcon,

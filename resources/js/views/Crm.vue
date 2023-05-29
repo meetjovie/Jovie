@@ -10,7 +10,7 @@
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                     <PlusIcon
                       class="mr-1 h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
@@ -20,7 +20,7 @@
                   <Menu>
                     <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
@@ -488,116 +488,55 @@
         <div
           class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
-            <div class="h-full w-full">
-              <div class="flex h-full w-full flex-col">
-                <div class="mx-auto h-full w-full p-0">
-                  <div class="inline-block h-full w-full align-middle">
-                    <div class="h-full w-full dark:bg-jovieDark-900">
-                      <AlertBanner
-                        v-if="limitExceedBy > 0 && totalAvailable"
-                        design="primary"
-                        :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                        :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                        :cta="`Upgrade`"
-                        ctaLink="Billing" />
-                      <!--  Show import screen if no contacts -->
-                      <!--  <div
-                                              v-if="!loading && !contacts.length && !showImporting"
-                                              class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
-                                              <div class="mx-auto max-w-xl">
-                                                <div
-                                                  class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                                                  <div>
-                                                    <h1
-                                                      class="text-md font-bold dark:text-jovieDark-100">
-                                                      You don't have any contacts yet.
-                                                    </h1>
-                                                    <span
-                                                      class="text-sm font-medium text-slate-900 dark:text-jovieDark-200"
-                                                      >Enter a Twitch or Instagram url to add someone
-                                                      to Jovie.</span
-                                                    >
-                                                  </div>
-                                                  <SocialInput
-                                                    class="py-12"
-                                                    :list="filters.list"
-                                                    @finishImport="closeImportContactModal" />
-                                                  <InternalMarketingChromeExtension class="mt-24" />
-                                                </div>
-                                              </div>
-                                            </div>
+            <AlertBanner
+              v-if="limitExceedBy > 0 && totalAvailable"
+              design="primary"
+              :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+              :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+              :cta="`Upgrade`"
+              ctaLink="Billing" />
 
-
-                                            <div
-                                              v-else-if="showImporting && !contacts.length"
-                                              class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                                              <div class="mx-auto max-w-xl">
-                                                <div
-                                                  class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                                                  <div>
-                                                    <ArrowPathIcon
-                                                      class="mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
-                                                    <h1 class="text-md font-bold">
-                                                      You've just initated an import.
-                                                    </h1>
-                                                    <span class="text-sm font-medium text-slate-900"
-                                                      >You'll see contacts populate this space
-                                                      soon.</span
-                                                    >
-                                                  </div>
-                                                </div>
-                                              </div>
-                                            </div> -->
-                      <!-- Show the crm if there are contacts -->
-                      <div>
-                        <DataGrid
-                          v-if="columns.length"
-                          ref="crmTableGrid"
-                          @addContact="openImportContactModal()"
-                          @addContactFromSocial="openImportContactModal(true)"
-                          @updateContact="updateContact"
-                          @crmCounts="crmCounts"
-                          :counts="counts"
-                          :active-users-on-list="activeUsersOnList"
-                          @updateListCount="updateListCount"
-                          @pageChanged="pageChanged"
-                          @getCrmContacts="getCrmContacts"
-                          @setCurrentContact="setCurrentContact"
-                          @openSidebar="openSidebarContact"
-                          @getHeaders="getHeaders"
-                          @checkContactsEnrichable="checkContactsEnrichable"
-                          @setOrder="setOrder"
-                          @getUserLists="getUserLists"
-                          @export="exportCrmContacts"
-                          @updateFiltersContact="updateFiltersContact"
-                          @suggestionExists="toggleMergeSuggestion"
-                          @updateCrmCount="crmCounts"
-                          :header="
-                            filters.type === 'list'
-                              ? filters.currentList
-                                ? filters.currentList.name
-                                : ''
-                              : filters.type
-                          "
-                          :subheader="counts"
-                          :filters="filters"
-                          :userLists="userLists"
-                          :networks="networks"
-                          :stages="stages"
-                          :columns="columns"
-                          :loading="loading"
-                          :taskLoading="taskLoading"
-                          :contactsMeta="contactsMeta"
-                          :suggestMerge="suggestMerge"
-                          :headersLoaded="headersLoaded">
-                          <slot header="header"></slot>
-                        </DataGrid>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <DataGrid
+              v-if="columns.length"
+              ref="crmTableGrid"
+              @addContact="openImportContactModal()"
+              @addContactFromSocial="openImportContactModal(true)"
+              @updateContact="updateContact"
+              @crmCounts="crmCounts"
+              :counts="counts"
+              @updateListCount="updateListCount"
+              @pageChanged="pageChanged"
+              @getCrmContacts="getCrmContacts"
+              @setCurrentContact="setCurrentContact"
+              @openSidebar="openSidebarContact"
+              @getHeaders="getHeaders"
+              @checkContactsEnrichable="checkContactsEnrichable"
+              @setOrder="setOrder"
+              @getUserLists="getUserLists"
+              @export="exportCrmContacts"
+              @updateFiltersContact="updateFiltersContact"
+              @suggestionExists="toggleMergeSuggestion"
+              @updateCrmCount="crmCounts"
+              :header="
+                filters.type === 'list'
+                  ? filters.currentList
+                    ? filters.currentList.name
+                    : ''
+                  : filters.type
+              "
+              :subheader="counts"
+              :filters="filters"
+              :userLists="userLists"
+              :networks="networks"
+              :stages="stages"
+              :columns="columns"
+              :loading="loading"
+              :taskLoading="taskLoading"
+              :contactsMeta="contactsMeta"
+              :suggestMerge="suggestMerge"
+              :headersLoaded="headersLoaded">
+              <slot header="header"></slot>
+            </DataGrid>
           </div>
         </div>
 
@@ -941,7 +880,7 @@ export default {
     },
     listToImport() {
       if (this.currentImportingList) {
-        return this.currentImportingList
+        return this.currentImportingList;
       }
       return this.filters.currentList;
     },
@@ -1219,8 +1158,7 @@ export default {
       this.$store.dispatch('enrichContacts', payload);
       this.resetPopup();
     },
-    openImportContactModal(fromSocial = false, list = null)
-    {
+    openImportContactModal(fromSocial = false, list = null) {
       if (list) {
         this.currentImportingList = list;
       }

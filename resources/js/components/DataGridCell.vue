@@ -1,16 +1,23 @@
 <template>
   <td
+    class="isolate border-collapse items-center overflow-auto whitespace-nowrap border border-slate-200 text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
     ref="cell_area"
     :class="[
-      'border-collapse items-center overflow-auto whitespace-nowrap text-center text-xs font-medium dark:border-jovieDark-border',
-      cellActive
-        ? 'relative isolate border-slate-100/0 bg-fuchsia-500 outline-8 outline-purple-600 ring-4 ring-pink-500 focus:z-50  dark:bg-jovieDark-600 dark:ring-indigo-500'
-        : '',
-      freezeColumn && currentContact.id == contact.id ? 'relative z-50' : '',
-      freezeColumn
-        ? 'overflow-x-noscroll sticky isolate z-40 border-none border-transparent bg-white font-bold first:border-l last:border-r dark:bg-jovieDark-800'
-        : '',
-      currentContact.id == contact.id ? '' : '',
+      cellActive ? 'ring-2 ring-inset' : '',
+      userColor === 'red' ? 'ring-red-500 dark:ring-red-300' : '',
+      userColor === 'green' ? 'ring-green-500 dark:ring-green-300' : '',
+      userColor === 'blue' ? 'ring-blue-500 dark:ring-blue-300' : '',
+      userColor === 'yellow' ? 'ring-yellow-500 dark:ring-yellow-300' : '',
+      userColor === 'indigo' ? 'ring-indigo-500 dark:ring-indigo-300' : '',
+      userColor === 'purple' ? 'ring-purple-500 dark:ring-purple-300' : '',
+      userColor === 'pink' ? 'ring-pink-500 dark:ring-pink-300' : '',
+      userColor === 'orange' ? 'ring-orange-500 dark:ring-orange-300' : '',
+      userColor === 'rose' ? 'ring-rose-500 dark:ring-rose-300' : '',
+      userColor === 'fuchsia' ? 'ring-fuchsia-500 dark:ring-fuchsia-300' : '',
+      userColor === 'sky' ? 'ring-sky-500 dark:ring-sky-300' : '',
+      userColor === 'cyan' ? 'ring-cyan-500 dark:ring-cyan-300' : '',
+      userColor === 'teal' ? 'ring-teal-500 dark:ring-teal-300' : '',
+      userColor === 'emerald' ? 'ring-emerald-500 dark:ring-emerald-300' : '',
     ]"
     :key="rerenderKey"
     v-if="
@@ -221,6 +228,9 @@ export default {
     },
   },
   computed: {
+    colorClass() {
+      return `bg-${this.color}-100 dark:bg-${this.color}-700`;
+    },
     localModelValue: {
       get() {
         return this.modelValue;
@@ -269,6 +279,11 @@ export default {
     visibleColumns: Array,
     settings: Object,
     neverHide: Boolean,
+    //add color prop with default value of organge
+    color: {
+      type: String,
+      default: 'orange',
+    },
     row: Number,
     column: {
       type: Object,
@@ -279,6 +294,10 @@ export default {
     cellActive: Boolean | String,
     networks: Array,
     stages: Array,
+    userColor: {
+      type: String,
+      default: 'green',
+    },
   },
 };
 </script>
