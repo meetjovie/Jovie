@@ -94,7 +94,7 @@ export default {
   name: 'Onboarding',
   data() {
     return {
-      step: 1,
+      step: 2,
       errors: {},
       updating: false,
       emoji: '👋',

@@ -249,7 +249,7 @@ export default {
     updateListName(listName) {
       this.importSet.listName = listName;
     },
-    finishImport(mappedColumns = {}) {
+    finishImport(data = {}) {
       this.importing = true;
       this.importStarted = true;
       this.errors = [];
@@ -257,7 +257,8 @@ export default {
       form.append('instagram', this.importSet.instagram ?? '');
       form.append('youtube', this.importSet.youtube ?? '');
       form.append('tags', this.importSet.tags ?? '');
-      form.append('mappedColumns', JSON.stringify(mappedColumns));
+      form.append('mappedColumns', JSON.stringify(data.columns));
+      form.append('autoEnrich', data.autoEnrich);
       form.append('key', this.bucketResponse ? this.bucketResponse.uuid : '');
       form.append('listName', this.importSet.listName);
       ImportService.import(form)

@@ -43,12 +43,14 @@ class SaveImport implements ShouldQueue
 
     private $contacts;
 
+    private $autoEnrich;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($file, $mappedColumns, $tags, $listName, $userId, $teamId, $contacts = false)
+    public function __construct($file, $mappedColumns, $tags, $listName, $userId, $teamId, $contacts = false, $autoEnrich = false)
     {
         $this->file = $file;
         $this->mappedColumns = $mappedColumns;
@@ -56,7 +58,9 @@ class SaveImport implements ShouldQueue
         $this->listName = $listName;
         $this->userId = $userId;
         $this->teamId = $teamId;
+        $this->autoEnrich = $autoEnrich;
         $this->contacts = $contacts;
+
     }
 
     /**
@@ -85,6 +89,7 @@ class SaveImport implements ShouldQueue
                     'userId' => $this->userId,
                     'teamId' => $this->teamId,
                     'totalRecords' => $totalRecords,
+                    'autoEnrich' => $this->autoEnrich,
                 ]));
                 for ($page = 0; $page < ceil($totalRecords / Import::PER_PAGE); $page++) {
                     if ($this->contacts) { // empty contacts

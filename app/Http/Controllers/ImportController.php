@@ -68,6 +68,7 @@ class ImportController extends Controller
             'list' => 'sometimes|exists:user_lists,id',
             'list_name' => 'sometimes|max:255',
             'source' => 'sometimes|max:255',
+            'auto_enrich' => 'boolean',
         ]);
 
         $request->request->add(['override' => filter_var($request->override, FILTER_VALIDATE_BOOLEAN)]);
@@ -178,7 +179,8 @@ class ImportController extends Controller
                 $listName,
                 $user->id,
                 $user->currentTeam->id,
-                true
+                true,
+                $request->autoEnrich,
             );
         }
 

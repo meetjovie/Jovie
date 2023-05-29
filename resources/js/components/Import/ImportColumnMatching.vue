@@ -52,10 +52,30 @@
             :loader="importing"
             class="justify-right"
             :disabled="!Object.keys(mappedColumns).length"
-            @click="$emit('finish', mappedColumns)"></ButtonGroup>
+            @click="finish"></ButtonGroup>
         </div>
       </div>
     </div>
+    <ModalPopup
+      modalType="info"
+      :open="autoEnrichmentPopup.open"
+      :loading="autoEnrichmentPopup.loading"
+      :title="autoEnrichmentPopup.title"
+      :description="autoEnrichmentPopup.description"
+      :primaryButtonText="autoEnrichmentPopup.primaryButtonText"
+      secondaryButtonText="No"
+      @primaryButtonClick="autoEnrichment"
+      @cancelButtonClick="cancelAutoEnrichment">
+      <template #content>
+        <CheckboxInput
+          :checked="autoEnrichmentSetting"
+          v-model="autoEnrichmentSetting"
+          name="autoEnirchSetting" />
+        <label for="autoEnrichmentSetting">
+          Enable auto enrichment on import</label
+        >
+      </template>
+    </ModalPopup>
   </div>
 </template>
 <script>
@@ -63,10 +83,14 @@ import ButtonGroup from '../ButtonGroup.vue';
 import CardHeading from '../CardHeading.vue';
 import ColumnsDropdown from './ColumnsDropdown.vue';
 import InputGroup from '../InputGroup.vue';
-
+import ModalPopup from '../ModalPopup.vue';
+import TeamService from '../../services/api/team.service';
+import CheckboxInput from '../CheckboxInput.vue';
 export default {
   name: 'ImportColumnMatching',
   components: {
+    ModalPopup,
+    CheckboxInput,
     ColumnsDropdown,
     ButtonGroup,
     CardHeading,
@@ -105,6 +129,15 @@ export default {
   data() {
     return {
       mappedColumns: {},
+      autoEnrichmentSetting: true,
+      autoEnrichmentPopup: {
+        confirmationMethod: null,
+        title: 'Auto contact enrichment',
+        open: false,
+        primaryButtonText: 'Yes',
+        description: 'Do you want to automatically enrich contacts?',
+        loading: false,
+      },
     };
   },
   computed: {
@@ -122,6 +155,51 @@ export default {
     this.checkDuplicateList();
   },
   methods: {
+    autoEnrichment() {
+      this.autoEnrichmentPopup.open = false;
+      if (this.autoEnrichmentSetting) {
+        this.updateEnrichmentSetting({
+          teamSettings: { auto_enrich_import: { value: true } },
+        });
+      }
+      this.import(true);
+    },
+    cancelAutoEnrichment() {
+      this.autoEnrichmentPopup.open = false;
+      this.import();
+    },
+    finish() {
+      this.autoEnrichmentPopup.open = false;
+      this.$nextTick(() => {
+        if (!this.currentUser.workspace_preferences.auto_enrich_import) {
+          this.autoEnrichmentPopup.open = true;
+        } else {
+          this.import();
+        }
+      });
+    },
+    import(autoEnrich = false) {
+      this.$emit('finish', {
+        columns: this.mappedColumns,
+        autoEnrich: autoEnrich,
+      });
+    },
+    updateEnrichmentSetting(data) {
+      TeamService.updateTeamSettings(data, this.currentUser.current_team.id)
+        .then((response) => {
+          response = response.data;
+          console.log(response);
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          console.log('fetched');
+        });
+    },
     checkDuplicateList() {
       if (
         this.userLists.filter(
