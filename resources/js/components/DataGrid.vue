@@ -83,16 +83,11 @@
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
-                      <JovieTooltip
-                        tooltipText="Adjustments"
-                        arrow
-                        tooltipPlacement="bottom">
-                        <ButtonGroup
-                          :design="'toolbar'"
-                          :text="'Hide Columns'"
-                          icon="AdjustmentsHorizontalIcon"
-                          hideText />
-                      </JovieTooltip>
+                      <ButtonGroup
+                        :design="'toolbar'"
+                        :text="'Hide Columns'"
+                        icon="AdjustmentsHorizontalIcon"
+                        hideText />
                     </MenuButton>
                     <TransitionRoot
                       :show="open"
