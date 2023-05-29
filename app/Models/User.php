@@ -69,10 +69,18 @@ class User extends Authenticatable implements MustVerifyEmail
                 $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
             }
         }
-//        $user->workspace_preferences = TeamSetting::getAllTeamSettings();
+
         $user->makeVisible('password');
         $user->password_set = !! $user->password;
         $user->makeHidden('password');
+
+        $teamSettings = TeamSetting::getAllTeamSettings();
+        $user->workspace_preferences = (object) $user->workspace_preferences;
+        $user = json_decode(json_encode($user));
+        foreach ($teamSettings as $key => $value) {
+            $user->workspace_preferences->{$key} = $value['value'] ?? $value['default'];
+        }
+
         return $user;
     }
 

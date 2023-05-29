@@ -1,7 +1,7 @@
 <template>
-  <div class="h-full w-full flex-col overflow-hidden">
+  <div class="flex h-full w-full flex-col overflow-hidden">
     <div class="flex h-full w-full flex-col">
-      <div class="h-full pb-10">
+      <div class="flex h-full flex-col justify-between">
         <header
           class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
@@ -20,7 +20,7 @@
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
               <div>
-                <ShareMenu />
+                <ShareMenu :contacts="activeUsersOnList" />
               </div>
               <TransitionRoot
                 :show="searchVisible"
@@ -62,10 +62,9 @@
 
               <div v-if="!searchVisible">
                 <JovieTooltip
-                  text="Search"
-                  class="w-full justify-end"
+                  tooltipText="Press"
                   arrow
-                  placement="bottom-end">
+                  tooltipPlacement="bottom">
                   <template #content>
                     <KeyboardShortcut text="/" />
                     to search
@@ -79,20 +78,15 @@
                 </JovieTooltip>
               </div>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
                       <JovieTooltip
-                        text="Adjustments"
-                        class="w-full justify-end"
+                        tooltipText="Adjustments"
                         arrow
-                        placement="bottom-end">
-                        <template #content>
-                          <KeyboardShortcut text="/" />
-                          to search
-                        </template>
+                        tooltipPlacement="bottom">
                         <ButtonGroup
                           :design="'toolbar'"
                           :text="'Hide Columns'"
@@ -220,16 +214,43 @@
                   </Float>
                 </Menu>
               </div>
+              <div
+                class="items-center text-slate-200 dark:text-jovieDark-border">
+                |
+              </div>
+              <JovieTooltip
+                :tooltipText="
+                  $store.state.ContactSidebarOpen
+                    ? 'Close Contact Sidebar'
+                    : 'Open Contact Sidebar'
+                "
+                arrow
+                tooltipPlacement="bottom">
+                <ButtonGroup
+                  @click="toggleContactSidebar()"
+                  :design="'toolbar'"
+                  :text="
+                    $store.state.ContactSidebarOpen
+                      ? 'Close Contact Sidebar'
+                      : 'Open Contact Sidebar'
+                  "
+                  :icon="
+                    $store.state.ContactSidebarOpen
+                      ? 'ArrowRightOnRectangleIcon'
+                      : 'ArrowLeftOnRectangleIcon'
+                  "
+                  hideText />
+              </JovieTooltip>
             </div>
           </div>
         </header>
         <div
-          class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
+          class="flex h-full w-full justify-between overflow-x-auto scroll-smooth align-middle">
           <div
             class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               ref="crmTable"
-              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
+              class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
                 class="relative isolate z-20 h-10 w-full items-center overflow-auto">
                 <tr
@@ -255,7 +276,7 @@
                   </th>
                   <th
                     v-for="i in 10"
-                    class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="sticky top-0 z-30 table-cell w-40 items-center border border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
                       class="h-4 w-40 animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
@@ -273,138 +294,136 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
-                      <div class="mx-auto items-center text-center">
-                        <input
-                          type="checkbox"
-                          class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
-                          :checked="
-                            intermediate ||
-                            selectedContacts.length === contactRecords.length
-                          "
-                          :intermediate="intermediate"
-                          @change="
-                            selectedContacts = $event.target.checked
-                              ? contactRecords.map((c) => c.id)
-                              : []
-                          " />
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <span class="sr-only">Favorite</span>
-                    </th>
-                    <th
-                      scope="col"
-                      class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                      class="sticky left-0 z-50 flex h-11 w-80 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
-                        v-if="selectedContacts.length > 0"
-                        class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
-                        <!--   <ContactActionMenu /> -->
-                        <Menu>
-                          <Float portal :offset="2" placement="bottom-start">
-                            <MenuButton
-                              class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
-                              <span class="line-clamp-1">Bulk Actions</span>
-                              <ChevronDownIcon
-                                class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
-                                aria-hidden="true" />
-                            </MenuButton>
-                            <transition
-                              enter-active-class="transition duration-100 ease-out"
-                              enter-from-class="transform scale-95 opacity-0"
-                              enter-to-class="transform scale-100 opacity-100"
-                              leave-active-class="transition duration-75 ease-in"
-                              leave-from-class="transform scale-100 opacity-100"
-                              leave-to-class="transform scale-95 opacity-0">
-                              <MenuItems>
-                                <GlassmorphismContainer
-                                  class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
-                                  <DropdownMenuItem
-                                    v-if="filters.list"
-                                    @click="
-                                      toggleContactsFromList(
-                                        selectedContacts,
-                                        filters.list,
-                                        true
-                                      )
-                                    "
-                                    name="Remove from list"
-                                    icon="TrashIcon" />
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    @click="
-                                      toggleArchiveContacts(
-                                        this.selectedContacts,
-                                        this.filters.type == 'archived'
-                                          ? false
-                                          : true
-                                      )
-                                    ">
-                                    <button
-                                      :class="[
-                                        active
-                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                          : 'text-slate-700 dark:text-jovieDark-200',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                      ]">
-                                      <ArchiveBoxIcon
-                                        :active="active"
-                                        class="mr-2 h-3 w-3 text-sky-400"
-                                        aria-hidden="true" />
-                                      {{
+                        class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
+                        <div class="mx-auto items-center text-center">
+                          <input
+                            type="checkbox"
+                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
+                            :checked="
+                              intermediate ||
+                              selectedContacts.length === contactRecords.length
+                            "
+                            :intermediate="intermediate"
+                            @change="
+                              selectedContacts = $event.target.checked
+                                ? contactRecords.map((c) => c.id)
+                                : []
+                            " />
+                        </div>
+                      </div>
+                      <div
+                        class="items-centertext-center z-50 text-xs font-thin tracking-wider text-slate-600 dark:text-jovieDark-400">
+                        <span class="sr-only">Favorite</span>
+                      </div>
+                      <div
+                        class="isolate z-50 w-full resize-x items-center text-left text-xs font-medium tracking-wider text-slate-600 dark:text-jovieDark-400">
+                        <div
+                          v-if="selectedContacts.length > 0"
+                          class="flex items-center justify-between space-x-3 bg-slate-100 px-2 dark:bg-jovieDark-700">
+                          <!--   <ContactActionMenu /> -->
+                          <Menu>
+                            <Float portal :offset="2" placement="bottom-start">
+                              <MenuButton
+                                class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
+                                <span class="line-clamp-1">Bulk Actions</span>
+                                <ChevronDownIcon
+                                  class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
+                                  aria-hidden="true" />
+                              </MenuButton>
+                              <transition
+                                enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems>
+                                  <GlassmorphismContainer
+                                    class="max-h-80 w-48 flex-col overflow-y-scroll px-1 py-1">
+                                    <DropdownMenuItem
+                                      v-if="filters.list"
+                                      @click="
+                                        toggleContactsFromList(
+                                          selectedContacts,
+                                          filters.list,
+                                          true
+                                        )
+                                      "
+                                      name="Remove from list"
+                                      icon="TrashIcon" />
+
+                                    <DropdownMenuItem
+                                      @click="
+                                        toggleArchiveContacts(
+                                          this.selectedContacts,
+                                          this.filters.type == 'archived'
+                                            ? false
+                                            : true
+                                        )
+                                      "
+                                      :name="
                                         this.filters.type == 'archived'
                                           ? 'Unarchive'
                                           : 'Archive'
-                                      }}
-                                    </button>
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    @click="
-                                      $emit(
-                                        'checkContactsEnrichable',
-                                        selectedContacts
-                                      )
-                                    ">
-                                    <button
-                                      :class="[
-                                        active
-                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                          : 'text-slate-700 dark:text-jovieDark-200',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                      ]">
-                                      <SparklesIcon
-                                        :active="active"
-                                        class="mr-2 h-3 w-3 text-sky-400"
-                                        aria-hidden="true" />
-                                      Enrich
-                                    </button>
-                                  </MenuItem>
-                                  <!-- <DropdownMenuItem @click="toggleArchiveContacts(
-                                                              selectedContacts, filters.type == 'archived' ?
-                                                              false : true ) :name="( filters.type == 'archived'
-                                                              ? 'Unarchive' : 'Archive' )"
-                                                              :icon="ArchiveBoxIcon" /> -->
-                                </GlassmorphismContainer>
-                              </MenuItems>
-                            </transition>
-                          </Float>
-                        </Menu>
-                      </div>
-                      <div v-else>
-                        <DataGridColumnHeader
-                          :show-resizeable="false"
-                          icon="Bars3BottomLeftIcon"
-                          :column="fullNameColumn"
-                          @sortData="
-                            sortData({
-                              sortBy: fullNameColumn.key,
-                              sortOrder: fullNameColumn.sortOrder,
-                            })
-                          "
-                          menu="false" />
+                                      "
+                                      icon="ArchiveBoxIcon" />
+                                    <DropdownMenuItem
+                                      @click="
+                                        $emit(
+                                          'checkContactsEnrichable',
+                                          selectedContacts
+                                        )
+                                      "
+                                      :name="'Enrich'"
+                                      icon="SparklesIcon" />
+                                    <!--
+                                    <MenuItem
+                                      v-slot="{ active }"
+                                      @click="
+                                        $emit(
+                                          'checkContactsEnrichable',
+                                          selectedContacts
+                                        )
+                                      ">
+                                      <button
+                                        :class="[
+                                          active
+                                            ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <SparklesIcon
+                                          :active="active"
+                                          class="mr-2 h-3 w-3 text-sky-400"
+                                          aria-hidden="true" />
+                                        Enrich
+                                      </button>
+                                    </MenuItem> -->
+                                  </GlassmorphismContainer>
+                                </MenuItems>
+                              </transition>
+                            </Float>
+                          </Menu>
+                          <div
+                            class="text-xs text-slate-600 dark:text-jovieDark-300">
+                            {{ selectedContacts.length }} Selected
+                          </div>
+                        </div>
+                        <div v-else>
+                          <DataGridColumnHeader
+                            :showResizeable="false"
+                            icon="Bars3BottomLeftIcon"
+                            :column="fullNameColumn"
+                            @sortData="
+                              sortData({
+                                sortBy: fullNameColumn.key,
+                                sortOrder: fullNameColumn.sortOrder,
+                              })
+                            "
+                            menu="false" />
+                        </div>
                       </div>
                     </th>
                   </template>
@@ -416,7 +435,7 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         class="w-full"
                         @updateColumnWidth="updateColumnWidth($event)"
@@ -434,7 +453,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -448,17 +467,17 @@
                     <th
                       scope="col"
                       :class="[
-                        { 'border-b-2': view.atTopOfPage },
+                        { 'border-b-4': view.atTopOfPage },
                         'border-b-0',
                       ]"
-                      class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
+                      class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
                   </template>
                 </draggable>
               </thead>
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
               <draggable
-                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-300 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
                 :list="contactRecords"
                 ghost-class="ghost-row"
                 group="contacts"
@@ -469,7 +488,12 @@
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
-                    @contextMenuClicked="openRightClickMenu($event, contact)"
+                    @contextMenuClicked="
+                      openRightClickMenuContextClick($event, contact)
+                    "
+                    @contextMenuButtonClicked="
+                      openRightClickMenuButton($event, contact)
+                    "
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -485,6 +509,7 @@
                     :selectedContacts="selectedContacts"
                     @updateSelectedContacts="selectedContacts = $event"
                     :contact="element"
+                    @refresh="refresh(element)"
                     :row="index"
                     :column="currentCell.column"
                     :userLists="userLists"
@@ -495,7 +520,6 @@
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
                     "
-                    @refresh="refresh(element)"
                     @updateContact="$emit('updateContact', $event)"
                     @updateListCount="$emit('updateListCount', $event)"
                     @archive-contacts="
@@ -521,7 +545,7 @@
               v-if="contactRecords.length < 1"
               class="mx-auto mt-4 h-full w-full max-w-xl items-center py-12">
               <div
-                class="border-b border-gray-200 bg-white px-4 py-5 dark:bg-jovieDark-900 sm:px-6">
+                class="border-b border-slate-300 bg-white px-4 py-5 dark:border-jovieDark-border dark:bg-jovieDark-900 sm:px-6">
                 <h3
                   class="text-base font-semibold leading-6 text-slate-900 dark:text-jovieDark-200">
                   There are no contacts to display
@@ -571,9 +595,14 @@
     </template>
   </ModalPopup>
   <RightClickMenu
+    :trigger="contextMenuTrigger"
     :contact="rightClickMenuContact"
     @hideMenu="closeRightClickMenu()"
+    @refresh="refresh"
+    @archive-contacts="toggleArchiveContacts"
+    @toggleContactsFromList="toggleContactsFromList"
     :show="rightClickMenuOpen"
+    :filters="filters"
     :x="rightClickMenuCoordinates.x"
     :y="rightClickMenuCoordinates.y" />
 
@@ -759,6 +788,7 @@ export default {
         description: 'hellooo hello hello',
         loading: false,
       },
+      contextMenuTrigger: '',
       currentCell: {
         row: 0,
         column: 0,
@@ -828,6 +858,7 @@ export default {
       openMergeSuggestion: false,
       contactIds: null,
       disableDragging: false,
+        rightClickMenuContact: {},
     };
   },
   props: [
@@ -845,6 +876,7 @@ export default {
     'columns',
     'headersLoaded',
     'suggestMerge',
+    'activeUsersOnList',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
@@ -1093,10 +1125,25 @@ export default {
 
       this.rightClickMenuContact = contact;
     },
+    openRightClickMenuContextClick(contact) {
+      this.openRightClickMenu(contact);
+      console.log('right-click.');
+      this.contextMenuTrigger = 'right-click';
+    },
+    openRightClickMenuButton(contact) {
+      this.openRightClickMenu(contact);
+      console.log('menu button pressed.');
+      this.contextMenuTrigger = 'menu-button';
+      //set the contextMenuTrigger to menu-button then after .1 second reset it to ''
+      setTimeout(() => {
+        this.contextMenuTrigger = '';
+        console.log('reset contextMenuTrigger');
+      }, 100);
+    },
     closeRightClickMenu() {
-      console.log('close');
       this.rightClickMenuOpen = false;
       this.rightClickMenuContact = {};
+      console.log('close', this.rightClickMenuOpen, this.rightClickMenuContact);
     },
     getPreviousColumn(index) {
       return index > 0 ? this.headers[index - 1] : false;

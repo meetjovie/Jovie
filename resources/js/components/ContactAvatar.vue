@@ -5,29 +5,20 @@
         :class="[
           loading ? 'animate-pulse' : '',
           height < 24 ? 'ring-2' : 'ring-4',
-          loading
-            ? 'bg-slate-200 dark:bg-jovieDark-500'
-            : contact.color === 'blue'
-            ? 'bg-blue-100 dark:bg-blue-500'
-            : contact.color === 'green'
-            ? 'bg-green-100 dark:bg-green-500'
-            : contact.color === 'indigo'
-            ? 'bg-indigo-100 dark:bg-indigo-500'
-            : contact.color === 'pink'
-            ? 'bg-pink-100 dark:bg-pink-500'
-            : contact.color === 'purple'
-            ? 'bg-purple-100 dark:bg-purple-500'
-            : contact.color === 'red'
-            ? 'bg-red-100 dark:bg-red-500'
-            : contact.color === 'yellow'
-            ? 'bg-yellow-100 dark:bg-yellow-500'
-            : 'bg-gray-100 dark:bg-gray-500',
+          loading ? 'bg-slate-200 dark:bg-jovieDark-500' : '',
+
+          contact.color
+            ? `ring-${contact.color}-300 dark:ring-${contact.color}-500`
+            : 'ring-slate-100 dark:ring-slate-500',
         ]"
-        class="group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 ring-slate-200 dark:bg-jovieDark-600 dark:ring-jovieDark-500">
+        class="0 group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">
         <span
           :class="[
-            height < 12
-              ? 'text-md'
+            //if height is less than 8 text-sm
+            height < 8
+              ? 'text-2xs'
+              : height > 8 && height < 12
+              ? 'text-sm'
               : height > 12 && height < 16
               ? 'text-base'
               : height > 16 && height < 24
@@ -38,7 +29,7 @@
               ? 'text-2xl'
               : height > 40 && height < 48
               ? 'text-3xl'
-              : 'text-4xl',
+              : 'text-sm',
           ]"
           class="relative inline-block">
           <span

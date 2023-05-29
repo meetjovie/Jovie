@@ -115,6 +115,7 @@ import {
   EllipsisHorizontalIcon,
   DocumentDuplicateIcon,
   HeartIcon,
+  TrashIcon,
   CogIcon,
   CakeIcon,
   LockClosedIcon,
@@ -135,6 +136,7 @@ export default {
     CakeIcon,
     ArchiveBoxIcon,
     CogIcon,
+    TrashIcon,
     UserPlusIcon,
     DocumentDuplicateIcon,
     HeartIcon,
@@ -260,6 +262,11 @@ export default {
       tooltipDisabled: false,
       subMenuItems: [
         {
+          name: 'Add Contact',
+          icon: 'PlusIcon',
+          id: 0,
+        },
+        {
           name: 'Enrich',
           icon: 'SparklesIcon',
           id: 1,
@@ -278,11 +285,6 @@ export default {
           name: 'Delete',
           icon: 'TrashIcon',
           id: 4,
-        },
-        {
-          name: 'Add Contact',
-          icon: 'PlusIcon',
-          id: 5,
         },
       ],
     };

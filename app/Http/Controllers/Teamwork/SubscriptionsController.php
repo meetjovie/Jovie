@@ -200,7 +200,7 @@ class SubscriptionsController extends Controller
                         'description' => 'The number of people you can add to your CRM. This limit',
                         'totalContacts' => $teamContacts,
                         'reached' => $teamContacts > $currentSubscription->contacts,
-                        'message' => "Your contact limit is reached, you can't work with " . ($teamContacts - $currentSubscription->contacts ?: null) . " other imported contacts.",
+                        'message' => "Your contact limit is reached. Please upgrade to acces your" . ($teamContacts - $currentSubscription->contacts ?: null) . " other contacts.",
                     ],
                     [
                         'name' => 'AI Credits',

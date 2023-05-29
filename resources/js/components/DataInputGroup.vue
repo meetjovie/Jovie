@@ -166,6 +166,7 @@ import {
   CurrencyDollarIcon,
   EnvelopeIcon,
   PhotoIcon,
+  CakeIcon,
   MapPinIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
@@ -280,6 +281,7 @@ export default {
   },
   components: {
     EnvelopeIcon,
+    CakeIcon,
     EllipsisVerticalIcon,
     VideoCameraIcon,
     ChatBubbleLeftEllipsisIcon,
