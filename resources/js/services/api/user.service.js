@@ -1,18 +1,18 @@
 import store from '../../store';
 import axios from 'axios';
-import router from "../../router";
+import router from '../../router';
 
 const baseApiUrl = '/api';
 const baseUrlWeb = '';
 
 export default {
   async me(config, login) {
-      if (config) {
-          return axios.get(`${baseApiUrl}/me?login=${login ?? false}`, config);
-      } else {
-          console.log('234234');
-          return axios.get(`${baseApiUrl}/me?login=${login ?? false}`);
-      }
+    if (config) {
+      return axios.get(`${baseApiUrl}/me?login=${login ?? false}`, config);
+    } else {
+      console.log('234234');
+      return axios.get(`${baseApiUrl}/me?login=${login ?? false}`);
+    }
   },
   async addToWaitList(data) {
     return axios.post(`${baseUrlWeb}/waitlist`, data);
@@ -26,23 +26,23 @@ export default {
   async getUserLists() {
     return axios.get(`${baseApiUrl}/user-lists`);
   },
-    getCrmContacts(data, cancelSignal = null) {
-      let config = {
-          params: data
-      }
-      if (cancelSignal) {
-          config.signal = cancelSignal
-      }
-      return axios.get(`${baseApiUrl}/crm-contacts`, config);
+  getCrmContacts(data, cancelSignal = null) {
+    let config = {
+      params: data,
+    };
+    if (cancelSignal) {
+      config.signal = cancelSignal;
+    }
+    return axios.get(`${baseApiUrl}/crm-contacts`, config);
   },
   getCrmContactByHandler(data, cancelSignal = null) {
-      let config = {
-          params: data
-      }
-      if (cancelSignal) {
-          config.signal = cancelSignal
-      }
-      return axios.get(`${baseApiUrl}/get-extension-creator`, config);
+    let config = {
+      params: data,
+    };
+    if (cancelSignal) {
+      config.signal = cancelSignal;
+    }
+    return axios.get(`${baseApiUrl}/get-extension-creator`, config);
   },
   async exportCrmContacts(data) {
     return axios.get(`${baseApiUrl}/export-crm-creators`, {
@@ -68,11 +68,14 @@ export default {
       paymentMethod: token,
       selectedPlan: selectedPlan,
       selectedProduct: selectedProduct,
-        coupon: coupon,
+      coupon: coupon,
     });
   },
   async paymentIntent() {
     return axios.get(`${baseApiUrl}/payment-intent`);
+  },
+  subscriptionStats() {
+    return axios.get(`${baseApiUrl}/subscription-stats`);
   },
   async getSubscriptionProducts() {
     return axios.get(`${baseApiUrl}/subscription-products`);
@@ -88,7 +91,7 @@ export default {
       paymentMethod: token,
       selectedPlan: selectedPlan,
       selectedProduct: selectedProduct,
-        coupon: coupon,
+      coupon: coupon,
     });
   },
   buySeats(numberOfSeats) {
@@ -147,24 +150,24 @@ export default {
     return axios.get(`${baseApiUrl}/crm-counts`);
   },
   uploadTempFileFromUrl(image) {
-      return axios.get(`${baseApiUrl}/upload-temp-file?image_url=${image}`);
+    return axios.get(`${baseApiUrl}/upload-temp-file?image_url=${image}`);
   },
   saveToCrm(data) {
-      return axios.post(`${baseApiUrl}/save-to-crm`, data);
+    return axios.post(`${baseApiUrl}/save-to-crm`, data);
   },
   async sortFields(data, id) {
-      return axios.post(`${baseApiUrl}/set-field-order/${id}`, data);
+    return axios.post(`${baseApiUrl}/set-field-order/${id}`, data);
   },
   async sortHeaders(data, id) {
-      return axios.post(`${baseApiUrl}/set-header-order/${id}`, data);
+    return axios.post(`${baseApiUrl}/set-header-order/${id}`, data);
   },
   async toggleHeaderHide(data, id) {
-     return axios.post(`${baseApiUrl}/toggle-header-hide/${id}`, data);
+    return axios.post(`${baseApiUrl}/toggle-header-hide/${id}`, data);
   },
   async deleteField(id) {
-     return axios.delete(`${baseApiUrl}/custom-field/${id}/delete`);
+    return axios.delete(`${baseApiUrl}/custom-field/${id}/delete`);
   },
-    async updateColumnWidth(data, id) {
-        return axios.post(`${baseApiUrl}/set-header-width/${id}`, data);
-    },
+  async updateColumnWidth(data, id) {
+    return axios.post(`${baseApiUrl}/set-header-width/${id}`, data);
+  },
 };

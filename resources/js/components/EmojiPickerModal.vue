@@ -4,24 +4,31 @@
       <Float portal shift placement="right-start">
         <PopoverButton>
           <span
-            :class="
+            @click="close = !close"
+            :class="[
+              xs ? 'text-xs' : '',
               xl
                 ? 'rounded-md px-4 py-4 text-4xl hover:bg-slate-100 dark:hover:bg-jovieDark-700'
-                : 'text-sm'
-            ">
+                : 'text-sm',
+            ]">
             {{ currentEmoji || '📄' }}
           </span>
         </PopoverButton>
-        <PopoverPanel
-          v-slot="{ close }"
-          class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border sm:px-0 lg:w-60">
-          <EmojiPicker
-            :class="{ 'dark-theme': $store.state.theme === 'dark' }"
-            disable-skin-tones
-            native
-            :theme="theme"
-            @select="handleEmojiSelection" />
-        </PopoverPanel>
+        <div>
+          <PopoverPanel
+            static
+            class="z-40 mt-3 w-screen rounded-lg border border-slate-300 bg-white/60 px-4 shadow-lg backdrop-blur-2xl backdrop-saturate-150 dark:border-jovieDark-border sm:px-0 lg:w-60"
+            v-show="close">
+            <PopoverButton>
+              <EmojiPicker
+                @click.prevent
+                :class="{ 'dark-theme': $store.state.theme === 'dark' }"
+                native
+                :theme="theme"
+                @select="handleEmojiSelection" />
+            </PopoverButton>
+          </PopoverPanel>
+        </div>
       </Float>
     </Popover>
   </div>
@@ -56,6 +63,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    xs: {
+      type: Boolean,
+      default: false,
+    },
     currentEmoji: {
       type: String,
       required: true,
@@ -70,14 +81,19 @@ export default {
     },
   methods: {
     handleEmojiSelection(emoji) {
+      // console.log(12)
       this.emojiSelected(emoji.i);
       console.log(emoji.i);
-      close();
+    },
+    closeModal() {
+      this.close = false;
     },
 
-    emojiSelected(emoji) {
+    async emojiSelected(emoji) {
       //emit the emoji to the parent component
       this.$emit('emojiSelected', emoji);
+      // close();
+      await this.closeModal();
     },
   },
 };

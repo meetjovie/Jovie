@@ -1,10 +1,11 @@
 <template>
   <Menu>
     <MenuItems static>
-      <div class="flex w-full flex-col space-y-1 px-2">
+      <div class="ml-2 flex w-full flex-col space-y-1 px-4">
         <JovieMenuItem
           v-for="item in items"
           :key="item.name"
+          :description="item.description"
           :component="item.component"
           :icon="item.icon"
           :name="item.name" />

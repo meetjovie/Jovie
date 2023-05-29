@@ -83,7 +83,6 @@ module.exports = {
           soundcloud: '#ff7700',
           vk: '#4c75a3',
           reddit: '#ff4500',
-          twitch: '#6441a5',
           discord: '#7289da',
           skype: '#00aff0',
           whatsapp: '#25d366',
@@ -107,6 +106,7 @@ module.exports = {
         '6xl': '4rem',
         '7xl': '5rem',
       },
+
       spacing: {
         128: '32rem',
         192: '48rem',
@@ -119,7 +119,6 @@ module.exports = {
     require('tailwindcss'),
     require('autoprefixer'),
     require('@tailwindcss/forms'),
-
     require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/typography'),
     require('tailwind-scrollbar-hide'),

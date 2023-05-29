@@ -40,13 +40,15 @@
                 :contact="contact"
                 :contactMethods="[
                   'email',
-                  'sms',
-                  'instagram',
-                  'calendar',
-                  'separator',
-                  'twitter',
                   'phone',
+                  'sms',
+                  'calendar',
+                  'instagram',
+
+                  'twitter',
+
                   'whatsapp',
+                  'separator',
                   'validate',
                 ]">
               </ContactContextMenuItem>
@@ -93,6 +95,11 @@ export default {
     MenuItems,
     TransitionRoot,
     EllipsisVerticalIcon,
+  },
+  data() {
+    return {
+      close: false,
+    };
   },
   props: {
     contact: {

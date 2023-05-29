@@ -2,46 +2,54 @@
   <div class="w-full">
     <nav
       class="transiion-all flex w-full flex-auto items-center justify-between border-t border-slate-200 bg-white px-4 pb-2 dark:border-jovieDark-border dark:bg-jovieDark-900 sm:px-2">
-      <div class="group flex">
+      <div class="group/left flex">
         <a
-          v-if="isFirstPage"
-          :disabled="isFirstPage"
           @click="onClickPreviousPage"
           href="#"
-          class="inline-flex items-center border-t-2 border-transparent pt-2 pr-1 text-xs font-medium text-slate-400 disabled:cursor-none disabled:text-slate-200 group-hover:border-slate-300 group-hover:text-slate-700 disabled:group-hover:text-slate-300 dark:disabled:text-slate-800 group-hover:dark:disabled:text-slate-800">
+          :class="{
+            'opacity-0': isInFirstPage,
+            'opacity-100': !isInFirstPage,
+          }"
+          class="inline-flex items-center border-t-2 border-transparent pr-1 pt-2 text-xs font-medium text-slate-400 disabled:cursor-none disabled:text-slate-200 group-hover/left:border-slate-300 group-hover/left:text-slate-700 disabled:group-hover/left:text-slate-300 dark:disabled:text-slate-800 group-hover/left:dark:disabled:text-slate-800"
+          aria-label="Previous page">
           <ArrowLongLeftIcon
             class="mr-3 h-3 w-3 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700"
             aria-hidden="true" />
           Previous
         </a>
       </div>
-      <div class="group hidden md:flex">
+      <div class="group/main hidden space-x-4 md:flex">
         <template v-for="page in pages">
-          <a
-            href="#"
-            @click="onClickPage(page.name)"
-            :disabled="page.isDisabled"
-            :class="{
-              'border-indigo-500 text-indigo-700 dark:text-indigo-300':
-                currentPage == page.name,
-            }"
-            class="inline-flex items-center border-t-2 border-transparent px-4 pt-2 text-xs font-medium text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700">
-            {{ page.name }}
-          </a>
+          <div
+            class="inline-flex items-center text-xs font-medium text-slate-400 hover:text-slate-600">
+            <a
+              href="#"
+              @click="onClickPage(page.name)"
+              :disabled="page.isDisabled"
+              class="pt-2"
+              :class="{
+                ' cursor-not-allowed border-t-2 border-indigo-500 text-indigo-700 dark:text-indigo-300':
+                  currentPage == page.name,
+              }"
+              :aria-label="`Go to page ${page.name}`">
+              {{ page.name }}
+            </a>
+          </div>
         </template>
-        <!-- Current: "border-indigo-500 text-indigo-600", Default: "border-transparent text-slate-400  dark:text-jovieDark-400 hover:text-slate-700 hover:border-slate-300" -->
-        <!--            <a href="#" class="border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium" aria-current="page"> 2 </a>-->
-        <!--            <a href="#" class="border-transparent text-slate-400  dark:text-jovieDark-400 hover:text-slate-700 hover:border-slate-300 border-t-2 pt-4 px-4 inline-flex items-center text-xs font-medium"> 3 </a>-->
       </div>
       <div class="group flex">
         <a
-          :disabled="isInLastPage"
           @click="onClickNextPage()"
+          :class="{
+            'opacity-0': isInLastPage,
+            'opacity-100': !isInLastPage,
+          }"
           href="#"
-          class="mr-6 inline-flex items-center border-t-2 border-transparent pt-2 pl-1 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 disabled:cursor-none dark:text-jovieDark-400">
+          class="mr-6 inline-flex items-center border-t-2 border-transparent pl-1 pt-2 text-xs font-medium text-slate-400 hover:border-slate-300 hover:text-slate-700 disabled:cursor-none dark:text-jovieDark-400"
+          aria-label="Next page">
           Next
           <ArrowLongRightIcon
-            class="ml-3 h-5 w-5 text-slate-400 group-hover:border-slate-300 group-hover:text-slate-700 dark:text-jovieDark-400"
+            class="ml-3 h-5 w-5 text-slate-400 group-hover/main:border-slate-300 group-hover/main:text-slate-700 dark:text-jovieDark-400"
             aria-hidden="true" />
         </a>
       </div>
@@ -97,7 +105,11 @@ export default {
 
       // When on the last page
       if (this.currentPage === this.totalPages) {
-        return Math.abs(this.totalPages - this.maxVisibleButtons);
+        if (this.totalPages <= this.maxVisibleButtons) {
+          return 1;
+        } else {
+          return Math.abs(this.totalPages - this.maxVisibleButtons + 1);
+        }
       }
 
       // When inbetween

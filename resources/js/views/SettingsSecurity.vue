@@ -3,7 +3,10 @@
     <SectionHeader
       header="Security"
       subheader="Adjust your security settings" />
-    <SectionWrapper header="Password" subheader="Edit your password">
+    <SectionWrapper
+      v-if="!currentUser.google_id"
+      header="Password"
+      subheader="Edit your password">
       <AccountPassword />
     </SectionWrapper>
   </div>

@@ -10,15 +10,17 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class CrmExport implements FromCollection, WithMapping, WithHeadings
 {
     protected $contacts;
+    protected $custom_headings;
 
-    public function __construct($contacts)
+    public function __construct($contacts, $custom_headings)
     {
         $this->contacts = $contacts;
+        $this->custom_headings = $custom_headings;
     }
 
     public function headings(): array
     {
-        return [
+        $fields = [
             'id',
             'First Name',
             'Last Name',
@@ -85,6 +87,12 @@ class CrmExport implements FromCollection, WithMapping, WithHeadings
             'Youtube Category',
             'Youtube Biography',
         ];
+        if ($this->custom_headings) {
+            foreach ($this->custom_headings as $custom_heading) {
+                $fields[] = $custom_heading;
+            }
+        }
+        return $fields;
     }
 
     /**
@@ -92,22 +100,20 @@ class CrmExport implements FromCollection, WithMapping, WithHeadings
      */
     public function map($contact): array
     {
-        return [
+        $data = [
             $contact->id,
             $contact->first_name,
             $contact->last_name,
             $contact->full_name,
             $contact->city,
             $contact->country,
-            $contact->emails[0] ?? null,
-
+            implode(',', $contact->emails),
             $contact->company,
             $contact->department,
             $contact->title,
             $contact->category,
             $contact->biography,
-            $contact->phone[0] ?? null,
-
+            implode(',', $contact->phones),
             $contact->website,
             $contact->gender,
             $contact->dob,
@@ -160,6 +166,12 @@ class CrmExport implements FromCollection, WithMapping, WithHeadings
             $contact->youtube_data ? $contact->youtube_data->youtube_category : null,
             $contact->youtube_data ? $contact->youtube_data->youtube_biography : null,
         ];
+        if ($contact->custom_fields) {
+            foreach ($contact->custom_fields as $custom_field) {
+                $data[] = $custom_field;
+            }
+        }
+        return $data;
     }
 
     /**

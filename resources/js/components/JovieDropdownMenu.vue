@@ -58,13 +58,24 @@
                     <DropdownMenuItem
                       :name="item[nameKey]"
                       :icon="item.icon"
-                      :color="item.color"
+                      :colorDot="item.color"
                       :emoji="item.emoji"
                       :numbered="numbered"
                       :shortcutKey="item.shortcutKey"
                       :shortcutSequence="item.shortcutSequence"
                       @click="itemClicked(item.id)" />
                   </router-link>
+                  <DropdownMenuItem
+                    v-else
+                    :name="item[nameKey]"
+                    :icon="item.icon"
+                    :colorDot="item.color"
+                    :emoji="item.emoji"
+                    :numbered="numbered"
+                    :shortcutKey="item.shortcutKey"
+                    :shortcutSequence="item.shortcutSequence"
+                    @click="itemClicked(item.id)" />
+                  <!-- 
                   <MenuItem
                     v-else
                     @click="itemClicked(item.id)"
@@ -80,14 +91,14 @@
                         <div v-if="item.emoji" class="mr-2 text-xs font-bold">
                           {{ item.emoji }}
                         </div>
-                          <div v-else-if="item.socialicon">
-                              <SocialIcons
-                                  class="mr-2 text-slate-400 opacity-40 dark:text-jovieDark-600"
-                                  link="#"
-                                  width="12px"
-                                  height="12px"
-                                  :icon="item.socialicon" />
-                          </div>
+                        <div v-else-if="item.socialicon">
+                          <SocialIcons
+                            class="mr-2 text-slate-400 opacity-40 dark:text-jovieDark-600"
+                            link="#"
+                            width="12px"
+                            height="12px"
+                            :icon="item.socialicon" />
+                        </div>
                         <div
                           v-else-if="item.icon"
                           class="mr-2 items-center text-xs font-bold">
@@ -97,14 +108,14 @@
 
                         <div
                           class="flex justify-between text-xs font-normal tracking-wider">
-                          {{ item[nameKey] }}
+                          {{ item[nameKey] }} j
                           <CheckIcon
                             v-if="item.id == activeItem"
                             class="ml-1 h-3 w-3 text-slate-600 dark:text-jovieDark-200"></CheckIcon>
                         </div>
                       </div>
                     </div>
-                  </MenuItem>
+                  </MenuItem> -->
                 </template>
 
                 <MenuItem
@@ -179,17 +190,20 @@ import {
   EyeSlashIcon,
   PencilIcon,
   CogIcon,
+  DocumentDuplicateIcon,
+  SparklesIcon,
   TrashIcon,
+  CakeIcon,
   BellIcon,
   UserIcon,
   CreditCardIcon,
   ArrowLeftOnRectangleIcon,
   LifebuoyIcon,
   CloudArrowDownIcon,
-    MapPinIcon,
-    EnvelopeIcon,
-    PhoneIcon,
-    LinkIcon,
+  MapPinIcon,
+  EnvelopeIcon,
+  PhoneIcon,
+  LinkIcon,
 } from '@heroicons/vue/24/solid';
 import { Float } from '@headlessui-float/vue';
 import SocialIcons from '../components/SocialIcons.vue';
@@ -200,10 +214,14 @@ export default {
     GlassmorphismContainer,
     TransitionRoot,
     Menu,
+    DocumentDuplicateIcon,
+    SparklesIcon,
     EyeSlashIcon,
+
     SocialIcons,
     PencilIcon,
     ChevronUpIcon,
+    CakeIcon,
     XMarkIcon,
     MenuItem,
     ChevronDownIcon,
@@ -219,28 +237,14 @@ export default {
     ArrowLeftOnRectangleIcon,
     CloudArrowDownIcon,
     LifebuoyIcon,
-      MapPinIcon,
-      EnvelopeIcon,
-      PhoneIcon,
-      LinkIcon,
+    MapPinIcon,
+    EnvelopeIcon,
+    PhoneIcon,
+    LinkIcon,
   },
   data() {
     return {
       searchQuery: '',
-      /*  items: [
-        {
-          id: 1,
-          name: 'item one',
-          color: 'blue',
-          emoji: '👍',
-        },
-        {
-          id: 2,
-          name: 'Chloe',
-          color: 'pink',
-          emoji: '👍',
-        },
-      ], */
     };
   },
   props: {
@@ -311,6 +315,8 @@ export default {
   },
   methods: {
     itemClicked(item) {
+      //log the name of the current component and the item that was clicked
+      console.log('Item clicked in JovieDropdownMenu.vue:' + item);
       this.$emit('itemClicked', item);
     },
     createItem() {
@@ -319,9 +325,11 @@ export default {
       this.$emit('createItem', this.searchQuery);
     },
     focusMenuSearch() {
-      this.$nextTick(() => {
-        this.$refs.menuSearchInput.focus();
-      });
+      if (this.searchable) {
+        this.$nextTick(() => {
+          this.$refs.menuSearchInput.focus();
+        });
+      }
     },
   },
 };

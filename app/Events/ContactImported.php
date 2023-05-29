@@ -30,7 +30,13 @@ class ContactImported implements ShouldBroadcast, ShouldBroadcastNow
     {
         $this->contactId = $contactId;
         $this->teamId = $teamId;
-        $this->listId = $listId;
+        if ($listId && !is_array($listId)) {
+            $this->listId = [$listId];
+        } elseif (is_null($listId)) {
+            $this->listId = [];
+        } else {
+            $this->listId = $listId;
+        }
         $this->updatingExisting = $updatingExisting;
     }
 
@@ -57,6 +63,6 @@ class ContactImported implements ShouldBroadcast, ShouldBroadcastNow
             'contact' => $contact,
             'list' => $this->listId,
             'updating_existing' => $this->updatingExisting
-        ], 'message' => $this->listId ? null : 'Contact Imported'];
+        ], 'message' => count($this->listId) ? null : 'Contact Imported'];
     }
 }

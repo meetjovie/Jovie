@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserList;
+use App\Services\GPTService;
+use GuzzleHttp\Client;
 use App\Models\UserListAttribute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -144,7 +146,10 @@ class UserListsController extends Controller
         if (!empty($request->name)) {
             $name = $request->name;
         }
-        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $request->emoji);
+
+        $emoji = $request->emoji;
+        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $emoji);
+
         return response()->json([
             'status' => true,
             'message' => 'List Created.',
@@ -161,7 +166,7 @@ class UserListsController extends Controller
             ]);
         }
         $data = $request->validate([
-            'name' => 'sometimes|string|unique:user_lists,name,'.$list->id.',id,team_id,'.$list->team_id,
+            'name' => 'sometimes|string|unique:user_lists,name,' . $list->id . ',id,team_id,' . $list->team_id,
             'emoji' => 'sometimes|nullable|string'
         ]);
         $list->update($data);

@@ -10,7 +10,10 @@
           @verified="verifyMobile"
           :phone="$store.state.AuthState.user.phone"
           @disableContinue="disableContinue" />
-        <AccountPassword class="" onboarding />
+        <AccountPassword
+          v-if="setPasswordCheck"
+          class=""
+          onboarding />
         <ButtonGroup
           @click="step = 2"
           :disabled="!mobileVerified"
@@ -91,7 +94,7 @@ export default {
   name: 'Onboarding',
   data() {
     return {
-      step: 1,
+      step: 2,
       errors: {},
       updating: false,
       emoji: '👋',
@@ -113,11 +116,6 @@ export default {
       mobileVerified: false,
     };
   },
-  mounted() {
-    if (this.currentUser.first_name && this.currentUser.password_set) {
-      this.step = 2;
-    }
-  },
   methods: {
     verifyMobile() {
       this.mobileVerified = true;
@@ -127,6 +125,10 @@ export default {
     },
     setAccountType() {
       this.step = 3;
+    },
+    setPasswordCheck() {
+      let authUser = this.currentUser;
+      return !authUser.google_id && !authUser.password_set;
     },
     emojiSelected(emoji) {
       this.emoji = emoji;

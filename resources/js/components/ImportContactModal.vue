@@ -45,7 +45,10 @@
                               <div
                                 class="inline-flex items-center rounded bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
                                 <InitialBox
-                                  :name="currentUser.current_team.name"
+                                  :name="
+                                    currentUser.current_team.emoji ||
+                                    currentUser.current_team.name
+                                  "
                                   :height="12" />
                                 <span class="ml-1"
                                   >{{ currentUser.current_team.name }}
@@ -83,9 +86,11 @@
                               class="w-38 block border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="First Name"
                               v-model="contact.first_name" />
-                              <div v-if="errors.first_name" class="mt-2 text-xs text-red-600 dark:text-red-400">
-                                  {{ errors.first_name[0] }}
-                              </div>
+                            <div
+                              v-if="errors.first_name"
+                              class="mt-2 text-xs text-red-600 dark:text-red-400">
+                              {{ errors.first_name[0] }}
+                            </div>
                             <label for="first_name" class="sr-only"
                               >Last Name</label
                             >
@@ -249,77 +254,79 @@ export default {
         user_lists: [],
         list_id: [],
       },
-        fields: [
-            {
-                'name': 'First Name',
-                'icon': 'UserIcon',
-                'model': 'first_name',
-                'placeholder': 'First Name',
-            },{
-                'name': 'Last Name',
-                'icon': 'UserIcon',
-                'model': 'last_name',
-                'placeholder': 'Last Name',
-            },{
-                'name': 'Email',
-                'icon': 'EnvelopeIcon',
-                'model': 'emails',
-                'placeholder': 'Email',
-            },
-            {
-                'name': 'Phone',
-                'icon': 'PhoneIcon',
-                'model': 'phones',
-                'placeholder': 'Phone',
-            },
-            {
-                'name': 'Website',
-                'icon': 'LinkIcon',
-                'model': 'website',
-                'placeholder': 'Website',
-            },
-            {
-                'name': 'Instagram',
-                'socialicon': 'instagram',
-                'actionIcon2': 'ArrowTopRightOnSquareIcon',
-                'model': 'instagram',
-                'method2': 'instagramDMContact',
-                'placeholder': 'Instagram',
-            },
-            {
-                'name': 'Twitter',
-                'socialicon': 'twitter',
-                'model': 'twitter',
+      fields: [
+        {
+          name: 'First Name',
+          icon: 'UserIcon',
+          model: 'first_name',
+          placeholder: 'First Name',
+        },
+        {
+          name: 'Last Name',
+          icon: 'UserIcon',
+          model: 'last_name',
+          placeholder: 'Last Name',
+        },
+        {
+          name: 'Email',
+          icon: 'EnvelopeIcon',
+          model: 'emails',
+          placeholder: 'Email',
+        },
+        {
+          name: 'Phone',
+          icon: 'PhoneIcon',
+          model: 'phones',
+          placeholder: 'Phone',
+        },
+        {
+          name: 'Website',
+          icon: 'LinkIcon',
+          model: 'website',
+          placeholder: 'Website',
+        },
+        {
+          name: 'Instagram',
+          socialicon: 'instagram',
+          actionIcon2: 'ArrowTopRightOnSquareIcon',
+          model: 'instagram',
+          method2: 'instagramDMContact',
+          placeholder: 'Instagram',
+        },
+        {
+          name: 'Twitter',
+          socialicon: 'twitter',
+          model: 'twitter',
 
-                'placeholder': 'Twitter',
-            },
-            {
-                'name': 'TikTok',
-                'socialicon': 'tiktok',
-                'model': 'tiktok',
-                'placeholder': 'TikTok',
-            },
-            {
-                'name': 'Youtube',
-                'socialicon': 'youtube',
-                'model': 'youtube',
-                'placeholder': 'Youtube',
-            },
-            {
-                'name': 'Twitch',
-                'socialicon': 'twitch',
-                'model': 'twitch',
-                'placeholder': 'Twitch',
-            },
-            {
-                'name': 'Linkedin',
-                'socialicon': 'linkedin',
-                'model': 'linkedin',
-                'placeholder': 'Linkedin',
-            },
-        ],
+          placeholder: 'Twitter',
+        },
+        {
+          name: 'TikTok',
+          socialicon: 'tiktok',
+          model: 'tiktok',
+          placeholder: 'TikTok',
+        },
+        {
+          name: 'Youtube',
+          socialicon: 'youtube',
+          model: 'youtube',
+          placeholder: 'Youtube',
+        },
+        {
+          name: 'Twitch',
+          socialicon: 'twitch',
+          model: 'twitch',
+          placeholder: 'Twitch',
+        },
+        {
+          name: 'Linkedin',
+          socialicon: 'linkedin',
+          model: 'linkedin',
+          placeholder: 'Linkedin',
+        },
+      ],
       socialMediaProfileUrl: '',
-      errors: {}
+      errors: {},
     };
   },
   props: {
@@ -331,6 +338,22 @@ export default {
     fromSocial: {
       type: Boolean,
       default: false,
+    },
+  },
+  watch: {
+    list: {
+      deep: true,
+      immediate: true,
+      handler(val) {
+        if (val && val.id) {
+          this.contact.user_lists = []
+          let payload = {
+            list: val,
+            add: true,
+          };
+          this.updateContactLists(payload);
+        }
+      },
     },
   },
   computed: {
@@ -360,21 +383,26 @@ export default {
       });
     },
     updateContactLists(payload) {
-        if (payload.add) {
-            if (!this.contact.user_lists.filter((l) => l.id === payload.list.id).length) {
-                this.contact.user_lists.push(payload.list);
-                console.log('this.contact.user_lists');
-                console.log(this.contact.user_lists);
-            }
-            if (! this.contact.list_id.includes(payload.list.id)) {
-                this.contact.list_id.push(payload.list.id)
-            }
-        } else {
-            this.contact.user_lists = this.contact.user_lists.filter(
-                (l) => l.id !== payload.list.id
-            );
-            this.contact.list_id = this.contact.list_id.filter(id => id !== payload.list.id)
+      if (payload.add) {
+        if (
+          !this.contact.user_lists.filter((l) => l.id === payload.list.id)
+            .length
+        ) {
+          this.contact.user_lists.push(payload.list);
+          console.log('this.contact.user_lists');
+          console.log(this.contact.user_lists);
         }
+        if (!this.contact.list_id.includes(payload.list.id)) {
+          this.contact.list_id.push(payload.list.id);
+        }
+      } else {
+        this.contact.user_lists = this.contact.user_lists.filter(
+          (l) => l.id !== payload.list.id
+        );
+        this.contact.list_id = this.contact.list_id.filter(
+          (id) => id !== payload.list.id
+        );
+      }
     },
     importContact() {
       this.importing = true;

@@ -683,7 +683,7 @@
                     </div>
 
                     <div class="grid grid-cols-5 px-4 py-2">
-                      <ContactAvatar
+                      <!--  <ContactAvatar
                         :imageUrl="
                           selectedCreator.instagram_meta.profile_pic_url ??
                           selectedCreator.twitter_meta.profile_image_url ??
@@ -692,7 +692,7 @@
                         "
                         as="div"
                         class="col-span-1 aspect-square items-center"
-                        size="md" />
+                        size="md" /> -->
                       <div class="col-span-3 block pl-8 pr-6">
                         <div
                           class="text-md relative z-10 inline-flex items-center font-bold text-slate-700">
@@ -950,7 +950,7 @@
                               @click="
                                 copyToClipboard(selectedCreator.emails[0])
                               "
-                              class="active:mr-0.5 active:mt-0.5 h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:text-slate-500"
+                              class="h-5 w-5 cursor-pointer text-slate-400 hover:text-slate-700 active:mr-0.5 active:mt-0.5 active:text-slate-500"
                               aria-hidden="true" />
                           </div>
                           <input
@@ -958,7 +958,7 @@
                             name="email"
                             id="email"
                             :value="selectedCreator.emails[0]"
-                            class="z-10 mt-0.5 block w-full rounded-md border-slate-300 bg-transparent bg-white/0 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                            class="z-10 mt-0.5 block w-full rounded-md border-slate-300 bg-white/0 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                         </div>
                         <button
                           type="submit"
@@ -1055,7 +1055,7 @@ import SocialIcons from '../components/SocialIcons.vue';
 import JovieTooltip from '../components/JovieTooltip.vue';
 import ContactMediaItem from '../components/TimelineMedia/ContactMediaItem.vue';
 import VerifiedBadge from '../components/VerifiedBadge.vue';
-import ContactAvatar from '../components/Contact/ContactAvatar.vue';
+import ContactAvatar from '../components/ContactAvatar.vue';
 import ButtonGroup from '../components/ButtonGroup.vue';
 import UserService from '../services/api/user.service';
 import AppDebouncedSearchBox from '../components/AppDebouncedSearchBox.vue';

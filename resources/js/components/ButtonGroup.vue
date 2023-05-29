@@ -3,7 +3,7 @@
     type="button"
     :disabled="disabled"
     @click="trackClick()"
-    class="group inline-flex items-center overflow-hidden font-medium first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+    class="group inline-flex items-center overflow-hidden font-medium capitalize first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:scale-95 active:shadow-none"
     :class="[
       success
         ? 'bg-green-500'
@@ -30,18 +30,21 @@
           design == 'secondary',
       },
       {
-        'group flex cursor-pointer items-center rounded-md p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:hover:bg-jovieDark-800':
+        'group flex cursor-pointer items-center rounded-md  p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-700':
           design == 'toolbar',
       },
       {
-        ' w-full font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
+        '  line-clamp-1 font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
           design == 'primary',
       },
       {
         'mt-3 flex w-full items-center justify-center rounded-md border-none bg-indigo-500 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:ml-3 sm:mt-0 sm:w-auto sm:flex-shrink-0':
           design == 'hero',
       },
-      { 'bg-red-500 text-white': design == 'danger' },
+      {
+        'bg-red-500 text-white dark:bg-red-500 dark:text-white':
+          design == 'danger',
+      },
       {
         'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
       },
@@ -101,7 +104,7 @@
       aria-hidden="true" />
     <p
       v-if="text"
-      class="mx-auto flex items-center text-center text-sm"
+      class="mx-auto line-clamp-1 flex items-center text-center text-sm"
       :class="[
         { 'text-2xs': size == 'xs' },
         { 'text-xs': size == 'sm' },
@@ -129,6 +132,8 @@ import {
   MagnifyingGlassIcon,
   NoSymbolIcon,
   PlusCircleIcon,
+  ArrowRightOnRectangleIcon,
+  ArrowLeftOnRectangleIcon,
   DocumentDuplicateIcon,
   MinusCircleIcon,
   MinusIcon,
@@ -137,8 +142,9 @@ import {
   ArrowRightIcon,
   PlusIcon,
   ChevronRightIcon,
+  XCircleIcon,
+  CheckCircleIcon,
 } from '@heroicons/vue/24/solid';
-import { XCircleIcon, CheckCircleIcon } from '@heroicons/vue/24/solid';
 
 import JovieSpinner from '../components/JovieSpinner.vue';
 
@@ -223,6 +229,8 @@ export default {
     PlusCircleIcon,
     MinusCircleIcon,
     ChevronRightIcon,
+    ArrowRightOnRectangleIcon,
+    ArrowLeftOnRectangleIcon,
     JovieSpinner,
     DocumentDuplicateIcon,
     XCircleIcon,

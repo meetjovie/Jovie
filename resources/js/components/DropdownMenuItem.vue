@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="separator"
-    class="w-full divide-y divide-slate-200 dark:divide-jovieDark-border" />
-  <MenuItem disabled v-else-if="searchBox" v-slot="{ active }" as="div">
+  <MenuItem disabled v-if="searchBox" v-slot="{ active }" as="div">
     <div
       class="relative flex items-center border-b border-slate-300 dark:border-jovieDark-border">
       <input
@@ -17,13 +14,19 @@
       </div>
     </div>
   </MenuItem>
+  <MenuItem disabled v-else-if="separator">
+    <div class="inset-0 flex items-center" aria-hidden="true">
+      <div
+        class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
+    </div>
+  </MenuItem>
   <MenuItem v-else :disabled="disabled" as="div" v-slot="{ active }">
     <div
       :class="{
         'cursor-not-allowed opacity-50 saturate-0': disabled,
         'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
           active && !danger,
-        'bg-red-200 text-slate-700 dark:bg-red-500 dark:text-jovieDark-100':
+        'bg-red-100 text-slate-700 dark:bg-red-900 dark:text-red-100':
           active && danger,
       }"
       class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
@@ -64,7 +67,7 @@
               <div
                 class="text-xs font-normal tracking-wider"
                 :class="{
-                  'text-red-500': color === 'text-red-500',
+                  'text-red-500': color === 'text-red-500 dark:text-red-700',
                   'text-slate-600 dark:text-jovieDark-200': !color,
                   [color]: color,
                 }">
@@ -112,6 +115,7 @@ import KBShortcut from './KBShortcut.vue';
 
 import {
   PencilIcon,
+  CakeIcon,
   ChatBubbleLeftIcon,
   ArrowLeftOnRectangleIcon,
   ChartBarIcon,
@@ -168,7 +172,10 @@ export default {
     SwitchGroup,
     ColorDot,
     ArchiveBoxIcon,
+
     PhoneIcon,
+
+    CakeIcon,
     TrashIcon,
     SunIcon,
     MoonIcon,
