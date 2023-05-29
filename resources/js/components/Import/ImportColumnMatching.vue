@@ -64,14 +64,16 @@
       :description="autoEnrichmentPopup.description"
       :primaryButtonText="autoEnrichmentPopup.primaryButtonText"
       secondaryButtonText="No"
-      @primaryButtonClick="enableAutoEnrichment"
+      @primaryButtonClick="autoEnrichment"
       @cancelButtonClick="cancelAutoEnrichment">
       <template #content>
         <CheckboxInput
           :checked="autoEnrichmentSetting"
           v-model="autoEnrichmentSetting"
           name="autoEnirchSetting" />
-        <label for="autoEnrichmentSetting">Save  </label>
+        <label for="autoEnrichmentSetting">
+          Enable auto enrichment on import</label
+        >
       </template>
     </ModalPopup>
   </div>
@@ -153,10 +155,12 @@ export default {
     this.checkDuplicateList();
   },
   methods: {
-    enableAutoEnrichment() {
+    autoEnrichment() {
       this.autoEnrichmentPopup.open = false;
       if (this.autoEnrichmentSetting) {
-        this.updateEnrichmentSetting({ auto_enrich_import: { value: true } });
+        this.updateEnrichmentSetting({
+          teamSettings: { auto_enrich_import: { value: true } },
+        });
       }
       this.import(true);
     },
@@ -165,7 +169,14 @@ export default {
       this.import();
     },
     finish() {
-      this.autoEnrichmentPopup.open = true;
+      this.autoEnrichmentPopup.open = false;
+      this.$nextTick(() => {
+        if (!this.currentUser.workspace_preferences.auto_enrich_import) {
+          this.autoEnrichmentPopup.open = true;
+        } else {
+          this.import();
+        }
+      });
     },
     import(autoEnrich = false) {
       this.$emit('finish', {
@@ -174,7 +185,7 @@ export default {
       });
     },
     updateEnrichmentSetting(data) {
-      TeamService.updateTeam(data, this.currentUser.current_team.id)
+      TeamService.updateTeamSettings(data, this.currentUser.current_team.id)
         .then((response) => {
           response = response.data;
           console.log(response);
