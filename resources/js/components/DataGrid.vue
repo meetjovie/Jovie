@@ -289,7 +289,7 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 z-50 flex h-11 w-80 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
+                      class="sticky left-0 z-50 flex w-80 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
                         class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
                         <div class="mx-auto items-center text-center">
@@ -430,12 +430,12 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         :class="[
                           index == currentCell.column
-                            ? 'bg-slate-200'
-                            : 'bg-slate-100',
+                            ? 'bg-slate-200 dark:bg-jovieDark-700 '
+                            : 'bg-slate-100 dark:bg-jovieDark-600 ',
                           'w-full',
                         ]"
                         @updateColumnWidth="updateColumnWidth($event)"
@@ -453,7 +453,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -466,10 +466,7 @@
 
                     <th
                       scope="col"
-                      :class="[
-                        { 'border-b-4': view.atTopOfPage },
-                        'border-b-0',
-                      ]"
+                      :class="[{ 'border-b-4': view.atTopOfPage }, 'border-b']"
                       class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
                   </template>
                 </draggable>
