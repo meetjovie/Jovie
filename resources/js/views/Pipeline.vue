@@ -36,7 +36,7 @@
           class="list-group my-1 cursor-pointer justify-center gap-6 space-y-2 px-4 py-4"
           :list="contacts[index]"
           group="people"
-          @change="log"
+          @change="updateStage($event, index)"
           itemKey="name">
           <template #item="{ element, index }">
             <div
@@ -73,10 +73,11 @@
                             },
                           ]">
                           <div class="rounded-full bg-white p-0">
-                            <img
-                              class="rounded-full object-cover object-center"
-                              :src="element.avatar"
-                              alt="" />
+                            <ContactAvatar :contact="element"></ContactAvatar>
+<!--                            <img-->
+<!--                              class="rounded-full object-cover object-center"-->
+<!--                              :src="element.avatar"-->
+<!--                              alt="" />-->
                           </div>
                         </div>
                       </div>
@@ -144,6 +145,7 @@ import SocialIcons from '../components/SocialIcons.vue';
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/24/solid';
 import NoAccess from '../components/NoAccess.vue';
 import contactService from '../services/api/contact.service';
+import userService from '../services/api/user.service';
 export default {
   name: 'two-lists',
   display: 'Two Lists',
@@ -429,8 +431,12 @@ export default {
         name: el.name + ' cloned',
       };
     },
-    log: function (evt) {
-      window.console.log(evt);
+    updateStage: function (event, stage) {
+      if (event.added) {
+        let contact = event.added.element
+        contact.stage = stage
+        userService.updateContact(contact)
+      }
     },
     getStagedContacts() {
       contactService
