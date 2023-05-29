@@ -151,7 +151,7 @@ class ImportContacts implements ShouldQueue
                 }
 
                 $team = Team::find($contact->team_id);
-                if ($team->autoEnrichImportEnabled()) {
+                if ($this->payload->autoEnrich == "true"|| $team->autoEnrichImportEnabled()) {
                     $contact->enrichContact();
                 }
             }

@@ -63,8 +63,17 @@
       :title="autoEnrichmentPopup.title"
       :description="autoEnrichmentPopup.description"
       :primaryButtonText="autoEnrichmentPopup.primaryButtonText"
+      secondaryButtonText="No"
       @primaryButtonClick="enableAutoEnrichment"
-      @cancelButtonClick="cancelAutoEnrichment" />
+      @cancelButtonClick="cancelAutoEnrichment">
+      <template #content>
+        <CheckboxInput
+          :checked="autoEnrichmentSetting"
+          v-model="autoEnrichmentSetting"
+          name="autoEnirchSetting" />
+        <label for="autoEnrichmentSetting">Save  </label>
+      </template>
+    </ModalPopup>
   </div>
 </template>
 <script>
@@ -74,11 +83,12 @@ import ColumnsDropdown from './ColumnsDropdown.vue';
 import InputGroup from '../InputGroup.vue';
 import ModalPopup from '../ModalPopup.vue';
 import TeamService from '../../services/api/team.service';
-
+import CheckboxInput from '../CheckboxInput.vue';
 export default {
   name: 'ImportColumnMatching',
   components: {
     ModalPopup,
+    CheckboxInput,
     ColumnsDropdown,
     ButtonGroup,
     CardHeading,
@@ -117,7 +127,7 @@ export default {
   data() {
     return {
       mappedColumns: {},
-      saveEnrichmentSetting: false,
+      autoEnrichmentSetting: true,
       autoEnrichmentPopup: {
         confirmationMethod: null,
         title: 'Auto contact enrichment',
@@ -145,7 +155,7 @@ export default {
   methods: {
     enableAutoEnrichment() {
       this.autoEnrichmentPopup.open = false;
-      if (this.saveEnrichmentSetting) {
+      if (this.autoEnrichmentSetting) {
         this.updateEnrichmentSetting({ auto_enrich_import: { value: true } });
       }
       this.import(true);
