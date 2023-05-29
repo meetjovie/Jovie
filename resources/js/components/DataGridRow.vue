@@ -80,14 +80,16 @@
         <div
           @click="$emit('openSidebar', { contact: contact, index: row })"
           class="flex w-full items-center justify-between truncate text-ellipsis px-2 py-1">
-          <ContactAvatar
-            @updateAvatar="updateAvatar($event)"
-            :loading="!contact.id"
-            :contact="contact"
-            class="" />
-          <div
-            class="w-20 truncate text-ellipsis text-sm text-slate-900 dark:text-jovieDark-100">
-            {{ contact.full_name }}
+          <div class="flex items-center space-x-2">
+            <ContactAvatar
+              @updateAvatar="updateAvatar($event)"
+              :loading="!contact.id"
+              :contact="contact"
+              class="" />
+            <div
+              class="w-20 truncate text-ellipsis text-left text-sm text-slate-900 dark:text-jovieDark-100">
+              {{ contact.full_name }}
+            </div>
           </div>
           <div v-if="!contact.enriched_viewed">
             <span
@@ -128,7 +130,6 @@
               <EllipsisVerticalIcon class="z-0 h-4 w-4" aria-hidden="true" />
             </button>
           </div>
-
         </div>
       </div>
     </div>
