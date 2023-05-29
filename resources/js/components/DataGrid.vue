@@ -537,6 +537,9 @@
                 <PlusIcon class="mr-2 h-4 w-4" />
                 Add new contact
               </span>
+              <span>
+                <ButtonGroup @click="$emit('export')" :text="'Export'" />
+              </span>
             </div>
             <div
               v-if="contactRecords.length < 1"

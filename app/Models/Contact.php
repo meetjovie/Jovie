@@ -1174,6 +1174,7 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->orderByDesc('id');
         }
 
+
         $contacts = $contacts->get();
         $customHeadings = [];
         $cc = new Contact();
