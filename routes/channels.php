@@ -60,3 +60,7 @@ Broadcast::channel('listEnriched.{teamId}', function ($user, $teamId) {
     $user = $user->load('currentTeam');
     return $user->currentTeam->id == $teamId;
 });
+
+Broadcast::channel('userOnUserlist.{teamId}.{listId}', function ($user) {
+    return ['id' => $user->id, 'name' => $user->first_name, 'profile_pic_url' => $user->profile_pic_url];
+});

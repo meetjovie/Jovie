@@ -7,30 +7,8 @@
           height < 24 ? 'ring-2' : 'ring-4',
           loading ? 'bg-slate-200 dark:bg-jovieDark-500' : '',
 
-          contact.color === 'blue'
-            ? 'ring-blue-300 dark:ring-blue-500'
-            : contact.color === 'indigo'
-            ? 'ring-indigo-300 dark:ring-indigo-500'
-            : contact.color === 'purple'
-            ? 'ring-purple-300 dark:ring-purple-500'
-            : contact.color === 'pink'
-            ? 'ring-pink-300 dark:ring-pink-500'
-            : contact.color === 'red'
-            ? 'ring-red-300 dark:ring-red-500'
-            : contact.color === 'orange'
-            ? 'ring-orange-300 dark:ring-orange-500'
-            : contact.color === 'yellow'
-            ? 'ring-yellow-300 dark:ring-yellow-500'
-            : contact.color === 'green'
-            ? 'ring-green-300 dark:ring-green-500'
-            : contact.color === 'teal'
-            ? 'ring-teal-300 dark:ring-teal-500'
-            : contact.color === 'cyan'
-            ? 'ring-cyan-300 dark:ring-cyan-500'
-            : contact.color === 'slate'
-            ? 'ring-slate-300 dark:ring-slate-500'
-            : contact.color === 'gray'
-            ? 'ring-gray-300 dark:ring-gray-500'
+          contact.color
+            ? `ring-${contact.color}-300 dark:ring-${contact.color}-500`
             : 'ring-slate-100 dark:ring-slate-500',
         ]"
         class="0 group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">

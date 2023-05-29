@@ -150,7 +150,7 @@
                           @setListUpdating="setListUpdating"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
-                      <template #fallback> Loading... </template>
+                      <template #fallback> Loading...</template>
                     </Suspense>
                     <!--    Team Specific Lists -->
                     <Suspense>
@@ -172,7 +172,7 @@
                           @setListUpdating="setListUpdating"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
-                      <template #fallback> Loading... </template>
+                      <template #fallback> Loading...</template>
                     </Suspense>
                   </div>
                 </MenuItems>
@@ -220,7 +220,8 @@
                           <div class="flex items-center">
                             <CloudArrowUpIcon
                               class="mr-1 h-5 w-5 rounded p-1 font-medium text-sky-400 dark:text-sky-400"
-                              aria-hidden="true" />Upload A CSV
+                              aria-hidden="true" />
+                            Upload A CSV
                           </div>
                           <div class="items-center">
                             <ContactTags
@@ -789,6 +790,16 @@ export default {
       currentSortBy: 'id',
       currentSortOrder: 'desc',
       columns: [],
+      activeUsersOnList: [],
+      shareMenuColors: [
+        'blue',
+        'green',
+        'indigo',
+        'pink',
+        'purple',
+        'red',
+        'yellow',
+      ],
       crmCounting: false,
       listKey: 0,
       showContactModal: false,
@@ -1274,15 +1285,25 @@ export default {
         }
       }
       /*  this.currentContact = contact;
-      this.$store.state.ContactSidebarOpen = true; */
+            this.$store.state.ContactSidebarOpen = true; */
     },
 
     setCurrentContact(contact) {
       this.currentContact = contact;
     },
     setFiltersType(type) {
+
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
+      if (this.filters.type != 'list') {
+        if (this.filters.list) {
+          let channelName = `presence-userOnUserlist.${
+              this.currentUser.current_team.id
+          }.${this.filters.list ?? 0}`;
+          Echo.leave(channelName);
+        }
+        this.activeUsersOnList = [];
+      }
       this.filters.list = null;
       this.$store.state.overviewList = null;
       this.filters.currentList = null;
@@ -1291,12 +1312,43 @@ export default {
       this.loading = false;
     },
     setFilterList(list) {
+      if (this.filters.list) {
+        let channelName = `presence-userOnUserlist.${
+          this.currentUser.current_team.id
+        }.${this.filters.list ?? 0}`;
+        Echo.leave(channelName);
+        this.activeUsersOnList = [];
+      }
+
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
       if (this.filters.list) {
         list = this.userLists.find((l) => l.id === list);
         this.filters.currentList = list ?? null;
         this.$store.state.overviewList = list ?? null;
+        Echo.join(
+          `userOnUserlist.${this.currentUser.current_team.id}.${
+            this.filters.list ?? 0
+          }`
+        )
+          .here((users) => {
+            this.activeUsersOnList = users;
+            this.activeUsersOnList.forEach((user) => {
+              user.color = this.shareMenuColors.pop();
+            });
+          })
+          .joining((user) => {
+            this.activeUsersOnList.push(user);
+          })
+          .leaving((user) => {
+            this.activeUsersOnList = this.activeUsersOnList.filter(
+              (obj) => obj['id'] !== user.id
+            );
+            this.shareMenuColors.push(user.color);
+          })
+          .error((error) => {
+            console.error(error);
+          });
       } else {
         this.filters.type = 'all';
         this.filters.currentList = null;
