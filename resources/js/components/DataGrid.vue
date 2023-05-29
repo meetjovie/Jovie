@@ -435,9 +435,14 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                       <DataGridColumnHeader
-                        class="w-full"
+                        :class="[
+                          element.key == currentCell.column
+                            ? 'bg-slate-200'
+                            : 'bg-slate-100',
+                          'w-full',
+                        ]"
                         @updateColumnWidth="updateColumnWidth($event)"
                         @reflectColumnWidth="reflectColumnWidth($event)"
                         @editField="editCustomFieldsModal"
@@ -858,7 +863,7 @@ export default {
       openMergeSuggestion: false,
       contactIds: null,
       disableDragging: false,
-        rightClickMenuContact: {},
+      rightClickMenuContact: {},
     };
   },
   props: [

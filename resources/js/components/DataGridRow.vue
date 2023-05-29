@@ -84,6 +84,7 @@
             <ContactAvatar
               @updateAvatar="updateAvatar($event)"
               :loading="!contact.id"
+              :height="8"
               :contact="contact"
               class="" />
             <div
