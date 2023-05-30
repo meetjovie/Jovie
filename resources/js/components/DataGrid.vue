@@ -242,7 +242,7 @@
         <div
           class="flex h-full w-full justify-between overflow-x-auto scroll-smooth align-middle">
           <div
-            class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
+            class="flex h-full w-full flex-col overflow-auto bg-white ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               ref="crmTable"
               class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
@@ -289,7 +289,7 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 z-50 flex w-80 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
+                      class="sticky left-0 z-50 flex w-96 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
                         class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
                         <div class="mx-auto items-center text-center">
@@ -433,9 +433,7 @@
                       class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         :class="[
-                          index == currentCell.column
-                            ? 'bg-slate-200 dark:bg-jovieDark-700 '
-                            : 'bg-slate-100 dark:bg-jovieDark-600 ',
+                          index == currentCell.column ? 'font-bold  ' : ' ',
                           'w-full',
                         ]"
                         @updateColumnWidth="updateColumnWidth($event)"
