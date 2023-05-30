@@ -296,7 +296,7 @@ export default {
     stages: Array,
     userColor: {
       type: String,
-      default: 'green',
+      default: 'blue',
     },
   },
 };

@@ -150,7 +150,7 @@
             : 'bg-slate-50 dark:bg-jovieDark-800',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-        @mouseover="setCurrentCell(columnIndex)"
+        @click="setCurrentCell(columnIndex)"
         :userLists="userLists"
         :visibleColumns="visibleColumns"
         :settings="settings"

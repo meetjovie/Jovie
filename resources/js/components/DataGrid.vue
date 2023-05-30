@@ -513,7 +513,6 @@
                     v-if="element"
                     @update:currentCell="$emit('updateContact', $event)"
                     @click="setCurrentContact($event, element, index)"
-                    @mouseover="setCurrentContact($event, element, index)"
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
                     "
