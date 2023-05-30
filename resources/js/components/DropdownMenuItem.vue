@@ -65,10 +65,10 @@
               <div v-else></div>
 
               <div
-                class="text-xs font-normal tracking-wider"
+                class="text-xs font-normal tracking-wider antialiased"
                 :class="{
                   'text-red-500': color === 'text-red-500 dark:text-red-700',
-                  'text-slate-600 dark:text-jovieDark-200': !color,
+                  'text-slate-600 dark:text-white': !color,
                   [color]: color,
                 }">
                 {{ name }}

@@ -86,7 +86,7 @@
                 <div class="items-center">
                   <JovieDropdownMenu
                     :searchable="false"
-                    size="md"
+                    size="lg"
                     placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
@@ -102,15 +102,15 @@
                     <template #menuTop>
                       <div
                         class="mt-2 flex w-full cursor-default justify-between px-4">
-                        <div>
+                        <div class="flex w-full items-center justify-between">
                           <p
-                            class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
+                            class="justify-between truncate text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
                             {{ currentUser.first_name }}
                             {{ currentUser.last_name }}
                           </p>
 
                           <p
-                            class="text-2xs font-medium text-slate-400 group-hover:text-slate-700">
+                            class="truncate text-2xs font-medium text-slate-400 group-hover:text-slate-700">
                             {{ currentUser.email }}
                           </p>
                         </div>
@@ -153,7 +153,7 @@
                         name="Logout"
                         icon="ArrowLeftOnRectangleIcon" />
 
-                      <div class="flex justify-end">
+                      <div class="absoltue bottom-14 right-0">
                         <span
                           class="text-right text-[8px] text-slate-400 dark:text-jovieDark-400">
                           {{ $store.state.jovieVersion }}
