@@ -10,7 +10,7 @@
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                     <PlusIcon
                       class="mr-1 h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
@@ -20,7 +20,7 @@
                   <Menu>
                     <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
@@ -79,6 +79,7 @@
                             v-if="
                               counts.archived > 0 ||
                               counts.favourites > 0 ||
+                              counts.birthday > 0 ||
                               suggestion
                             "
                             @click="toggleContactMenuOpen"
@@ -116,100 +117,20 @@
                       leave-from="transform opacity-100 scale-100"
                       leave-to="transform opacity-0 scale-95">
                       <div class="flex flex-col space-y-1 pl-4">
-                        <MenuItem
-                          v-if="counts.favourites > 0"
-                          class="w-full"
-                          as="div"
-                          @click="setFiltersType('favourites')"
-                          v-slot="{ active }">
-                          <button
-                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
-                            :class="[
-                              filters.type == 'favourites'
-                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                              active
-                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                                : '',
-                            ]">
-                            <div
-                              class="flex items-center text-xs tracking-wide">
-                              <HeartIcon
-                                class="mr-1 h-5 w-5 rounded p-1 text-red-400"
-                                aria-hidden="true" />Favorited
-                            </div>
-                            <div
-                              class="items-center rounded p-1 hover:text-slate-50">
-                              <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-                                >{{ counts.favourites }}</span
-                              >
-                            </div>
-                          </button>
-                        </MenuItem>
-
-                        <MenuItem
-                          v-if="counts.archived > 0"
-                          as="div"
-                          @click="setFiltersType('archived')"
-                          v-slot="{ active }">
-                          <button
-                            class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
-                            :class="[
-                              filters.type == 'archived'
-                                ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                                : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                              active
-                                ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                                : '',
-                            ]">
-                            <div
-                              class="flex items-center text-xs tracking-wide">
-                              <ArchiveBoxIcon
-                                class="mr-1 h-5 w-5 rounded p-1 text-sky-400"
-                                aria-hidden="true" />Archived
-                            </div>
-                            <div
-                              class="items-center rounded p-1 hover:text-slate-50 dark:hover:text-slate-800">
-                              <span
-                                class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
-                                >{{ counts.archived }}</span
-                              >
-                            </div>
-                          </button>
-                        </MenuItem>
+                        <template v-for="item in menuItems">
+                          <JovieMenuItem
+                            :routerLink="false"
+                            hideIfEmpty
+                            @button-click="item.onClick"
+                            class="w-full"
+                            :selected="filters.type == item.type"
+                            :name="item.name"
+                            :icon="item.icon"
+                            :count="counts[item.type] || counts[item.count]"
+                            :description="item.description" />
+                        </template>
                       </div>
                     </TransitionRoot>
-                    <!--   pass in a variable so that we can set the style based on whether the suggestion modal is open -->
-                    <MenuItem
-                      class="w-full"
-                      as="div"
-                      @click="suggestMerge([])"
-                      v-slot="{ active }">
-                      <button
-                        class="group flex h-8 w-full items-center justify-between rounded px-1 py-1 text-left tracking-wide"
-                        :class="[
-                          suggestion
-                            ? 'bg-slate-100 text-sm font-semibold  text-slate-900 dark:bg-jovieDark-border  dark:text-jovieDark-100 '
-                            : 'text-sm font-light text-slate-900 dark:text-jovieDark-100',
-                          active
-                            ? 'bg-slate-100 text-slate-700 dark:bg-jovieDark-border dark:text-jovieDark-100'
-                            : '',
-                        ]">
-                        <div class="flex items-center text-xs tracking-wide">
-                          <DocumentDuplicateIcon
-                            class="mr-1 h-5 w-5 rounded p-1 text-slate-400"
-                            aria-hidden="true" />Merge Duplicates
-                        </div>
-                        <div
-                          class="items-center rounded p-1 hover:text-slate-50">
-                          <span
-                            class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100">
-                            <!--  Count of duplicates goes here -->
-                          </span>
-                        </div>
-                      </button>
-                    </MenuItem>
                   </div>
                   <div
                     class="flex-col justify-evenly space-y-4 overflow-auto px-2 py-4">
@@ -229,7 +150,7 @@
                           @setListUpdating="setListUpdating"
                           :menuItems="pinnedUserLists"></MenuList>
                       </template>
-                      <template #fallback> Loading... </template>
+                      <template #fallback> Loading...</template>
                     </Suspense>
                     <!--    Team Specific Lists -->
                     <Suspense>
@@ -241,6 +162,7 @@
                           @setFiltersType="setFiltersType"
                           menuName="Lists"
                           @setFilterList="setFilterList"
+                          @addContact="openImportContactModal(false, $event)"
                           :selectedList="filters.list"
                           :draggable="true"
                           @updateUserList="updateUserList($event)"
@@ -250,7 +172,7 @@
                           @setListUpdating="setListUpdating"
                           :menuItems="filteredUsersLists"></MenuList>
                       </template>
-                      <template #fallback> Loading... </template>
+                      <template #fallback> Loading...</template>
                     </Suspense>
                   </div>
                 </MenuItems>
@@ -298,7 +220,8 @@
                           <div class="flex items-center">
                             <CloudArrowUpIcon
                               class="mr-1 h-5 w-5 rounded p-1 font-medium text-sky-400 dark:text-sky-400"
-                              aria-hidden="true" />Upload A CSV
+                              aria-hidden="true" />
+                            Upload A CSV
                           </div>
                           <div class="items-center">
                             <ContactTags
@@ -565,111 +488,55 @@
         <div
           class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
           <div class="mx-auto h-full w-full">
-            <div class="h-full w-full">
-              <div class="flex h-full w-full flex-col">
-                <div class="mx-auto h-full w-full p-0">
-                  <div class="inline-block h-full w-full align-middle">
-                    <div class="h-full w-full dark:bg-jovieDark-900">
-                      <AlertBanner
-                        v-if="limitExceedBy > 0 && totalAvailable"
-                        design="primary"
-                        :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                        :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
-                        :cta="`Upgrade`"
-                        ctaLink="Billing" />
-                      <!--  Show import screen if no contacts -->
-                      <!--  <div
-                        v-if="!loading && !contacts.length && !showImporting"
-                        class="mx-auto h-full max-w-7xl items-center px-4 dark:bg-jovieDark-900 sm:px-6 lg:px-8">
-                        <div class="mx-auto max-w-xl">
-                          <div
-                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                            <div>
-                              <h1
-                                class="text-md font-bold dark:text-jovieDark-100">
-                                You don't have any contacts yet.
-                              </h1>
-                              <span
-                                class="text-sm font-medium text-slate-900 dark:text-jovieDark-200"
-                                >Enter a Twitch or Instagram url to add someone
-                                to Jovie.</span
-                              >
-                            </div>
-                            <SocialInput
-                              class="py-12"
-                              :list="filters.list"
-                              @finishImport="closeImportContactModal" />
-                            <InternalMarketingChromeExtension class="mt-24" />
-                          </div>
-                        </div>
-                      </div>
-
-
-                      <div
-                        v-else-if="showImporting && !contacts.length"
-                        class="mx-auto h-full max-w-7xl items-center px-4 sm:px-6 lg:px-8">
-                        <div class="mx-auto max-w-xl">
-                          <div
-                            class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
-                            <div>
-                              <ArrowPathIcon
-                                class="mt-1 mr-2 h-4 w-4 animate-spin-slow items-center" />
-                              <h1 class="text-md font-bold">
-                                You've just initated an import.
-                              </h1>
-                              <span class="text-sm font-medium text-slate-900"
-                                >You'll see contacts populate this space
-                                soon.</span
-                              >
-                            </div>
-                          </div>
-                        </div>
-                      </div> -->
-                      <!-- Show the crm if there are contacts -->
-                      <div>
-                        <DataGrid
-                          v-if="columns.length"
-                          ref="crmTableGrid"
-                          @addContact="openImportContactModal()"
-                          @updateContact="updateContact"
-                          @crmCounts="crmCounts"
-                          :counts="counts"
-                          @updateListCount="updateListCount"
-                          @pageChanged="pageChanged"
-                          @getCrmContacts="getCrmContacts"
-                          @setCurrentContact="setCurrentContact"
-                          @openSidebar="openSidebarContact"
-                          @updateSettings="updateSettings"
-                          @getHeaders="getHeaders"
-                          @checkContactsEnrichable="checkContactsEnrichable"
-                          @setOrder="setOrder"
-                          @getUserLists="getUserLists"
-                          :header="
-                            filters.type === 'list'
-                              ? filters.currentList
-                                ? filters.currentList.name
-                                : ''
-                              : filters.type
-                          "
-                          :subheader="counts"
-                          :filters="filters"
-                          :userLists="userLists"
-                          :networks="networks"
-                          :stages="stages"
-                          :columns="columns"
-                          :settings="settings"
-                          :loading="loading"
-                          :taskLoading="taskLoading"
-                          :contactsMeta="contactsMeta"
-                          :headersLoaded="headersLoaded">
-                          <slot header="header"></slot>
-                        </DataGrid>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AlertBanner
+              v-if="limitExceedBy > 0 && totalAvailable"
+              design="primary"
+              :mobiletitle="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+              :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
+              :cta="`Upgrade`"
+              ctaLink="Billing" />
+            <DataGrid
+              v-if="columns.length"
+              ref="crmTableGrid"
+              @addContact="openImportContactModal()"
+              @addContactFromSocial="openImportContactModal(true)"
+              @updateContact="updateContact"
+              @crmCounts="crmCounts"
+              :counts="counts"
+              @updateListCount="updateListCount"
+              @pageChanged="pageChanged"
+              @getCrmContacts="getCrmContacts"
+              @setCurrentContact="setCurrentContact"
+              @updateSettings="updateSettings"
+              @openSidebar="openSidebarContact"
+              @getHeaders="getHeaders"
+              @checkContactsEnrichable="checkContactsEnrichable"
+              @setOrder="setOrder"
+              @getUserLists="getUserLists"
+              @export="exportCrmContacts"
+              @updateFiltersContact="updateFiltersContact"
+              @suggestionExists="toggleMergeSuggestion"
+              @updateCrmCount="crmCounts"
+              :header="
+                filters.type === 'list'
+                  ? filters.currentList
+                    ? filters.currentList.name
+                    : ''
+                  : filters.type
+              "
+              :subheader="counts"
+              :filters="filters"
+              :userLists="userLists"
+              :networks="networks"
+              :stages="stages"
+              :columns="columns"
+              :loading="loading"
+              :taskLoading="taskLoading"
+              :contactsMeta="contactsMeta"
+              :suggestMerge="suggestMerge"
+              :headersLoaded="headersLoaded">
+              <slot header="header"></slot>
+            </DataGrid>
           </div>
         </div>
 
@@ -700,7 +567,7 @@
       <ImportContactModal
         :open="showContactModal"
         :fromSocial="importFromSocial"
-        :list="filters.list"
+        :list="listToImport"
         @contactImported="contactImported($event)"
         @closeModal="closeImportContactModal()" />
 
@@ -722,12 +589,12 @@
 </template>
 
 <script>
-import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
-import SupportModal from '../components/SupportModal.vue';
-import JovieSidebar from '../components/JovieSidebar.vue';
 import AlertBanner from '../components/AlertBanner.vue';
+import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
+import JovieSidebar from '../components/JovieSidebar.vue';
 import MenuList from '../components/MenuList.vue';
 import TemplateService from '../services/api/template.service';
+import SupportModal from '../components/SupportModal.vue';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
 
@@ -735,75 +602,75 @@ import {
   Combobox,
   ComboboxButton,
   ComboboxInput,
-  ComboboxOptions,
   ComboboxOption,
-  TabGroup,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
+  ComboboxOptions,
   Menu,
   MenuButton,
-  MenuItems,
   MenuItem,
-  TransitionRoot,
-  TransitionChild,
+  MenuItems,
   Popover,
   PopoverButton,
-  PopoverPanel,
   PopoverGroup,
+  PopoverPanel,
+  Tab,
+  TabGroup,
+  TabList,
+  TabPanel,
+  TabPanels,
+  TransitionChild,
+  TransitionRoot,
 } from '@headlessui/vue';
 import {
-  ChevronDownIcon,
-  CreditCardIcon,
-  ArrowUpCircleIcon,
-  CogIcon,
-  ChevronRightIcon,
-  CloudArrowDownIcon,
-  CheckIcon,
-  UserGroupIcon,
-  DocumentDuplicateIcon,
-  EllipsisVerticalIcon,
-  PlusIcon,
-  PlusCircleIcon,
-  HeartIcon,
-  UserIcon,
   ArchiveBoxIcon,
-  CloudArrowUpIcon,
   ArrowLeftOnRectangleIcon,
   ArrowPathIcon,
+  ArrowUpCircleIcon,
   BellIcon,
-  SunIcon,
-  MoonIcon,
+  CakeIcon,
   ChatBubbleLeftIcon,
-  SparklesIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  CloudArrowDownIcon,
+  CloudArrowUpIcon,
+  CogIcon,
   ComputerDesktopIcon,
+  CreditCardIcon,
+  DocumentDuplicateIcon,
+  EllipsisVerticalIcon,
   FaceSmileIcon,
+  HeartIcon,
+  MoonIcon,
+  PlusCircleIcon,
+  PlusIcon,
+  SparklesIcon,
+  SunIcon,
+  UserGroupIcon,
+  UserIcon,
 } from '@heroicons/vue/24/solid';
 import DataGrid from '../components/DataGrid.vue';
+import JovieMenuItem from '../components/JovieMenuItem.vue';
 import JovieUpgradeModal from '../components/JovieUpgradeModal.vue';
 
-import UserService from '../services/api/user.service';
 import ImportContactModal from '../components/ImportContactModal.vue';
-import SocialInput from '../components/SocialInput.vue';
 import InternalMarketingChromeExtension from '../components/InternalMarketingChromeExtension.vue';
+import SocialInput from '../components/SocialInput.vue';
+import UserService from '../services/api/user.service';
 
-import { defineAsyncComponent } from 'vue';
 import ProgressBar from '../components/ProgressBar.vue';
 import SwitchTeams from '../components/SwitchTeams.vue';
 
-import ContactSidebar from '../components/ContactSidebar.vue';
+import { Float } from '@headlessui-float/vue';
 import VueMousetrapPlugin from 'vue-mousetrap';
 import ContactTags from '../components/Contact/ContactTags.vue';
-import { Float } from '@headlessui-float/vue';
-import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
-import ImportService from '../services/api/import.service';
-import KBShortcut from '../components/KBShortcut.vue';
-import elementaryIcon from 'vue-simple-icons/icons/ElementaryIcon';
-import FieldService from '../services/api/field.service';
+import ContactSidebar from '../components/ContactSidebar.vue';
 import DropdownMenuItem from '../components/DropdownMenuItem.vue';
-import ModalPopup from '../components/ModalPopup.vue';
 import importContactModal from '../components/ImportContactModal.vue';
+import JovieDropdownMenu from '../components/JovieDropdownMenu.vue';
+import KBShortcut from '../components/KBShortcut.vue';
+import ModalPopup from '../components/ModalPopup.vue';
+import FieldService from '../services/api/field.service';
+import ImportService from '../services/api/import.service';
 
 export default {
   name: 'CRM',
@@ -824,6 +691,7 @@ export default {
     DataGrid,
     Float,
     CloudArrowDownIcon,
+    CakeIcon,
     PlusIcon,
     PlusCircleIcon,
     SwitchTeams,
@@ -841,6 +709,7 @@ export default {
     ContactSidebar,
     ChatBubbleLeftIcon,
     ProgressBar,
+    JovieMenuItem,
     SupportModal,
     TabList,
     Tab,
@@ -889,6 +758,7 @@ export default {
         { name: 'Billing', route: '/billing', icon: CreditCardIcon },
         { name: 'Settings', route: 'Account', icon: CogIcon },
       ],
+
       contactMenuOpen: true,
       counts: {},
       stages: [],
@@ -923,6 +793,16 @@ export default {
       currentSortOrder: 'desc',
       columns: [],
       settings: [],
+      activeUsersOnList: [],
+      shareMenuColors: [
+        'blue',
+        'green',
+        'indigo',
+        'pink',
+        'purple',
+        'red',
+        'yellow',
+      ],
       crmCounting: false,
       listKey: 0,
       showContactModal: false,
@@ -939,6 +819,40 @@ export default {
       },
       notifications: [],
       newNotification: false,
+      suggestMerge: false,
+      suggestionExists: false,
+      menuItems: [
+        {
+          type: 'favourites',
+          name: 'Favorites',
+          icon: 'HeartIcon',
+          description: 'See your favorite contacts',
+          onClick: () => this.setFiltersType('favourites'),
+        },
+        {
+          type: 'archived',
+          name: 'Archived',
+          description: "See contacts you've archived",
+          icon: 'ArchiveBoxIcon',
+          onClick: () => this.setFiltersType('archived'),
+        },
+        {
+          type: 'birthdays',
+          count: 'birthday',
+          name: 'Birthdays',
+          description: "Today's birthdays",
+          icon: 'CakeIcon',
+          onClick: () => this.setFiltersType('birthdays'),
+        },
+        {
+          onClick: () => (this.suggestMerge = !this.suggestMerge),
+          name: 'Duplicates',
+          icon: 'DocumentDuplicateIcon',
+          count: 'duplicates',
+          type: 'duplicates',
+        },
+      ],
+      currentImportingList: null,
     };
   },
   watch: {
@@ -946,6 +860,9 @@ export default {
       deep: true,
       handler: function (val) {
         delete val.page;
+        if (val.currentList) {
+          this.currentImportingList = null;
+        }
         localStorage.setItem('filters', JSON.stringify(val));
       },
     },
@@ -963,6 +880,12 @@ export default {
   computed: {
     importContactModal() {
       return importContactModal;
+    },
+    listToImport() {
+      if (this.currentImportingList) {
+        return this.currentImportingList;
+      }
+      return this.filters.currentList;
     },
     showImporting() {
       if (this.userLists.length && this.filters.type == 'list') {
@@ -1084,28 +1007,24 @@ export default {
         `contactImported.${this.currentUser.current_team.id}`,
         'ContactImported',
         (data) => {
-          console.log('datadata');
-          console.log(data);
-          if (!data.list) {
+          if (!data.list.length) {
             this.$store.state.importProgressSingleCount--;
           }
           if (
-            (data.list && this.filters.type != 'list') ||
-            (!data.list && this.filters.type != 'all')
+            (data.list.length && this.filters.type != 'list') ||
+            (!data.list.length && this.filters.type != 'all')
           ) {
             return;
           }
 
           if (
-            (data.list && data.list == this.filters.list) ||
+            (data.list.length && data.list.includes(this.filters.list)) ||
             this.filters.type == 'all'
           ) {
             let newContact = JSON.parse(window.atob(data.contact));
             let index = this.contacts.findIndex(
               (contact) => contact.id == newContact.id
             );
-            console.log('indexindexindex');
-            console.log(index);
             if (index >= 0) {
               this.contacts[index] = newContact;
             } else if (!data.updating_existing) {
@@ -1119,6 +1038,7 @@ export default {
               }
             }
           }
+          this.crmCounts();
         }
       );
 
@@ -1176,6 +1096,12 @@ export default {
     });
   },
   methods: {
+    toggleMergeSuggestion(checkExists) {
+      this.suggestionExists = checkExists;
+    },
+    updateFiltersContact(selectedContacts) {
+      this.filters.contacts = selectedContacts;
+    },
     setListUpdating(listIds) {
       this.userLists
         .filter((record) => listIds.includes(record.id))
@@ -1234,7 +1160,10 @@ export default {
       this.$store.dispatch('enrichContacts', payload);
       this.resetPopup();
     },
-    openImportContactModal(fromSocial = false) {
+    openImportContactModal(fromSocial = false, list = null) {
+      if (list) {
+        this.currentImportingList = list;
+      }
       this.importFromSocial = fromSocial;
       this.$nextTick(() => {
         this.showContactModal = true;
@@ -1288,6 +1217,9 @@ export default {
         });
     },
     onListDrop(listId) {
+      if (!this.$store.state.currentlyDraggedContact) {
+        return;
+      }
       this.$refs.crmTableGrid.toggleContactsFromList(
         this.$store.state.currentlyDraggedContact,
         listId,
@@ -1313,6 +1245,7 @@ export default {
     },
     closeImportContactModal() {
       this.showContactModal = false;
+      this.currentImportingList = null;
     },
     closeUpgradeModal() {
       this.showUpgradeModal = !this.showUpgradeModal;
@@ -1355,15 +1288,25 @@ export default {
         }
       }
       /*  this.currentContact = contact;
-      this.$store.state.ContactSidebarOpen = true; */
+            this.$store.state.ContactSidebarOpen = true; */
     },
 
     setCurrentContact(contact) {
       this.currentContact = contact;
     },
     setFiltersType(type) {
+
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
+      if (this.filters.type != 'list') {
+        if (this.filters.list) {
+          let channelName = `presence-userOnUserlist.${
+              this.currentUser.current_team.id
+          }.${this.filters.list ?? 0}`;
+          Echo.leave(channelName);
+        }
+        this.activeUsersOnList = [];
+      }
       this.filters.list = null;
       this.$store.state.overviewList = null;
       this.filters.currentList = null;
@@ -1372,12 +1315,43 @@ export default {
       this.loading = false;
     },
     setFilterList(list) {
+      if (this.filters.list) {
+        let channelName = `presence-userOnUserlist.${
+          this.currentUser.current_team.id
+        }.${this.filters.list ?? 0}`;
+        Echo.leave(channelName);
+        this.activeUsersOnList = [];
+      }
+
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
       if (this.filters.list) {
         list = this.userLists.find((l) => l.id === list);
         this.filters.currentList = list ?? null;
         this.$store.state.overviewList = list ?? null;
+        Echo.join(
+          `userOnUserlist.${this.currentUser.current_team.id}.${
+            this.filters.list ?? 0
+          }`
+        )
+          .here((users) => {
+            this.activeUsersOnList = users;
+            this.activeUsersOnList.forEach((user) => {
+              user.color = this.shareMenuColors.pop();
+            });
+          })
+          .joining((user) => {
+            this.activeUsersOnList.push(user);
+          })
+          .leaving((user) => {
+            this.activeUsersOnList = this.activeUsersOnList.filter(
+              (obj) => obj['id'] !== user.id
+            );
+            this.shareMenuColors.push(user.color);
+          })
+          .error((error) => {
+            console.error(error);
+          });
       } else {
         this.filters.type = 'all';
         this.filters.currentList = null;
@@ -1469,7 +1443,7 @@ export default {
     },
     getCrmContacts(filters = {}) {
       this.taskLoading = true;
-      let data = JSON.parse(JSON.stringify(this.filters));
+      let data = JSON.parse(JSON.stringify({ ...filters, ...this.filters }));
       if (this.abortController) {
         this.abortController.abort();
       }
@@ -1517,6 +1491,7 @@ export default {
             this.userLists.forEach((list) => {
               this.counts[`list_${list.id}`] = list.contacts_count;
             });
+            this.getCrmContacts();
           }
         })
         .catch((error) => {
@@ -1536,7 +1511,7 @@ export default {
         if (params.remove) {
           selectedContacts.forEach((contact) => {
             if (
-              contact.user_lists.filter((l) => l.id == params.list_id).length
+              !contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
               list.contacts_count -= 1;
             }
@@ -1544,27 +1519,35 @@ export default {
         } else {
           selectedContacts.forEach((contact) => {
             if (
-              !contact.user_lists.filter((l) => l.id == params.list_id).length
+              contact.user_lists.filter((l) => l.id == params.list_id).length
             ) {
               list.contacts_count += 1;
             }
           });
         }
       }
+      this.crmCounts();
     },
     exportCrmContacts() {
       let obj = JSON.parse(JSON.stringify(this.filters));
-      if (obj.list) {
-        obj.list = obj.list.id;
+      if (obj.currentList) {
+        obj.list = obj.currentList.id;
       }
       UserService.exportCrmContacts(obj).then((response) => {
         var fileURL = window.URL.createObjectURL(new Blob([response.data]));
         var fileLink = document.createElement('a');
 
         fileLink.href = fileURL;
+        let date = new Date().toLocaleDateString('en', {
+          year: '2-digit',
+          month: '2-digit',
+          day: '2-digit',
+        });
         fileLink.setAttribute(
           'download',
-          `${this.filters.list ? this.filters.list.name : 'contacts'}.csv`
+          `Jovie ${date} ${
+            this.filters.list ? this.filters.currentList.name : 'contacts'
+          }.csv`
         );
         document.body.appendChild(fileLink);
 

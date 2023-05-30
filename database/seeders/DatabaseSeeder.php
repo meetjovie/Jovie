@@ -32,5 +32,21 @@ class DatabaseSeeder extends Seeder
         $user->attachTeam($team);
 
         $this->call(TemplateSeeder::class);
+
+        $user = User::create([
+            'first_name' => 'Tim',
+            'last_name' => 'White',
+            'email' => 'tim@jov.ie',
+            'is_admin' => 1,
+            'password' => Hash::make('rpt7ktq1arf-qdm1UFP'),
+        ]);
+        $teamModel = config('teamwork.team_model');
+
+        $team = $teamModel::create([
+            'name' => $user->first_name,
+            'owner_id' => $user->id,
+            'credits' => 10000000
+        ]);
+        $user->attachTeam($team);
     }
 }

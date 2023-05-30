@@ -18,5 +18,8 @@ export default {
     },
     async importSingle(url) {
         return axios.post(`${baseApiUrl}/import-single`, {url: url})
+    },
+    async getColumnsToMap(teamId) {
+        return axios.get(`${baseApiUrl}/get-columns-to-map/${teamId}`)
     }
 }

@@ -10,7 +10,7 @@ import {
   MenuItems,
   MenuItem,
 } from '@headlessui/vue';
-import ContactAvatar from '../Contact/ContactAvatar.vue';
+import ContactAvatar from '../ContactAvatar.vue';
 import ContactContentBar from '../Contact/ContactContentBar.vue';
 import ContactSocialLinks from '../Contact/ContactSocialLinks.vue';
 import {

@@ -1,12 +1,14 @@
 <template>
-  <div class="">
-    <div class="px-4 py-5 sm:p-6">
+  <div class="mt-4">
+    <div class="py-5">
       <div class="sm:flex sm:items-start sm:justify-between">
         <div>
-          <h3 class="text-base font-semibold leading-6 text-gray-900">
+          <h3
+            class="text-base font-semibold leading-6 text-slate-900 dark:text-jovieDark-100">
             {{ title }}
           </h3>
-          <div class="mt-2 max-w-xl text-sm text-gray-500">
+          <div
+            class="mt-2 max-w-xl text-sm text-slate-500 dark:text-jovieDark-400">
             <p>{{ description }}</p>
           </div>
         </div>

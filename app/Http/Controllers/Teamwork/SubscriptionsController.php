@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Teamwork;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contact;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
@@ -181,6 +182,59 @@ class SubscriptionsController extends Controller
         return response([
             'status' => false,
             'message' => 'Please select a team to continue.',
+        ]);
+    }
+
+    public function subscriptionStats(Request $request)
+    {
+        $user = $request->user()->load('currentTeam');
+        if ($user->currentTeam) {
+            $teamContacts = Contact::getAllContactsCount();
+            $currentSubscription = $user->currentTeam->currentSubscription();
+            if ($currentSubscription) {
+                $stats = [
+                    [
+                        'name' => 'Contacts',
+                        'stat' => $teamContacts >= $currentSubscription->contacts ? $currentSubscription->contacts : $teamContacts,
+                        'limit' => $currentSubscription->contacts,
+                        'description' => 'The number of people you can add to your CRM. This limit',
+                        'totalContacts' => $teamContacts,
+                        'reached' => $teamContacts > $currentSubscription->contacts,
+                        'message' => "Your contact limit is reached. Please upgrade to acces your" . ($teamContacts - $currentSubscription->contacts ?: null) . " other contacts.",
+                    ],
+                    [
+                        'name' => 'AI Credits',
+                        'stat' => '100',
+                        'limit' => '500',
+                        'description' => 'AI Credits are used when you use our AI features such as AI Feilds, or AI copywriting.',
+                    ],
+                    [
+                        'name' => 'Enrichment Credits',
+                        'stat' => $currentSubscription->credits - ($currentSubscription->credits - $user->currentTeam->credits) ?? 0,
+                        'limit' => $currentSubscription->credits,
+                        'description' => 'Enrichment credits are used everytime you enrich a contact.',
+                    ],
+                ];
+
+                foreach($stats as &$stat){
+                    if ($stat['name'] === 'Contacts') {
+                        $stat['progressBar'] = round((($stat['limit'] - $stat['stat']) / $stat['limit']) * 100);
+                    } else {
+                        $stat['progressBar'] = round(($stat['stat'] / $stat['limit']) * 100);
+                    }
+                }
+                
+                return response([
+                    'status' => true,
+                    'data' => $stats,
+                    'message' => 'Stats for current team.',
+                ]);
+            }
+        }
+
+        return response([
+            'status' => false,
+            'message' => 'Stats are not available.',
         ]);
     }
 

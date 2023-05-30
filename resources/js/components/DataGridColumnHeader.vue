@@ -5,7 +5,13 @@
     class="group/header flex justify-between"
     :style="`width: ${column.width || 160}px`">
     <div
-      class="z-50 cursor-ew-resize text-slate-700/0 hover:text-slate-700 dark:text-jovieDark-300/0 hover:dark:text-jovieDark-300"
+      :class="[
+        showResizeable
+          ? 'cursor-ew-resize hover:text-slate-700 dark:hover:text-jovieDark-300'
+          : '',
+        'text-slate-700/0 dark:text-jovieDark-300/0',
+      ]"
+      class="z-50"
       @mousedown="handleMouseDown($event, index)"
       @mouseup="handleMouseUp"
       @mousemove="handleMouseMove">
@@ -14,14 +20,14 @@
     <div class="drag-head w-full" v-if="column">
       <JovieDropdownMenu
         :items="filteredDropdownItems"
-        size="lg"
+        size="md"
         :searchable="false"
         @contextmenu.prevent="openMenu"
         @itemClicked="itemClicked"
         :open="menuOpen"
         placement="bottom-start">
         <template #triggerButton>
-          <div class="w-full">
+          <div class="flex w-full justify-between">
             <div
               class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider">
               <div
@@ -103,7 +109,13 @@
       </JovieDropdownMenu>
     </div>
     <div
-      class="z-50 cursor-ew-resize text-slate-700/0 hover:text-slate-700 dark:text-jovieDark-300/0 hover:dark:text-jovieDark-300"
+      :class="[
+        showResizeable
+          ? 'cursor-ew-resize hover:text-slate-700 dark:hover:text-jovieDark-300'
+          : '',
+        'text-slate-700/0 dark:text-jovieDark-300/0',
+      ]"
+      class="z-50"
       @mousedown="handleMouseDown($event, index)"
       @mouseup="handleMouseUp"
       @mousemove="handleMouseMove">
@@ -122,6 +134,7 @@ import {
   AtSymbolIcon,
   CurrencyDollarIcon,
   LinkIcon,
+  CakeIcon,
   QueueListIcon,
   CalendarDaysIcon,
   ArrowDownCircleIcon,
@@ -146,6 +159,7 @@ export default {
     ChevronUpIcon,
     Bars3BottomLeftIcon,
     AtSymbolIcon,
+    CakeIcon,
     CurrencyDollarIcon,
     StarIcon,
     CalendarDaysIcon,
@@ -278,14 +292,14 @@ export default {
         {
           id: 1,
           name: 'Hide Column',
-          icon: 'EyeSlashIcon',
+          icon: EyeSlashIcon,
           emit: 'hideColumn',
           menu: true,
         },
         {
           id: 2,
           name: 'Sort Ascending',
-          icon: 'ChevronUpIcon',
+          icon: ChevronUpIcon,
           emit: 'sortAscending',
           sortable: true,
           menu: true,
@@ -293,7 +307,7 @@ export default {
         {
           id: 3,
           name: 'Sort Descending',
-          icon: 'ChevronDownIcon',
+          icon: ChevronDownIcon,
           emit: 'sortDescending',
           sortable: true,
           menu: true,

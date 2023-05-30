@@ -75,6 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     //
     //IMPORT CREATORS
     Route::post('/get-columns-from-csv', [\App\Http\Controllers\ImportController::class, 'getColumnsFromCsv']);
+    Route::get('/get-columns-to-map/{id}', [\App\Http\Controllers\ImportController::class, 'getColumnsToMap']);
     Route::post('/import', [\App\Http\Controllers\ImportController::class, 'import']);
     Route::post('/import-contact', [\App\Http\Controllers\ImportController::class, 'importContact']);
 
@@ -121,6 +122,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-to-crm', [\App\Http\Controllers\CrmController::class, 'addCreatorToCreator']);
 
     // SUBSCRIPTIONS
+    Route::get('/subscription-stats', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscriptionStats']);
     Route::post('/cancel-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'cancelSubscription']);
     Route::post('/resume-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'resumeSubscription']);
     Route::post('/change-subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'changeSubscription']);

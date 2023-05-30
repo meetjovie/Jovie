@@ -1,7 +1,7 @@
 <template>
-  <div class="h-full w-full flex-col overflow-hidden">
+  <div class="flex h-full w-full flex-col overflow-hidden">
     <div class="flex h-full w-full flex-col">
-      <div class="h-full pb-10">
+      <div class="flex h-full flex-col justify-between">
         <header
           class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
@@ -19,6 +19,9 @@
           <div class="flex h-6 w-full content-end items-center">
             <div
               class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
+              <div>
+                <ShareMenu :contacts="activeUsersOnList" />
+              </div>
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -34,9 +37,9 @@
                     <div
                       class="content-right relative flex flex-grow items-center py-1 focus-within:z-10">
                       <div
-                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 dark:text-jovieDark-50">
                         <MagnifyingGlassIcon
-                          class="h-4 w-4 text-slate-400 dark:text-jovieDark-600"
+                          class="h-4 w-4 text-slate-400 dark:text-jovieDark-50"
                           aria-hidden="true" />
                       </div>
                       <input
@@ -56,12 +59,13 @@
                   </div>
                 </div>
               </TransitionRoot>
+
               <div v-if="!searchVisible">
                 <JovieTooltip
-                  text="Search"
-                  class="w-full justify-end"
+                  tooltipText="Press"
                   arrow
-                  placement="right-start">
+                  tooltipPlacement="bottom">
+
                   <template #content>
                     <KeyboardShortcut text="/" />
                     to search
@@ -75,26 +79,17 @@
                 </JovieTooltip>
               </div>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
-                      <JovieTooltip
-                        text="Adjustments"
-                        class="w-full justify-end"
-                        arrow
-                        placement="bottom-end">
-                        <template #content>
-                          <KeyboardShortcut text="/" />
-                          to search
-                        </template>
-                        <ButtonGroup
-                          :design="'toolbar'"
-                          :text="'Hide Columns'"
-                          icon="AdjustmentsHorizontalIcon"
-                          hideText />
-                      </JovieTooltip>
+
+                      <ButtonGroup
+                        :design="'toolbar'"
+                        :text="'Hide Columns'"
+                        icon="AdjustmentsHorizontalIcon"
+                        hideText />
                     </MenuButton>
                     <TransitionRoot
                       :show="open"
@@ -117,6 +112,14 @@
                                 placeholder: 'Add columns...',
                               }" />
                           </div>
+                          <DropdownMenuItem
+                            disabled
+                            name="Name"
+                            icon="UserIcon">
+                            <template #toggle>
+                              <LockClosedIcon class="h-4 w-5" />
+                            </template>
+                          </DropdownMenuItem>
                           <div
                             v-for="(column, index) in filteredColumnList"
                             :key="column.name">
@@ -193,10 +196,15 @@
                                 </DropdownMenuItem>
                               </SwitchLabel>
                             </SwitchGroup>
+
                             <DropdownMenuItem
                               @click="importCSV()"
                               name="Import CSV"
                               icon="CloudArrowUpIcon" />
+                            <DropdownMenuItem
+                              @click="$emit('export')"
+                              name="Export CSV"
+                              icon="CloudArrowDownIcon" />
                           </div>
                         </GlassmorphismContainer>
                       </MenuItems>
@@ -204,44 +212,71 @@
                   </Float>
                 </Menu>
               </div>
+              <div
+                class="items-center text-slate-200 dark:text-jovieDark-border">
+                |
+              </div>
+              <JovieTooltip
+                :tooltipText="
+                  $store.state.ContactSidebarOpen
+                    ? 'Close Contact Sidebar'
+                    : 'Open Contact Sidebar'
+                "
+                arrow
+                tooltipPlacement="bottom">
+                <ButtonGroup
+                  @click="toggleContactSidebar()"
+                  :design="'toolbar'"
+                  :text="
+                    $store.state.ContactSidebarOpen
+                      ? 'Close Contact Sidebar'
+                      : 'Open Contact Sidebar'
+                  "
+                  :icon="
+                    $store.state.ContactSidebarOpen
+                      ? 'ArrowRightOnRectangleIcon'
+                      : 'ArrowLeftOnRectangleIcon'
+                  "
+                  hideText />
+              </JovieTooltip>
             </div>
           </div>
         </header>
         <div
-          class="inline-block h-full w-full overflow-x-auto scroll-smooth align-middle">
+          class="flex h-full w-full justify-between overflow-x-auto scroll-smooth align-middle">
           <div
             class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               ref="crmTable"
-              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-700">
+              class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
-                class="relative isolate z-20 w-full items-center overflow-auto">
+                class="relative isolate z-20 h-10 w-full items-center overflow-auto">
                 <tr
                   v-if="!headersLoaded"
-                  class="sticky top-0 z-50 h-8 w-full items-center">
+                  class="sticky top-0 z-50 w-full items-center">
                   <th
                     scope="col"
-                    class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
+                    class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
                     <div
-                      class="h-4 w-3 animate-pulse rounded-md bg-slate-300"></div>
+                      class="animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="sticky left-[26.5px] top-0 z-50 w-2 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
-                      class="h-4 w-8 animate-pulse rounded-md bg-slate-300"></div>
+                      class="animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-700"></div>
                   </th>
                   <th
                     scope="col"
-                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                    class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
                     <div
-                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300"></div>
+                      class="animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
                   <th
                     v-for="i in 10"
-                    class="dark:border-slate-border sticky top-0 z-30 table-cell w-40 items-center border-x border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                    class="sticky top-0 z-30 table-cell w-40 items-center border border-slate-300 bg-slate-100 px-2 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
                     <div
-                      class="h-4 w-24 animate-pulse rounded-md bg-slate-300"></div>
+                      class="h-4 w-40 animate-pulse rounded-md bg-slate-300 dark:bg-jovieDark-600"></div>
                   </th>
                 </tr>
                 <draggable
@@ -257,138 +292,136 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 top-0 z-50 w-6 items-center border-slate-300 bg-slate-100 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter before:absolute before:left-0 before:top-0 before:h-full before:border-l before:border-slate-300 before:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:before:border-jovieDark-border">
-                      <div class="mx-auto items-center text-center">
-                        <input
-                          type="checkbox"
-                          class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:text-indigo-400"
-                          :checked="
-                            intermediate ||
-                            selectedContacts.length === contactRecords.length
-                          "
-                          :intermediate="intermediate"
-                          @change="
-                            selectedContacts = $event.target.checked
-                              ? contactRecords.map((c) => c.id)
-                              : []
-                          " />
-                      </div>
-                    </th>
-                    <th
-                      scope="col"
-                      class="sticky left-[26.5px] top-0 z-50 w-12 items-center border-slate-300 bg-slate-100 text-center text-xs font-thin tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
-                      <span class="sr-only">Favorite</span>
-                    </th>
-                    <th
-                      scope="col"
-                      class="sticky left-[55px] top-0 isolate z-50 w-60 resize-x items-center border-r border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter after:absolute after:right-[-1px] after:top-0 after:h-full after:border-r after:border-slate-300 after:content-[''] dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 after:dark:border-jovieDark-border">
+                      class="sticky left-0 z-50 flex w-80 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
-                        v-if="selectedContacts.length > 0"
-                        class="flex items-center space-x-3 bg-slate-100 dark:bg-jovieDark-700">
-                        <!--   <ContactActionMenu /> -->
-                        <Menu>
-                          <Float portal :offset="2" placement="bottom-start">
-                            <MenuButton
-                              class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
-                              <span class="line-clamp-1">Bulk Actions</span>
-                              <ChevronDownIcon
-                                class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
-                                aria-hidden="true" />
-                            </MenuButton>
-                            <transition
-                              enter-active-class="transition duration-100 ease-out"
-                              enter-from-class="transform scale-95 opacity-0"
-                              enter-to-class="transform scale-100 opacity-100"
-                              leave-active-class="transition duration-75 ease-in"
-                              leave-from-class="transform scale-100 opacity-100"
-                              leave-to-class="transform scale-95 opacity-0">
-                              <MenuItems>
-                                <GlassmorphismContainer
-                                  class="max-h-80 w-60 flex-col overflow-y-scroll px-1 py-1">
-                                  <DropdownMenuItem
-                                    v-if="filters.list"
-                                    @click="
-                                      toggleContactsFromList(
-                                        selectedContacts,
-                                        filters.list,
-                                        true
-                                      )
-                                    "
-                                    name="Remove from list"
-                                    icon="TrashIcon" />
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    @click="
-                                      toggleArchiveContacts(
-                                        this.selectedContacts,
-                                        this.filters.type == 'archived'
-                                          ? false
-                                          : true
-                                      )
-                                    ">
-                                    <button
-                                      :class="[
-                                        active
-                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                          : 'text-slate-700 dark:text-jovieDark-200',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                      ]">
-                                      <ArchiveBoxIcon
-                                        :active="active"
-                                        class="mr-2 h-3 w-3 text-sky-400"
-                                        aria-hidden="true" />
-                                      {{
+                        class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
+                        <div class="mx-auto items-center text-center">
+                          <input
+                            type="checkbox"
+                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
+                            :checked="
+                              intermediate ||
+                              selectedContacts.length === contactRecords.length
+                            "
+                            :intermediate="intermediate"
+                            @change="
+                              selectedContacts = $event.target.checked
+                                ? contactRecords.map((c) => c.id)
+                                : []
+                            " />
+                        </div>
+                      </div>
+                      <div
+                        class="items-centertext-center z-50 text-xs font-thin tracking-wider text-slate-600 dark:text-jovieDark-400">
+                        <span class="sr-only">Favorite</span>
+                      </div>
+                      <div
+                        class="isolate z-50 w-full resize-x items-center text-left text-xs font-medium tracking-wider text-slate-600 dark:text-jovieDark-400">
+                        <div
+                          v-if="selectedContacts.length > 0"
+                          class="flex items-center justify-between space-x-3 bg-slate-100 px-2 dark:bg-jovieDark-700">
+                          <!--   <ContactActionMenu /> -->
+                          <Menu>
+                            <Float portal :offset="2" placement="bottom-start">
+                              <MenuButton
+                                class="py-.5 inline-flex items-center rounded border border-slate-300 bg-white px-2 text-2xs font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-30 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800">
+                                <span class="line-clamp-1">Bulk Actions</span>
+                                <ChevronDownIcon
+                                  class="-mr-1 ml-2 h-5 w-5 text-slate-500 dark:text-jovieDark-400"
+                                  aria-hidden="true" />
+                              </MenuButton>
+                              <transition
+                                enter-active-class="transition duration-100 ease-out"
+                                enter-from-class="transform scale-95 opacity-0"
+                                enter-to-class="transform scale-100 opacity-100"
+                                leave-active-class="transition duration-75 ease-in"
+                                leave-from-class="transform scale-100 opacity-100"
+                                leave-to-class="transform scale-95 opacity-0">
+                                <MenuItems>
+                                  <GlassmorphismContainer
+                                    class="max-h-80 w-48 flex-col overflow-y-scroll px-1 py-1">
+                                    <DropdownMenuItem
+                                      v-if="filters.list"
+                                      @click="
+                                        toggleContactsFromList(
+                                          selectedContacts,
+                                          filters.list,
+                                          true
+                                        )
+                                      "
+                                      name="Remove from list"
+                                      icon="TrashIcon" />
+
+                                    <DropdownMenuItem
+                                      @click="
+                                        toggleArchiveContacts(
+                                          this.selectedContacts,
+                                          this.filters.type == 'archived'
+                                            ? false
+                                            : true
+                                        )
+                                      "
+                                      :name="
                                         this.filters.type == 'archived'
                                           ? 'Unarchive'
                                           : 'Archive'
-                                      }}
-                                    </button>
-                                  </MenuItem>
-                                  <MenuItem
-                                    v-slot="{ active }"
-                                    @click="
-                                      $emit(
-                                        'checkContactsEnrichable',
-                                        selectedContacts
-                                      )
-                                    ">
-                                    <button
-                                      :class="[
-                                        active
-                                          ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
-                                          : 'text-slate-700 dark:text-jovieDark-200',
-                                        'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
-                                      ]">
-                                      <SparklesIcon
-                                        :active="active"
-                                        class="mr-2 h-3 w-3 text-sky-400"
-                                        aria-hidden="true" />
-                                      Enrich
-                                    </button>
-                                  </MenuItem>
-                                  <!-- <DropdownMenuItem @click="toggleArchiveContacts(
-                                                              selectedContacts, filters.type == 'archived' ?
-                                                              false : true ) :name="( filters.type == 'archived'
-                                                              ? 'Unarchive' : 'Archive' )"
-                                                              :icon="ArchiveBoxIcon" /> -->
-                                </GlassmorphismContainer>
-                              </MenuItems>
-                            </transition>
-                          </Float>
-                        </Menu>
-                      </div>
-                      <div v-else>
-                        <DataGridColumnHeader
-                          :show-resizeable="false"
-                          icon="Bars3BottomLeftIcon"
-                          :column="fullNameColumn"
-                          @sortData="
-                            sortData({
-                              sortBy: fullNameColumn.key,
-                              sortOrder: fullNameColumn.sortOrder,
-                            })
-                          "
-                          menu="false" />
+                                      "
+                                      icon="ArchiveBoxIcon" />
+                                    <DropdownMenuItem
+                                      @click="
+                                        $emit(
+                                          'checkContactsEnrichable',
+                                          selectedContacts
+                                        )
+                                      "
+                                      :name="'Enrich'"
+                                      icon="SparklesIcon" />
+                                    <!--
+                                    <MenuItem
+                                      v-slot="{ active }"
+                                      @click="
+                                        $emit(
+                                          'checkContactsEnrichable',
+                                          selectedContacts
+                                        )
+                                      ">
+                                      <button
+                                        :class="[
+                                          active
+                                            ? 'bg-slate-300 text-slate-900 dark:bg-jovieDark-700 dark:text-jovieDark-100'
+                                            : 'text-slate-700 dark:text-jovieDark-200',
+                                          'group  flex w-full items-center rounded-md px-2 py-2 text-xs disabled:cursor-not-allowed disabled:opacity-50',
+                                        ]">
+                                        <SparklesIcon
+                                          :active="active"
+                                          class="mr-2 h-3 w-3 text-sky-400"
+                                          aria-hidden="true" />
+                                        Enrich
+                                      </button>
+                                    </MenuItem> -->
+                                  </GlassmorphismContainer>
+                                </MenuItems>
+                              </transition>
+                            </Float>
+                          </Menu>
+                          <div
+                            class="text-xs text-slate-600 dark:text-jovieDark-300">
+                            {{ selectedContacts.length }} Selected
+                          </div>
+                        </div>
+                        <div v-else>
+                          <DataGridColumnHeader
+                            :showResizeable="false"
+                            icon="Bars3BottomLeftIcon"
+                            :column="fullNameColumn"
+                            @sortData="
+                              sortData({
+                                sortBy: fullNameColumn.key,
+                                sortOrder: fullNameColumn.sortOrder,
+                              })
+                            "
+                            menu="false" />
+                        </div>
                       </div>
                     </th>
                   </template>
@@ -400,9 +433,14 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="dark:border-slate-border sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:text-jovieDark-400">
                       <DataGridColumnHeader
-                        class="w-full"
+                        :class="[
+                          index == currentCell.column
+                            ? 'bg-slate-200 dark:bg-jovieDark-700 '
+                            : 'bg-slate-100 dark:bg-jovieDark-600 ',
+                          'w-full',
+                        ]"
                         @updateColumnWidth="updateColumnWidth($event)"
                         @reflectColumnWidth="reflectColumnWidth($event)"
                         @editField="editCustomFieldsModal"
@@ -418,7 +456,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell h-10 w-40 cursor-pointer items-center border-x border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -431,33 +469,38 @@
 
                     <th
                       scope="col"
-                      :class="[
-                        { 'border-b-2': view.atTopOfPage },
-                        'border-b-0',
-                      ]"
-                      class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
+                      :class="[{ 'border-b-4': view.atTopOfPage }, 'border-b']"
+                      class="sticky top-0 isolate z-30 table-cell w-full content-end items-center border border-slate-300 bg-slate-100 py-1 text-right text-xs font-medium tracking-wider text-slate-600 backdrop-blur-2xl backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-700"></th>
                   </template>
                 </draggable>
               </thead>
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
               <draggable
-                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-slate-700 dark:bg-jovieDark-700"
-                :list="filteredContacts"
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-300 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
+                :list="contactRecords"
                 ghost-class="ghost-row"
                 group="contacts"
                 :sort="false"
                 itemKey="id"
                 tag="tbody"
+                :multiple="true"
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
+                    @contextMenuClicked="
+                      openRightClickMenuContextClick($event, contact)
+                    "
+                    @contextMenuButtonClicked="
+                      openRightClickMenuButton($event, contact)
+                    "
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
                     :currentCell="currentCell"
                     :networks="networks"
                     :stages="stages"
+                    :contactsMeta="contactsMeta"
                     :visibleColumns="visibleColumns"
                     :settings="settings"
                     :otherColumns="headers"
@@ -466,6 +509,7 @@
                     :selectedContacts="selectedContacts"
                     @updateSelectedContacts="selectedContacts = $event"
                     :contact="element"
+                    @refresh="refresh(element)"
                     :row="index"
                     :column="currentCell.column"
                     :userLists="userLists"
@@ -476,7 +520,6 @@
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
                     "
-                    @refresh="refresh(element)"
                     @updateContact="$emit('updateContact', $event)"
                     @updateListCount="$emit('updateListCount', $event)"
                     @archive-contacts="
@@ -492,51 +535,50 @@
             </table>
             <div
               v-if="contactRecords.length < 50 && contactRecords.length > 0"
-              @click="$emit('addContact')"
-              class="flex w-full cursor-pointer items-center border bg-slate-100 px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
-              <PlusIcon class="mr-2 h-4 w-4" />
-              Add new contact
+              class="flex w-full cursor-pointer items-center justify-between border bg-slate-100 px-4 py-2 text-xs font-bold text-slate-400 hover:bg-slate-200 hover:text-slate-700 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200 hover:dark:bg-jovieDark-700 dark:hover:text-slate-200">
+              <span class="flex" @click="$emit('addContact')">
+                <PlusIcon class="mr-2 h-4 w-4" />
+                Add new contact
+              </span>
+              <span>
+                <ButtonGroup @click="$emit('export')" :text="'Export'" />
+              </span>
             </div>
             <div
               v-if="contactRecords.length < 1"
-              class="mx-auto h-full items-center py-12">
-              <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
-                <h3 class="text-base font-semibold leading-6 text-gray-900">
+              class="mx-auto mt-4 h-full w-full max-w-xl items-center py-12">
+              <div
+                class="border-b border-slate-300 bg-white px-4 py-5 dark:border-jovieDark-border dark:bg-jovieDark-900 sm:px-6">
+                <h3
+                  class="text-base font-semibold leading-6 text-slate-900 dark:text-jovieDark-200">
                   There are no contacts to display
                 </h3>
-                <p class="mt-1 text-sm text-gray-500">You can add some:</p>
+                <p class="mt-1 text-sm text-slate-500 dark:text-jovieDark-200">
+                  You can add some:
+                </p>
 
                 <div class="mt-5">
-                  <button
-                    @click="$emit('addContact')"
-                    type="button"
-                    class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-0.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    Add Contact
-                  </button>
-                  <Menu as="div" class="relative inline-block text-left">
-                    <MenuItems
-                      class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <div class="py-1">
-                        <JovieMenuItem :active="active" name="Add contact" />
-                        <JovieMenuItem
-                          :active="active"
-                          name="Add from social" />
-                        <JovieMenuItem
-                          :active="active"
-                          name="Import from file" />
-                        <JovieMenuItem
-                          :active="active"
-                          name="Install the Jovie Chrome extension" />
-                      </div>
-                    </MenuItems>
-                  </Menu>
+                  <div class="py-1">
+                    <Menu>
+                      <MenuItems class="space-y-2" static>
+                        <div v-for="item in menuItems" :key="item.name">
+                          <JovieMenuItem
+                            class="rounded py-2"
+                            :active="active"
+                            :icon="item.icon"
+                            @click="item.action"
+                            :name="item.name" />
+                        </div>
+                      </MenuItems>
+                    </Menu>
+                  </div>
                 </div>
               </div>
             </div>
 
             <Pagination
               class="z-50 w-full bg-blue-500"
-              v-if="contactRecords.length > 50"
+              v-if="contactsMeta.total > contactsMeta.per_page"
               :totalPages="contactsMeta.last_page"
               :perPage="contactsMeta.per_page"
               :currentPage="contactsMeta.current_page"
@@ -555,6 +597,17 @@
         @getHeaders="$emit('getHeaders')" />
     </template>
   </ModalPopup>
+  <RightClickMenu
+    :trigger="contextMenuTrigger"
+    :contact="rightClickMenuContact"
+    @hideMenu="closeRightClickMenu()"
+    @refresh="refresh"
+    @archive-contacts="toggleArchiveContacts"
+    @toggleContactsFromList="toggleContactsFromList"
+    :show="rightClickMenuOpen"
+    :filters="filters"
+    :x="rightClickMenuCoordinates.x"
+    :y="rightClickMenuCoordinates.y" />
 
   <MergeContactsModal
     @close="closeMergeSuggestions"
@@ -566,6 +619,8 @@
 </template>
 
 <script>
+import RightClickMenu from '../components/RightClickMenu.vue';
+import ShareMenu from './ShareMenu.vue';
 import CustomFieldsMenu from './CustomFieldsMenu.vue';
 import { Float } from '@headlessui-float/vue';
 import JovieMenuItem from '../components/JovieMenuItem.vue';
@@ -606,6 +661,7 @@ import {
   EnvelopeIcon,
   HeartIcon,
   LinkIcon,
+  LockClosedIcon,
   SparklesIcon,
   ListBulletIcon,
   MagnifyingGlassIcon,
@@ -617,6 +673,7 @@ import {
   UserIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/solid';
+import ContactAvatarCluster from './ContactAvatarCluster.vue';
 import ImportService from './../services/api/import.service';
 import ButtonGroup from './ButtonGroup.vue';
 import DataGridColumnHeader from './DataGridColumnHeader.vue';
@@ -637,6 +694,7 @@ import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
 import TemplateService from '../services/api/template.service';
 import CheckboxInput from './CheckboxInput.vue';
+import { debounce } from 'lodash';
 
 export default {
   name: 'DataGrid',
@@ -655,11 +713,15 @@ export default {
     GlassmorphismContainer,
     ButtonGroup,
     CloudArrowUpIcon,
+    RightClickMenu,
+    ContactAvatarCluster,
     Menu,
     InputLists,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
+    LockClosedIcon,
     Switch,
+    ShareMenu,
     MenuButton,
     Float,
     SparklesIcon,
@@ -731,14 +793,40 @@ export default {
         description: 'hellooo hello hello',
         loading: false,
       },
+      contextMenuTrigger: '',
       currentCell: {
         row: 0,
         column: 0,
       },
+      rightClickMenuCoordinates: { x: 0, y: 0 }, // Initialize the coordinates
+      rightClickMenuOpen: false,
       contactMenu: false,
       view: {
         atTopOfPage: true,
       },
+      menuItems: [
+        {
+          name: 'Add new contact',
+          icon: 'UserPlusIcon',
+          action: () => this.$emit('addContact'),
+        },
+        {
+          name: 'Import a social media profile',
+          icon: 'SparklesIcon',
+          action: () => this.$emit('addContactFromSocial'),
+        },
+
+        {
+          name: 'Upload a CSV file',
+          icon: 'CloudArrowUpIcon',
+          action: () => this.importCSV(),
+        },
+        {
+          name: 'Install the Jovie Chrome extension',
+          icon: 'GlobeAltIcon',
+          action: () => this.downloadChromeExtension(),
+        },
+      ],
       showCustomFieldsModal: false,
       currentEditingField: null,
       contactRecords: [],
@@ -766,6 +854,7 @@ export default {
       openMergeSuggestion: false,
       contactIds: null,
       disableDragging: false,
+      rightClickMenuContact: {},
     };
   },
   props: [
@@ -782,12 +871,20 @@ export default {
     'counts',
     'columns',
     'headersLoaded',
+    'suggestMerge',
+    'activeUsersOnList',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
-    // settings: function (val) {
-    //   this.settings = val;
+    // settings: {
+    //   deep: true,
+    //   handler: function () {
+    //     localStorage.setItem('settings', JSON.stringify(this.settings));
+    //   },
     // },
+    suggestMerge() {
+      this.suggestContactsMerge();
+    },
     contacts: function (val) {
       this.contactRecords = val;
     },
@@ -797,27 +894,43 @@ export default {
     contactRecords: function () {
       this.selectedContacts = [];
     },
+    searchQuery: debounce(function (val) {
+      if (val != '') {
+        this.$emit('getCrmContacts', { search: val });
+      } else {
+        this.$emit('getCrmContacts');
+      }
+    }, 300),
     columns: {
       immediate: true,
       handler: function (val) {
         this.headers = val.filter((column) => column.key != 'full_name');
+        for (let i = 0; i < this.columns.length; i++) {
+          this.columns[i].visible = !this.columns[i].hide;
+        }
       },
     },
     selectedContacts(val) {
       this.getSettings();
-      console.log(val);
+      this.$emit('updateFiltersContact', val);
     },
     openMergeSuggestion(val) {
       console.log('csdfcsdc', val);
     },
+    downloadChromeExtension() {
+      //route push to chrome-extension
+      this.$router.push({ name: 'Chrome Extension' });
+    },
   },
   mounted() {
+    this.suggestContactsMerge([], true);
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
       event.preventDefault();
       this.previousContact();
       this.handleCellNavigation('ArrowUp');
     });
+
     this.$mousetrap.bind('/', () => {
       if (!this.searchVisible) {
         this.searchVisible = true;
@@ -901,7 +1014,7 @@ export default {
           setTimeout(() => {
             this.$nextTick(() => {
               this.currentCell.column = 0;
-              if (this.currentCell.row < this.filteredContacts.length - 1) {
+              if (this.currentCell.row < this.contactRecords.length - 1) {
                 this.currentCell.row += 1;
               } else {
                 this.currentCell.row = 0;
@@ -962,18 +1075,6 @@ export default {
     visibleFields() {
       return this.headers.filter((header) => !header.hide);
     },
-    filteredContacts() {
-      return this.contactRecords.filter((contact) => {
-        return (
-          (contact.name ?? '')
-            .toLowerCase()
-            .match(this.searchQuery.toLowerCase()) ||
-          contact.emails.some((email) =>
-            email.toString().toLowerCase().match(this.searchQuery.toLowerCase())
-          )
-        );
-      });
-    },
     visibleColumns() {
       return this.columns
         .filter((col) => !col.hide && col.key != 'full_name')
@@ -1002,6 +1103,50 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    openRightClickMenu(contact) {
+      console.log('open menu for ' + contact.full_name);
+
+      const coordinates = {
+        x: event.pageX, // Extract the x-coordinate from the event
+        y: event.pageY, // Extract the y-coordinate from the event
+      };
+      this.rightClickMenuCoordinates.y = coordinates.y;
+      this.rightClickMenuCoordinates.x = coordinates.x;
+
+      console.log(coordinates.x, coordinates.y);
+      //open the menu if its not already open else close it
+      if (!this.rightClickMenuOpen) {
+        this.rightClickMenuOpen = true;
+      } else {
+        //if the contact is the same as the one already open then close it
+        if (this.rightClickMenuContact.id == contact.id) {
+          this.rightClickMenuOpen = false;
+          return;
+        }
+      }
+
+      this.rightClickMenuContact = contact;
+    },
+    openRightClickMenuContextClick(contact) {
+      this.openRightClickMenu(contact);
+      console.log('right-click.');
+      this.contextMenuTrigger = 'right-click';
+    },
+    openRightClickMenuButton(contact) {
+      this.openRightClickMenu(contact);
+      console.log('menu button pressed.');
+      this.contextMenuTrigger = 'menu-button';
+      //set the contextMenuTrigger to menu-button then after .1 second reset it to ''
+      setTimeout(() => {
+        this.contextMenuTrigger = '';
+        console.log('reset contextMenuTrigger');
+      }, 100);
+    },
+    closeRightClickMenu() {
+      this.rightClickMenuOpen = false;
+      this.rightClickMenuContact = {};
+      console.log('close', this.rightClickMenuOpen, this.rightClickMenuContact);
+    },
     getPreviousColumn(index) {
       return index > 0 ? this.headers[index - 1] : false;
     },
@@ -1027,7 +1172,8 @@ export default {
       this.contactRecords.splice(this.contactRecords.indexOf(newContact), 1);
       this.contactRecords[this.contactRecords.indexOf(oldContact)] =
         data.newContact;
-      this.suggestMerge([]);
+      this.$emit('updateCrmCount');
+      this.suggestContactsMerge([]);
     },
     rejectMerge(id) {
       let contactIds = [];
@@ -1038,9 +1184,9 @@ export default {
         this.contactIds = contactIds;
       }
       this.contactIds.splice(this.contactIds.indexOf(id), 1);
-      this.suggestMerge(this.contactIds);
+      this.suggestContactsMerge(this.contactIds);
     },
-    suggestMerge(contactIds = []) {
+    suggestContactsMerge(contactIds = [], checkSuggestionsOnly = false) {
       this.suggestingMerge = true;
       let data = {};
       data.contact_ids = contactIds;
@@ -1048,22 +1194,32 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
+            if (checkSuggestionsOnly && response.data) {
+              this.$emit('suggestionExists', true);
+              return;
+            }
             this.mergeSuggestion = response.data;
             if (!this.mergeSuggestion) {
-              this.$notify({
-                group: 'user',
-                type: 'success',
-                duration: 15000,
-                title: 'Successful',
-                text: response.message,
-              });
+              this.$emit('suggestionExists', false);
+              if (!checkSuggestionsOnly) {
+                this.$notify({
+                  group: 'user',
+                  type: 'success',
+                  duration: 15000,
+                  title: 'Successful',
+                  text: response.message,
+                });
+              }
               this.openMergeSuggestion = false;
             } else {
               this.openMergeSuggestion = true;
             }
-            document
-              .querySelector('#suggestion-modal')
-              .scrollTo({ top: 0, behavior: 'smooth' });
+            let modal = document.querySelector('#suggestion-modal');
+            if (modal) {
+              document
+                .querySelector('#suggestion-modal')
+                .scrollTo({ top: 0, behavior: 'smooth' });
+            }
           } else {
             this.$notify({
               group: 'user',
@@ -1179,7 +1335,16 @@ export default {
       });
     },
     startDrag(e) {
-      this.$store.state.currentlyDraggedContact = e.item.id;
+      if (this.selectedContacts.length) {
+        let draggedContactIds = [];
+        this.selectedContacts.forEach((contactId) => {
+          draggedContactIds.push(contactId);
+        });
+        this.$store.state.currentlyDraggedContact = draggedContactIds;
+      } else {
+        this.$store.state.currentlyDraggedContact = e.item.id;
+      }
+
       console.log(this.$store.state.currentlyDraggedContact);
     },
     handleCellNavigation(event) {
@@ -1228,7 +1393,7 @@ export default {
           }
           break;
         case 'ArrowDown':
-          if (this.currentCell.row < this.filteredContacts.length - 1) {
+          if (this.currentCell.row < this.contactRecords.length - 1) {
             this.currentCell.row += 1;
             this.scrollToFocusCell();
           }
@@ -1273,7 +1438,7 @@ export default {
               }
               break;
             case 'ArrowDown':
-              if (this.currentCell.row < this.filteredContacts.length - 1) {
+              if (this.currentCell.row < this.contactRecords.length - 1) {
                 this.currentCell.row += 1;
               }
               break;
@@ -1308,7 +1473,7 @@ export default {
     },
     openContextMenu(contact) {
       // Close the context menu for any other contacts that may have it open
-      /*  filteredContacts.forEach((c) => {
+      /*  contactRecords.forEach((c) => {
                 if (c !== contact && c.showContextMenu) {
                   c.showContextMenu = false;
                 }
@@ -1380,7 +1545,7 @@ export default {
       }
     },
     exportCrmCreators() {
-      //export filteredContacts to a csv file
+      //export contactRecords to a csv file
       //write a function to export all contacts in the current table while accounting for filters and lists
     },
 
@@ -1592,6 +1757,7 @@ export default {
       //else make it not visible
       else {
         this.searchVisible = false;
+        this.searchQuery = '';
       }
     },
     setCurrentRow(row) {
@@ -1676,6 +1842,7 @@ export default {
               text: response.message,
             });
             this.$emit('getUserLists');
+            this.$emit('getCrmContacts');
             this.$emit('crmCounts');
           } else {
             this.$notify({

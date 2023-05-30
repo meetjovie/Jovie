@@ -1,10 +1,7 @@
 <template>
   <div class="flex items-start space-x-4">
     <div class="flex-shrink-0">
-      <ContactAvatar
-        size="xsm"
-        :imageUrl="user.profile_pic_url"
-        :name="user.full_name" />
+      <ContactAvatar height="10" :contact="user" />
     </div>
     <div class="min-w-0 flex-1">
       <form action="#" class="relative">
@@ -73,7 +70,7 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0">
                     <ListboxOptions
-                      class="absolute z-10 mt-1 -ml-6 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:ml-auto sm:w-64 sm:text-sm">
+                      class="absolute z-10 -ml-6 mt-1 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:ml-auto sm:w-64 sm:text-sm">
                       <ListboxOption
                         as="template"
                         v-for="mood in moods"
@@ -83,7 +80,7 @@
                         <li
                           :class="[
                             active ? 'bg-slate-100' : 'bg-white',
-                            'relative cursor-default select-none py-2 px-3',
+                            'relative cursor-default select-none px-3 py-2',
                           ]">
                           <div class="flex items-center">
                             <div
@@ -144,7 +141,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from '@headlessui/vue';
-import ContactAvatar from './Contact/ContactAvatar.vue';
+import ContactAvatar from './ContactAvatar.vue';
 
 const moods = [
   {

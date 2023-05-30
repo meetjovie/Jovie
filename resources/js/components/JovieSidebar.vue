@@ -10,7 +10,7 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
     <div class="flex">
       <div
-        class="min-w-60 max-w-96 overflow-none top-0 z-30 mx-auto flex h-screen w-60 flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
+        class="overflow-none top-0 z-30 mx-auto flex h-screen w-[268px] flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
         <div>
           <slot name="header">
             <div class="w-full flex-col px-2">
@@ -18,7 +18,7 @@
                 <div
                   class="items-cemter flex cursor-pointer text-lg font-medium tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
                   <ChevronLeftIcon
-                    class="h-4 w-4 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
+                    class="mt-1.5 h-4 w-4 text-slate-400 dark:text-gray-200 dark:hover:text-gray-100"
                     aria-hidden="true" />
                   <span class="ml-2 items-center">{{ menu || 'Back' }}</span>
                 </div>
@@ -38,7 +38,10 @@
                         class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
                         <div class="group/teammenu flex items-center space-x-1">
                           <InitialBox
-                            :name="currentUser.current_team.name"
+                            :name="
+                              currentUser.current_team.emoji ||
+                              currentUser.current_team.name
+                            "
                             :height="18" />
                           <div
                             class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
@@ -83,17 +86,18 @@
                 <div class="items-center">
                   <JovieDropdownMenu
                     :searchable="false"
-                    size="lg"
+                    size="md"
                     placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
-                      <img
+                      <ContactAvatar :height="6" :contact="currentUser" />
+                      <!--  <img
                         class="inline-block aspect-square h-6 w-6 rounded-full border-2 border-slate-200 hover:bg-slate-100 dark:bg-jovieDark-700 dark:hover:bg-jovieDark-800"
                         :src="
                           $store.state.AuthState.user.profile_pic_url ??
                           $store.state.AuthState.user.default_image
                         "
-                        alt="User Avatar" />
+                        alt="User Avatar" /> -->
                     </template>
                     <template #menuTop>
                       <div
@@ -129,15 +133,13 @@
 
                     <template #menuBottom>
                       <router-link v-if="currentUser.is_admin" to="/admin">
-                        <DropdownMenuItem
-                          name="Admin Dashboard"
-                          icon="ChartBarIcon" />
+                        <DropdownMenuItem name="Admin" icon="ChartBarIcon" />
                       </router-link>
                       <DropdownMenuItem
                         shortcutKey="?"
                         shortcutSequence
                         @click="toggleShowSupportModal()"
-                        name="Get Help"
+                        name="Help"
                         icon="ChatBubbleLeftIcon" />
                       <div
                         class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
@@ -212,6 +214,7 @@ import {
   UserIcon,
   WrenchScrewdriverIcon,
 } from '@heroicons/vue/24/solid';
+import ContactAvatar from './ContactAvatar.vue';
 
 import { Float } from '@headlessui-float/vue';
 import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
@@ -226,6 +229,7 @@ export default {
   components: {
     CreditCardIcon,
     UserIcon,
+    ContactAvatar,
     InitialBox,
     CogIcon,
     DropdownMenuItem,
@@ -289,29 +293,29 @@ export default {
         {
           id: 2,
           name: 'Settings',
-          route: 'Account',
+          route: 'Settings',
           icon: CogIcon,
           shortcutKey: ['g', 's'],
           shortcutSequence: true,
         },
-        {
+        /*   {
           id: 3,
           name: 'Billing',
           route: '/billing',
           icon: CreditCardIcon,
-        },
-        {
+        }, */
+        /*      {
           id: 6,
           name: 'Request a feature',
           route: '/request-a-feature',
           icon: LightBulbIcon,
-        },
-        {
+        }, */
+        /*   {
           id: 5,
           name: 'Download Chrome Extension',
           route: '/chrome-extension',
           icon: CloudArrowDownIcon,
-        },
+        }, */
 
         {
           id: 7,
@@ -319,12 +323,12 @@ export default {
           route: '/changelog',
           icon: SparklesIcon,
         },
-        {
+        /*    {
           id: 4,
           name: 'Slack Community',
           route: '/slack-community',
           icon: LifebuoyIcon,
-        },
+        }, */
       ],
     };
   },
@@ -339,7 +343,7 @@ export default {
       this.$emit('toggleShowSupportModal');
     },
     navigateBack() {
-      this.$router.go(-1);
+      this.$router.push({ name: 'Home' });
     },
   },
 };

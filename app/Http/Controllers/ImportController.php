@@ -68,6 +68,7 @@ class ImportController extends Controller
             'list' => 'sometimes|exists:user_lists,id',
             'list_name' => 'sometimes|max:255',
             'source' => 'sometimes|max:255',
+            'auto_enrich' => 'boolean',
         ]);
 
         $request->request->add(['override' => filter_var($request->override, FILTER_VALIDATE_BOOLEAN)]);
@@ -81,7 +82,9 @@ class ImportController extends Controller
                 if ($instagram[0] == '@') {
                     $instagram = substr($instagram, 1);
                 }
-                ImportFromSocialAndAddTOCrm::dispatch($instagram, 'instagram', $params)->onQueue(config('import.instagram_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($instagram, 'instagram', $params)->onQueue(
+                    config('import.instagram_queue')
+                );
             }
         }
         if ($request->twitch) {
@@ -90,7 +93,9 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitch = $username;
                 $twitch = $import->twitch;
-                ImportFromSocialAndAddTOCrm::dispatch($twitch, 'twitch', $params)->onQueue(config('import.twitch_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($twitch, 'twitch', $params)->onQueue(
+                    config('import.twitch_queue')
+                );
             }
         }
         if ($request->twitter) {
@@ -99,7 +104,9 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->twitter = $username;
                 $twitter = $import->twitter;
-                ImportFromSocialAndAddTOCrm::dispatch([$twitter], 'twitter', $params)->onQueue(config('import.twitter_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch([$twitter], 'twitter', $params)->onQueue(
+                    config('import.twitter_queue')
+                );
             }
         }
         if ($request->tiktok) {
@@ -108,7 +115,9 @@ class ImportController extends Controller
                 $import = new Import();
                 $import->tiktok = $username;
                 $tiktok = $import->tiktok;
-                ImportFromSocialAndAddTOCrm::dispatch($tiktok, 'tiktok', $params)->onQueue(config('import.tiktok_queue'));
+                ImportFromSocialAndAddTOCrm::dispatch($tiktok, 'tiktok', $params)->onQueue(
+                    config('import.tiktok_queue')
+                );
             }
         }
         $file = null;
@@ -163,7 +172,16 @@ class ImportController extends Controller
             $filePath = Creator::CREATORS_CSV_PATH . $request->input('key');
             $listName = $request->listName;
             $user = User::currentLoggedInUser();
-            SaveImport::dispatch($filePath, $mappedColumns, $request->tags, $listName, $user->id, $user->currentTeam->id, true);
+            SaveImport::dispatch(
+                $filePath,
+                $mappedColumns,
+                $request->tags,
+                $listName,
+                $user->id,
+                $user->currentTeam->id,
+                true,
+                $request->autoEnrich,
+            );
         }
 
         return $filePath;
@@ -199,7 +217,6 @@ class ImportController extends Controller
                 'contact' => $contact,
                 'list' => $request->list_id,
             ]);
-
         } catch (\Exception $e) {
             return collect([
                 'status' => false,
@@ -218,5 +235,34 @@ class ImportController extends Controller
             $list = UserList::firstOrCreateList(Auth::user()->id, $request->listName);
             FileImport::dispatch($filePath, $mappedColumns, $request->tags, $list->id, Auth::user()->id);
         }
+    }
+
+    public function getColumnsToMap($id)
+    {
+        $columns = [
+            'firstName' => 'First Name',
+            'lastName' => 'Last Name',
+            'city' => 'City',
+            'country' => 'Country',
+            'instagram' => 'Instagram',
+            'youtube' => 'Youtube',
+            'twitter' => 'Twitter',
+            'twitch' => 'Twitch',
+            'tiktok' => 'Tiktok',
+            'email1' => 'Email 1',
+            'email2' => 'Email 2',
+            'phone' => 'Phone',
+        ];
+        $cc = new Contact();
+        $customFields = $cc->getFieldsByTeam($id);
+
+        foreach ($customFields as $customField) {
+            $columns[$customField->code] = $customField->name;
+        }
+        return collect([
+            'status' => true,
+            'columns' => $columns,
+            'message' => '',
+        ]);
     }
 }

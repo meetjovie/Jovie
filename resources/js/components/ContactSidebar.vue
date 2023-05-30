@@ -30,15 +30,16 @@
                                 </svg> -->
 
             <!--  <img
-                          v-if="imageLoaded"
-                          id="profile-img-jovie"
-                          @error="switchToDefaultImage"
-                          class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"
-                          :src="contact.profile_pic_url ?? 'image'" />
-                          <div
-                          v-else
-                          class="h-18 w-18 object-fit mt-2 aspect-square animate-pulse rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"></div> -->
-            <ContactAvatar editable :height="18" :contact="contact" />
+
+              v-if="imageLoaded"
+              id="profile-img-jovie"
+              @error="switchToDefaultImage"
+              class="h-18 w-18 object-fit mt-2 aspect-square rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"
+              :src="contact.profile_pic_url ?? 'image'" />
+              <div
+              v-else
+              class="h-18 w-18 object-fit mt-2 aspect-square animate-pulse rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"></div> -->
+            <ContactAvatar editable :height="24" :contact="contact" />
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
@@ -91,7 +92,6 @@
           <template v-for="social in contact.social_links_with_followers">
             <div>
               <SocialIcons
-                @click="editSocialNetworkURL(social.network, contact)"
                 v-if="social.url"
                 :icon="social.network"
                 :linkDisabled="!social.url"
@@ -270,7 +270,7 @@
                 ghost-class="ghost-card"
                 :contact="contact"
                 @end="sortFields"
-                :list="displayAbleFields">
+                v-model="displayAbleFields">
                 <!-- v-if for contact[element.model] check for default field as they would already be modeled-->
                 <div
                   class="space-y-6"
@@ -414,7 +414,7 @@
                     />
                   </div> -->
       <div
-        class="mt-2 bg-white px-2 py-2 dark:bg-jovieDark-900"
+        class="relative mt-2 bg-white px-2 py-2 dark:bg-jovieDark-900"
         v-if="contact.id">
         <TextAreaInput
           ref="noteInput"
@@ -427,9 +427,18 @@
               value: contact.description,
             })
           " />
-        <span v-if="contact.description_updated_by"
-          >Last update by: {{ contact.description_updated_by }}</span
-        >
+        <div class="flex h-8 justify-between">
+          <span
+            class="px-2 text-right text-xs font-semibold text-slate-400 dark:text-jovieDark-400"
+            v-if="contact.description_updated_by"
+            >Last updated by: {{ contact.description_updated_user }}
+            {{ contact.description_updated_at }}</span
+          >
+          <span
+            class="text-xs font-medium text-slate-400 dark:text-jovieDark-300"
+            >Saved</span
+          >
+        </div>
       </div>
     </div>
     <div class="mx-auto h-full items-center py-2" v-else-if="sidebarLoading">
@@ -701,6 +710,8 @@ export default {
       socialMediaProfileUrl: '',
       currentNetwork: '',
       ignoreFieldIdForNonDisplay: [],
+      displayAbleFields: [],
+      nonDisplayAbleFields: [],
     };
   },
   methods: {

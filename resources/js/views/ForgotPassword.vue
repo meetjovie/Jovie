@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex min-h-screen dark:bg-jovieDark-900">
     <div
       class="relative hidden h-screen flex-1 items-center bg-indigo-700 lg:flex">
       <div class="m-auto flex h-full items-center">
@@ -13,10 +13,11 @@
           <div class="block lg:hidden">
             <JovieLogo height="28px" />
           </div>
-          <h2 class="mt-6 text-3xl font-extrabold text-slate-900">
+          <h2
+            class="mt-6 text-3xl font-extrabold text-slate-900 dark:text-jovieDark-100">
             Reset your password
           </h2>
-          <p class="mt-2 text-sm text-slate-600">
+          <p class="mt-2 text-sm text-slate-600 dark:text-jovieDark-200">
             Or
             {{ ' ' }}
             <router-link

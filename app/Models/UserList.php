@@ -7,6 +7,7 @@ use App\Events\Notification;
 use App\Events\UserListDuplicated;
 use App\Jobs\DuplicateList;
 use App\Models\Scopes\TeamScope;
+use App\Services\GPTService;
 use Illuminate\Bus\Batch;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,6 +30,7 @@ class UserList extends Model implements Auditable
         'emoji',
         'team_id',
         'template_id',
+        'importing',
         'updating',
     ];
 
@@ -97,6 +99,11 @@ class UserList extends Model implements Auditable
             if ($emoji) {
                 $data['emoji'] = $emoji;
                 $data['updating'] = $updating;
+            }
+            if (empty($data['emoji'])) {
+                $gptClient = new GPTService();
+                $emoji = $gptClient->getEmoji($listName);
+                $data['emoji'] = $emoji;
             }
             $list = UserList::create($data);
             $syncData = [];
@@ -233,6 +240,9 @@ class UserList extends Model implements Auditable
      */
     protected function updatingList(): Attribute
     {
+        return Attribute::make(
+            get: fn() => ($this->updating || $this->importing)
+        );
         return Attribute::make(
             get: fn() => (JobBatch::where('type', 'duplicating')->where('finished_at', null)->where('cancelled_at', null)->where('user_list_id', $this->id)->count() ||
                 Import::orderByDesc('created_at')

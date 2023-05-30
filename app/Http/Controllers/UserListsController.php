@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Template;
 use App\Models\User;
 use App\Models\UserList;
+use App\Services\GPTService;
+use GuzzleHttp\Client;
 use App\Models\UserListAttribute;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -153,6 +155,7 @@ class UserListsController extends Controller
         }
 
         $list = UserList::firstOrCreateList(Auth::id(), $name, $template, null, $request->emoji);
+
         return response()->json([
             'status' => true,
             'message' => 'List Created.',

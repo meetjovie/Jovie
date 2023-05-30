@@ -4,79 +4,110 @@
       header="Workspace"
       subheader="Manage your workspace settings" />
     <SectionWrapper
+      callToAction="Upgrade plan"
       header="Plan Usage"
       :subheader="
         'You are currently on a ' +
         currentUser.current_team.current_subscription.name
-      ">
-      <div class="flex w-full">
-        <div class="w-full">
-          <dl class="mt-5 grid w-full grid-cols-1 gap-5 sm:grid-cols-3">
-            <div
-              v-for="item in stats"
-              :key="item.name"
-              class="flex flex-col justify-between space-y-4 overflow-hidden rounded-lg border border-slate-300 px-4 py-5 dark:border-jovieDark-border sm:p-6">
-              <dt
-                class="truncate text-sm font-medium text-slate-900 dark:text-jovieDark-100">
-                {{ item.name }}
-              </dt>
-              <dd
-                class="mt-1 text-3xl font-semibold tracking-tight text-slate-900 dark:text-jovieDark-100">
-                {{ item.stat }} / {{ item.limit }}
-              </dd>
-              <ProgressBar
-                :size="sm"
-                :color="black"
-                :percentage="Math.round((item.stat / item.limit) * 100)" />
-              <span class="text-2xs text-slate-600">{{
-                item.description
-              }}</span>
-            </div>
-          </dl>
-        </div>
+      "
+      ctaLink="/plan">
+      <DataStatCards :stats="stats" />
+    </SectionWrapper>
+
+    <SectionWrapper header="General">
+      <div class="md:w-1/2">
+        <InputGroup
+          class="py-8"
+          :error="errors?.name?.[0]"
+          name="workspace-name"
+          label="Workspace Name"
+          v-model="currentUser.current_team.name"
+          placeholder="Enter a Team Name" />
+        <ButtonGroup
+          text="update"
+          @click="updateTeam({ name: currentUser.current_team.name })" />
+      </div>
+    </SectionWrapper>
+    <SectionWrapper header="Team" :subheader="'Emoji'">
+      <div class="">
+        <EmojiPickerModal
+          xl
+          class="py-8"
+          @emojiSelected="emojiSelected($event)"
+          :currentEmoji="this.currentUser.current_team.emoji" />
+      </div>
+      <div class="font-base text-sm text-slate-600 dark:text-jovieDark-300">
+        Pick an emoji for your workspace
       </div>
     </SectionWrapper>
   </div>
 </template>
 
 <script>
+import DataStatCards from './../components/DataStatCards.vue';
+import EmojiPickerModal from './../components/EmojiPickerModal.vue';
 import SectionHeader from './../components/SectionHeader.vue';
-import ProgressBar from './../components/ProgressBar.vue';
 import SectionWrapper from './../components/SectionWrapper.vue';
-
+import InputGroup from './../components/InputGroup.vue';
+import ButtonGroup from './../components/ButtonGroup.vue';
+import TeamService from '../services/api/team.service';
+import userService from '../services/api/user.service';
 export default {
   name: 'SettingsWorkspace',
   components: {
-    ProgressBar,
+    DataStatCards,
     SectionWrapper,
     SectionHeader,
+    EmojiPickerModal,
+    InputGroup,
+    ButtonGroup,
   },
   data() {
     return {
-      stats: [
-        {
-          name: 'Contacts',
-          stat: '3',
-          limit: '100',
-          description:
-            'The number of people you can add to your CRM. This limit',
-        },
-        {
-          name: 'AI Credits',
-          stat: '100',
-          limit: '500',
-          description:
-            'AI Credits are used when you use our AI features such as AI Feilds, or AI copywriting.',
-        },
-        {
-          name: 'Enrichment Credits',
-          stat: '58',
-          limit: '100',
-          description:
-            'Enrichment credits are used everytime you enrich a contact.',
-        },
-      ],
+      stats: null,
     };
+  },
+  mounted() {
+    this.getSubscriptionStats();
+  },
+  methods: {
+    getSubscriptionStats() {
+      userService
+        .subscriptionStats()
+        .then((response) => {
+          response = response.data.data;
+          this.stats = response;
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          console.log('fetched');
+        });
+    },
+    emojiSelected(emoji) {
+      this.currentUser.current_team.emoji = emoji;
+      this.updateTeam({ emoji: emoji });
+    },
+    updateTeam(data) {
+      TeamService.updateTeam(data, this.currentUser.current_team.id)
+        .then((response) => {
+          response = response.data;
+          console.log(response);
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          console.log('fetched');
+        });
+    },
   },
 };
 </script>

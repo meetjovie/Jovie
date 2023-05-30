@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\TeamSetting;
 use App\Notifications\ResetPasswordNotification;
 use App\Notifications\SendEmailVerificationNotification;
 use Carbon\Carbon;
@@ -54,7 +55,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    protected $appends = ['default_image', 'full_name'];
+    protected $appends = ['default_image', 'full_name', 'workspace_preferences'];
 
     public static function currentLoggedInUser($userId = null)
     {
@@ -68,9 +69,11 @@ class User extends Authenticatable implements MustVerifyEmail
                 $user->currentTeam->subscribed = $user->currentTeam->subscribed($user->currentTeam->current_subscription->name);
             }
         }
+
         $user->makeVisible('password');
         $user->password_set = !! $user->password;
         $user->makeHidden('password');
+
         return $user;
     }
 
@@ -163,6 +166,15 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return null;
+    }
+
+    public function getWorkspacePreferencesAttribute(){
+        $teamSettings = TeamSetting::getAllTeamSettings();
+        $workspace_preferences = (object)[];
+        foreach ($teamSettings as $key => $value) {
+            $workspace_preferences->{$key} = $value['value'] ?? $value['default'];
+        }
+        return $workspace_preferences;
     }
 
     public function setTwitterHandlerAttribute($value)

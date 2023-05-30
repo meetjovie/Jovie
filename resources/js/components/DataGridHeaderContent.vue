@@ -1,30 +1,36 @@
 <template>
   <div class="flex w-full items-center">
-    <div class="h-10 items-center px-4" v-if="!loading">
+    <div class="flex h-10 items-center justify-between px-4">
+      <div v-if="!list" class="w-8 items-center">
+        <JovieSpinner spinnerSize="xs" class="" v-if="taskLoading" />
+        <component
+          v-else
+          :is="icon"
+          :class="iconColor"
+          class="h-4 w-4 items-center rounded-md text-purple-400"
+          aria-hidden="true" />
+      </div>
       <h1
-        class="flex items-center text-sm font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
-        <template v-if="list">
+        class="flex h-full items-center text-xs font-semibold capitalize text-slate-900 dark:text-jovieDark-100">
+        <div v-if="list">
           <UserListEditable
             :loading="taskLoading"
             :list="list"
             @updateUserList="$emit('updateUserList', $event)" />
-        </template>
-        <template v-else>
-          <JovieSpinner spinnerSize="xs" class="mr-1" v-if="taskLoading" />
-          <component
-            v-else
-            :is="icon"
-            :class="iconColor"
-            class="mr-1 h-4 w-4 rounded-md text-purple-400"
-            aria-hidden="true" />
-
-          {{ headerText + ' Contacts' }}
-        </template>
+        </div>
+        <div class="flex" v-else>
+          {{ headerText === 'birthdays' ? headerText : headerText }}
+          <div class="px-4 text-xs text-slate-600 dark:text-jovieDark-400">
+            •
+          </div>
+          <span class="items-center text-sm font-semibold" v-if="!taskLoading">
+            {{ contactCount + ' contacts' }}</span
+          >
+          <span
+            class="items-center rounded bg-slate-300 text-xs font-semibold dark:bg-jovieDark-700"
+            v-else></span>
+        </div>
       </h1>
-      <p v-if="!taskLoading" class="text-2xs font-light text-slate-600">
-        {{ contactCount + ' Contacts' }}
-      </p>
-      <!--      <p v-else class="h-3 w-20 animate-pulse rounded-sm bg-slate-300"></p>-->
     </div>
   </div>
 </template>

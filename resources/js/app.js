@@ -2,7 +2,7 @@ import App from './App.vue';
 
 import './bootstrap';
 import '../css/app.css';
-
+import.meta.glob(['../img/**']);
 import * as Vue from 'vue';
 import router from './router/index';
 import store from './store/index';
@@ -83,6 +83,11 @@ app.mixin({
     },
     unSlugify(value) {
       return value.toString().replaceAll('_', ' ');
+    },
+    toTitleCase(str) {
+      return str.toLowerCase().replace(/\b\w/g, function (match) {
+        return match.toLocaleUpperCase();
+      });
     },
     formatCount(value) {
       value = value ? value : 0;

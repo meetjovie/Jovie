@@ -4,14 +4,14 @@
 
 @layer components {
   .ghost-card {
-    @apply cursor-grabbing border-b border-slate-900 bg-slate-200 opacity-50;
+    @apply max-w-sm cursor-grabbing overflow-hidden border-b border-slate-900 bg-slate-200 opacity-100;
   }
   .ghost-row {
-    @apply cursor-grabbing rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
+    @apply max-w-3xl cursor-grabbing overflow-hidden rounded-lg border border-slate-900 bg-slate-300 opacity-100 shadow-md ring-indigo-500;
   }
 
   .ghost-header {
-    @apply cursor-grabbing rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
+    @apply max-w-lg cursor-grabbing overflow-hidden rounded-lg border border-slate-900 bg-slate-300 opacity-50 shadow-md ring-indigo-500;
   }
 }
 
