@@ -1292,13 +1292,12 @@ export default {
       this.currentContact = contact;
     },
     setFiltersType(type) {
-
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       if (this.filters.type != 'list') {
         if (this.filters.list) {
           let channelName = `presence-userOnUserlist.${
-              this.currentUser.current_team.id
+            this.currentUser.current_team.id
           }.${this.filters.list ?? 0}`;
           Echo.leave(channelName);
         }
