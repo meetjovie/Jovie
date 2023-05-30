@@ -1,7 +1,7 @@
 <template>
   <tr
     @contextmenu="handleContextMenu($event, contact)"
-    class="group h-11 w-full flex-row items-center overflow-y-visible">
+    class="group/rowhover group h-11 w-full flex-row items-center overflow-y-visible">
     <div
       @click.prevent="toggleRow(contact.id)"
       v-if="ctrlDown"
@@ -14,7 +14,7 @@
             : 'bg-indigo-50 dark:bg-indigo-700'
           : currentContact.id === contact.id
           ? 'bg-slate-100 dark:bg-jovieDark-600'
-          : 'bg-slate-50 dark:bg-jovieDark-800',
+          : 'group/rowhover bg-slate-50 group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 group-hover/rowhover:dark:bg-jovieDark-700',
       ]"
       class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-300 dark:border-jovieDark-border">
       <div
@@ -143,11 +143,11 @@
         :class="[
           selectedContactsModel.includes(contact.id)
             ? currentContact.id === contact.id
-              ? 'bg-indigo-100 dark:bg-indigo-600'
-              : 'bg-indigo-50 dark:bg-indigo-700'
+              ? 'bg-indigo-100  dark:bg-indigo-600'
+              : 'bg-indigo-50  dark:bg-indigo-700'
             : currentContact.id === contact.id
-            ? 'bg-slate-100 dark:bg-jovieDark-600'
-            : 'bg-slate-50 dark:bg-jovieDark-800',
+            ? 'bg-slate-100  dark:bg-jovieDark-600'
+            : 'bg-slate-50 group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @click="setCurrentCell(columnIndex)"
