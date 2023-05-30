@@ -86,11 +86,7 @@
                               class="block w-28 border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="First Name"
                               v-model="contact.first_name" />
-                            <div
-                              v-if="errors.first_name"
-                              class="mt-2 text-xs text-red-600 dark:text-red-400">
-                              {{ errors.first_name[0] }}
-                            </div>
+
                             <label for="first_name" class="sr-only"
                               >Last Name</label
                             >
@@ -104,6 +100,12 @@
                               placeholder="Last Name"
                               v-model="contact.last_name" />
                           </div>
+                          <div
+                            class="h-6 py-1 text-xs text-red-600 dark:text-red-400">
+                            <span v-if="errors.first_name">
+                              {{ errors.first_name[0] }}</span
+                            >
+                          </div>
 
                           <label for="description" class="sr-only"
                             >Description</label
@@ -115,7 +117,7 @@
                             class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                             placeholder="Write a description..." /> -->
                           <div
-                            class="mt-8 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">
+                            class="mt-2 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">
                             <template v-for="field in contactFields">
                               <DataInputGroup
                                 v-model="contact[field.model]"
