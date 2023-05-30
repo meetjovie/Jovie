@@ -42,7 +42,9 @@
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
-              @blur="$emit('updateContact')"
+                ref="fullNameInput"
+              @blur="updateContactName"
+              @keyup.enter="updateContactName"
               v-model="contact.full_name"
               placeholder="Name"
               class="line-clamp-1 w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-300 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800" />
@@ -705,11 +707,20 @@ export default {
       socialMediaProfileUrl: '',
       currentNetwork: '',
       ignoreFieldIdForNonDisplay: [],
-        displayAbleFields: [],
-        nonDisplayAbleFields: []
+      displayAbleFields: [],
+      nonDisplayAbleFields: [],
     };
   },
   methods: {
+    updateContactName() {
+      this.$refs.fullNameInput.blur()
+      this.$emit('updateContact', {
+        id: this.contact.id,
+        index: this.contact.index,
+        key: `full_name`,
+        value: this.contact.full_name,
+      })
+    },
     addNonDisplayableField(id) {
       this.ignoreFieldIdForNonDisplay.push(id);
       this.setFieldsForDisplay();
