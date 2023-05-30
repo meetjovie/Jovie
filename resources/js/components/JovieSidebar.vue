@@ -153,7 +153,7 @@
                         name="Logout"
                         icon="ArrowLeftOnRectangleIcon" />
 
-                      <div class="absoltue bottom-14 right-0">
+                      <div class="ntoabsoltue bottom-14 right-0">
                         <span
                           class="text-right text-[8px] text-slate-400 dark:text-jovieDark-400">
                           {{ $store.state.jovieVersion }}

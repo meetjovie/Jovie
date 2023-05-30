@@ -50,6 +50,11 @@ export const routes = [
         component: () => import(`./../views/SettingsWorkspace.vue`),
       },
       {
+        name: 'SettingsWorkspaceMembers',
+        path: 'members',
+        component: () => import(`./../views/SettingsWorkspaceMembers.vue`),
+      },
+      {
         name: 'SettingsPlan',
         path: 'plan',
         component: () => import(`./../views/SettingsPlan.vue`),

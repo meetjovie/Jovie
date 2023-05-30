@@ -28,13 +28,14 @@ active {
 <script>
 import SidebarNavMenu from '../components/SidebarNavMenu.vue';
 import JovieMenuItem from '../components/JovieMenuItem.vue';
-import { UserIcon, UserGroupIcon } from '@heroicons/vue/24/solid';
+import { UserIcon, UsersIcon, UserGroupIcon } from '@heroicons/vue/24/solid';
 export default {
   components: {
     SidebarNavMenu,
     JovieMenuItem,
 
     UserIcon,
+    UsersIcon,
     UserGroupIcon,
   },
 
@@ -52,6 +53,12 @@ export default {
               icon: 'SparklesIcon',
               description: 'Manage your workspace settings',
               component: 'SettingsWorkspace',
+            },
+            {
+              name: 'Members',
+              icon: 'UsersIcon',
+              description: 'Manage your workspace members',
+              component: 'SettingsWorkspaceMembers',
             },
             {
               name: 'Preferences',
