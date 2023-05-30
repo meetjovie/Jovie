@@ -247,7 +247,7 @@
               ref="crmTable"
               class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
-                class="relative isolate z-20 h-10 w-full items-center overflow-auto">
+                class="relative isolate z-20 w-full items-center overflow-auto">
                 <tr
                   v-if="!headersLoaded"
                   class="sticky top-0 z-50 w-full items-center">
@@ -289,7 +289,7 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 z-50 flex w-96 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
+                      class="sticky left-0 z-50 flex h-11 w-96 items-center border-r-2 border-t border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
                         class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
                         <div class="mx-auto items-center text-center">

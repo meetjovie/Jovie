@@ -68,7 +68,7 @@
                               <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                             </button>
                           </div>
-                          <div class="mt-4 flex px-4">
+                          <div class="mt-4 flex items-center px-4">
                             <ContactAvatar
                               @updateAvatar="contact.profile_pic = $event"
                               :contact="contact"
@@ -83,7 +83,7 @@
                               name="first_name"
                               tabindex="-1"
                               id="first_name"
-                              class="w-38 block border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
+                              class="block w-28 border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="First Name"
                               v-model="contact.first_name" />
                             <div
@@ -150,28 +150,22 @@
                         </div>
                         <div class="absolute inset-x-px bottom-0">
                           <div
-                            class="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
-                            <div class="flex">
-                              <!--  <button
-                                type="button"
-                                class="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400">
-                                <PaperClipIcon
-                                  class="-ml-1 mr-2 h-4 w-4 group-hover:text-gray-500"
-                                  aria-hidden="true" />
-                              </button> -->
-                            </div>
+                            class="flex items-center justify-between space-x-4 border-t border-gray-200 px-2 py-2 sm:px-3">
                             <div
-                              class="flex flex-shrink-0 items-center justify-end">
-                              <div
-                                class="mr-2 text-xs font-light text-slate-400 dark:text-jovieDark-300">
-                                <CheckboxInput v-model="contact.override" />
-
-                                Override data
-                              </div>
+                              class="items-center text-xs font-light text-slate-400 dark:text-jovieDark-300">
+                              Contact already exists. Override?
+                              <CheckboxInput v-model="contact.override" />
+                            </div>
+                            <div class="flex space-x-2">
+                              <ButtonGroup
+                                :loader="importing"
+                                icon="SparklesIcon"
+                                design="secondary"
+                                class="border"
+                                text="Enrich with AI" />
                               <ButtonGroup
                                 @click="importContact"
                                 :loader="importing"
-                                class="px-2 py-0.5 text-xs"
                                 text="Create contact" />
                             </div>
                           </div>
@@ -346,7 +340,7 @@ export default {
       immediate: true,
       handler(val) {
         if (val && val.id) {
-          this.contact.user_lists = []
+          this.contact.user_lists = [];
           let payload = {
             list: val,
             add: true,
