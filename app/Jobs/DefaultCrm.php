@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\ImportListCreated;
 use App\Models\Contact;
 use App\Models\Creator;
+use App\Models\Template;
 use App\Models\UserList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -38,7 +39,8 @@ class DefaultCrm
      */
     public function handle()
     {
-        $list = UserList::firstOrCreateList($this->userId, 'Welcome to Jovie', $this->teamId, '👋');
+        $defaultTemplate = Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        $list = UserList::firstOrCreateList($this->userId, 'Welcome to Jovie', $defaultTemplate, $this->teamId, '👋');
         $handlers = [
             'timwhite',
             'therock',
