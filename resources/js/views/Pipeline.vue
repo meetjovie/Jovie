@@ -74,12 +74,12 @@
                                 element.network == 'tiktok',
                             },
                           ]">
-                          <div class="rounded-full bg-white p-0">
-                            <ContactAvatar :contact="element"></ContactAvatar>
-<!--                            <img-->
-<!--                              class="rounded-full object-cover object-center"-->
-<!--                              :src="element.avatar"-->
-<!--                              alt="" />-->
+                          <div class="rounded-full bg-white p-4">
+                            <ContactAvatar
+                              :loading="!element.id"
+                              :height="8"
+                              :contact="element"
+                              class="" />
                           </div>
                         </div>
                       </div>
@@ -92,11 +92,11 @@
                           class="elipsis line-clamp-1 block text-2xs text-slate-500">
                           <span
                             class="inline-flex items-center rounded-sm bg-slate-100 px-1 py-0 text-[8px] font-medium text-slate-800">
-                            {{ element.contacted }}
+                            {{ element.last_contacted }}
                           </span>
                           <span
                             class="inline-flex text-[8px] font-medium text-slate-900">
-                            - {{ element.daysinstage }} days ago
+                            {{ element.daysinstage }}
                           </span>
                         </div>
                       </div>
@@ -148,11 +148,13 @@ import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/24/solid';
 import NoAccess from '../components/NoAccess.vue';
 import contactService from '../services/api/contact.service';
 import userService from '../services/api/user.service';
+import ContactAvatar from '../components/ContactAvatar.vue';
 export default {
   name: 'two-lists',
   display: 'Two Lists',
   order: 1,
   components: {
+    ContactAvatar,
     draggable,
     EnvelopeIcon,
     PhoneIcon,
@@ -190,9 +192,9 @@ export default {
     },
     updateStage: function (event, stage) {
       if (event.added) {
-        let contact = event.added.element
-        contact.stage = stage
-        userService.updateContact(contact)
+        let contact = event.added.element;
+        contact.stage = stage;
+        userService.updateContact(contact);
       }
     },
     getStagedContacts() {
@@ -202,7 +204,7 @@ export default {
           response = response.data;
           if (response.status) {
             this.lists = response.stages;
-            this.contacts = response.contacts
+            this.contacts = response.contacts;
           }
         })
         .catch((error) => {
