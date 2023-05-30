@@ -99,7 +99,7 @@
           'dark:group-hover:text-slate h-5 w-5 text-slate-400 group-hover:text-slate-600 dark:text-jovieDark-400 dark:group-hover:text-jovieDark-200':
             design == 'toolbar',
         },
-        { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },
+        { ' mr-2 h-5 w-5': design == 'secondary' },
       ]"
       aria-hidden="true" />
     <p
@@ -132,6 +132,7 @@ import {
   MagnifyingGlassIcon,
   NoSymbolIcon,
   PlusCircleIcon,
+  SparklesIcon,
   ArrowRightOnRectangleIcon,
   ArrowLeftOnRectangleIcon,
   DocumentDuplicateIcon,
@@ -223,6 +224,7 @@ export default {
     ArrowRightIcon,
     NoSymbolIcon,
     PlusIcon,
+    SparklesIcon,
     CheckCircleIcon,
     AdjustmentsHorizontalIcon,
     MinusIcon,
