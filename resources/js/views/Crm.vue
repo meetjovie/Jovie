@@ -1487,7 +1487,7 @@ export default {
             this.userLists.forEach((list) => {
               this.counts[`list_${list.id}`] = list.contacts_count;
             });
-            this.getCrmContacts();
+            // this.getCrmContacts();
           }
         })
         .catch((error) => {
