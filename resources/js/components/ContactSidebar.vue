@@ -42,7 +42,7 @@
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
-                ref="fullNameInput"
+              ref="fullNameInput"
               @blur="updateContactName"
               @keyup.enter="updateContactName"
               v-model="contact.full_name"
@@ -713,13 +713,13 @@ export default {
   },
   methods: {
     updateContactName() {
-      this.$refs.fullNameInput.blur()
+      this.$refs.fullNameInput.blur();
       this.$emit('updateContact', {
         id: this.contact.id,
         index: this.contact.index,
         key: `full_name`,
         value: this.contact.full_name,
-      })
+      });
     },
     addNonDisplayableField(id) {
       this.ignoreFieldIdForNonDisplay.push(id);

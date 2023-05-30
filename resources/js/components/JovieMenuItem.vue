@@ -1,6 +1,7 @@
 <template>
   <MenuItem
     @dblclick="enableEditName(id)"
+    v-if="parseInt(count)"
     @keyup.enter="handleClick()"
     @mouseover="lockMenuButton()"
     @drop="handleDrop(id)"
