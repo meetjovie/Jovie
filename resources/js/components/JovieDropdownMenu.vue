@@ -9,7 +9,7 @@
       </MenuButton>
 
       <TransitionRoot
-        :show="open"
+        :show="open && !disabled"
         enter-active-class="transition duration-100 ease-out"
         enter-from-class="transform scale-95 opacity-0"
         enter-to-class="transform scale-100 opacity-100"
@@ -255,6 +255,10 @@ export default {
     activeItem: {
       type: String,
       default: '',
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
     size: {
       type: String,
