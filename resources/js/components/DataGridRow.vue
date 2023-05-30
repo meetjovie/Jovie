@@ -3,8 +3,8 @@
     @contextmenu="handleContextMenu($event, contact)"
     class="group/rowhover group h-11 w-full flex-row items-center overflow-y-visible">
     <div
-      @click.prevent="toggleRow(contact.id)"
-      v-if="ctrlDown"
+      @click.prevent="toggleRow($event, contact.id)"
+      v-if="overlay"
       class="absolute z-50 h-14 w-full"></div>
     <div
       :class="[
@@ -204,7 +204,7 @@ export default {
   data() {
     return {
       row: 0,
-      ctrlDown: false,
+      overlay: false,
     };
   },
   mounted() {
@@ -230,15 +230,17 @@ export default {
   },
   methods: {
     onKeyDown(event) {
-      if (event.ctrlKey || event.metaKey) {
-        this.ctrlDown = true;
+      if (event.ctrlKey || event.metaKey || event.key === 'Shift') {
+        this.overlay = true;
       }
     },
-    onKeyUp(event) {
-      this.ctrlDown = false;
+    onKeyUp() {
+      this.overlay = false;
     },
-    toggleRow(id) {
-      if (this.selectedContactsModel.includes(id)) {
+    toggleRow(event, id) {
+      if (event.shiftKey) {
+        this.$emit('selectMultiple', this.contact);
+      } else if (this.selectedContactsModel.includes(id)) {
         this.selectedContactsModel.splice(
           this.selectedContactsModel.indexOf(id),
           1

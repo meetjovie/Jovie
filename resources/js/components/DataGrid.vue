@@ -489,6 +489,7 @@
                     @contextMenuButtonClicked="
                       openRightClickMenuButton($event, contact)
                     "
+                    @selectMultiple="selectMultiple"
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -1095,6 +1096,26 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    selectMultiple(contact) {
+      const contactIndex = this.contactRecords.indexOf(contact);
+
+      if (this.selectedContacts.length) {
+        const minSelectedIndex = this.contactRecords.findIndex(
+          (contact) => contact.id === this.selectedContacts[0]
+        );
+        const indexDiff = contactIndex - minSelectedIndex;
+        this.selectedContacts = [];
+
+        for (let i = 0; i <= Math.abs(indexDiff); i++) {
+          const selectedContactId =
+            this.contactRecords[minSelectedIndex + i * Math.sign(indexDiff)].id;
+          this.selectedContacts.push(selectedContactId);
+        }
+      } else {
+        this.selectedContacts.push(contact.id);
+      }
+    },
+
     openRightClickMenu(contact) {
       console.log('open menu for ' + contact.full_name);
 
