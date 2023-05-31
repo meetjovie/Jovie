@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Contact;
+use App\Models\Creator;
 use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -59,10 +60,9 @@ class ContactEnriched implements ShouldBroadcast, ShouldBroadcastNow
         }
         $contact = Contact::getContacts(['id' => $this->contactId, 'team_id' => $this->teamId])->first();
         $contact = $contact->toArray();
-        unset($contact['instagram_data']);
-        unset($contact['linkedin_data']);
-        unset($contact['twich_data']);
-        unset($contact['tiktok_data']);
+        foreach (Creator::NETWORKS as $network) {
+            unset($contact[($network . '_data')]);
+        }
         $contact = base64_encode(json_encode($contact));
         return ['status' => true, 'data' => [
             'contact' => $contact,
