@@ -166,7 +166,6 @@
                                 :loader="importing"
                                 icon="UserPlusIcon"
                                 design="secondary"
-                                @click="importContact"
                                 class="border"
                                 text="Create contact" />
                             </div>

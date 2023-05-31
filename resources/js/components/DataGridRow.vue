@@ -16,7 +16,7 @@
           ? 'bg-slate-100 dark:bg-jovieDark-600'
           : 'group/rowhover bg-slate-50 group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 group-hover/rowhover:dark:bg-jovieDark-700',
       ]"
-      class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-300 dark:border-jovieDark-border">
+      class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-200 dark:border-jovieDark-border">
       <div
         class="flex h-full w-full items-center justify-between"
         freezeColumn

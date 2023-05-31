@@ -245,7 +245,7 @@
             class="flex h-full w-full flex-col overflow-auto bg-white ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               ref="crmTable"
-              class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
                 class="relative isolate z-20 w-full items-center overflow-auto">
                 <tr
@@ -289,7 +289,7 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 z-50 flex h-11 w-96 items-center border-r-2 border-t border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
+                      class="sticky left-0 z-50 flex h-11 w-96 items-center border-r border-slate-200 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
                         class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
                         <div class="mx-auto items-center text-center">
@@ -430,7 +430,7 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         :class="[
                           index == currentCell.column ? 'font-bold  ' : ' ',
@@ -451,7 +451,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -472,7 +472,7 @@
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
               <draggable
-                class="list-group relative isolate z-0 h-full divide-y divide-slate-300 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
                 :list="contactRecords"
                 ghost-class="ghost-row"
                 group="contacts"

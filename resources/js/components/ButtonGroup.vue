@@ -110,7 +110,11 @@
       ]">
       {{ text }}<slot></slot>
     </p>
-    <div v-if="loader" class="transition-all">
+    <div
+      v-if="loader"
+      enter-active-class="translate-x-2"
+      leave-active-class="translate-x-2"
+      class="translate-x-2 transition-all duration-300">
       <JovieSpinner class="mr-2" :spinnerColor="loaderColor" />
     </div>
     <div v-else-if="success">
