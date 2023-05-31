@@ -58,6 +58,11 @@ class ContactEnriched implements ShouldBroadcast, ShouldBroadcastNow
             UserList::dispatchEnrichNotificationIfCompleted($this->listId, $contact->team_id);
         }
         $contact = Contact::getContacts(['id' => $this->contactId, 'team_id' => $this->teamId])->first();
+        $contact = $contact->toArray();
+        unset($contact['instagram_data']);
+        unset($contact['linkedin_data']);
+        unset($contact['twich_data']);
+        unset($contact['tiktok_data']);
         $contact = base64_encode(json_encode($contact));
         return ['status' => true, 'data' => [
             'contact' => $contact,
