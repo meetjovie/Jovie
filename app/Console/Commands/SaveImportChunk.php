@@ -110,7 +110,7 @@ class SaveImportChunk extends Command
 
                 $import->team_id = $payload->teamId;
                 $import->user_id = $payload->list->user_id;
-                $import->user_list_id = $payload->list->id;
+//                $import->user_list_id = $payload->list->id;
                 if ($payload->tags) {
                     $tags = explode(',', $payload->tags);
                     $import->tags = json_encode(array_values(array_map('trim', $tags)));

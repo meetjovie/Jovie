@@ -45,12 +45,14 @@ class SaveImport implements ShouldQueue
 
     private $autoEnrich;
 
+    private $lists;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($file, $mappedColumns, $tags, $listName, $userId, $teamId, $contacts = false, $autoEnrich = false)
+    public function __construct($file, $mappedColumns, $tags, $listName, $userId, $teamId, $contacts = false, $autoEnrich = false, $lists = [])
     {
         $this->file = $file;
         $this->mappedColumns = $mappedColumns;
@@ -60,7 +62,7 @@ class SaveImport implements ShouldQueue
         $this->teamId = $teamId;
         $this->autoEnrich = $autoEnrich;
         $this->contacts = $contacts;
-
+        $this->lists = $lists;
     }
 
     /**
@@ -70,22 +72,29 @@ class SaveImport implements ShouldQueue
      */
     public function handle()
     {
+        Log::info('1234321234');
         try {
             $stream = Import::getStream($this->file);
             $reader = Reader::createFromStream($stream);
 
             $totalRecords = $reader->count();
             $list = null;
+            $listIds = [];
             if ($this->contacts) { // empty contacts
-                $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId, null, true);
-                $list->importing = true;
-                $list->save();
+                if (count($this->lists)) {
+                    $listIds = $this->lists;
+                } else {
+                    $list = UserList::firstOrCreateList($this->userId, $this->listName, $this->teamId, null, true);
+                    $list->importing = true;
+                    $list->save();
+                    $listIds[] = $list->id;
+                }
             }
             if ($totalRecords > 1) {
                 $payload = base64_encode(json_encode([
                     'mappedColumns' => $this->mappedColumns,
                     'tags' => $this->tags,
-                    'list' => $list ?? null,
+                    'list' => $listIds,
                     'userId' => $this->userId,
                     'teamId' => $this->teamId,
                     'totalRecords' => $totalRecords,
@@ -97,7 +106,13 @@ class SaveImport implements ShouldQueue
                             if ($list && $list->wasRecentlyCreated) {
                                 ImportListCreated::dispatch($this->teamId, $list);
                             }
-                            UserListImportTriggered::dispatch($list->id, $this->userId, $this->teamId);
+                            if (count($this->lists)) {
+                                foreach ($this->lists as $listId) {
+                                    UserListImportTriggered::dispatch($listId, $this->userId, $this->teamId);
+                                }
+                            } else {
+                                UserListImportTriggered::dispatch($list->id, $this->userId, $this->teamId);
+                            }
                         }
                         ImportContacts::dispatch($this->file, $page, $payload);
                     } else {
@@ -108,7 +123,7 @@ class SaveImport implements ShouldQueue
                 $listName = $list ? $list->name : $this->listName;
                 Notification::createNotification("$listName import queued. It will begin shortly.", Notification::IMPORT_QUEUED, $this->userId, $this->teamId);
             } else {
-                if ($list->wasRecentlyCreated) {
+                if ($list && $list->wasRecentlyCreated) {
                     ImportListCreated::dispatch($this->teamId, $list);
                 }
             }

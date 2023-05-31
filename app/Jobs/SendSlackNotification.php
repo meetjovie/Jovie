@@ -12,6 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class SendSlackNotification implements ShouldQueue
 {
@@ -43,9 +44,15 @@ class SendSlackNotification implements ShouldQueue
     public function handle()
     {
         try {
+            Log::info($this->message);
+            Log::info($this->internalMessage);
+            Log::info($this->data);
             $user = new User();
             $user->notify(new ImportNotification($this->message, $this->internalMessage, $this->data));
         } catch (\Exception $e) {
+            Log::info($this->message);
+            Log::info($this->internalMessage);
+            Log::info($this->data);
         }
     }
 }
