@@ -165,6 +165,7 @@
                                 :loader="importing"
                                 icon="UserPlusIcon"
                                 design="secondary"
+                                @click="importContact"
                                 class="border"
                                 text="Create contact" />
                             </div>
@@ -189,12 +190,26 @@
                                   :loader="importing"
                                   icon="SparklesIcon"
                                   size="sm"
+                                  @click="importContactWithEnrich"
                                   class="border"
                                   text="Create & Enrich" />
                               </div>
                             </div>
                           </div>
                         </div>
+                        <ModalPopup
+                          modalType="info"
+                          :open="autoEnrichmentPopup.open"
+                          :loading="autoEnrichmentPopup.loading"
+                          :title="autoEnrichmentPopup.title"
+                          :description="autoEnrichmentPopup.description"
+                          :primaryButtonText="
+                            autoEnrichmentPopup.primaryButtonText
+                          "
+                          secondaryButtonText="No"
+                          @primaryButtonClick="autoEnrichment"
+                          @cancelButtonClick="cancelAutoEnrichment">
+                        </ModalPopup>
                       </form>
                     </div>
                   </div>
@@ -231,8 +246,11 @@ import ContactAvatar from './ContactAvatar.vue';
 
 import InputLists from './InputLists.vue';
 import DataInputGroup from './DataInputGroup.vue';
+import ModalPopup from './ModalPopup.vue';
+import TeamService from '../services/api/team.service';
 export default {
   components: {
+    ModalPopup,
     DataInputGroup,
     CheckboxInput,
     ButtonGroup,
@@ -253,7 +271,15 @@ export default {
   data() {
     return {
       importing: false,
-      enrichable: false,
+      autoEnrichmentSetting: true,
+      autoEnrichmentPopup: {
+        confirmationMethod: null,
+        title: 'Auto contact enrichment',
+        open: false,
+        primaryButtonText: 'Yes',
+        description: 'Do you want to automatically enrich contacts on import?',
+        loading: false,
+      },
       contact: {
         id: 0,
         profile_pic: '',
@@ -271,6 +297,7 @@ export default {
         snapchat: '',
         youtube: '',
         override: false,
+        enrich: false,
         user_lists: [],
         list_id: [],
       },
@@ -381,6 +408,17 @@ export default {
       // Calculate the width based on the length of this.contact.first_name
       return Math.max(this.contact.first_name.length * 8, 14);
     },
+    enrichable() {
+      return (
+        this.contact.instagram.trim() != '' ||
+        this.contact.twitter.trim() != '' ||
+        this.contact.twitch.trim() != '' ||
+        this.contact.linkedin.trim() != '' ||
+        this.contact.titkok.trim() != '' ||
+        this.contact.snapchat.trim() != '' ||
+        this.contact.youtube.trim() != ''
+      );
+    },
     contactFields() {
       return this.fields.filter(
         (field) =>
@@ -428,13 +466,51 @@ export default {
         );
       }
     },
-    importContact() {
+    importContactWithEnrich() {
+      if (!this.currentUser.workspace_preferences.auto_enrich_import) {
+        this.autoEnrichmentPopup.open = true;
+      } else {
+        this.importContact(true);
+      }
+    },
+    autoEnrichment() {
+      this.autoEnrichmentPopup.open = false;
+      if (this.autoEnrichmentSetting) {
+        this.updateEnrichmentSetting({
+          teamSettings: { auto_enrich_import: { value: true } },
+        });
+      }
+      this.importContact(true);
+    },
+    cancelAutoEnrichment() {
+      this.autoEnrichmentPopup.open = false;
+      this.importContact(true);
+    },
+    updateEnrichmentSetting(data) {
+      TeamService.updateTeamSettings(data, this.currentUser.current_team.id)
+        .then((response) => {
+          response = response.data;
+          this.currentUser.workspace_preferences.auto_enrich_import =
+            response.data.auto_enrich_import.value;
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          console.log('fetched');
+        });
+    },
+    importContact(enrich = false) {
       this.importing = true;
       this.contact.list_id = this.contact.list_id
         ? this.contact.list_id
         : this.list
         ? this.list
         : '';
+      this.contact.enrich = enrich;
       let contact = JSON.parse(JSON.stringify(this.contact));
       contact.profile_pic_url = contact.profile_pic;
       ImportService.importContact(contact)

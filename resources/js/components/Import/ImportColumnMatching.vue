@@ -188,7 +188,8 @@ export default {
       TeamService.updateTeamSettings(data, this.currentUser.current_team.id)
         .then((response) => {
           response = response.data;
-          console.log(response);
+          this.currentUser.workspace_preferences.auto_enrich_import =
+            response.data.auto_enrich_import.value;
         })
         .catch((error) => {
           error = error.response;
