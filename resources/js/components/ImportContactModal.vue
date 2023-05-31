@@ -152,23 +152,41 @@
                         </div>
                         <div class="absolute inset-x-px bottom-0">
                           <div
-                            class="flex items-center justify-between space-x-4 border-t border-gray-200 px-2 py-2 sm:px-3">
+                            class="flex items-center justify-between space-x-4 border-t border-gray-200 px-2 py-2">
                             <div
-                              class="items-center text-xs font-light text-slate-400 dark:text-jovieDark-300">
-                              Contact already exists. Override?
-                              <CheckboxInput v-model="contact.override" />
-                            </div>
-                            <div class="flex space-x-2">
+                              v-if="enrichable"
+                              class="flex w-full justify-end space-x-2">
                               <ButtonGroup
                                 :loader="importing"
-                                icon="SparklesIcon"
+                                icon="UserPlusIcon"
                                 design="secondary"
                                 class="border"
-                                text="Enrich with AI" />
-                              <ButtonGroup
-                                @click="importContact"
-                                :loader="importing"
                                 text="Create contact" />
+                            </div>
+                            <div
+                              v-else
+                              class="flex w-full items-center justify-between">
+                              <div
+                                class="items-center text-xs font-light text-slate-400 dark:text-jovieDark-300">
+                                Contact already exists. Override?
+                                <CheckboxInput v-model="contact.override" />
+                              </div>
+                              <div class="flex items-center space-x-2">
+                                <ButtonGroup
+                                  design="secondary"
+                                  icon="UserPlusIcon"
+                                  class="border"
+                                  size="sm"
+                                  @click="importContact"
+                                  :loader="importing"
+                                  text="Create without enriching" />
+                                <ButtonGroup
+                                  :loader="importing"
+                                  icon="SparklesIcon"
+                                  size="sm"
+                                  class="border"
+                                  text="Create & Enrich" />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -230,6 +248,7 @@ export default {
   data() {
     return {
       importing: false,
+      enrichable: false,
       contact: {
         id: 0,
         profile_pic: '',

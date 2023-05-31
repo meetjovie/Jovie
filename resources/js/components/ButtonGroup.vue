@@ -26,7 +26,7 @@
       { 'px-4 py-2 text-lg': size == 'md' },
       { 'px-6 py-3 text-xl': size == 'hero' },
       {
-        'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed  disabled:opacity-30 dark:border-jovieDark-border   dark:bg-jovieDark-800 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700  ':
+        'line-clamp-1  border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed  disabled:opacity-30 dark:border-jovieDark-border   dark:bg-jovieDark-800 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700  ':
           design == 'secondary',
       },
       {
@@ -34,7 +34,7 @@
           design == 'toolbar',
       },
       {
-        '  line-clamp-1 font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
+        '  line-clamp-1 bg-indigo-500 font-medium  text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2  focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:bg-indigo-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
           design == 'primary',
       },
       {
@@ -45,9 +45,7 @@
         'bg-red-500 text-white dark:bg-red-500 dark:text-white':
           design == 'danger',
       },
-      {
-        'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
-      },
+
       //add auth design
       {
         'rounded border border-slate-200 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:text-white dark:hover:bg-jovieDark-800':
@@ -99,7 +97,7 @@
           'dark:group-hover:text-slate h-5 w-5 text-slate-400 group-hover:text-slate-600 dark:text-jovieDark-400 dark:group-hover:text-jovieDark-200':
             design == 'toolbar',
         },
-        { ' mr-2 h-5 w-5': design == 'secondary' },
+        { ' mr-2 h-4 w-4': design == 'secondary' || 'primary' },
       ]"
       aria-hidden="true" />
     <p
@@ -131,6 +129,7 @@ import {
   EnvelopeIcon,
   MagnifyingGlassIcon,
   NoSymbolIcon,
+  UserPlusIcon,
   PlusCircleIcon,
   SparklesIcon,
   ArrowRightOnRectangleIcon,
@@ -229,6 +228,7 @@ export default {
     AdjustmentsHorizontalIcon,
     MinusIcon,
     PlusCircleIcon,
+    UserPlusIcon,
     MinusCircleIcon,
     ChevronRightIcon,
     ArrowRightOnRectangleIcon,
