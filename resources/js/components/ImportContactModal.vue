@@ -162,6 +162,7 @@
                               v-if="!enrichable"
                               class="flex w-full justify-end space-x-2">
                               <ButtonGroup
+                                @click="importContact"
                                 :loader="importing"
                                 icon="UserPlusIcon"
                                 design="secondary"
