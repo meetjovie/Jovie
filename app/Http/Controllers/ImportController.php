@@ -164,6 +164,7 @@ class ImportController extends Controller
     {
         $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
+        $lists = json_decode($request->lists);
         if ($request->input('key')) {
             Storage::disk('s3')->copy(
                 ('tmp/' . $request->input('key')),
@@ -181,6 +182,7 @@ class ImportController extends Controller
                 $user->currentTeam->id,
                 true,
                 $request->autoEnrich,
+                $lists
             );
         }
 
