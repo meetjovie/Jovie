@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Events\UserListImported;
 use App\Models\Contact;
+use App\Models\Creator;
 use App\Models\Import;
 use App\Models\User;
 use App\Models\UserList;
@@ -30,7 +31,7 @@ class ImportContacts implements ShouldQueue
 
     private $socialHandlersFromSocialColumn = [];
 
-    private const IMPORTABLE_SOCIALS = ['twitter', 'tiktok', 'twitch', 'instagram'];
+    private $additionalSocialHandlers = [];
 
     private mixed $payload;
 
@@ -127,7 +128,7 @@ class ImportContacts implements ShouldQueue
                 $contact['country'] = $country;
 
                 if (isset($this->payload->mappedColumns->socials)) {
-                    $this->socialHandlersFromSocialColumn = $this->loadSocialFromOneColumn($row[$this->payload->mappedColumns->socials]);
+                    $this->socialHandlersFromSocialColumn = $this->loadSocialsFromText($row[$this->payload->mappedColumns->socials]);
                 }
 
                 $contact['instagram'] = $this->setSocialColumn('instagram', $this->payload->mappedColumns, $row);
@@ -136,23 +137,30 @@ class ImportContacts implements ShouldQueue
                 }
 
                 $contact['youtube'] = $this->setSocialColumn('youtube', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->youtube) ? $row[$this->payload->mappedColumns->youtube] : null;
                 $contact['twitter'] = $this->setSocialColumn('twitter', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->twitter) ? $row[$this->payload->mappedColumns->twitter] : null;
                 $contact['twitch'] = $this->setSocialColumn('twitch', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->twitch) ? $row[$this->payload->mappedColumns->twitch] : null;
                 $contact['onlyFans'] = $this->setSocialColumn('onlyFans', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->onlyFans) ? $row[$this->payload->mappedColumns->onlyFans] : null;
                 $contact['tiktok'] = $this->setSocialColumn('tiktok', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->tiktok) ? $row[$this->payload->mappedColumns->tiktok] : null;
                 $contact['linkedin'] = $this->setSocialColumn('linkedin', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->linkedin) ? $row[$this->payload->mappedColumns->linkedin] : null;
                 $contact['snapchat'] = $this->setSocialColumn('snapchat', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
                 $contact['wiki'] = $this->setSocialColumn('wiki', $this->payload->mappedColumns, $row);
-//                    isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
-                $contact = Contact::saveContact($contact, $this->payload->list->id)->first();
+                if (count($this->additionalSocialHandlers)) {
+                    foreach ($this->additionalSocialHandlers as $network => $handlers) {
+                        foreach ($handlers as $handler) {
+                            // Check if the contact doesn't already have a handler for the network
+                            if (empty($contact[$network])) {
+                                // Assign the handler to the contact for the network
+                                $contact[$network] = $handler;
+                                unset($this->additionalSocialHandlers[$network][0]);
+                            } else {
+                                // Dispatch a job to import the contact from the social network
+                                ImportContactFromSocial::dispatch($network, $handler);
+                            }
+                        }
+                    }
+                }
 
+                $contact = Contact::saveContact($contact, $this->payload->list->id)->first();
 
                 $mappedColumns = get_object_vars($this->payload->mappedColumns);
                 $customKeys = array_filter(array_keys($mappedColumns), function ($key) {
@@ -196,21 +204,39 @@ class ImportContacts implements ShouldQueue
 
     public function setSocialColumn($key, $mappedColumns, $row)
     {
+        // Trim and check if the key exists in the mapped columns
         $handler = trim(isset($mappedColumns->$key) ? $row[$mappedColumns->$key] : null);
-        if (($handler != '') && isset($this->socialHandlersFromSocialColumn[$key])
-            && ($handler != $this->socialHandlersFromSocialColumn[$key])
-            && in_array($key, self::IMPORTABLE_SOCIALS)
+
+        // Check if the handler contains a URL
+        if ($this->containsUrl($handler)) {
+            // Load social handlers from the handler text
+            $handlers = $this->loadSocialsFromText($handler);
+            $handler = $handlers[$key][0] ?? null;
+            unset($handlers[$key][0]);
+
+            // Merge additional social handlers with existing ones
+            $this->additionalSocialHandlers = array_merge($this->additionalSocialHandlers, $handlers);
+        }
+
+        // Check if the handler is not empty, and it's not already in the social handlers from the social column
+        if (!empty($handler) && isset($this->socialHandlersFromSocialColumn[$key])
+            && !in_array($handler, $this->socialHandlersFromSocialColumn[$key])
+            && in_array($key, Creator::IMPORTABLE_SOCIALS)
         ) {
-            (new ImportContactFromSocial($this->socialHandlersFromSocialColumn[$key], $key))->handle();
+            $this->additionalSocialHandlers[$key][] = $this->socialHandlersFromSocialColumn[$key][0];
         }
-        if ($handler == '' && isset($this->socialHandlersFromSocialColumn[$key])) {
-            $handler = $this->socialHandlersFromSocialColumn[$key];
+
+        // If the handler is empty, use the first social handler from the social column
+        if (empty($handler) && isset($this->socialHandlersFromSocialColumn[$key])) {
+            $handler = $this->socialHandlersFromSocialColumn[$key][0];
         }
+
         return $handler;
     }
 
-    public function loadSocialFromOneColumn($socialColumn)
+    public function loadSocialsFromText($socialColumn)
     {
+        // Regular expressions for different social media platforms
         $platforms = array(
             'instagram' => '/instagram\.com\/([\w.]+)/',
             'linkedin' => '/linkedin\.com\/in\/([\w.]+)/',
@@ -225,14 +251,25 @@ class ImportContacts implements ShouldQueue
 
         $socialHandlers = array();
         $urls = preg_split('/[\s,]+/', $socialColumn);
+
+        // Extract social handlers from URLs
         foreach ($urls as $url) {
             foreach ($platforms as $platform => $regex) {
                 if (preg_match($regex, $url, $matches)) {
-                    $socialHandlers[$platform] = $matches[1];
+                    $socialHandlers[$platform][] = $matches[1];
                     break;
                 }
             }
         }
+
         return $socialHandlers;
     }
+
+    public function containsUrl($string)
+    {
+        // Regular expression to check if the string contains a URL
+        $regex = '/\b(?:[\w-]+\.)+[a-z]{2,}\b/i';
+        return preg_match($regex, $string) === 1;
+    }
+
 }
