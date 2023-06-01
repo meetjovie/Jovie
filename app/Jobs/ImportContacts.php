@@ -15,6 +15,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use League\Csv\Reader;
 
@@ -26,6 +27,9 @@ class ImportContacts implements ShouldQueue
 
     private $file;
     private $page;
+
+    private $socialHandlersFromSocialColumn = [];
+
     private mixed $payload;
 
     /**
@@ -120,19 +124,31 @@ class ImportContacts implements ShouldQueue
                 $contact['city'] = isset($this->payload->mappedColumns->lastName) ? $row[$this->payload->mappedColumns->lastName] : null;
                 $contact['country'] = $country;
 
-                $contact['instagram'] = isset($this->payload->mappedColumns->instagram) ? $row[$this->payload->mappedColumns->instagram] : null;
+                if (isset($this->payload->mappedColumns->socials)) {
+                    $this->socialHandlersFromSocialColumn = $this->loadSocialFromOneColumn($row[$this->payload->mappedColumns->socials]);
+                }
+
+                $contact['instagram'] = $this->setSocialColumn('instagram', $this->payload->mappedColumns, $row);
                 if (!empty($contact['instagram']) && $contact['instagram'][0] == '@') {
                     $contact['instagram'] = substr($contact['instagram'], 1);
                 }
 
-                $contact['youtube'] = isset($this->payload->mappedColumns->youtube) ? $row[$this->payload->mappedColumns->youtube] : null;
-                $contact['twitter'] = isset($this->payload->mappedColumns->twitter) ? $row[$this->payload->mappedColumns->twitter] : null;
-                $contact['twitch'] = isset($this->payload->mappedColumns->twitch) ? $row[$this->payload->mappedColumns->twitch] : null;
-                $contact['onlyFans'] = isset($this->payload->mappedColumns->onlyFans) ? $row[$this->payload->mappedColumns->onlyFans] : null;
-                $contact['tiktok'] = isset($this->payload->mappedColumns->tiktok) ? $row[$this->payload->mappedColumns->tiktok] : null;
-                $contact['linkedin'] = isset($this->payload->mappedColumns->linkedin) ? $row[$this->payload->mappedColumns->linkedin] : null;
-                $contact['snapchat'] = isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
-                $contact['wiki'] = isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
+                $contact['youtube'] = $this->setSocialColumn('youtube', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->youtube) ? $row[$this->payload->mappedColumns->youtube] : null;
+                $contact['twitter'] = $this->setSocialColumn('twitter', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->twitter) ? $row[$this->payload->mappedColumns->twitter] : null;
+                $contact['twitch'] = $this->setSocialColumn('twitch', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->twitch) ? $row[$this->payload->mappedColumns->twitch] : null;
+                $contact['onlyFans'] = $this->setSocialColumn('onlyFans', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->onlyFans) ? $row[$this->payload->mappedColumns->onlyFans] : null;
+                $contact['tiktok'] = $this->setSocialColumn('tiktok', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->tiktok) ? $row[$this->payload->mappedColumns->tiktok] : null;
+                $contact['linkedin'] = $this->setSocialColumn('linkedin', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->linkedin) ? $row[$this->payload->mappedColumns->linkedin] : null;
+                $contact['snapchat'] = $this->setSocialColumn('snapchat', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->snapchat) ? $row[$this->payload->mappedColumns->snapchat] : null;
+                $contact['wiki'] = $this->setSocialColumn('wiki', $this->payload->mappedColumns, $row);
+//                    isset($this->payload->mappedColumns->wiki) ? $row[$this->payload->mappedColumns->wiki] : null;
                 $contact = Contact::saveContact($contact, $this->payload->list->id)->first();
 
 
@@ -140,6 +156,7 @@ class ImportContacts implements ShouldQueue
                 $customKeys = array_filter(array_keys($mappedColumns), function ($key) {
                     return strpos($key, "custom") !== false;
                 });
+
                 $data = [];
                 foreach ($customKeys as $customKey) {
                     $data[$customKey] = $row[$this->payload->mappedColumns->$customKey];
@@ -151,7 +168,7 @@ class ImportContacts implements ShouldQueue
                 }
 
                 $team = Team::find($contact->team_id);
-                if ($this->payload->autoEnrich == "true"|| $team->autoEnrichImportEnabled()) {
+                if ($this->payload->autoEnrich == "true" || $team->autoEnrichImportEnabled()) {
                     $contact->enrichContact();
                 }
             }
@@ -173,5 +190,47 @@ class ImportContacts implements ShouldQueue
                 ('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine())
             );
         }
+    }
+
+    public function setSocialColumn($key, $mappedColumns, $row)
+    {
+        $handler = trim(isset($mappedColumns->$key) ? $row[$mappedColumns->$key] : null);
+        if (($handler != '') && isset($this->socialHandlersFromSocialColumn[$key]) && ($handler != $this->socialHandlersFromSocialColumn[$key])) {
+            dump('RUNNING IMPORT SOCIAL QUEUE');
+            ImportContactFromSocial::dispatch('cyberinspects', 'instagram')->onQueue(
+                config('import.instagram_queue')
+            );
+        }
+        if ($handler == '' && isset($this->socialHandlersFromSocialColumn[$key])) {
+            $handler = $this->socialHandlersFromSocialColumn[$key];
+        }
+        return $handler;
+    }
+
+    public function loadSocialFromOneColumn($socialColumn)
+    {
+        $platforms = array(
+            'instagram' => '/instagram\.com\/([\w.]+)/',
+            'linkedin' => '/linkedin\.com\/in\/([\w.]+)/',
+            'twitter' => '/twitter\.com\/([\w.]+)/',
+            'snapchat' => '/snapchat\.com\/([\w.]+)/',
+            'twitch' => '/twitch\.tv\/([\w.]+)/',
+            'youtube' => '/youtube\.com\/(?:channel\/|user\/|c\/)?([\w.]+)/',
+            'tiktok' => '/tiktok\.com\/@([\w.]+)/',
+            'onlyFans' => '/onlyfans\.com\/([\w.]+)/',
+            'wiki' => '/en\.wikipedia\.org\/wiki\/([\w.]+)/',
+        );
+
+        $socialHandlers = array();
+        $urls = preg_split('/[\s,]+/', $socialColumn);
+        foreach ($urls as $url) {
+            foreach ($platforms as $platform => $regex) {
+                if (preg_match($regex, $url, $matches)) {
+                    $socialHandlers[$platform] = $matches[1];
+                    break;
+                }
+            }
+        }
+        return $socialHandlers;
     }
 }
