@@ -163,7 +163,7 @@
         <hr
           class="border border-slate-100 text-slate-300 dark:border-jovieDark-border dark:text-jovieDark-700" />
 
-        <div class="px-4 py-2">
+        <div v-if="!compact" class="px-4 py-2">
           <ButtonGroup
             v-if="!contact.id"
             :text="buttonText"
@@ -427,7 +427,7 @@
             </div> -->
       <div
         class="relative mt-2 bg-white px-2 py-2 dark:bg-jovieDark-900"
-        v-if="contact.id">
+        v-if="contact.id && !compact">
         <TextAreaInput
           ref="noteInput"
           v-model="contact.description"
@@ -666,6 +666,10 @@ export default {
       default: {
         meta: {},
       },
+    },
+    compact: {
+      type: Boolean,
+      default: false,
     },
     jovie: {
       type: Boolean,
