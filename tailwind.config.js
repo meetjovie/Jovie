@@ -67,7 +67,6 @@ module.exports = {
           border: '#3B3B4E',
         },
 
-        slate: colors.neutral,
         social: {
           facebook: '#3b5998',
           twitter: '#1da1f2',

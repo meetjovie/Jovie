@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full items-center">
-    <div class="flex h-10 items-center justify-between px-4">
+    <div class="flex h-10 items-center justify-between px-8">
       <div v-if="!list" class="w-8 items-center">
         <JovieSpinner spinnerSize="xs" class="" v-if="taskLoading" />
         <component
