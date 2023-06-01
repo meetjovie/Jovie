@@ -47,7 +47,8 @@
               aria-hidden="true" />
           </div>
         </div>
-        <div class="line-clamp-1 flex w-full text-left">
+        <div
+          class="line-clamp-1 flex w-full text-left font-medium text-slate-700 dark:text-jovieDark-100">
           <span v-if="!editingName || !editable" class="line-clamp-1">{{
             name
           }}</span>
