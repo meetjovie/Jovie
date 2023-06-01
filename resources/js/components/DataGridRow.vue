@@ -1,6 +1,6 @@
 <template>
   <tr
-    @contextmenu="handleContextMenu($event, contact)"
+    @contextmenu.prevent="handleContextMenu($event, contact)"
     class="group/rowhover group h-11 w-full flex-row items-center overflow-y-visible">
     <div
       @click.prevent="toggleRow($event, contact.id)"

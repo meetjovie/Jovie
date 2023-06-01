@@ -29,8 +29,8 @@
             <ChevronRightIcon
               @click="handleToggle()"
               v-if="hasToggle"
-              :class="[collapsed ? '' : 'rotate-90 transform ']"
-              class="h-4 w-4 cursor-pointer rounded text-slate-700 dark:text-jovieDark-400"
+              :class="[collapsed ? '' : 'rotate-90 transform']"
+              class="h-4 w-4 cursor-pointer rounded text-slate-700 transition-transform duration-300 ease-in-out dark:text-jovieDark-400"
               aria-hidden="true" />
             <EmojiPickerModal
               v-else-if="emoji"

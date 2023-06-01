@@ -10,12 +10,13 @@
 
       <TransitionRoot
         :show="open && !disabled"
-        enter-active-class="transition duration-100 ease-out"
-        enter-from-class="transform scale-95 opacity-0"
-        enter-to-class="transform scale-100 opacity-100"
-        leave-active-class="transition duration-75 ease-in"
-        leave-from-class="transform scale-100 opacity-100"
-        leave-to-class="transform scale-95 opacity-0">
+        appear
+        enter="transition duration-400 ease-out"
+        enter-from="transform scale-95 opacity-0"
+        enter-to="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-in"
+        leave-from="transform scale-100 opacity-100"
+        leave-to="transform scale-95 opacity-0">
         <MenuItems static @focus="focusMenuSearch()" as="div">
           <GlassmorphismContainer
             :class="[

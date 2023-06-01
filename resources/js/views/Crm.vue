@@ -26,12 +26,12 @@
                           aria-hidden="true" />
                       </MenuButton>
                       <transition
-                        enter-active-class="transition ease-out duration-100"
-                        enter-from-class="transform opacity-0 scale-95"
-                        enter-to-class="transform opacity-100 scale-100"
-                        leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100"
-                        leave-to-class="transform opacity-0 scale-95">
+                        enter-active="transition ease-out duration-100"
+                        enter-from="transform opacity-0 scale-95"
+                        enter-to="transform opacity-100 scale-100"
+                        leave-active="transition ease-in duration-75"
+                        leave-from="transform opacity-100 scale-100"
+                        leave-to="transform opacity-0 scale-95">
                         <MenuItems
                           class="z-10 mt-2 w-52 origin-top-right rounded border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                           <div class="py-1">
@@ -127,12 +127,13 @@
                       :count="counts.total"
                       description="All contacts" />
                     <TransitionRoot
+                      appear
                       :show="contactMenuOpen"
-                      transition="transition ease-out duration-300"
-                      enter-from="transform opacity-0 scale-95"
-                      enter-to="transform opacity-100 scale-100"
-                      leave-from="transform opacity-100 scale-100"
-                      leave-to="transform opacity-0 scale-95">
+                      enter-from="opacity-0 -z-10 translate-y-full"
+                      enter-to="opacity-100 translate-y-0"
+                      leave="transform duration-300 transition ease-out"
+                      leave-from="opacity-100 translate-y-0"
+                      leave-to="opacity-0 -z-10 -translate-y-full">
                       <div class="flex flex-col space-y-1 pl-4">
                         <template v-for="item in menuItems">
                           <JovieMenuItem
