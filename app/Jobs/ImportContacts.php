@@ -30,6 +30,8 @@ class ImportContacts implements ShouldQueue
 
     private $socialHandlersFromSocialColumn = [];
 
+    private const IMPORTABLE_SOCIALS = ['twitter', 'tiktok', 'twitch', 'instagram'];
+
     private mixed $payload;
 
     /**
@@ -195,11 +197,11 @@ class ImportContacts implements ShouldQueue
     public function setSocialColumn($key, $mappedColumns, $row)
     {
         $handler = trim(isset($mappedColumns->$key) ? $row[$mappedColumns->$key] : null);
-        if (($handler != '') && isset($this->socialHandlersFromSocialColumn[$key]) && ($handler != $this->socialHandlersFromSocialColumn[$key])) {
-            dump('RUNNING IMPORT SOCIAL QUEUE');
-            ImportContactFromSocial::dispatch('cyberinspects', 'instagram')->onQueue(
-                config('import.instagram_queue')
-            );
+        if (($handler != '') && isset($this->socialHandlersFromSocialColumn[$key])
+            && ($handler != $this->socialHandlersFromSocialColumn[$key])
+            && in_array($key, self::IMPORTABLE_SOCIALS)
+        ) {
+            (new ImportContactFromSocial($this->socialHandlersFromSocialColumn[$key], $key))->handle();
         }
         if ($handler == '' && isset($this->socialHandlersFromSocialColumn[$key])) {
             $handler = $this->socialHandlersFromSocialColumn[$key];
