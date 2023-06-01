@@ -2,6 +2,7 @@
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="relative z-10" @close="closeModal">
+      <div class="fixed inset-0 bg-black/30" aria-hidden="true" />
       <TransitionChild
         as="template"
         enter="ease-out duration-300"

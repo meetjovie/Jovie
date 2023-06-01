@@ -5,14 +5,15 @@
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div class="mt-2">
-              <div class="flex items-center py-4 text-xs">
-                <div class="mx-auto inline-flex w-full px-4">
+              <div class="flex items-center px-4 py-4 text-xs">
+                <div
+                  class="mx-auto inline-flex w-full divide-x rounded border border-slate-200 shadow active:shadow-none dark:border-jovieDark-border">
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="anti-aliasing group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                     <PlusIcon
-                      class="mr-1 h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
+                      class="mr-1 h-4 w-4 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
                     New Contact
                   </button>
@@ -20,7 +21,7 @@
                   <Menu>
                     <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
