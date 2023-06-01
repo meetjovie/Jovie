@@ -1777,6 +1777,9 @@ export default {
       this.currentRow = row;
     },
     toggleArchiveContacts(ids, archived) {
+      if (this.selectedContacts.length) {
+        ids = this.selectedContacts;
+      }
       this.$store
         .dispatch('toggleArchiveContacts', {
           contact_ids: ids,
@@ -1796,6 +1799,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.closeRightClickMenu();
             this.$emit('crmCounts');
           } else {
             this.$notify({
