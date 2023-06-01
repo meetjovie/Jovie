@@ -522,7 +522,12 @@
                     "
                     @toggleContactsFromList="toggleContactsFromList"
                     @checkContactsEnrichable="
-                      $emit('checkContactsEnrichable', $event)
+                      $emit(
+                        'checkContactsEnrichable',
+                        this.selectedContacts.length
+                          ? this.selectedContacts
+                          : $event
+                      )
                     " />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
@@ -1927,7 +1932,7 @@ export default {
     refresh(contact) {
       let imports = {};
       this.networks.forEach((network) => {
-        imports[network] = contact[`${network}_handler`];
+        imports[network] = contact[`${network}_data`][`${network}_handler`];
       });
       if (!Object.keys(imports).length) return;
       this.adding = true;
