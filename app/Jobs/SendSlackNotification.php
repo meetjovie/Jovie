@@ -44,15 +44,9 @@ class SendSlackNotification implements ShouldQueue
     public function handle()
     {
         try {
-            Log::info($this->message);
-            Log::info($this->internalMessage);
-            Log::info($this->data);
             $user = new User();
             $user->notify(new ImportNotification($this->message, $this->internalMessage, $this->data));
         } catch (\Exception $e) {
-            Log::info($this->message);
-            Log::info($this->internalMessage);
-            Log::info($this->data);
         }
     }
 }

@@ -72,7 +72,6 @@ class SaveImport implements ShouldQueue
      */
     public function handle()
     {
-        Log::info('1234321234');
         try {
             $stream = Import::getStream($this->file);
             $reader = Reader::createFromStream($stream);

@@ -158,12 +158,12 @@ class ImportContacts implements ShouldQueue
 
             if ($this->page >= ceil($this->payload->totalRecords / Import::PER_PAGE) - 1) {
                 if ($this->payload->list && count($this->payload->list)) {
-                    foreach ($this->payload->list as $listId) {
-                        $list = UserList::query()->where('id', $listId)->first();
+                    $lists = UserList::query()->whereIn('id', $this->payload->list)->first();
+                    foreach ($lists as $list) {
                         $list->importing = false;
                         $list->save();
                         UserListImported::dispatch(
-                            $listId,
+                            $list->id,
                             $this->payload->userId,
                             $this->payload->teamId
                         );
