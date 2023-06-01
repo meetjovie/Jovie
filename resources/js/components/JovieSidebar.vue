@@ -10,7 +10,7 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
     <div class="flex">
       <div
-        class="overflow-none top-0 z-30 mx-auto flex h-screen w-[268px] flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
+        class="overflow-none top-0 z-30 mx-auto flex h-screen w-[268px] flex-col justify-between overflow-auto border-r border-slate-200 bg-white py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
         <div>
           <slot name="header">
             <div class="w-full flex-col px-2">

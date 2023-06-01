@@ -26,14 +26,21 @@
               class="hidden h-3 w-3 cursor-grab text-slate-400 active:cursor-grabbing active:text-slate-700 group-hover/menuItem:block dark:text-jovieDark-400 active:dark:text-jovieDark-300" />
           </div>
           <div class="flex w-6 items-center space-x-2">
+            <ChevronRightIcon
+              @click="handleToggle()"
+              v-if="hasToggle"
+              :class="[collapsed ? '' : 'rotate-90 transform ']"
+              class="h-4 w-4 cursor-pointer rounded text-slate-700 dark:text-jovieDark-400"
+              aria-hidden="true" />
             <EmojiPickerModal
-              v-if="emoji"
+              v-else-if="emoji"
               class=""
               xs
               @emojiSelected="emojiSelected"
               :currentEmoji="emoji" />
             <component
-              v-if="icon"
+              v-else-if="icon"
+              @click="handleIconClik()"
               :is="icon"
               :class="`${iconColor}`"
               class="h-4 w-4"
@@ -109,8 +116,11 @@ import {
   SparklesIcon,
   ArrowPathIcon,
   CloudArrowUpIcon,
+  ChevronRightIcon,
   GlobeAltIcon,
   CreditCardIcon,
+  UserGroupIcon,
+  ChevronDownIcon,
   Bars3Icon,
   UserIcon,
   EllipsisHorizontalIcon,
@@ -135,6 +145,9 @@ export default {
     JovieDropdownMenu,
     DropdownMenuItem,
     EllipsisHorizontalIcon,
+    ChevronRightIcon,
+    UserGroupIcon,
+    ChevronDownIcon,
     CakeIcon,
     ArchiveBoxIcon,
     CogIcon,
@@ -220,6 +233,12 @@ export default {
     },
     handleClick() {
       this.$emit('button-click');
+    },
+    handleIconClikc() {
+      this.$emit('icon-click');
+    },
+    handleToggle() {
+      this.$emit('toggle-click');
     },
     handleSubmenuClick(id) {
       // console.log(item, id)
@@ -322,6 +341,16 @@ export default {
       default: false,
     },
     disableRouterLink: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    hasToggle: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    collapsed: {
       type: Boolean,
       required: false,
       default: false,

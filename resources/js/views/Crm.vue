@@ -4,13 +4,13 @@
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
-            <div class="mt-4">
-              <div class="flex items-center text-xs">
+            <div class="mt-2">
+              <div class="flex items-center py-4 text-xs">
                 <div class="mx-auto inline-flex w-full px-4">
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                     <PlusIcon
                       class="mr-1 h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                       aria-hidden="true" />
@@ -20,7 +20,7 @@
                   <Menu>
                     <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
@@ -62,7 +62,7 @@
               <Menu v-slot="{ open }">
                 <MenuItems class="overflow-auto" static>
                   <div class="flex w-full flex-col space-y-1 px-2">
-                    <MenuItem class="w-full" v-slot="{ active }" as="div">
+                    <!--  <MenuItem class="w-full" v-slot="{ active }" as="div">
                       <button
                         @click="setFiltersType('all')"
                         class="group mt-4 flex h-8 w-full items-center justify-between rounded px-1 text-left tracking-wide focus:outline-none focus:ring-0"
@@ -108,7 +108,24 @@
                             class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
                         </div>
                       </button>
-                    </MenuItem>
+                    </MenuItem> -->
+                    <JovieMenuItem
+                      :routerLink="false"
+                      @toggle-click="toggleContactMenuOpen"
+                      @button-click="setFiltersType('all')"
+                      class="w-full"
+                      :selected="filters.type == 'all'"
+                      name="All Contacts"
+                      :hasToggle="
+                        counts.archived > 0 ||
+                        counts.favourites > 0 ||
+                        counts.birthday > 0 ||
+                        counts.duplicates > 0
+                      "
+                      :collapsed="!contactMenuOpen"
+                      icon="UserGroupIcon"
+                      :count="counts.total"
+                      description="All contacts" />
                     <TransitionRoot
                       :show="contactMenuOpen"
                       transition="transition ease-out duration-300"
