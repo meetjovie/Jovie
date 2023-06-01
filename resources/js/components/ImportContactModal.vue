@@ -82,6 +82,7 @@
                                 >First Name</label
                               >
                               <input
+                                ref="initialFocus"
                                 type="text"
                                 :disabled="importing"
                                 name="first_name"

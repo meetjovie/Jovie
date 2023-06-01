@@ -44,6 +44,7 @@
         @click="instagramDMContact(contact.instagram || contact.instagram)"
         :disabled="!contact.instgaram && !contact.instagram"
         icon="ChatBubbleLeftEllipsisIcon" />
+
       <DropdownMenuItem
         v-if="contactMethod == 'whatsapp'"
         name="Whatsapp"

@@ -20,6 +20,162 @@
         class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
     </div>
   </MenuItem>
+  <MenuItem v-else-if="submenu" as="div" v-slot="{ active }">
+    <Menu>
+      <Float :offset="4" shift placement="right-start">
+        <MenuButton as="template">
+          <div
+            :class="{
+              'cursor-not-allowed opacity-50 saturate-0': disabled,
+              'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+                active && !danger,
+              'bg-red-100 text-slate-700 dark:bg-red-900 dark:text-red-100':
+                active && danger,
+            }"
+            class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
+            <div class="flex w-full items-center">
+              <slot>
+                <div class="flex w-full items-center justify-between">
+                  <div class="flex w-full items-center">
+                    <div
+                      v-if="checkable"
+                      class="mr-2 w-3 text-xs font-bold opacity-50">
+                      <CheckIcon
+                        v-if="checked"
+                        class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:text-slate-200" />
+                    </div>
+
+                    <div v-if="emoji" class="mr-2 text-xs font-bold">
+                      {{ emoji }}
+                    </div>
+                    <div
+                      v-else-if="colorDot"
+                      class="mr-2 text-xs font-bold opacity-50">
+                      <!--  <span
+                  class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
+                  :class="dotClass"></span> -->
+                      <ColorDot :color="colorDot" />
+                    </div>
+                    <div
+                      v-else-if="icon"
+                      class="mr-2 items-center text-xs font-bold">
+                      <component
+                        :is="icon"
+                        class="h-3 w-3"
+                        :class="{
+                          'text-slate-600 dark:text-jovieDark-200': !color,
+                          [color]: color,
+                        }" />
+                    </div>
+                    <div v-else></div>
+
+                    <div
+                      class="text-xs font-normal tracking-wider antialiased"
+                      :class="{
+                        'text-red-500':
+                          color === 'text-red-500 dark:text-red-700',
+                        'text-slate-600 dark:text-white': !color,
+                        [color]: color,
+                      }">
+                      {{ name }}
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <KBShortcut
+                      v-if="shortcutKey"
+                      :sequence="shortcutSequence"
+                      :shortcutKey="shortcutKey" />
+
+                    <ChevronRightIcon class="h-4 w-4 text-slate-600" />
+                  </div>
+                </div>
+              </slot>
+            </div>
+          </div>
+        </MenuButton>
+        <MenuItems class="">
+          <GlassmorphismContainer
+            class="w-40 px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
+            Add to list
+            <MenuItem disabled>
+              <div class="inset-0 flex items-center" aria-hidden="true">
+                <div
+                  class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
+              </div>
+            </MenuItem>
+            <!--  <MenuItem :disabled="disabled" as="div" v-slot="{ active }">
+              <div
+                :class="{
+                  'cursor-not-allowed opacity-50 saturate-0': disabled,
+                  'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+                    active && !danger,
+                  'bg-red-100 text-slate-700 dark:bg-red-900 dark:text-red-100':
+                    active && danger,
+                }"
+                class="group mt-1 flex w-full cursor-pointer items-center rounded px-2 py-1.5 text-xs text-slate-600 dark:text-jovieDark-200">
+                <div class="flex w-full items-center">
+                  <slot>
+                    <div class="flex w-full items-center justify-between">
+                      <div class="flex w-full items-center">
+                        <div
+                          v-if="checkable"
+                          class="mr-2 w-3 text-xs font-bold opacity-50">
+                          <CheckIcon
+                            v-if="checked"
+                            class="h-4 w-4 font-bold text-slate-600 hover:text-slate-700 dark:text-jovieDark-300 dark:hover:text-slate-200" />
+                        </div>
+
+                        <div v-if="emoji" class="mr-2 text-xs font-bold">
+                          {{ emoji }}
+                        </div>
+                        <div
+                          v-else-if="colorDot"
+                          class="mr-2 text-xs font-bold opacity-50">
+                        
+                          <ColorDot :color="colorDot" />
+                        </div>
+                        <div
+                          v-else-if="icon"
+                          class="mr-2 items-center text-xs font-bold">
+                          <component
+                            :is="icon"
+                            class="h-3 w-3"
+                            :class="{
+                              'text-slate-600 dark:text-jovieDark-200': !color,
+                              [color]: color,
+                            }" />
+                        </div>
+                        <div v-else></div>
+
+                        <div
+                          class="text-xs font-normal tracking-wider antialiased"
+                          :class="{
+                            'text-red-500':
+                              color === 'text-red-500 dark:text-red-700',
+                            'text-slate-600 dark:text-white': !color,
+                            [color]: color,
+                          }">
+                          {{ name }}
+                        </div>
+                      </div>
+                      <div class="flex">
+                        <KBShortcut
+                          v-if="shortcutKey"
+                          :sequence="shortcutSequence"
+                          :shortcutKey="shortcutKey" />
+
+                        <slot name="toggle"> </slot>
+                      </div>
+                    </div>
+                  </slot>
+                </div>
+              </div>
+            </MenuItem> -->
+          </GlassmorphismContainer>
+        </MenuItems>
+      </Float>
+    </Menu>
+  </MenuItem>
   <MenuItem v-else :disabled="disabled" as="div" v-slot="{ active }">
     <div
       :class="{
@@ -112,7 +268,9 @@
 <script>
 import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
+import { Float } from '@headlessui-float/vue';
 
+import GlassmorphismContainer from './GlassmorphismContainer.vue';
 import {
   PencilIcon,
   CakeIcon,
@@ -123,6 +281,7 @@ import {
   ComputerDesktopIcon,
   SunIcon,
   MoonIcon,
+  QueueListIcon,
   EnvelopeIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   PhoneIcon,
@@ -134,7 +293,6 @@ import {
   ArchiveBoxIcon,
   EllipsisVerticalIcon,
   ArrowSmallLeftIcon,
-  ChevronDownIcon,
   PlusIcon,
   BriefcaseIcon,
   NoSymbolIcon,
@@ -153,6 +311,7 @@ import {
   ViewfinderCircleIcon,
   SparklesIcon,
   CloudArrowUpIcon,
+  ChevronDownIcon,
   DocumentDuplicateIcon,
   CloudArrowDownIcon,
   AdjustmentsHorizontalIcon,
@@ -161,8 +320,17 @@ import {
   UserIcon,
   ArrowTopRightOnSquareIcon,
 } from '@heroicons/vue/24/solid';
-import { MenuItem, Switch, SwitchLabel, SwitchGroup } from '@headlessui/vue';
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Switch,
+  SwitchLabel,
+  SwitchGroup,
+} from '@headlessui/vue';
 import ColorDot from './../components/ColorDot.vue';
+
 export default {
   components: {
     KBShortcut,
@@ -171,10 +339,15 @@ export default {
     SwitchLabel,
     SwitchGroup,
     ColorDot,
+    Float,
+    GlassmorphismContainer,
+    Menu,
+    MenuButton,
+    MenuItems,
+
     ArchiveBoxIcon,
-
     PhoneIcon,
-
+    QueueListIcon,
     CakeIcon,
     TrashIcon,
     SunIcon,
@@ -267,6 +440,11 @@ export default {
       default: () => [],
     },
     disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    submenu: {
       type: Boolean,
       required: false,
       default: false,

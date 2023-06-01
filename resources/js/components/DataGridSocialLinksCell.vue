@@ -5,7 +5,7 @@
       size="xl"
       :searchable="false"
       placement="bottom-start">
-      <template #triggerButton>
+      <template v-slot="{ open }" #triggerButton>
         <div
           v-for="(social, index) in socialLinks"
           :key="social.network"
@@ -107,8 +107,10 @@ export default {
       socialURLEditing: false,
       socialMediaProfileUrl: '',
       currentNetwork: null,
+      open: false,
     };
   },
+
   methods: {
     editSocialNetworkURL(network) {
       this.setNetwork(network);

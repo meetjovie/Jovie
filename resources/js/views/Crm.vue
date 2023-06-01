@@ -60,7 +60,7 @@
               </div>
 
               <Menu v-slot="{ open }">
-                <MenuItems static>
+                <MenuItems class="overflow-auto" static>
                   <div class="flex w-full flex-col space-y-1 px-2">
                     <MenuItem class="w-full" v-slot="{ active }" as="div">
                       <button
