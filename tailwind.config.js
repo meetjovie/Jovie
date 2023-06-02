@@ -66,6 +66,10 @@ module.exports = {
           900: '#191A22',
           border: '#3B3B4E',
         },
+        //add a slate-150 color
+        slate: {
+          150: '#ebeef2',
+        },
 
         social: {
           facebook: '#3b5998',

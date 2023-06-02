@@ -35,7 +35,7 @@
                     :searchable="false">
                     <template #triggerButton>
                       <div
-                        class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
+                        class="flex w-full items-center justify-between rounded px-2 py-1 hover:bg-slate-150 dark:hover:bg-jovieDark-700">
                         <div class="group/teammenu flex items-center space-x-1">
                           <InitialBox
                             :emoji="currentUser.current_team.emoji"
@@ -78,7 +78,7 @@
                 <div class="items-center">
                   <JovieDropdownMenu
                     :searchable="false"
-                    size="lg"
+                    size="md"
                     placement="bottom-start"
                     :items="profileMenuItems">
                     <template #triggerButton>
@@ -99,11 +99,6 @@
                             class="justify-between truncate text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
                             {{ currentUser.first_name }}
                             {{ currentUser.last_name }}
-                          </p>
-
-                          <p
-                            class="truncate text-2xs font-medium text-slate-400 group-hover:text-slate-700">
-                            {{ currentUser.email }}
                           </p>
                         </div>
                         <div>

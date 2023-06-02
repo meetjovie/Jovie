@@ -38,6 +38,8 @@
               xs
               @emojiSelected="emojiSelected"
               :currentEmoji="emoji" />
+
+            <InitialBox :name="intials" v-else-if="initials" />
             <component
               v-else-if="icon"
               @click="handleIconClik()"
@@ -136,7 +138,7 @@ import {
   ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
-
+import InitialBox from './InitialBox.vue';
 export default {
   components: {
     MenuItem,
@@ -146,6 +148,8 @@ export default {
     EmojiPickerModal,
     JovieDropdownMenu,
     DropdownMenuItem,
+
+    InitialBox,
     EllipsisHorizontalIcon,
     ChevronRightIcon,
     UserGroupIcon,
@@ -319,6 +323,10 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    intials: {
+      type: String,
+      required: false,
     },
     id: {
       type: Number,

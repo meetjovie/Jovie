@@ -27,7 +27,7 @@
           <div
             :class="{
               'cursor-not-allowed opacity-50 saturate-0': disabled,
-              'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+              'bg-slate-150 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
                 active && !danger,
               'bg-red-100 text-slate-700 dark:bg-red-900 dark:text-red-100':
                 active && danger,
@@ -107,7 +107,7 @@
               <div
                 :class="{
                   'cursor-not-allowed opacity-50 saturate-0': disabled,
-                  'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+                  'bg-slate-150 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
                     active && !danger,
                   'bg-red-100 text-slate-700 dark:bg-red-900 dark:text-red-100':
                     active && danger,
@@ -180,7 +180,7 @@
     <div
       :class="{
         'cursor-not-allowed opacity-50 saturate-0': disabled,
-        'bg-slate-100 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
+        'bg-slate-150 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
           active && !danger,
         'bg-red-100 text-slate-700 dark:bg-red-900 dark:text-red-100':
           active && danger,
@@ -248,7 +248,7 @@
                       :class="
                         checked
                           ? 'bg-indigo-600 dark:bg-indigo-400'
-                          : 'bg-slate-100 dark:bg-jovieDark-800'
+                          : 'bg-slate-150 dark:bg-jovieDark-800'
                       "
                       class="relative inline-flex h-4 w-6 items-center rounded-full border border-slate-300 dark:border-jovieDark-border">
                       <span class="sr-only">{{ name }}</span>
