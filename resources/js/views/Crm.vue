@@ -536,7 +536,8 @@
             <!-- Show the crm if there are contacts -->
             <div v-if="columns.length">
               <button @click="togglePipelineView">SwitchView</button>
-              <Pipeline v-if="pipelineView" />
+<!--                            <Pipeline />-->
+              <BoardView v-if="pipelineView" />
               <DataGrid
                 v-else
                 ref="crmTableGrid"
@@ -707,10 +708,12 @@ import KBShortcut from '../components/KBShortcut.vue';
 import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
+import BoardView from '../components/BoardView.vue';
 
 export default {
   name: 'CRM',
   components: {
+    BoardView,
     FaceSmileIcon,
     ModalPopup,
     DropdownMenuItem,

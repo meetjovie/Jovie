@@ -1,14 +1,14 @@
 <template>
   <div
     class="flex h-screen space-x-4 bg-slate-100 px-4 py-2 dark:bg-jovieDark-900">
-    <div v-for="list in lists">
+    <div v-for="(list, index) in lists">
       <div class="w-80 overflow-auto py-2">
         <div
           class="flex items-center justify-between bg-slate-100 px-2 py-4 dark:bg-jovieDark-900">
           <div
             class="items-center text-sm text-slate-600 dark:text-jovieDark-100">
             <ColorDot class="mr-2" :color="list.color" />
-            {{ list.name }}
+            {{ list }}
           </div>
           <div class="flex">
             <div class="font-medium text-slate-500 dark:text-jovieDark-200">
@@ -27,7 +27,8 @@
           </div>
         </div>
         <ul role="list" class="flex w-80 flex-col space-y-4 overflow-y-scroll">
-          <li v-for="contact in contacts" :key="contact.id">
+          <li v-for="contact in contacts[index]" :key="contact.id">
+              <h1>{{ contact.id }}</h1>
             <ContactCard :contact="contact" />
           </li>
         </ul>
@@ -36,245 +37,88 @@
   </div>
 </template>
 <script>
+// export default {
+//   props: {
+//     lists: {
+//       type: Array,
+//       required: true,
+//     },
+//     contacts: {
+//       type: Array,
+//       required: true,
+//     },
+//   },
+// };
+import draggable from 'vuedraggable';
+import ContactTags from '../components/Contact/ContactTags.vue';
+import SocialIcons from '../components/SocialIcons.vue';
+import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/24/solid';
+import NoAccess from '../components/NoAccess.vue';
+import contactService from '../services/api/contact.service';
+import userService from '../services/api/user.service';
+import ContactAvatar from '../components/ContactAvatar.vue';
 export default {
+  name: 'two-lists',
+  display: 'Two Lists',
+  order: 1,
+  components: {
+    ContactAvatar,
+    draggable,
+    EnvelopeIcon,
+    PhoneIcon,
+    SocialIcons,
+    NoAccess,
+    ContactTags,
+  },
+  mounted() {
+    //add segment analytics
+    this.getStagedContacts();
+    window.analytics.page(this.$route.path);
+  },
   props: {
-    lists: {
+    suggestion: {
       type: Array,
-      required: true,
     },
-    contacts: {
-      type: Array,
-      required: true,
+  },
+  data() {
+    return {
+      lists: [],
+      contacts: [],
+    };
+  },
+  methods: {
+    add: function () {
+      this.list.push({ name: 'Juan' });
+    },
+    replace: function () {
+      this.list = [{ name: 'Edgard' }];
+    },
+    clone: function (el) {
+      return {
+        name: el.name + ' cloned',
+      };
+    },
+    updateStage: function (event, stage) {
+      if (event.added) {
+        let contact = event.added.element;
+        contact.stage = stage;
+        userService.updateContact(contact);
+      }
+    },
+    getStagedContacts() {
+      contactService
+        .getStagedContacts()
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.lists = response.stages;
+            this.contacts = response.contacts;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
-</script>
-
-<script setup>
-import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/20/solid';
-import ColorDot from './ColorDot.vue';
-import ButtonGroup from './ButtonGroup.vue';
-import ContactCard from './ContactCard.vue';
-import { PlusIcon, EllipsisHorizontalIcon } from '@heroicons/vue/24/solid';
-const lists = [
-  {
-    name: 'Lead',
-    color: 'blue',
-    count: 5,
-  },
-  {
-    name: 'Contacted',
-    color: 'green',
-    count: 2,
-  },
-  {
-    name: 'Qualified',
-    color: 'pink',
-    count: 1,
-  },
-];
-
-const people = [
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    role: 'Admin',
-    email: 'janecooper@example.com',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  //add 10 more people
-  {
-    name: 'Jane Cooper',
-    title: 'Regional Paradigm Technician',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Tom Cook',
-    title: 'Senior Integration Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-  {
-    name: 'Harvey Wallin',
-    title: 'Senior  Specialist',
-    role: 'Admin',
-    email: '',
-    telephone: '+1-202-555-0170',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8YmVhdXRpZnVsJTIwc2hvcHBpbmclMjBzdXJlfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60',
-  },
-
-  // More people...
-];
 </script>
