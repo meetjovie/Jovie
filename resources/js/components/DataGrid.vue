@@ -22,6 +22,9 @@
               <div>
                 <ShareMenu :contacts="activeUsersOnList" />
               </div>
+
+              <ViewToggle v-model="boardView" />
+
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -239,7 +242,11 @@
             </div>
           </div>
         </header>
+        <div v-if="boardView">
+          <BoardView :contacts="contacts" />
+        </div>
         <div
+          v-else
           class="flex h-full w-full justify-between overflow-x-auto scroll-smooth align-middle">
           <div
             class="flex h-full w-full flex-col overflow-auto bg-white ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
@@ -691,7 +698,8 @@ import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
 import { debounce } from 'lodash';
 import RightClickMenuVue from './RightClickMenu.vue';
-
+import ViewToggle from './ViewToggle.vue';
+import BoardView from './BoardView.vue';
 export default {
   name: 'DataGrid',
   components: {
@@ -702,6 +710,7 @@ export default {
     DataGridCellTextInput,
     DataGridHeaderContent,
     CustomFieldsMenu,
+    BoardView,
     ArchiveBoxIcon,
     KeyboardShortcut,
     MagnifyingGlassIcon,
@@ -714,6 +723,7 @@ export default {
     InputLists,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
+    ViewToggle,
     LockClosedIcon,
     Switch,
     ShareMenu,
@@ -784,6 +794,7 @@ export default {
         confirmationMethod: null,
         title: 'Hiiiii',
         open: false,
+        boardView: false,
         primaryButtonText: 'custom',
         description: 'hellooo hello hello',
         loading: false,

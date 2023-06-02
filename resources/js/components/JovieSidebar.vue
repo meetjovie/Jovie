@@ -93,7 +93,7 @@
                     </template>
                     <template #menuTop>
                       <div
-                        class="mt-2 flex w-full cursor-default justify-between px-4">
+                        class="flex w-full cursor-default justify-between px-4">
                         <div class="flex w-full items-center justify-between">
                           <p
                             class="justify-between truncate text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
@@ -129,7 +129,7 @@
                         name="Help"
                         icon="ChatBubbleLeftIcon" />
                       <div
-                        class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
+                        class="border-t border-slate-200 dark:border-jovieDark-border"></div>
                       <DropdownMenuItem
                         :shortcutKey="
                           $store.state.platform === 'mac'
@@ -139,13 +139,6 @@
                         @click="$store.dispatch('logout')"
                         name="Logout"
                         icon="ArrowLeftOnRectangleIcon" />
-
-                      <div class="ntoabsoltue bottom-14 right-0">
-                        <span
-                          class="text-right text-[8px] text-slate-400 dark:text-jovieDark-400">
-                          {{ $store.state.jovieVersion }}
-                        </span>
-                      </div>
                     </template>
                   </JovieDropdownMenu>
                 </div>
