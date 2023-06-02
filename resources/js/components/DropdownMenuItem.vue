@@ -70,7 +70,7 @@
                     <div v-else></div>
 
                     <div
-                      class="text-xs font-medium tracking-wider antialiased"
+                      class="line-clamp-1 text-xs font-medium tracking-wider antialiased"
                       :class="{
                         'text-red-500':
                           color === 'text-red-500 dark:text-red-700',
@@ -177,6 +177,8 @@
     </Menu>
   </MenuItem>
   <MenuItem v-else :disabled="disabled" as="div" v-slot="{ active }">
+    <!--   Tooltip is breaking buttons. Need to fix this. -->
+    <!--   <JovieTooltip :disabled="!tooltip" :tooltipText="name" /> -->
     <div
       :class="{
         'cursor-not-allowed opacity-50 saturate-0': disabled,
@@ -221,7 +223,7 @@
               <div v-else></div>
 
               <div
-                class="text-xs font-medium tracking-wider antialiased"
+                class="line-clamp-1 text-xs font-medium tracking-wider antialiased"
                 :class="{
                   'text-red-500': color === 'text-red-500 dark:text-red-700',
                   'text-slate-500 dark:text-white': !color,
@@ -269,7 +271,7 @@
 import { ref } from 'vue';
 import KBShortcut from './KBShortcut.vue';
 import { Float } from '@headlessui-float/vue';
-
+import JovieTooltip from './JovieTooltip.vue';
 import GlassmorphismContainer from './GlassmorphismContainer.vue';
 import {
   PencilIcon,
@@ -344,6 +346,7 @@ export default {
     Menu,
     MenuButton,
     MenuItems,
+    JovieTooltip,
 
     ArchiveBoxIcon,
     PhoneIcon,
@@ -423,7 +426,11 @@ export default {
       required: false,
       default: false,
     },
-
+    tooltip: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
     numbered: {
       type: Boolean,
       required: false,
@@ -440,6 +447,11 @@ export default {
       default: () => [],
     },
     disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    tooltip: {
       type: Boolean,
       required: false,
       default: false,

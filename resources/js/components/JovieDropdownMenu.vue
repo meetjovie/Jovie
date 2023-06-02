@@ -57,6 +57,7 @@
                 <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
+                      :tooltip="tooltip"
                       :name="item[nameKey]"
                       :icon="item.icon"
                       :colorDot="item.color"
@@ -68,6 +69,7 @@
                   </router-link>
                   <DropdownMenuItem
                     v-else
+                    :tooltip="tooltip"
                     :name="item[nameKey]"
                     :icon="item.icon"
                     :colorDot="item.color"
@@ -276,6 +278,10 @@ export default {
     searchable: {
       type: Boolean,
       default: true,
+    },
+    tooltip: {
+      type: Boolean,
+      default: false,
     },
     numbered: {
       type: Boolean,
