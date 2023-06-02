@@ -33,7 +33,7 @@
         </p>
         <div class="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
           <div class="rounded-md">
-            <div class="mt-8 sm:w-full sm:max-w-md xl:mt-0 xl:ml-8">
+            <div class="mt-8 sm:w-full sm:max-w-md xl:ml-8 xl:mt-0">
               <div class="sm:flex">
                 <label for="email-address" class="sr-only">Email address</label>
                 <input
@@ -44,14 +44,14 @@
                   type="email"
                   autocomplete="off"
                   required=""
-                  class="focus:ring-none focus:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-slate-500 shadow-xl shadow-indigo-700/20 focus:border-none focus:outline-none focus-visible:outline-none"
+                  class="focus-visible:ring-none focus-visible:ring-none w-full rounded-md border-indigo-700/30 px-5 py-3 placeholder-slate-500 shadow-xl shadow-indigo-700/20 focus-visible:border-none focus-visible:outline-none focus-visible:outline-none"
                   placeholder="Enter your email" />
 
                 <button
                   type="button"
                   as="router-link"
                   @click="requestDemo()"
-                  class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0">
+                  class="mt-3 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-500 px-5 py-3 text-base font-medium text-white shadow-xl shadow-indigo-700/30 hover:bg-indigo-800 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-700 sm:ml-3 sm:mt-0 sm:w-auto sm:flex-shrink-0">
                   Get started
                 </button>
               </div>

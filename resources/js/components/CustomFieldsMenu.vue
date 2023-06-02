@@ -9,7 +9,7 @@
           label="Field Name"
           type="text"
           :error="errors.name ? errors.name[0] : null"
-          class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+          class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0" />
         <ComboboxMenu :items="customFieldTypes" v-model="field.type" />
       </div>
       <div class="px-2 py-1" v-if="field.type.description">

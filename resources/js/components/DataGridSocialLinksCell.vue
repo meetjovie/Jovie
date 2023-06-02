@@ -5,7 +5,7 @@
       size="xl"
       :searchable="false"
       placement="bottom-start">
-      <template v-slot="{ open }" #triggerButton>
+      <template #triggerButton>
         <div
           v-for="(social, index) in socialLinks"
           :key="social.network"

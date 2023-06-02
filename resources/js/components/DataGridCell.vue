@@ -91,7 +91,7 @@
             :value="localModelValue"
             pattern="\d{1,2}/\d{1,2}/\d{4}"
             id="date"
-            class="block w-full border-none bg-transparent pr-12 placeholder-slate-400 outline-none focus:border-none dark:placeholder-slate-200 sm:text-sm" />
+            class="block w-full border-none bg-transparent pr-12 placeholder-slate-400 outline-none focus-visible:border-none dark:placeholder-slate-200 sm:text-sm" />
           <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
             <JovieDatePicker
               :value="localModelValue"

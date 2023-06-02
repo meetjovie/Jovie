@@ -5,7 +5,7 @@
     @keyup.enter="handleClick()"
     @mouseover="lockMenuButton()"
     @drop="handleDrop(id)"
-    class="group/menuItem focus:border-none focus:outline-none focus:ring-0"
+    class="group/menuItem focus-visible:border-none focus-visible:outline-none focus-visible:ring-0"
     v-slot="{ active }">
     <component
       :is="routerLink ? 'router-link' : 'div'"
@@ -18,7 +18,7 @@
           active || selected
             ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200 '
             : 'text-slate-900 dark:text-jovieDark-100',
-          'group flex h-8 w-full cursor-pointer items-center justify-between rounded px-2 text-xs focus:border-none  focus:outline-none focus:ring-0   ',
+          'group flex h-8 w-full cursor-pointer items-center justify-between rounded px-2 text-xs focus-visible:border-none  focus-visible:outline-none focus-visible:ring-0   ',
         ]">
         <div class="flex items-center">
           <div v-if="draggable" class="flex h-4 w-6 items-center">
@@ -67,7 +67,7 @@
                 : 'text-slate-900 dark:text-jovieDark-100',
               ' ',
             ]"
-            class="rounded-md text-xs font-light text-slate-700 focus:border-slate-100/0 focus:outline-none focus:ring-0 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
+            class="rounded-md text-xs font-light text-slate-700 focus-visible:border-slate-100/0 focus-visible:outline-none focus-visible:ring-0 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
         </div>
 
         <div class="h-4 w-4 items-center rounded">

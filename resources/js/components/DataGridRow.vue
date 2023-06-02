@@ -38,7 +38,7 @@
                 name="`checkbox_contact`"
                 :value="contact.id"
                 v-model="selectedContactsModel"
-                class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus:border-none focus:outline-none focus:ring-0 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400 sm:left-6" />
+                class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400 sm:left-6" />
             </span>
             <span
               class="text-xs font-semibold text-slate-500 group-hover:hidden dark:text-jovieDark-400"

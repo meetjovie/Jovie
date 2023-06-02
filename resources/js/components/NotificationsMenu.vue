@@ -2,15 +2,13 @@
 <template>
   <Popover class="relative" v-slot="{ open }">
     <PopoverButton
-    @click="getImportBatches()"
+      @click="getImportBatches()"
       :class="[
         open ? 'text-slate-900' : 'text-slate-500',
-        'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+        'group inline-flex items-center rounded-md bg-white text-base font-medium hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2',
       ]">
-     <span class="sr-only">Open import notification</span>
-                    <BellIcon
-                      class="h-5 w-5 flex-shrink-0"
-                      aria-hidden="true" />
+      <span class="sr-only">Open import notification</span>
+      <BellIcon class="h-5 w-5 flex-shrink-0" aria-hidden="true" />
     </PopoverButton>
 
     <transition
@@ -25,21 +23,14 @@
         <div
           class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
           <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-
-
-                              <p
-                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
-
-                              </p>
-                              <p
-                                class="text-xs font-medium text-slate-500 group-hover:text-slate-700">
-                              </p>
-
+            <p
+              class="text-xs font-medium text-slate-500 group-hover:text-slate-700"></p>
+            <p
+              class="text-xs font-medium text-slate-500 group-hover:text-slate-700"></p>
 
             <a
-            v-for="batch in batches"
+              v-for="batch in batches"
               :key="batch.id"
-
               class="-m-3 flex items-start rounded-lg p-3 transition duration-150 ease-in-out hover:bg-slate-50">
               <component
                 :is="item.icon"
@@ -50,9 +41,9 @@
                   {{ batch.name }}
                 </p>
                 <p class="mt-1 text-sm text-slate-500">
-                     total: {{ batch.initial_total_in_file }}
+                  total: {{ batch.initial_total_in_file }}
                 </p>
-                  progress: {{ batch.progress }} %
+                progress: {{ batch.progress }} %
               </div>
             </a>
           </div>
@@ -90,7 +81,6 @@
 </template>
 
 <script>
-
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue';
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
 import {
@@ -101,65 +91,64 @@ import {
 } from '@heroicons/vue/24/outline';
 
 export default {
-    name: 'NotificationMenu',
-    components: {
-        BookmarkSquareIcon,
-        CalendarIcon,
-        ShieldCheckIcon,
-        LifebuoyIcon,
-        ChevronDownIcon,
-        Popover,
-        PopoverButton,
-        PopoverPanel
+  name: 'NotificationMenu',
+  components: {
+    BookmarkSquareIcon,
+    CalendarIcon,
+    ShieldCheckIcon,
+    LifebuoyIcon,
+    ChevronDownIcon,
+    Popover,
+    PopoverButton,
+    PopoverPanel,
+  },
+  props: {
+    batches: {
+      type: Array,
+      required: true,
     },
-    props: {
-        batches: {
-            type: Array,
-            required: true,
+  },
+  data() {
+    return {
+      resources: [
+        {
+          name: 'Help Center',
+          description:
+            'Get all of your questions answered in our forums or contact support.',
+          href: '#',
+          icon: LifebuoyIcon,
         },
-    },
-    data() {
-        return {
-            resources: [
-                {
-                    name: 'Help Center',
-                    description:
-                        'Get all of your questions answered in our forums or contact support.',
-                    href: '#',
-                    icon: LifebuoyIcon,
-                },
-                {
-                    name: 'Guides',
-                    description:
-                        'Learn how to maximize our platform to get the most out of it.',
-                    href: '#',
-                    icon: BookmarkSquareIcon,
-                },
-                {
-                    name: 'Events',
-                    description:
-                        'See what meet-ups and other events we might be planning near you.',
-                    href: '#',
-                    icon: CalendarIcon,
-                },
-                {
-                    name: 'Security',
-                    description: 'Understand how we take your privacy seriously.',
-                    href: '#',
-                    icon: ShieldCheckIcon,
-                },
-            ],
-            recentPosts: [
-                { id: 1, name: 'Boost your conversion rate', href: '#' },
-                {
-                    id: 2,
-                    name: 'How to use search engine optimization to drive traffic to your site',
-                    href: '#',
-                },
-                { id: 3, name: 'Improve your customer experience', href: '#' },
-            ]
-        }
-    }
-}
-
+        {
+          name: 'Guides',
+          description:
+            'Learn how to maximize our platform to get the most out of it.',
+          href: '#',
+          icon: BookmarkSquareIcon,
+        },
+        {
+          name: 'Events',
+          description:
+            'See what meet-ups and other events we might be planning near you.',
+          href: '#',
+          icon: CalendarIcon,
+        },
+        {
+          name: 'Security',
+          description: 'Understand how we take your privacy seriously.',
+          href: '#',
+          icon: ShieldCheckIcon,
+        },
+      ],
+      recentPosts: [
+        { id: 1, name: 'Boost your conversion rate', href: '#' },
+        {
+          id: 2,
+          name: 'How to use search engine optimization to drive traffic to your site',
+          href: '#',
+        },
+        { id: 3, name: 'Improve your customer experience', href: '#' },
+      ],
+    };
+  },
+};
 </script>

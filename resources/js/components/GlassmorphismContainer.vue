@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto rounded-lg border border-slate-200 bg-slate-50/60 bg-clip-padding shadow-lg outline-none ring-black backdrop-blur-md backdrop-saturate-200 backdrop-filter focus:border-transparent focus:outline-none focus:ring-0 focus:ring-black focus:ring-transparent focus:ring-offset-0 dark:border-jovieDark-border dark:bg-jovieDark-600/60"
+    class="mx-auto rounded-lg border border-slate-200 bg-slate-50/60 bg-clip-padding shadow-lg outline-none ring-black backdrop-blur-md backdrop-saturate-200 backdrop-filter focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-black focus-visible:ring-transparent focus-visible:ring-offset-0 dark:border-jovieDark-border dark:bg-jovieDark-600/60"
     :class="containerSize">
     <slot></slot>
   </div>

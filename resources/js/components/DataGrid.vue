@@ -18,13 +18,25 @@
                     > -->
           <div class="flex h-6 w-full content-end items-center">
             <div
-              class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <div>
-                <ShareMenu :contacts="activeUsersOnList" />
+              class="group flex h-full w-full cursor-pointer content-end items-center justify-end text-right transition-all duration-150 ease-out">
+              <div v-if="!searchVisible">
+                <JovieTooltip
+                  tooltipText="Press"
+                  arrow
+                  tooltipPlacement="bottom">
+                  <template #content>
+                    <KeyboardShortcut text="/" />
+                    to search
+                  </template>
+                  <ButtonGroup
+                    hideText
+                    size="xs"
+                    :design="'toolbar'"
+                    :text="'Search'"
+                    icon="MagnifyingGlassIcon"
+                    @click="toggleSearchVisible()" />
+                </JovieTooltip>
               </div>
-
-              <ViewToggle v-model="boardView" />
-
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -49,7 +61,7 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:placeholder:text-slate-400 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus-visible:border-none focus-visible:outline-0 focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:placeholder:text-slate-400 sm:text-xs" />
 
                       <div
                         @click="toggleSearchVisible()"
@@ -62,35 +74,23 @@
                   </div>
                 </div>
               </TransitionRoot>
-
-              <div v-if="!searchVisible">
-                <JovieTooltip
-                  tooltipText="Press"
-                  arrow
-                  tooltipPlacement="bottom">
-                  <template #content>
-                    <KeyboardShortcut text="/" />
-                    to search
-                  </template>
-                  <ButtonGroup
-                    :design="'toolbar'"
-                    :text="'Search'"
-                    icon="MagnifyingGlassIcon"
-                    hideText
-                    @click="toggleSearchVisible()" />
-                </JovieTooltip>
+              <div>
+                <ShareMenu :contacts="activeUsersOnList" />
               </div>
+
+              <ViewToggle v-model="boardView" />
             </div>
-            <div class="flex items-center space-x-4">
+            <div class="ml-4 flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
                       <ButtonGroup
                         :design="'toolbar'"
-                        :text="'Hide Columns'"
-                        icon="AdjustmentsHorizontalIcon"
-                        hideText />
+                        :text="'Display'"
+                        size="xs"
+                        hasMenu
+                        icon="AdjustmentsHorizontalIcon" />
                     </MenuButton>
                     <TransitionRoot
                       :show="open"
@@ -102,7 +102,7 @@
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems @focus="focusTableColumnFilterInput()" static>
                         <GlassmorphismContainer
-                          class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus:ring-0">
+                          class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus-visible:ring-0">
                           <div class="px-1">
                             <DropdownMenuItem
                               tabindex="0"
@@ -226,18 +226,11 @@
                 tooltipPlacement="bottom">
                 <ButtonGroup
                   @click="toggleContactSidebar()"
-                  :design="'toolbar'"
-                  :text="
-                    $store.state.ContactSidebarOpen
-                      ? 'Close Contact Sidebar'
-                      : 'Open Contact Sidebar'
-                  "
-                  :icon="
-                    $store.state.ContactSidebarOpen
-                      ? 'ArrowRightOnRectangleIcon'
-                      : 'ArrowLeftOnRectangleIcon'
-                  "
-                  hideText />
+                  design="toolbar"
+                  size="xs"
+                  hideText
+                  text="Details"
+                  icon="UserIcon" />
               </JovieTooltip>
             </div>
           </div>
@@ -458,7 +451,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -970,6 +963,10 @@ export default {
       } else {
         this.handleCellNavigation('ArrowRight');
       }
+    });
+    this.$mousetrap.bind(['command+b', 'ctrl+b'], () => {
+      event.preventDefault();
+      this.boardView = !this.boardView;
     });
     this.$mousetrap.bind('left', () => {
       event.preventDefault();

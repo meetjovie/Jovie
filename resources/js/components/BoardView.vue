@@ -2,7 +2,7 @@
   <div
     class="flex h-screen space-x-4 bg-slate-100 px-4 py-2 dark:bg-jovieDark-900">
     <div v-for="list in lists">
-      <div class="w-80 overflow-auto py-2">
+      <div class="w-80 overflow-y-auto py-2">
         <div
           class="flex items-center justify-between bg-slate-100 px-2 py-4 dark:bg-jovieDark-900">
           <div
