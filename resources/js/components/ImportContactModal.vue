@@ -28,7 +28,7 @@
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel class="mx-auto w-full">
               <GlassmorphismContainer
-                class="bg-whit dark:bg-jovieDark-900"
+                class="bg-white dark:bg-jovieDark-900"
                 size="xl">
                 <div class="relative w-full transform overflow-hidden">
                   <div>
