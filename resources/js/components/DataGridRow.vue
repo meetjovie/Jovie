@@ -1,10 +1,10 @@
 <template>
   <tr
-    @contextmenu="handleContextMenu($event, contact)"
+    @contextmenu.prevent="handleContextMenu($event, contact)"
     class="group/rowhover group h-11 w-full flex-row items-center overflow-y-visible">
     <div
-      @click.prevent="toggleRow(contact.id)"
-      v-if="ctrlDown"
+      @click.prevent="toggleRow($event, contact.id)"
+      v-if="overlay"
       class="absolute z-50 h-14 w-full"></div>
     <div
       :class="[
@@ -14,9 +14,9 @@
             : 'bg-indigo-50 dark:bg-indigo-700'
           : currentContact.id === contact.id
           ? 'bg-slate-100 dark:bg-jovieDark-600'
-          : 'group/rowhover bg-slate-50 group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 group-hover/rowhover:dark:bg-jovieDark-700',
+          : 'group/rowhover bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 group-hover/rowhover:dark:bg-jovieDark-700',
       ]"
-      class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-300 dark:border-jovieDark-border">
+      class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-200 dark:border-jovieDark-border">
       <div
         class="flex h-full w-full items-center justify-between"
         freezeColumn
@@ -147,7 +147,7 @@
               : 'bg-indigo-50  dark:bg-indigo-700'
             : currentContact.id === contact.id
             ? 'bg-slate-100  dark:bg-jovieDark-600'
-            : 'bg-slate-50 group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
+            : 'bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @click="setCurrentCell(columnIndex)"
@@ -204,7 +204,7 @@ export default {
   data() {
     return {
       row: 0,
-      ctrlDown: false,
+      overlay: false,
     };
   },
   mounted() {
@@ -230,15 +230,17 @@ export default {
   },
   methods: {
     onKeyDown(event) {
-      if (event.ctrlKey || event.metaKey) {
-        this.ctrlDown = true;
+      if (event.ctrlKey || event.metaKey || event.key === 'Shift') {
+        this.overlay = true;
       }
     },
-    onKeyUp(event) {
-      this.ctrlDown = false;
+    onKeyUp() {
+      this.overlay = false;
     },
-    toggleRow(id) {
-      if (this.selectedContactsModel.includes(id)) {
+    toggleRow(event, id) {
+      if (event.shiftKey) {
+        this.$emit('selectMultiple', this.contact);
+      } else if (this.selectedContactsModel.includes(id)) {
         this.selectedContactsModel.splice(
           this.selectedContactsModel.indexOf(id),
           1

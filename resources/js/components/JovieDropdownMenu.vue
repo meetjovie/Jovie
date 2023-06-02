@@ -1,21 +1,22 @@
 <template>
   <Menu
     as="div"
-    v-slot="{ open }"
+    v-slot="{ open, close }"
     class="relative z-10 inline-block w-full items-center text-left">
     <Float portal :offset="0" shift :placement="placement">
       <MenuButton class="w-full cursor-pointer" @click="open" ref="menuButton">
-        <slot name="triggerButton"> Button Goes Here</slot>
+        <slot :open="open" name="triggerButton"> Button Goes Here</slot>
       </MenuButton>
 
       <TransitionRoot
         :show="open && !disabled"
-        enter-active-class="transition duration-100 ease-out"
-        enter-from-class="transform scale-95 opacity-0"
-        enter-to-class="transform scale-100 opacity-100"
-        leave-active-class="transition duration-75 ease-in"
-        leave-from-class="transform scale-100 opacity-100"
-        leave-to-class="transform scale-95 opacity-0">
+        appear
+        enter="transition duration-400 ease-out"
+        enter-from="transform scale-95 opacity-0"
+        enter-to="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-in"
+        leave-from="transform scale-100 opacity-100"
+        leave-to="transform scale-95 opacity-0">
         <MenuItems static @focus="focusMenuSearch()" as="div">
           <GlassmorphismContainer
             :class="[
@@ -56,6 +57,7 @@
                 <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
+                      :tooltip="tooltip"
                       :name="item[nameKey]"
                       :icon="item.icon"
                       :colorDot="item.color"
@@ -67,6 +69,7 @@
                   </router-link>
                   <DropdownMenuItem
                     v-else
+                    :tooltip="tooltip"
                     :name="item[nameKey]"
                     :icon="item.icon"
                     :colorDot="item.color"
@@ -275,6 +278,10 @@ export default {
     searchable: {
       type: Boolean,
       default: true,
+    },
+    tooltip: {
+      type: Boolean,
+      default: false,
     },
     numbered: {
       type: Boolean,

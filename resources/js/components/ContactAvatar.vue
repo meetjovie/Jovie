@@ -76,20 +76,22 @@
           <span
             v-if="editable"
             class="mx-auto hidden h-full w-full items-center rounded-full group-hover:block">
-            <PencilIcon
-              class="mx-auto h-1/3 w-1/3 items-center text-white/50 dark:text-jovieDark-300/50" />
+            <label :for="`profile_pic_url_${contact.id}`">
+              <PencilIcon
+                class="mx-auto h-1/3 w-1/3 items-center text-white/50 dark:text-jovieDark-300/50" />
+              <input
+                :disabled="updating || !editable"
+                type="file"
+                :ref="`profile_pic_url_${contact.id}`"
+                @change="fileChanged($event)"
+                name="profile_pic_url"
+                :id="`profile_pic_url_${contact.id}`"
+                style="display: none" />
+            </label>
           </span>
         </span>
       </span>
     </label>
-    <input
-      :disabled="updating || !editable"
-      type="file"
-      :ref="`profile_pic_url_${contact.id}`"
-      @change="fileChanged($event)"
-      name="profile_pic_url"
-      :id="`profile_pic_url_${contact.id}`"
-      style="display: none" />
   </div>
 </template>
 

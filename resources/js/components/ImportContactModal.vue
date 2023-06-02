@@ -2,6 +2,7 @@
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="relative z-10" @close="closeModal">
+      <div class="fixed inset-0 bg-black/30" aria-hidden="true" />
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -26,7 +27,9 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel class="mx-auto w-full">
-              <GlassmorphismContainer size="xl">
+              <GlassmorphismContainer
+                class="bg-white dark:bg-jovieDark-900"
+                size="xl">
                 <div class="relative w-full transform overflow-hidden">
                   <div>
                     <div class="mt-2" v-if="fromSocial">
@@ -38,12 +41,12 @@
                     <div class="" v-else>
                       <form action="#" class="relative">
                         <div
-                          class="overflow-hidden rounded-lg border border-gray-300 px-2 shadow-sm">
+                          class="overflow-hidden rounded-lg border border-gray-300 px-2 shadow-sm dark:border-jovieDark-border">
                           <!--  <ContactAvatar /> -->
                           <div class="mt-2 flex items-center justify-between">
                             <div class="flex items-center">
                               <div
-                                class="inline-flex items-center rounded bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
+                                class="inline-flex items-center rounded border border-slate-200 bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-200">
                                 <InitialBox
                                   :name="
                                     currentUser.current_team.emoji ||
@@ -54,7 +57,8 @@
                                   >{{ currentUser.current_team.name }}
                                 </span>
                               </div>
-                              <ChevronRightIcon class="mr-1 h-3 w-4" />
+                              <ChevronRightIcon
+                                class="mr-1 h-4 w-4 text-slate-500 dark:text-jovieDark-300" />
                               <span
                                 class="items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
                                 >New contact</span
@@ -68,29 +72,37 @@
                               <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                             </button>
                           </div>
-                          <div class="mt-4 flex px-4">
-                            <ContactAvatar
-                              @updateAvatar="contact.profile_pic = $event"
-                              :contact="contact"
-                              :editable="true"
-                              class="h-14 w-14 flex-shrink-0 text-gray-300 sm:-ml-1" />
-                            <label for="first_name" class="sr-only"
-                              >First Name</label
-                            >
-                            <input
-                              type="text"
-                              :disabled="importing"
-                              name="first_name"
-                              tabindex="-1"
-                              id="first_name"
-                              class="w-38 block border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-28 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
-                              placeholder="First Name"
-                              v-model="contact.first_name" />
-                            <div
-                              v-if="errors.first_name"
-                              class="mt-2 text-xs text-red-600 dark:text-red-400">
-                              {{ errors.first_name[0] }}
+                          <div class="mt-4 flex w-full items-center px-4">
+                            <div class="px-2">
+                              <ContactAvatar
+                                @updateAvatar="contact.profile_pic = $event"
+                                :contact="contact"
+                                :editable="true"
+                                class="h-14 w-14 flex-shrink-0 text-gray-300" />
                             </div>
+
+                            <div class="">
+                              <label for="first_name" class="sr-only"
+                                >First Name</label
+                              >
+                              <input
+                                ref="initialFocus"
+                                type="text"
+                                :disabled="importing"
+                                name="first_name"
+                                tabindex="-1"
+                                id="first_name"
+                                class="z-20 block w-32 border-0 bg-transparent px-4 pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-32 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
+                                placeholder="First Name"
+                                v-model="contact.first_name" />
+                            </div>
+                            <div
+                                class="h-6 w-full justify-start py-1 text-xs text-red-600 dark:text-red-400">
+                            <span v-if="errors.first_name">
+                              {{ errors.first_name[0] }}</span
+                            >
+                            </div>
+
                             <label for="first_name" class="sr-only"
                               >Last Name</label
                             >
@@ -115,7 +127,7 @@
                             class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                             placeholder="Write a description..." /> -->
                           <div
-                            class="mt-8 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">
+                            class="mt-2 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">
                             <template v-for="field in contactFields">
                               <DataInputGroup
                                 v-model="contact[field.model]"
@@ -150,32 +162,59 @@
                         </div>
                         <div class="absolute inset-x-px bottom-0">
                           <div
-                            class="flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3">
-                            <div class="flex">
-                              <!--  <button
-                                type="button"
-                                class="group -my-2 -ml-2 inline-flex items-center rounded-full px-3 py-2 text-left text-gray-400">
-                                <PaperClipIcon
-                                  class="-ml-1 mr-2 h-4 w-4 group-hover:text-gray-500"
-                                  aria-hidden="true" />
-                              </button> -->
-                            </div>
+                            class="flex items-center justify-between space-x-4 border-t border-slate-200 px-2 py-2 dark:border-jovieDark-border">
                             <div
-                              class="flex flex-shrink-0 items-center justify-end">
-                              <div
-                                class="mr-2 text-xs font-light text-slate-400 dark:text-jovieDark-300">
-                                <CheckboxInput v-model="contact.override" />
-
-                                Override data
-                              </div>
+                              v-if="!enrichable"
+                              class="flex w-full justify-end space-x-2">
                               <ButtonGroup
                                 @click="importContact"
                                 :loader="importing"
-                                class="px-2 py-0.5 text-xs"
+                                icon="UserPlusIcon"
+                                design="secondary"
+                                class="border"
                                 text="Create contact" />
+                            </div>
+                            <div
+                              v-else
+                              class="flex w-full items-center justify-between">
+                              <div
+                                class="items-center text-xs font-light text-slate-400 dark:text-jovieDark-300">
+                                Contact already exists. Override?
+                                <CheckboxInput v-model="contact.override" />
+                              </div>
+                              <div class="flex items-center space-x-2">
+                                <ButtonGroup
+                                  design="secondary"
+                                  icon="UserPlusIcon"
+                                  class="border"
+                                  size="sm"
+                                  @click="importContact"
+                                  :loader="importing"
+                                  text="Create without enriching" />
+                                <ButtonGroup
+                                  :loader="importing"
+                                  icon="SparklesIcon"
+                                  size="sm"
+                                  @click="importContactWithEnrich"
+                                  class="border"
+                                  text="Create & Enrich" />
+                              </div>
                             </div>
                           </div>
                         </div>
+                        <ModalPopup
+                          modalType="info"
+                          :open="autoEnrichmentPopup.open"
+                          :loading="autoEnrichmentPopup.loading"
+                          :title="autoEnrichmentPopup.title"
+                          :description="autoEnrichmentPopup.description"
+                          :primaryButtonText="
+                            autoEnrichmentPopup.primaryButtonText
+                          "
+                          secondaryButtonText="No"
+                          @primaryButtonClick="autoEnrichment"
+                          @cancelButtonClick="cancelAutoEnrichment">
+                        </ModalPopup>
                       </form>
                     </div>
                   </div>
@@ -212,8 +251,11 @@ import ContactAvatar from './ContactAvatar.vue';
 
 import InputLists from './InputLists.vue';
 import DataInputGroup from './DataInputGroup.vue';
+import ModalPopup from './ModalPopup.vue';
+import TeamService from '../services/api/team.service';
 export default {
   components: {
+    ModalPopup,
     DataInputGroup,
     CheckboxInput,
     ButtonGroup,
@@ -234,6 +276,15 @@ export default {
   data() {
     return {
       importing: false,
+      autoEnrichmentSetting: true,
+      autoEnrichmentPopup: {
+        confirmationMethod: null,
+        title: 'Auto contact enrichment',
+        open: false,
+        primaryButtonText: 'Yes',
+        description: 'Do you want to automatically enrich contacts on import?',
+        loading: false,
+      },
       contact: {
         id: 0,
         profile_pic: '',
@@ -251,6 +302,7 @@ export default {
         snapchat: '',
         youtube: '',
         override: false,
+        enrich: false,
         user_lists: [],
         list_id: [],
       },
@@ -346,7 +398,7 @@ export default {
       immediate: true,
       handler(val) {
         if (val && val.id) {
-          this.contact.user_lists = []
+          this.contact.user_lists = [];
           let payload = {
             list: val,
             add: true,
@@ -357,6 +409,21 @@ export default {
     },
   },
   computed: {
+    firstNameWidth() {
+      // Calculate the width based on the length of this.contact.first_name
+      return Math.max(this.contact.first_name.length * 8, 14);
+    },
+    enrichable() {
+      return (
+        this.contact.instagram.trim() != '' ||
+        this.contact.twitter.trim() != '' ||
+        this.contact.twitch.trim() != '' ||
+        this.contact.linkedin.trim() != '' ||
+        this.contact.titkok.trim() != '' ||
+        this.contact.snapchat.trim() != '' ||
+        this.contact.youtube.trim() != ''
+      );
+    },
     contactFields() {
       return this.fields.filter(
         (field) =>
@@ -404,13 +471,51 @@ export default {
         );
       }
     },
-    importContact() {
+    importContactWithEnrich() {
+      if (!this.currentUser.workspace_preferences.auto_enrich_import) {
+        this.autoEnrichmentPopup.open = true;
+      } else {
+        this.importContact(true);
+      }
+    },
+    autoEnrichment() {
+      this.autoEnrichmentPopup.open = false;
+      if (this.autoEnrichmentSetting) {
+        this.updateEnrichmentSetting({
+          teamSettings: { auto_enrich_import: { value: true } },
+        });
+      }
+      this.importContact(true);
+    },
+    cancelAutoEnrichment() {
+      this.autoEnrichmentPopup.open = false;
+      this.importContact(true);
+    },
+    updateEnrichmentSetting(data) {
+      TeamService.updateTeamSettings(data, this.currentUser.current_team.id)
+        .then((response) => {
+          response = response.data;
+          this.currentUser.workspace_preferences.auto_enrich_import =
+            response.data.auto_enrich_import.value;
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          console.log('fetched');
+        });
+    },
+    importContact(enrich = false) {
       this.importing = true;
       this.contact.list_id = this.contact.list_id
         ? this.contact.list_id
         : this.list
         ? this.list
         : '';
+      this.contact.enrich = enrich;
       let contact = JSON.parse(JSON.stringify(this.contact));
       contact.profile_pic_url = contact.profile_pic;
       ImportService.importContact(contact)

@@ -26,9 +26,11 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel class="mx-auto w-full">
-              <GlassmorphismContainer size="6xl">
+              <GlassmorphismContainer
+                class="h-[800px] overflow-auto"
+                size="7xl">
                 <div
-                  class="relative w-full transform overflow-hidden rounded-lg px-4 pb-6 pt-4">
+                  class="relative w-full transform overflow-hidden overflow-y-scroll rounded-lg px-4 pb-6 pt-4">
                   <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                     <button
                       type="button"
@@ -44,32 +46,34 @@
                       <DialogTitle
                         as="h3"
                         class="text-lg font-medium leading-6 dark:text-jovieDark-100">
-                        Merge Contacts
+                        Merge Duplicate Contacts
                       </DialogTitle>
 
                       <p
                         class="text-2xs text-slate-500 dark:text-jovieDark-300">
-                        Merge contacts from suggestions
+                        Compare & merge duplicate contacts
                       </p>
                     </div>
                   </div>
                   <div class="mt-2">
-                    <div class="max-h-92 grid grid-cols-3 gap-3">
+                    <div class="max-h-92 grid grid-cols-3 divid-x 
+                    
+                 
+                    gap-3">
                       <template v-if="suggestion">
                         <template v-for="contact in suggestion.contacts">
+                          
                           <ContactSidebar
+                            :compact="true"
                             :jovie="true"
                             :contactData="contact" />
                         </template>
                       </template>
                     </div>
-                    <div class="mt-2 grid grid-cols-2 gap-x-8">
-                      <div class="me-auto w-20">
-                        <ButtonGroup text="Reject" @click="rejectMerge" />
-                      </div>
-                      <div class="ms-auto w-20">
-                        <ButtonGroup text="Merge" @click="acceptMerge" />
-                      </div>
+                    <div class="flex justify-between">
+                      <ButtonGroup class="border" design="secondary" text="Reject" @click="rejectMerge" />
+
+                      <ButtonGroup  text="Merge" @click="acceptMerge" />
                     </div>
                   </div>
                 </div>
