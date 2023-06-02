@@ -101,7 +101,7 @@ class ImportContacts implements ShouldQueue
                 $contact = null;
                 $contact['team_id'] = $this->payload->teamId;
                 $contact['user_id'] = $this->payload->userId;
-                $contact['user_list_id'] = $this->payload->list->id;
+//                $contact['user_list_id'] = $this->payload->list->id;
                 if ($this->payload->tags) {
                     $tags = explode(',', $this->payload->tags);
                     $contact['tags'] = json_encode(array_values(array_map('trim', $tags)));
@@ -184,15 +184,17 @@ class ImportContacts implements ShouldQueue
             }
 
             if ($this->page >= ceil($this->payload->totalRecords / Import::PER_PAGE) - 1) {
-                if ($this->payload->list) {
-                    $list = UserList::query()->where('id', $this->payload->list->id)->first();
-                    $list->importing = false;
-                    $list->save();
-                    UserListImported::dispatch(
-                        $this->payload->list->id,
-                        $this->payload->userId,
-                        $this->payload->teamId
-                    );
+                if ($this->payload->list && count($this->payload->list)) {
+                    $lists = UserList::query()->whereIn('id', $this->payload->list)->first();
+                    foreach ($lists as $list) {
+                        $list->importing = false;
+                        $list->save();
+                        UserListImported::dispatch(
+                            $list->id,
+                            $this->payload->userId,
+                            $this->payload->teamId
+                        );
+                    }
                 }
             }
         } catch (\Exception $e) {

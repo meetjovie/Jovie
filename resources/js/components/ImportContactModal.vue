@@ -2,6 +2,7 @@
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="relative z-10" @close="closeModal">
+      <div class="fixed inset-0 bg-black/30" aria-hidden="true" />
       <TransitionChild
         as="template"
         enter="ease-out duration-300"
@@ -26,7 +27,9 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel class="mx-auto w-full">
-              <GlassmorphismContainer size="xl">
+              <GlassmorphismContainer
+                class="bg-white dark:bg-jovieDark-900"
+                size="xl">
                 <div class="relative w-full transform overflow-hidden">
                   <div>
                     <div class="mt-2" v-if="fromSocial">
@@ -38,12 +41,12 @@
                     <div class="" v-else>
                       <form action="#" class="relative">
                         <div
-                          class="overflow-hidden rounded-lg border border-gray-300 px-2 shadow-sm">
+                          class="overflow-hidden rounded-lg border border-gray-300 px-2 shadow-sm dark:border-jovieDark-border">
                           <!--  <ContactAvatar /> -->
                           <div class="mt-2 flex items-center justify-between">
                             <div class="flex items-center">
                               <div
-                                class="inline-flex items-center rounded bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10">
+                                class="inline-flex items-center rounded border border-slate-200 bg-gray-50 px-2 py-0.5 text-xs font-medium text-gray-600 shadow-sm ring-1 ring-inset ring-gray-500/10 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-200">
                                 <InitialBox
                                   :name="
                                     currentUser.current_team.emoji ||
@@ -54,7 +57,8 @@
                                   >{{ currentUser.current_team.name }}
                                 </span>
                               </div>
-                              <ChevronRightIcon class="mr-1 h-3 w-4" />
+                              <ChevronRightIcon
+                                class="mr-1 h-4 w-4 text-slate-500 dark:text-jovieDark-300" />
                               <span
                                 class="items-center text-2xs font-semibold text-slate-400 dark:text-jovieDark-100"
                                 >New contact</span
@@ -82,6 +86,7 @@
                                 >First Name</label
                               >
                               <input
+                                ref="initialFocus"
                                 type="text"
                                 :disabled="importing"
                                 name="first_name"
@@ -90,6 +95,12 @@
                                 class="z-20 block w-32 border-0 bg-transparent px-4 pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-32 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                                 placeholder="First Name"
                                 v-model="contact.first_name" />
+                            </div>
+                            <div
+                                class="h-6 w-full justify-start py-1 text-xs text-red-600 dark:text-red-400">
+                            <span v-if="errors.first_name">
+                              {{ errors.first_name[0] }}</span
+                            >
                             </div>
 
                             <label for="first_name" class="sr-only"
@@ -104,12 +115,6 @@
                               class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="Last Name"
                               v-model="contact.last_name" />
-                          </div>
-                          <div
-                            class="h-6 w-full justify-start py-1 text-xs text-red-600 dark:text-red-400">
-                            <span v-if="errors.first_name">
-                              {{ errors.first_name[0] }}</span
-                            >
                           </div>
 
                           <label for="description" class="sr-only"
@@ -157,15 +162,15 @@
                         </div>
                         <div class="absolute inset-x-px bottom-0">
                           <div
-                            class="flex items-center justify-between space-x-4 border-t border-gray-200 px-2 py-2">
+                            class="flex items-center justify-between space-x-4 border-t border-slate-200 px-2 py-2 dark:border-jovieDark-border">
                             <div
                               v-if="!enrichable"
                               class="flex w-full justify-end space-x-2">
                               <ButtonGroup
+                                @click="importContact"
                                 :loader="importing"
                                 icon="UserPlusIcon"
                                 design="secondary"
-                                @click="importContact"
                                 class="border"
                                 text="Create contact" />
                             </div>

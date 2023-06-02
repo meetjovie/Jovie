@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full items-center">
-    <div class="flex h-10 items-center justify-between px-4">
+    <div class="flex h-10 items-center justify-between px-8">
       <div v-if="!list" class="w-8 items-center">
         <JovieSpinner spinnerSize="xs" class="" v-if="taskLoading" />
         <component
@@ -20,15 +20,13 @@
         </div>
         <div class="flex" v-else>
           {{ headerText === 'birthdays' ? headerText : headerText }}
-          <div class="px-4 text-xs text-slate-600 dark:text-jovieDark-400">
-            •
-          </div>
-          <span class="items-center text-sm font-semibold" v-if="!taskLoading">
+
+          <!--   <span class="items-center text-sm font-semibold" v-if="!taskLoading">
             {{ contactCount + ' contacts' }}</span
           >
           <span
             class="items-center rounded bg-slate-300 text-xs font-semibold dark:bg-jovieDark-700"
-            v-else></span>
+            v-else></span> -->
         </div>
       </h1>
     </div>

@@ -5,8 +5,8 @@
       v-if="!dismissed && !sidebar"
       class="relative"
       :class="[
-        { 'bg-indigo-500': design == 'primary' },
-        { 'bg-red-500 ': design == 'danger' },
+        { 'bg-indigo-500 dark:bg-jovieDark-500': design == 'primary' },
+        { 'bg-red-500 dark:bg-red-700 ': design == 'danger' },
       ]">
       <div class="mx-auto max-w-7xl px-3 py-3 text-center sm:px-6 lg:px-8">
         <div class="inline-flex pr-16 sm:px-16 sm:text-center">

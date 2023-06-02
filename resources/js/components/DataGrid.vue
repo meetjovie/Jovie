@@ -22,6 +22,9 @@
               <div>
                 <ShareMenu :contacts="activeUsersOnList" />
               </div>
+
+              <ViewToggle v-model="boardView" />
+
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -239,13 +242,17 @@
             </div>
           </div>
         </header>
+        <div v-if="boardView">
+          <BoardView :contacts="contacts" />
+        </div>
         <div
+          v-else
           class="flex h-full w-full justify-between overflow-x-auto scroll-smooth align-middle">
           <div
             class="flex h-full w-full flex-col overflow-auto bg-white ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               ref="crmTable"
-              class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
                 class="relative isolate z-20 w-full items-center overflow-auto">
                 <tr
@@ -289,7 +296,7 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 z-50 flex h-11 w-96 items-center border-r-2 border-t border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
+                      class="sticky left-0 z-50 flex h-11 w-96 items-center border-r border-slate-200 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
                         class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
                         <div class="mx-auto items-center text-center">
@@ -430,7 +437,7 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         :class="[
                           index == currentCell.column ? 'font-bold  ' : ' ',
@@ -451,7 +458,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -472,7 +479,7 @@
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
               <draggable
-                class="list-group relative isolate z-0 h-full divide-y divide-slate-300 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
                 :list="contactRecords"
                 ghost-class="ghost-row"
                 group="contacts"
@@ -522,7 +529,12 @@
                     "
                     @toggleContactsFromList="toggleContactsFromList"
                     @checkContactsEnrichable="
-                      $emit('checkContactsEnrichable', $event)
+                      $emit(
+                        'checkContactsEnrichable',
+                        this.selectedContacts.length
+                          ? this.selectedContacts
+                          : $event
+                      )
                     " />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
@@ -686,7 +698,8 @@ import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
 import { debounce } from 'lodash';
 import RightClickMenuVue from './RightClickMenu.vue';
-
+import ViewToggle from './ViewToggle.vue';
+import BoardView from './BoardView.vue';
 export default {
   name: 'DataGrid',
   components: {
@@ -697,6 +710,7 @@ export default {
     DataGridCellTextInput,
     DataGridHeaderContent,
     CustomFieldsMenu,
+    BoardView,
     ArchiveBoxIcon,
     KeyboardShortcut,
     MagnifyingGlassIcon,
@@ -709,6 +723,7 @@ export default {
     InputLists,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
+    ViewToggle,
     LockClosedIcon,
     Switch,
     ShareMenu,
@@ -779,6 +794,7 @@ export default {
         confirmationMethod: null,
         title: 'Hiiiii',
         open: false,
+        boardView: false,
         primaryButtonText: 'custom',
         description: 'hellooo hello hello',
         loading: false,
@@ -925,8 +941,13 @@ export default {
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
       event.preventDefault();
-      this.previousContact();
-      this.handleCellNavigation('ArrowUp');
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        this.previousContact();
+        this.handleCellNavigation('ArrowUp');
+      }
     });
 
     this.$mousetrap.bind('/', () => {
@@ -960,8 +981,13 @@ export default {
     });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
-      this.nextContact();
-      this.handleCellNavigation('ArrowDown');
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        this.nextContact();
+        this.handleCellNavigation('ArrowDown');
+      }
     });
     this.$mousetrap.bind('space', () => {
       this.toggleContactSidebar();
@@ -1362,55 +1388,60 @@ export default {
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
-      const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
-        this.visibleColumns.includes(column.key)
-      );
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
+          this.visibleColumns.includes(column.key)
+        );
 
-      switch (event) {
-        case 'ArrowRight':
-          while (true) {
-            if (this.currentCell.column === this.otherColumns.length - 1) {
-              break;
+        switch (event) {
+          case 'ArrowRight':
+            while (true) {
+              if (this.currentCell.column === this.otherColumns.length - 1) {
+                break;
+              }
+              this.currentCell.column += 1;
+              this.scrollToFocusCell();
+              if (
+                this.visibleColumns.includes(
+                  this.otherColumns[this.currentCell.column].key
+                )
+              ) {
+                break;
+              }
             }
-            this.currentCell.column += 1;
-            this.scrollToFocusCell();
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
-              break;
+            break;
+          case 'ArrowLeft':
+            while (true) {
+              if (this.currentCell.column <= firstVisibleColumnIndex) {
+                break;
+              }
+              this.currentCell.column -= 1;
+              this.scrollToFocusCell();
+              if (
+                this.visibleColumns.includes(
+                  this.otherColumns[this.currentCell.column].key
+                )
+              ) {
+                break;
+              }
             }
-          }
-          break;
-        case 'ArrowLeft':
-          while (true) {
-            if (this.currentCell.column <= firstVisibleColumnIndex) {
-              break;
+            break;
+          case 'ArrowUp':
+            if (this.currentCell.row > 0) {
+              this.currentCell.row -= 1;
+              this.scrollToFocusCell();
             }
-            this.currentCell.column -= 1;
-            this.scrollToFocusCell();
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
-              break;
+            break;
+          case 'ArrowDown':
+            if (this.currentCell.row < this.contactRecords.length - 1) {
+              this.currentCell.row += 1;
+              this.scrollToFocusCell();
             }
-          }
-          break;
-        case 'ArrowUp':
-          if (this.currentCell.row > 0) {
-            this.currentCell.row -= 1;
-            this.scrollToFocusCell();
-          }
-          break;
-        case 'ArrowDown':
-          if (this.currentCell.row < this.contactRecords.length - 1) {
-            this.currentCell.row += 1;
-            this.scrollToFocusCell();
-          }
-          break;
+            break;
+        }
       }
     },
     /* handleCellNavigation(event) {
@@ -1777,6 +1808,9 @@ export default {
       this.currentRow = row;
     },
     toggleArchiveContacts(ids, archived) {
+      if (this.selectedContacts.length) {
+        ids = this.selectedContacts;
+      }
       this.$store
         .dispatch('toggleArchiveContacts', {
           contact_ids: ids,
@@ -1796,6 +1830,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.closeRightClickMenu();
             this.$emit('crmCounts');
           } else {
             this.$notify({
@@ -1923,7 +1958,7 @@ export default {
     refresh(contact) {
       let imports = {};
       this.networks.forEach((network) => {
-        imports[network] = contact[`${network}_handler`];
+        imports[network] = contact[`${network}_data`][`${network}_handler`];
       });
       if (!Object.keys(imports).length) return;
       this.adding = true;
