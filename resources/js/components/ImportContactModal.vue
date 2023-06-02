@@ -96,6 +96,12 @@
                                 placeholder="First Name"
                                 v-model="contact.first_name" />
                             </div>
+                            <div
+                                class="h-6 w-full justify-start py-1 text-xs text-red-600 dark:text-red-400">
+                            <span v-if="errors.first_name">
+                              {{ errors.first_name[0] }}</span
+                            >
+                            </div>
 
                             <label for="first_name" class="sr-only"
                               >Last Name</label
@@ -109,12 +115,6 @@
                               class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
                               placeholder="Last Name"
                               v-model="contact.last_name" />
-                          </div>
-                          <div
-                            class="h-6 w-full justify-start py-1 text-xs text-red-600 dark:text-red-400">
-                            <span v-if="errors.first_name">
-                              {{ errors.first_name[0] }}</span
-                            >
                           </div>
 
                           <label for="description" class="sr-only"

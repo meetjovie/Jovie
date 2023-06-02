@@ -192,7 +192,8 @@ class ImportController extends Controller
     public function importContact(Request $request)
     {
         $request->validate([
-            'first_name' => 'required'
+            // check if the any network form the creators model has a value in the request then make it nullable otherwise make it required
+            'first_name' => array_intersect(Creator::NETWORKS, array_keys(array_filter($request->all()))) ? 'nullable' : 'required',
         ]);
         try {
             $data = $request->all();
