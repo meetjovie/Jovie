@@ -941,8 +941,13 @@ export default {
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
       event.preventDefault();
-      this.previousContact();
-      this.handleCellNavigation('ArrowUp');
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        this.previousContact();
+        this.handleCellNavigation('ArrowUp');
+      }
     });
 
     this.$mousetrap.bind('/', () => {
@@ -976,8 +981,13 @@ export default {
     });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
-      this.nextContact();
-      this.handleCellNavigation('ArrowDown');
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        this.nextContact();
+        this.handleCellNavigation('ArrowDown');
+      }
     });
     this.$mousetrap.bind('space', () => {
       this.toggleContactSidebar();
@@ -1378,55 +1388,60 @@ export default {
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
-      const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
-        this.visibleColumns.includes(column.key)
-      );
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
+          this.visibleColumns.includes(column.key)
+        );
 
-      switch (event) {
-        case 'ArrowRight':
-          while (true) {
-            if (this.currentCell.column === this.otherColumns.length - 1) {
-              break;
+        switch (event) {
+          case 'ArrowRight':
+            while (true) {
+              if (this.currentCell.column === this.otherColumns.length - 1) {
+                break;
+              }
+              this.currentCell.column += 1;
+              this.scrollToFocusCell();
+              if (
+                this.visibleColumns.includes(
+                  this.otherColumns[this.currentCell.column].key
+                )
+              ) {
+                break;
+              }
             }
-            this.currentCell.column += 1;
-            this.scrollToFocusCell();
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
-              break;
+            break;
+          case 'ArrowLeft':
+            while (true) {
+              if (this.currentCell.column <= firstVisibleColumnIndex) {
+                break;
+              }
+              this.currentCell.column -= 1;
+              this.scrollToFocusCell();
+              if (
+                this.visibleColumns.includes(
+                  this.otherColumns[this.currentCell.column].key
+                )
+              ) {
+                break;
+              }
             }
-          }
-          break;
-        case 'ArrowLeft':
-          while (true) {
-            if (this.currentCell.column <= firstVisibleColumnIndex) {
-              break;
+            break;
+          case 'ArrowUp':
+            if (this.currentCell.row > 0) {
+              this.currentCell.row -= 1;
+              this.scrollToFocusCell();
             }
-            this.currentCell.column -= 1;
-            this.scrollToFocusCell();
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
-              break;
+            break;
+          case 'ArrowDown':
+            if (this.currentCell.row < this.contactRecords.length - 1) {
+              this.currentCell.row += 1;
+              this.scrollToFocusCell();
             }
-          }
-          break;
-        case 'ArrowUp':
-          if (this.currentCell.row > 0) {
-            this.currentCell.row -= 1;
-            this.scrollToFocusCell();
-          }
-          break;
-        case 'ArrowDown':
-          if (this.currentCell.row < this.contactRecords.length - 1) {
-            this.currentCell.row += 1;
-            this.scrollToFocusCell();
-          }
-          break;
+            break;
+        }
       }
     },
     /* handleCellNavigation(event) {
