@@ -26,8 +26,15 @@
             leave-from="opacity-100 translate-y-0 sm:scale-100"
             leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
             <DialogPanel class="relative">
+              <div v-if="customContent">
+                <div
+                  class="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                  <slot name="content"></slot>
+                </div>
+              </div>
               <div
-                class="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                class="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+                v-else>
                 <div
                   v-if="modalLayout == 'alert'"
                   class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -89,7 +96,7 @@
                     type="button"
                     class="mt-3 inline-flex w-full justify-center rounded-md border border-slate-300 bg-white px-4 py-2 text-base font-medium text-slate-700 shadow-sm hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:mt-0 sm:w-auto sm:text-sm"
                     ref="cancelButtonRef">
-                    {{ secondaryButtonText }}
+                    Cancel
                   </button>
                 </div>
               </div>
@@ -133,10 +140,6 @@ export default {
     primaryButtonText: {
       type: String,
       default: 'Deactivate',
-    },
-    secondaryButtonText: {
-      type: String,
-      default: 'Cancel',
     },
     modalLayout: {
       type: String,

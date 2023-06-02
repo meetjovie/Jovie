@@ -253,11 +253,17 @@ export default {
       this.importing = true;
       this.importStarted = true;
       this.errors = [];
+      let lists = data.lists.length
+        ? data.lists.map((list) => {
+            return list.id;
+          })
+        : [];
       var form = new FormData();
       form.append('instagram', this.importSet.instagram ?? '');
       form.append('youtube', this.importSet.youtube ?? '');
       form.append('tags', this.importSet.tags ?? '');
       form.append('mappedColumns', JSON.stringify(data.columns));
+      form.append('lists', JSON.stringify(lists));
       form.append('autoEnrich', data.autoEnrich);
       form.append('key', this.bucketResponse ? this.bucketResponse.uuid : '');
       form.append('listName', this.importSet.listName);

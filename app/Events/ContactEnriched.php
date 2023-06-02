@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Contact;
+use App\Models\Creator;
 use App\Models\UserList;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -58,6 +59,10 @@ class ContactEnriched implements ShouldBroadcast, ShouldBroadcastNow
             UserList::dispatchEnrichNotificationIfCompleted($this->listId, $contact->team_id);
         }
         $contact = Contact::getContacts(['id' => $this->contactId, 'team_id' => $this->teamId])->first();
+        $contact = $contact->toArray();
+        foreach (Creator::NETWORKS as $network) {
+            unset($contact[($network . '_data')]);
+        }
         $contact = base64_encode(json_encode($contact));
         return ['status' => true, 'data' => [
             'contact' => $contact,
