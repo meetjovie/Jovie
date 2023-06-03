@@ -5,7 +5,7 @@
     class="relative z-10 inline-block w-full items-center text-left">
     <Float portal :offset="0" shift :placement="placement">
       <MenuButton class="w-full cursor-pointer" @click="open" ref="menuButton">
-        <slot :open="open" name="triggerButton"> Button Goes Here</slot>
+        <slot :open="open" name="triggerButton">Button Goes Here</slot>
       </MenuButton>
 
       <TransitionRoot

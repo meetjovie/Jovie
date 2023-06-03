@@ -236,7 +236,49 @@
           </div>
         </header>
         <div v-if="boardView">
-          <BoardView :contacts="contacts" />
+          <!-- <BoardView :contacts="contacts" /> -->
+          <div
+            class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
+            <div v-for="list in lists" :key="list.id" class="overflow-y-auto">
+              <ListHeader :list="list" />
+
+              <ul role="list" class="flex flex-col space-y-2">
+                <li class="" v-for="contact in contacts" :key="contact.id">
+                  <ContactCard
+                    @contextMenuClicked="
+                      openRightClickMenuContextClick($event, contact)
+                    "
+                    @contextMenuButtonClicked="
+                      openRightClickMenuButton($event, contact)
+                    "
+                    @click="setCurrentContact($event, contact, index)"
+                    @openSidebar="
+                      $emit('openSidebar', { contact: contact, index: index })
+                    "
+                    @selectMultiple="selectMultiple"
+                    :loading="loading"
+                    :userLists="userLists"
+                    @update:currentCell="$emit('updateContact', $event)"
+                    @updateContact="$emit('updateContact', $event)"
+                    @updateListCount="$emit('updateListCount', $event)"
+                    @archive-contacts="
+                      toggleArchiveContacts(element.id, !element.archived)
+                    "
+                    @toggleContactsFromList="toggleContactsFromList"
+                    @checkContactsEnrichable="
+                      $emit(
+                        'checkContactsEnrichable',
+                        this.selectedContacts.length
+                          ? this.selectedContacts
+                          : $event
+                      )
+                    "
+                    class="w-80"
+                    :contact="contact" />
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div
           v-else
@@ -295,7 +337,7 @@
                         <div class="mx-auto items-center text-center">
                           <input
                             type="checkbox"
-                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
+                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
                             :checked="
                               intermediate ||
                               selectedContacts.length === contactRecords.length
@@ -615,6 +657,41 @@
     :suggestion="mergeSuggestion" />
 </template>
 
+<script setup>
+const lists = [
+  {
+    name: 'Lead',
+    color: 'blue',
+    count: 1,
+  },
+  {
+    name: 'Contacted',
+    color: 'green',
+    count: 2,
+  },
+  {
+    name: 'Qualified',
+    color: 'pink',
+    count: 3,
+  },
+  {
+    name: 'Lead',
+    color: 'blue',
+    count: 4,
+  },
+  {
+    name: 'Contacted',
+    color: 'green',
+    count: 5,
+  },
+  {
+    name: 'Qualified',
+    color: 'pink',
+    count: 6,
+  },
+];
+</script>
+
 <script>
 import RightClickMenu from '../components/RightClickMenu.vue';
 import ShareMenu from './ShareMenu.vue';
@@ -693,6 +770,9 @@ import { debounce } from 'lodash';
 import RightClickMenuVue from './RightClickMenu.vue';
 import ViewToggle from './ViewToggle.vue';
 import BoardView from './BoardView.vue';
+import ListHeader from './ListHeader.vue';
+import ContactCard from './ContactCard.vue';
+
 export default {
   name: 'DataGrid',
   components: {
@@ -704,6 +784,8 @@ export default {
     DataGridHeaderContent,
     CustomFieldsMenu,
     BoardView,
+    ListHeader,
+    ContactCard,
     ArchiveBoxIcon,
     KeyboardShortcut,
     MagnifyingGlassIcon,

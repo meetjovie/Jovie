@@ -1,42 +1,48 @@
 <template>
-  <div
-    class="flex h-screen space-x-4 bg-slate-100 px-4 py-2 dark:bg-jovieDark-900">
-    <div v-for="list in lists">
-      <div class="w-80 overflow-y-auto py-2">
-        <div
-          class="flex items-center justify-between bg-slate-100 px-2 py-4 dark:bg-jovieDark-900">
-          <div
-            class="items-center text-sm text-slate-600 dark:text-jovieDark-100">
-            <ColorDot class="mr-2" :color="list.color" />
-            {{ list.name }}
-          </div>
-          <div class="flex">
-            <div class="font-medium text-slate-500 dark:text-jovieDark-200">
-              <div
-                class="cursor-pointer rounded p-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
-                <PlusIcon class="h-4 w-4 rounded text-slate-500" />
-              </div>
-            </div>
-            <div class="font-medium text-slate-500 dark:text-jovieDark-200">
-              <div
-                class="cursor-pointer rounded p-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
-                <EllipsisHorizontalIcon
-                  class="h-4 w-4 rounded text-slate-500" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <ul role="list" class="flex w-80 flex-col space-y-4 overflow-y-scroll">
-          <li v-for="contact in contacts" :key="contact.id">
-            <ContactCard :contact="contact" />
-          </li>
-        </ul>
-      </div>
+  <div class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
+    <div v-for="list in lists" :key="list.id" class="relativ eoverflow-y-auto">
+      <ListHeader :list="list" />
+
+      <ul role="list" class="mt-14 flex flex-col space-y-2">
+        <li class="" v-for="contact in contacts" :key="contact.id">
+          <ContactCard
+            @contextMenuClicked="handleContextMenu($event, contact)"
+            @contextMenuButtonClicked="handleContextMenuButton($event, contact)"
+            @click="setCurrentContact($event, element, index)"
+            @openSidebar="
+              $emit('openSidebar', { contact: element, index: index })
+            "
+            class="w-80"
+            :contact="contact" />
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 <script>
 export default {
+  methods: {
+    handleMenuButton(event, contact) {
+      event.preventDefault(); // Prevents the default context menu from showing up
+      const coordinates = {
+        x: event.pageX, // Extract the x-coordinate from the event
+        y: event.pageY, // Extract the y-coordinate from the event
+      };
+
+      console.log('context menu clicked ' + contact.full_name);
+      this.$emit('contextMenuButtonClicked', contact, coordinates);
+    },
+    handleContextMenu(event, contact) {
+      event.preventDefault(); // Prevents the default context menu from showing up
+      const coordinates = {
+        x: event.pageX, // Extract the x-coordinate from the event
+        y: event.pageY, // Extract the y-coordinate from the event
+      };
+
+      console.log('context menu clicked ' + contact.full_name);
+      this.$emit('contextMenuClicked', contact, coordinates);
+    },
+  },
   props: {
     lists: {
       type: Array,
@@ -51,6 +57,7 @@ export default {
 </script>
 
 <script setup>
+import ListHeader from './ListHeader.vue';
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/vue/20/solid';
 import ColorDot from './ColorDot.vue';
 import ButtonGroup from './ButtonGroup.vue';
@@ -60,7 +67,7 @@ const lists = [
   {
     name: 'Lead',
     color: 'blue',
-    count: 5,
+    count: 1,
   },
   {
     name: 'Contacted',
@@ -70,7 +77,22 @@ const lists = [
   {
     name: 'Qualified',
     color: 'pink',
-    count: 1,
+    count: 3,
+  },
+  {
+    name: 'Lead',
+    color: 'blue',
+    count: 4,
+  },
+  {
+    name: 'Contacted',
+    color: 'green',
+    count: 5,
+  },
+  {
+    name: 'Qualified',
+    color: 'pink',
+    count: 6,
   },
 ];
 

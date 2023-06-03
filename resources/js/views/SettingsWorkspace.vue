@@ -40,12 +40,14 @@
         Pick an emoji for your workspace
       </div>
     </SectionWrapper>
-    <SectionWrapper header="Danger zone" subheader="If you want to permanently delete your workspace and all of its data, including all lists, contacts, and settings, you can do so below."
+    <SectionWrapper
+      header="Danger zone"
+      subheader="If you want to permanently delete your workspace and all of its data, including all lists, contacts, and settings, you can do so below."
       ><ButtonGroup
         @click="deleteTeam(currentUser.currentTeam, index)"
         text="Delete this workspace"
         design="danger"
-        class="py-6"
+        class="mt-4"
     /></SectionWrapper>
   </div>
 </template>
@@ -91,7 +93,12 @@ export default {
               this.$store.commit('switchTeam', null);
             }
             this.currentUser.teams.splice(index, 1);
-            alert('deleted');
+            this.$notify({
+              title: 'Success',
+              text: 'Team deleted successfully',
+              type: 'success',
+              group: 'user',
+            });
           }
         })
         .catch((error) => {
