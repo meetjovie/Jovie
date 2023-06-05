@@ -570,11 +570,10 @@
           <aside
             class="isolate z-50 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
-              v-if="currentContact"
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
-              :contactData="currentContact" />
+              :contactData="currentContact ?? $store.state.crmRecords[0] ?? null" />
           </aside>
         </TransitionRoot>
       </div>
@@ -789,7 +788,7 @@ export default {
       taskLoading: false,
       contactsMeta: {},
       /*  activeCreator: [], */
-      currentContact: [],
+      currentContact: null,
       innerWidth: window.innerWidth,
 
       lists: [],
