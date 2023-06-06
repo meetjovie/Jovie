@@ -602,6 +602,7 @@
                       <MenuItems class="space-y-2" static>
                         <div v-for="item in menuItems" :key="item.name">
                           <JovieMenuItem
+                              v-if="! (item.name == 'Select a template' && !filters.list)"
                             class="rounded py-2"
                             :active="active"
                             :icon="item.icon"
@@ -655,6 +656,12 @@
     @rejectMerge="rejectMerge"
     :open="openMergeSuggestion"
     :suggestion="mergeSuggestion" />
+
+    <ModalPopup :open="true" customContent >
+        <template #content>
+            <TemplateModal />
+        </template>
+    </ModalPopup>
 </template>
 
 <script setup>
@@ -772,10 +779,12 @@ import ViewToggle from './ViewToggle.vue';
 import BoardView from './BoardView.vue';
 import ListHeader from './ListHeader.vue';
 import ContactCard from './ContactCard.vue';
+import TemplateModal from "./TemplateModal.vue";
 
 export default {
   name: 'DataGrid',
   components: {
+      TemplateModal,
     MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
@@ -907,6 +916,11 @@ export default {
           icon: 'GlobeAltIcon',
           action: () => this.downloadChromeExtension(),
         },
+        {
+          name: 'Select a template',
+          icon: 'GlobeAltIcon',
+          action: () => this.openSelectTemplateModal(),
+        },
       ],
       showCustomFieldsModal: false,
       currentEditingField: null,
@@ -1010,6 +1024,9 @@ export default {
       //route push to chrome-extension
       this.$router.push({ name: 'Chrome Extension' });
     },
+      openSelectTemplateModal() {
+
+      }
   },
   mounted() {
     this.suggestContactsMerge([], true);
