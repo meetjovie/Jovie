@@ -18,13 +18,25 @@
                     > -->
           <div class="flex h-6 w-full content-end items-center">
             <div
-              class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <div>
-                <ShareMenu :contacts="activeUsersOnList" />
+              class="group flex h-full w-full cursor-pointer content-end items-center justify-end text-right transition-all duration-150 ease-out">
+              <div v-if="!searchVisible">
+                <JovieTooltip
+                  tooltipText="Press"
+                  arrow
+                  tooltipPlacement="bottom">
+                  <template #content>
+                    <KeyboardShortcut text="/" />
+                    to search
+                  </template>
+                  <ButtonGroup
+                    hideText
+                    size="xs"
+                    :design="'toolbar'"
+                    :text="'Search'"
+                    icon="MagnifyingGlassIcon"
+                    @click="toggleSearchVisible()" />
+                </JovieTooltip>
               </div>
-
-              <ViewToggle v-model="boardView" />
-
               <TransitionRoot
                 :show="searchVisible"
                 enter="transition-opacity duration-75"
@@ -49,7 +61,7 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:placeholder:text-slate-400 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus-visible:border-none focus-visible:outline-0 focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:placeholder:text-slate-400 sm:text-xs" />
 
                       <div
                         @click="toggleSearchVisible()"
@@ -62,27 +74,13 @@
                   </div>
                 </div>
               </TransitionRoot>
-
-              <div v-if="!searchVisible">
-                <JovieTooltip
-                  tooltipText="Press"
-                  arrow
-                  tooltipPlacement="bottom">
-
-                  <template #content>
-                    <KeyboardShortcut text="/" />
-                    to search
-                  </template>
-                  <ButtonGroup
-                    :design="'toolbar'"
-                    :text="'Search'"
-                    icon="MagnifyingGlassIcon"
-                    hideText
-                    @click="toggleSearchVisible()" />
-                </JovieTooltip>
+              <div>
+                <ShareMenu :contacts="activeUsersOnList" />
               </div>
+
+              <ViewToggle v-if="currentUser.isAdmin" v-model="boardView" />
             </div>
-            <div class="flex items-center space-x-4">
+            <div class="ml-4 flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
@@ -90,9 +88,10 @@
 
                       <ButtonGroup
                         :design="'toolbar'"
-                        :text="'Hide Columns'"
-                        icon="AdjustmentsHorizontalIcon"
-                        hideText />
+                        :text="'Display'"
+                        size="xs"
+                        hasMenu
+                        icon="AdjustmentsHorizontalIcon" />
                     </MenuButton>
                     <TransitionRoot
                       :show="open"
@@ -104,7 +103,7 @@
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems @focus="focusTableColumnFilterInput()" static>
                         <GlassmorphismContainer
-                          class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus:ring-0">
+                          class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus-visible:ring-0">
                           <div class="px-1">
                             <DropdownMenuItem
                               tabindex="0"
@@ -229,24 +228,59 @@
                 tooltipPlacement="bottom">
                 <ButtonGroup
                   @click="toggleContactSidebar()"
-                  :design="'toolbar'"
-                  :text="
-                    $store.state.ContactSidebarOpen
-                      ? 'Close Contact Sidebar'
-                      : 'Open Contact Sidebar'
-                  "
-                  :icon="
-                    $store.state.ContactSidebarOpen
-                      ? 'ArrowRightOnRectangleIcon'
-                      : 'ArrowLeftOnRectangleIcon'
-                  "
-                  hideText />
+                  design="toolbar"
+                  size="xs"
+                  hideText
+                  text="Details"
+                  icon="UserIcon" />
               </JovieTooltip>
             </div>
           </div>
         </header>
         <div v-if="boardView">
-          <BoardView :contacts="contacts" />
+          <!-- <BoardView :contacts="contacts" /> -->
+          <div
+            class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
+            <div v-for="list in lists" :key="list.id" class="overflow-y-auto">
+              <ListHeader :list="list" />
+
+              <ul role="list" class="flex flex-col space-y-2">
+                <li class="" v-for="contact in contacts" :key="contact.id">
+                  <ContactCard
+                    @contextMenuClicked="
+                      openRightClickMenuContextClick($event, contact)
+                    "
+                    @contextMenuButtonClicked="
+                      openRightClickMenuButton($event, contact)
+                    "
+                    @click="setCurrentContact($event, contact, index)"
+                    @openSidebar="
+                      $emit('openSidebar', { contact: contact, index: index })
+                    "
+                    @selectMultiple="selectMultiple"
+                    :loading="loading"
+                    :userLists="userLists"
+                    @update:currentCell="$emit('updateContact', $event)"
+                    @updateContact="$emit('updateContact', $event)"
+                    @updateListCount="$emit('updateListCount', $event)"
+                    @archive-contacts="
+                      toggleArchiveContacts(element.id, !element.archived)
+                    "
+                    @toggleContactsFromList="toggleContactsFromList"
+                    @checkContactsEnrichable="
+                      $emit(
+                        'checkContactsEnrichable',
+                        this.selectedContacts.length
+                          ? this.selectedContacts
+                          : $event
+                      )
+                    "
+                    class="w-80"
+                    :contact="contact" />
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div
           v-else
@@ -305,7 +339,7 @@
                         <div class="mx-auto items-center text-center">
                           <input
                             type="checkbox"
-                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
+                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
                             :checked="
                               intermediate ||
                               selectedContacts.length === contactRecords.length
@@ -461,7 +495,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -570,6 +604,7 @@
                       <MenuItems class="space-y-2" static>
                         <div v-for="item in menuItems" :key="item.name">
                           <JovieMenuItem
+                              v-if="! (item.name == 'Select a template' && !filters.list)"
                             class="rounded py-2"
                             :active="active"
                             :icon="item.icon"
@@ -623,7 +658,48 @@
     @rejectMerge="rejectMerge"
     :open="openMergeSuggestion"
     :suggestion="mergeSuggestion" />
+
+    <ModalPopup :open="true" customContent >
+        <template #content>
+            <TemplateModal />
+        </template>
+    </ModalPopup>
 </template>
+
+<script setup>
+const lists = [
+  {
+    name: 'Lead',
+    color: 'blue',
+    count: 1,
+  },
+  {
+    name: 'Contacted',
+    color: 'green',
+    count: 2,
+  },
+  {
+    name: 'Qualified',
+    color: 'pink',
+    count: 3,
+  },
+  {
+    name: 'Lead',
+    color: 'blue',
+    count: 4,
+  },
+  {
+    name: 'Contacted',
+    color: 'green',
+    count: 5,
+  },
+  {
+    name: 'Qualified',
+    color: 'pink',
+    count: 6,
+  },
+];
+</script>
 
 <script>
 import RightClickMenu from '../components/RightClickMenu.vue';
@@ -705,10 +781,15 @@ import { debounce } from 'lodash';
 import RightClickMenuVue from './RightClickMenu.vue';
 import ViewToggle from './ViewToggle.vue';
 import BoardView from './BoardView.vue';
+import ListHeader from './ListHeader.vue';
+import ContactCard from './ContactCard.vue';
+import TemplateModal from "./TemplateModal.vue";
+
 export default {
   name: 'DataGrid',
   components: {
     CheckboxInput,
+      TemplateModal,
     MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
@@ -717,6 +798,8 @@ export default {
     DataGridHeaderContent,
     CustomFieldsMenu,
     BoardView,
+    ListHeader,
+    ContactCard,
     ArchiveBoxIcon,
     KeyboardShortcut,
     MagnifyingGlassIcon,
@@ -838,6 +921,11 @@ export default {
           icon: 'GlobeAltIcon',
           action: () => this.downloadChromeExtension(),
         },
+        {
+          name: 'Select a template',
+          icon: 'GlobeAltIcon',
+          action: () => this.openSelectTemplateModal(),
+        },
       ],
       showCustomFieldsModal: false,
       currentEditingField: null,
@@ -933,6 +1021,9 @@ export default {
       //route push to chrome-extension
       this.$router.push({ name: 'Chrome Extension' });
     },
+      openSelectTemplateModal() {
+
+      }
   },
   mounted() {
     this.suggestContactsMerge([], true);
@@ -968,6 +1059,10 @@ export default {
       } else {
         this.handleCellNavigation('ArrowRight');
       }
+    });
+    this.$mousetrap.bind(['command+b', 'ctrl+b'], () => {
+      event.preventDefault();
+      this.boardView = !this.boardView;
     });
     this.$mousetrap.bind('left', () => {
       event.preventDefault();

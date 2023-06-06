@@ -5,7 +5,7 @@
     class="relative z-10 inline-block w-full items-center text-left">
     <Float portal :offset="0" shift :placement="placement">
       <MenuButton class="w-full cursor-pointer" @click="open" ref="menuButton">
-        <slot :open="open" name="triggerButton"> Button Goes Here</slot>
+        <slot :open="open" name="triggerButton">Button Goes Here</slot>
       </MenuButton>
 
       <TransitionRoot
@@ -38,7 +38,7 @@
                     ref="menuSearchInput"
                     v-model="searchQuery"
                     :placeholder="searchText"
-                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0" />
                   <!-- <div
                   v-if="item.shortcut"
                   class="absolute inset-y-0 right-0 flex py-2 pr-1.5">

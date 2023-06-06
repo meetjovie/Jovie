@@ -255,6 +255,7 @@ class ImportController extends Controller
             'email1' => 'Email 1',
             'email2' => 'Email 2',
             'phone' => 'Phone',
+            'socials' => 'Socials',
         ];
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam($id);

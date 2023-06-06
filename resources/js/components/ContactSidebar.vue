@@ -671,7 +671,7 @@ export default {
     list: {
         type: Number,
         default: 0,
-    }
+    },
     compact: {
       type: Boolean,
       default: false,

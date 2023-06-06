@@ -145,23 +145,28 @@ export default {
   },
   methods: {
     fileChanged(e) {
-      let self = this;
-      this.uploadProgress = 0;
-      const src = URL.createObjectURL(e.target.files[0]);
-      Vapor.store(e.target.files[0], {
-        visibility: 'public-read',
-        progress: (progress) => {
-          this.uploadProgress = Math.round(progress * 100);
-        },
-      }).then((response) => {
-        if (response.uuid) {
-          this.$nextTick(() => {
-            self.$emit('updateAvatar', response.uuid);
-          });
-        }
-        document.getElementById(`profile_pic_url_img_${this.contact.id}`).src =
-          src;
-      });
+      if (!this.editable) {
+        return; // Exit the method if editable is false
+      } else {
+        let self = this;
+        this.uploadProgress = 0;
+        const src = URL.createObjectURL(e.target.files[0]);
+        Vapor.store(e.target.files[0], {
+          visibility: 'public-read',
+          progress: (progress) => {
+            this.uploadProgress = Math.round(progress * 100);
+          },
+        }).then((response) => {
+          if (response.uuid) {
+            this.$nextTick(() => {
+              self.$emit('updateAvatar', response.uuid);
+            });
+          }
+          document.getElementById(
+            `profile_pic_url_img_${this.contact.id}`
+          ).src = src;
+        });
+      }
     },
   },
 };

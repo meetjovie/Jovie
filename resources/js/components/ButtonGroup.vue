@@ -3,7 +3,7 @@
     type="button"
     :disabled="disabled"
     @click="trackClick()"
-    class="group inline-flex items-center overflow-hidden font-medium capitalize first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:scale-95 active:shadow-none"
+    class="group inline-flex items-center overflow-hidden font-medium capitalize first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:scale-95 active:shadow-none"
     :class="[
       success
         ? 'bg-green-500'
@@ -16,11 +16,11 @@
       design === 'secondary'
         ? 'bg-white'
         : design === 'toolbar'
-        ? 'bg-white'
+        ? ' border border-slate-200 bg-white text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-300'
         : '',
       //if toolbar then bg color white
 
-      { 'px-2 py-0 text-xs': size == 'xs' },
+      { 'px-2 py-0.5 text-xs': size == 'xs' },
       { 'px-2 py-1 text-sm': size == 'sm' },
       { 'px-4  py-3 text-base': size == 'base' },
       { 'px-4 py-2 text-lg': size == 'md' },
@@ -30,7 +30,7 @@
           design == 'secondary',
       },
       {
-        'group flex cursor-pointer items-center rounded-md  p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-700':
+        'group flex cursor-pointer items-center rounded shadow hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-700':
           design == 'toolbar',
       },
       {
@@ -93,8 +93,13 @@
       v-else-if="icon"
       :is="icon"
       :class="[
+        //if hidetext mr-0 else mr-2
         {
-          'dark:group-hover:text-slate h-5 w-5 text-slate-400 group-hover:text-slate-600 dark:text-jovieDark-400 dark:group-hover:text-jovieDark-200':
+          'mx-2': hideText,
+        },
+
+        {
+          'dark:group-hover:text-slate h-3 w-3 text-slate-400 group-hover:text-slate-600 dark:text-jovieDark-400 dark:group-hover:text-jovieDark-200':
             design == 'toolbar',
         },
         { ' mr-2 h-4 w-4': design == 'secondary' || 'primary' },
@@ -102,7 +107,7 @@
       aria-hidden="true" />
     <p
       v-if="text"
-      class="mx-auto line-clamp-1 flex items-center text-center text-sm"
+      class="text-wider mx-auto line-clamp-1 flex items-center text-center text-xs font-medium"
       :class="[
         { 'text-2xs': size == 'xs' },
         { 'text-xs': size == 'sm' },
@@ -124,6 +129,11 @@
     <div v-else-if="error">
       <XCircleIcon class="h-5 w-5 text-white transition-all" />
     </div>
+    <div v-else-if="hasMenu">
+      <ChevronDownIcon
+        class="ml-1 h-3 w-3 text-slate-500 transition-all dark:text-jovieDark-100" />
+    </div>
+
     <div v-else></div>
   </button>
 </template>
@@ -141,10 +151,13 @@ import {
   DocumentDuplicateIcon,
   MinusCircleIcon,
   MinusIcon,
+  UserGroupIcon,
+  ChevronDownIcon,
   AdjustmentsHorizontalIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   PlusIcon,
+  UserIcon,
   ChevronRightIcon,
   XCircleIcon,
   CheckCircleIcon,
@@ -207,6 +220,10 @@ export default {
       type: String,
       default: 'primary',
     },
+    hasMenu: {
+      type: Boolean,
+      default: false,
+    },
     hideText: {
       type: Boolean,
       default: false,
@@ -231,9 +248,12 @@ export default {
     CheckCircleIcon,
     AdjustmentsHorizontalIcon,
     MinusIcon,
+    UserIcon,
+    ChevronDownIcon,
     PlusCircleIcon,
     UserPlusIcon,
     MinusCircleIcon,
+    UserGroupIcon,
     ChevronRightIcon,
     ArrowRightOnRectangleIcon,
     ArrowLeftOnRectangleIcon,

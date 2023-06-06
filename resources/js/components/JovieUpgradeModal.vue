@@ -104,7 +104,7 @@
                   <div class="flex items-center justify-end py-4">
                     <button
                       type="button"
-                      class="mt-3 inline-flex w-full justify-center px-4 py-2 text-base font-medium text-gray-700 focus:outline-none focus:ring-0 dark:text-jovieDark-300 sm:col-start-1 sm:mt-0 sm:text-sm"
+                      class="mt-3 inline-flex w-full justify-center px-4 py-2 text-base font-medium text-gray-700 focus-visible:outline-none focus-visible:ring-0 dark:text-jovieDark-300 sm:col-start-1 sm:mt-0 sm:text-sm"
                       @click="open = false"
                       ref="cancelButtonRef">
                       Dismiss
@@ -112,7 +112,7 @@
                     <router-link to="/billing">
                       <button
                         type="button"
-                        class="flex w-40 justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm line-clamp-1 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:col-start-2 sm:text-sm"
+                        class="line-clamp-1 flex w-40 justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:col-start-2 sm:text-sm"
                         @click="open = false">
                         Choose plan
                       </button>

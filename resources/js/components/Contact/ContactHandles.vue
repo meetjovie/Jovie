@@ -10,7 +10,7 @@
         type="email"
         name="email"
         id="email"
-        class="block w-full rounded-md border-slate-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        class="block w-full rounded-md border-slate-300 pl-10 focus-visible:border-indigo-500 focus-visible:ring-indigo-500 sm:text-sm"
         :placeholder="placeholder" />
     </div>
     <!--/sse-->

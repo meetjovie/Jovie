@@ -20,7 +20,7 @@
         leave-to-class="transform scale-95 opacity-0">
         <MenuItems as="div">
           <GlassmorphismContainer
-            class="w-24 origin-bottom-left divide-y divide-gray-100 rounded-md ring-1 ring-black ring-opacity-5 focus:outline-none">
+            class="w-24 origin-bottom-left divide-y divide-gray-100 rounded-md ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
             <div class="px-1 py-1">
               <DropdownMenuItem
                 @click="setTheme('light')"

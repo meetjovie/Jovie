@@ -568,9 +568,8 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
+            class="isolate z-50 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
-              v-if="currentContact"
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
@@ -791,7 +790,7 @@ export default {
       taskLoading: false,
       contactsMeta: {},
       /*  activeCreator: [], */
-      currentContact: [],
+      currentContact: null,
       innerWidth: window.innerWidth,
 
       lists: [],

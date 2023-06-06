@@ -10,13 +10,13 @@
       ctaLink="/plan">
       <DataStatCards :stats="stats" />
       <div v-for="(team, index) in currentUser.teams">
-       
         <div class="mt-12 py-8 sm:grid sm:grid-cols-3 sm:gap-4 sm:py-2">
           <dt
             class="text-sm font-medium text-slate-500 dark:text-jovieDark-300 sm:pt-5">
             Invite addition team members
           </dt>
-          <dd v-if=showInvite
+          <dd
+            v-if="showInvite"
             class="mt-1 flex items-center text-sm text-slate-900 dark:text-jovieDark-100 sm:col-span-2 sm:mt-0">
             <span class="flex-grow">
               <InputGroup
@@ -27,8 +27,7 @@
               <ButtonGroup
                 :disabled="loading.inviting"
                 @click="inviteMember(team, index)"
-               text="Send Invite" />
-        
+                text="Send Invite" />
             </span>
           </dd>
         </div>
@@ -43,10 +42,7 @@
             <div class="flex items-center px-4 py-4 sm:px-6">
               <div class="flex min-w-0 flex-1 items-center">
                 <div class="flex-shrink-0">
-                  <img
-                    class="h-12 w-12 rounded-full"
-                    :src="user.profile_pic_url"
-                    :alt="user.full_name" />
+                  <ContactAvatar :height="12" :contact="user" />
                 </div>
                 <div
                   class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
@@ -64,8 +60,8 @@
                   </div>
                   <div class="hidden md:block">
                     <div>
-                      <p class="text-sm text-slate-900 dark:text-jovieDark-100">
-                        Sent on
+                      <p class="text-xs text-slate-700 dark:text-jovieDark-100">
+                        Sent
                         {{ ' ' }}
                         <time :datetime="user.updated"
                           >{{ formatDate(user.updated) }}
@@ -77,24 +73,24 @@
               </div>
               <div>
                 <span class="ml-4 flex-shrink-0">
-                  <button
+                  <ButtonGroup
                     :disabled="loading.inviting"
                     @click="resendInvite(user.id)"
                     type="button"
-                    class="rounded-md bg-slate-100 text-xs font-medium text-indigo-600 hover:text-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
-                    Resend Invite
-                  </button>
+                    text="Resend Invite" />
                 </span>
               </div>
             </div>
           </li>
-          <li v-else class="text-sm mt-2 font-bold text-slate-400">There are no pending invites right now.</li>
+          <li v-else class="mt-2 text-sm font-bold text-slate-400">
+            There are no pending invites right now.
+          </li>
         </ul>
       </div>
     </SectionWrapper>
 
     <div class="mt-10 py-4">
-     <!--  <div
+      <!--  <div
         class="flex w-full items-center justify-between space-y-1 border-b px-4 py-2">
         <div class="">
           <h3
@@ -202,10 +198,10 @@
       </div>
     </div>
   </div>
- 
 </template>
 
 <script>
+import ContactAvatar from '../components/ContactAvatar.vue';
 import SectionHeader from '../components/SectionHeader.vue';
 import SectionWrapper from '../components/SectionWrapper.vue';
 import {
@@ -230,6 +226,7 @@ export default {
     ChevronRightIcon,
     EnvelopeIcon,
     PlusCircleIcon,
+    ContactAvatar,
     MinusCircleIcon,
     ButtonGroup,
     SectionHeader,
@@ -271,7 +268,7 @@ export default {
     invitePeople() {
       //console.log('Invite people');
       console.log('Invite people');
-      this.showInvite=true;
+      this.showInvite = true;
     },
     cancelBuySeats() {
       this.isBuySeats = false;
@@ -293,11 +290,23 @@ export default {
           response = response.data;
           if (response.status) {
             alert(response.message);
+
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: response.message,
+              type: 'success',
+            });
             this.isBuySeats = false;
             this.currentUser.current_team.current_subscription =
               response.subscription;
           } else {
-            alert(response.message);
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: response.message,
+              type: 'success',
+            });
           }
         })
         .catch((error) => {
@@ -320,6 +329,12 @@ export default {
             this.teamName = '';
             this.addTeam = false;
             alert('added');
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: 'Added  ',
+              type: 'success',
+            });
           }
         })
         .catch((error) => {
@@ -338,7 +353,12 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            alert('Updated');
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: 'Updated',
+              type: 'success',
+            });
           }
         })
         .catch((error) => {
@@ -359,9 +379,20 @@ export default {
           if (response.status) {
             this.currentUser.teams[index].memberToInvite = '';
             this.currentUser.teams[index] = response.teams;
-            alert(response.message);
+
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: response.message,
+              type: 'success',
+            });
           } else {
-            alert(response.message);
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: response.message,
+              type: 'success',
+            });
             this.currentUser.teams[index].memberToInvite = '';
           }
         })
@@ -375,7 +406,7 @@ export default {
           this.loading.inviting = false;
         });
     },
-    
+
     deleteMember(userId, uIndex, teamId, tIndex) {
       this.loading.deleting = true;
       TeamService.deleteMember(teamId, userId)
@@ -383,7 +414,13 @@ export default {
           response = response.data;
           if (response.status) {
             this.currentUser.teams[tIndex].users.splice(uIndex, 1);
-            alert('deleted');
+
+            this.$notify({
+              group: 'user',
+              title: 'Successful',
+              text: 'Deleted',
+              type: 'success',
+            });
           }
         })
         .catch((error) => {
@@ -402,7 +439,12 @@ export default {
         .then((response) => {
           response = response.data;
           if (response.status) {
-            alert('Sent');
+            this.$notify({
+              group: 'user',
+
+              title: 'Invitation Sent',
+              type: 'success',
+            });
           }
         })
         .catch((error) => {

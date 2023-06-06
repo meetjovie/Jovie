@@ -92,15 +92,15 @@
                                 name="first_name"
                                 tabindex="-1"
                                 id="first_name"
-                                class="z-20 block w-32 border-0 bg-transparent px-4 pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-32 placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
+                                class="z-20 block w-32 border-0 bg-transparent px-4 pt-2.5 text-lg font-bold tracking-tight placeholder-shown:w-32 placeholder-shown:text-slate-400 focus-visible:ring-0 focus-visible:placeholder:text-slate-300"
                                 placeholder="First Name"
                                 v-model="contact.first_name" />
                             </div>
                             <div
-                                class="h-6 w-full justify-start py-1 text-xs text-red-600 dark:text-red-400">
-                            <span v-if="errors.first_name">
-                              {{ errors.first_name[0] }}</span
-                            >
+                              class="h-6 w-full justify-start py-1 text-xs text-red-600 dark:text-red-400">
+                              <span v-if="errors.first_name">
+                                {{ errors.first_name[0] }}</span
+                              >
                             </div>
 
                             <label for="first_name" class="sr-only"
@@ -112,7 +112,7 @@
                               name="last_name"
                               tabindex="-1"
                               id="last_name"
-                              class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:text-slate-400 focus:ring-0 focus:placeholder:text-slate-300"
+                              class="block w-full border-0 bg-transparent pt-2.5 text-lg font-bold tracking-tight placeholder-shown:text-slate-400 focus-visible:ring-0 focus-visible:placeholder:text-slate-300"
                               placeholder="Last Name"
                               v-model="contact.last_name" />
                           </div>
@@ -124,7 +124,7 @@
                             rows="2"
                             name="description"
                             id="description"
-                            class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                            class="block w-full resize-none border-0 py-0 text-gray-900 placeholder:text-gray-400 focus-visible:ring-0 sm:text-sm sm:leading-6"
                             placeholder="Write a description..." /> -->
                           <div
                             class="mt-2 flex h-80 flex-col space-y-4 overflow-y-scroll px-4">

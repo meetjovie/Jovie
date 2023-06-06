@@ -13,9 +13,9 @@
         <ComboboxLabel class="sr-only">Country:</ComboboxLabel>
         <div class="relative mt-1">
           <div
-            class="relative w-full cursor-default overflow-hidden rounded-lg border bg-white/90 text-left backdrop-filter focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
+            class="relative w-full cursor-default overflow-hidden rounded-lg border bg-white/90 text-left backdrop-filter focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
             <ComboboxInput
-              class="w-full border-none py-1 pl-3 pr-10 text-xs leading-5 text-slate-700 focus:ring-0"
+              class="w-full border-none py-1 pl-3 pr-10 text-xs leading-5 text-slate-700 focus-visible:ring-0"
               :displayValue="(Country) => Country.name"
               @change="query = $event.target.value" />
             <ComboboxButton
@@ -30,10 +30,10 @@
             leaveFrom="opacity-100"
             leaveTo="opacity-0">
             <ComboboxOptions
-              class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              class="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-md ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:text-sm">
               <div
                 v-if="filteredCountries.length === 0 && query !== ''"
-                class="relative cursor-default select-none py-2 px-4 text-slate-700">
+                class="relative cursor-default select-none px-4 py-2 text-slate-700">
                 No results
               </div>
 

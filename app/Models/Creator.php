@@ -24,6 +24,7 @@ class Creator extends Model
 
     const CREATORS_CSV_PATH = 'public/creators_csv/';
 
+    const IMPORTABLE_SOCIALS = ['twitter', 'tiktok', 'twitch', 'instagram'];
     const NETWORKS = ['instagram', 'twitch', /* 'onlyFans', 'snapchat', */ 'linkedin', 'youtube', 'twitter', 'tiktok'];
     const TWITTER_BATCH_SIZE = 100;
 

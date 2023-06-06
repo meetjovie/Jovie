@@ -22,7 +22,7 @@ class ContactsLimitScope implements Scope
     {
         if (! App::runningInConsole()) {
             $team = Auth::user()->currentTeam;
-            $contactLimitId = Contact::query()->withoutGlobalScopes()->where('team_id', $team->id)->take($team->currentContactsLimit())->latest('id')->get()->last()->id ?? null;
+            $contactLimitId = Contact::query()->withoutGlobalScopes()->where('team_id', $team->id)->take($team->currentContactsLimit())->orderByDesc('last_enriched_at')->orderByDesc('id')->get()->last()->id ?? null;
             if ($contactLimitId) {
                 $builder->where($model->getTable().'.id', '>=', $contactLimitId);
             }

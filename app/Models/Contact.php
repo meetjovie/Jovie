@@ -670,8 +670,6 @@ class Contact extends Model implements Auditable
             $orderBy = $params['sort'];
         }
 
-        $contacts = $contacts->orderByDesc('last_enriched_at');
-
         if (!empty($orderBy)) {
             $orderBy = "contacts." . $orderBy;
             $contacts = $contacts->orderByRaw("lower($orderBy) $order");
