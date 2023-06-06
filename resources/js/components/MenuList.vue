@@ -196,7 +196,7 @@
                     leave-from-class="transform scale-100 opacity-100"
                     leave-to-class="transform scale-95 opacity-0">
                     <MenuItems
-                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus:outline-none dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
+                      class="z-40 mt-2 w-28 origin-top-right divide-y divide-slate-100 rounded border border-slate-200 bg-white/60 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 focus-visible:outline-none dark:divide-slate-800 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                       <div class="px-1 py-1">
                         <MenuItem v-slot="{ active }">
                           <button

@@ -13,6 +13,10 @@
           label="List Name"
           placeholder="Enter list name to create"
           type="text" />
+        <p>
+          <span>To import contacts to existing lists please select one</span>
+          <InputLists :lists="lists" @updateLists="updateLists" />
+        </p>
       </div>
       <table class="w-full rounded-md px-8 py-2">
         <tr
@@ -86,9 +90,11 @@ import InputGroup from '../InputGroup.vue';
 import ModalPopup from '../ModalPopup.vue';
 import TeamService from '../../services/api/team.service';
 import CheckboxInput from '../CheckboxInput.vue';
+import InputLists from '../InputLists.vue';
 export default {
   name: 'ImportColumnMatching',
   components: {
+    InputLists,
     ModalPopup,
     CheckboxInput,
     ColumnsDropdown,
@@ -138,6 +144,7 @@ export default {
         description: 'Do you want to automatically enrich contacts?',
         loading: false,
       },
+      lists: [],
     };
   },
   computed: {
@@ -155,6 +162,13 @@ export default {
     this.checkDuplicateList();
   },
   methods: {
+    updateLists(data) {
+      if (data.add) {
+        this.lists.push(data.list);
+      } else {
+        this.lists.splice(this.lists.indexOf(data.list), 1);
+      }
+    },
     autoEnrichment() {
       this.autoEnrichmentPopup.open = false;
       if (this.autoEnrichmentSetting) {
@@ -181,6 +195,7 @@ export default {
     import(autoEnrich = false) {
       this.$emit('finish', {
         columns: this.mappedColumns,
+          lists: this.lists,
         autoEnrich: autoEnrich,
       });
     },
@@ -188,7 +203,8 @@ export default {
       TeamService.updateTeamSettings(data, this.currentUser.current_team.id)
         .then((response) => {
           response = response.data;
-          console.log(response);
+          this.currentUser.workspace_preferences.auto_enrich_import =
+            response.data.auto_enrich_import.value;
         })
         .catch((error) => {
           error = error.response;

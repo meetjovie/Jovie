@@ -82,7 +82,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-6 flex space-x-3 md:mt-0 md:ml-4">
+          <div class="mt-6 flex space-x-3 md:ml-4 md:mt-0">
             <a href="/account">
               <button
                 type="button"
@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
-    <div class="container mx-auto mt-24 max-w-3xl py-24 px-4 sm:px-6 lg:px-8">
+    <div class="container mx-auto mt-24 max-w-3xl px-4 py-24 sm:px-6 lg:px-8">
       <div>
         <h1 class="text-md font-bold">Add a creator.</h1>
         <span class="text-sm font-medium text-slate-500"

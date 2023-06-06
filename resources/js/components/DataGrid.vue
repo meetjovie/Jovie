@@ -18,9 +18,24 @@
                     > -->
           <div class="flex h-6 w-full content-end items-center">
             <div
-              class="group flex h-full w-full cursor-pointer content-end items-center justify-end gap-2 py-2 text-right transition-all duration-150 ease-out">
-              <div>
-                <ShareMenu :contacts="activeUsersOnList" />
+              class="group flex h-full w-full cursor-pointer content-end items-center justify-end text-right transition-all duration-150 ease-out">
+              <div v-if="!searchVisible">
+                <JovieTooltip
+                  tooltipText="Press"
+                  arrow
+                  tooltipPlacement="bottom">
+                  <template #content>
+                    <KeyboardShortcut text="/" />
+                    to search
+                  </template>
+                  <ButtonGroup
+                    hideText
+                    size="xs"
+                    :design="'toolbar'"
+                    :text="'Search'"
+                    icon="MagnifyingGlassIcon"
+                    @click="toggleSearchVisible()" />
+                </JovieTooltip>
               </div>
               <TransitionRoot
                 :show="searchVisible"
@@ -46,7 +61,7 @@
                         placeholder="Press /  to search"
                         ref="searchInput"
                         v-model="searchQuery"
-                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus:outline-0 focus-visible:border-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:placeholder:text-slate-400 sm:text-sm" />
+                        class="rounded-m block w-full border-slate-300 py-0.5 pl-10 ring-0 focus-visible:border-none focus-visible:outline-0 focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-100 dark:placeholder:text-slate-400 sm:text-xs" />
 
                       <div
                         @click="toggleSearchVisible()"
@@ -59,35 +74,23 @@
                   </div>
                 </div>
               </TransitionRoot>
-
-              <div v-if="!searchVisible">
-                <JovieTooltip
-                  tooltipText="Press"
-                  arrow
-                  tooltipPlacement="bottom">
-                  <template #content>
-                    <KeyboardShortcut text="/" />
-                    to search
-                  </template>
-                  <ButtonGroup
-                    :design="'toolbar'"
-                    :text="'Search'"
-                    icon="MagnifyingGlassIcon"
-                    hideText
-                    @click="toggleSearchVisible()" />
-                </JovieTooltip>
+              <div>
+                <ShareMenu :contacts="activeUsersOnList" />
               </div>
+
+              <ViewToggle v-if="currentUser.isAdmin" v-model="boardView" />
             </div>
-            <div class="flex items-center space-x-4">
+            <div class="ml-4 flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
                       <ButtonGroup
                         :design="'toolbar'"
-                        :text="'Hide Columns'"
-                        icon="AdjustmentsHorizontalIcon"
-                        hideText />
+                        :text="'Display'"
+                        size="xs"
+                        hasMenu
+                        icon="AdjustmentsHorizontalIcon" />
                     </MenuButton>
                     <TransitionRoot
                       :show="open"
@@ -99,7 +102,7 @@
                       leave-to-class="transform scale-95 opacity-0">
                       <MenuItems @focus="focusTableColumnFilterInput()" static>
                         <GlassmorphismContainer
-                          class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus:ring-0">
+                          class="w-60 flex-col rounded-md py-2 pl-2 pr-1 ring-0 focus-visible:ring-0">
                           <div class="px-1">
                             <DropdownMenuItem
                               tabindex="0"
@@ -223,31 +226,70 @@
                 tooltipPlacement="bottom">
                 <ButtonGroup
                   @click="toggleContactSidebar()"
-                  :design="'toolbar'"
-                  :text="
-                    $store.state.ContactSidebarOpen
-                      ? 'Close Contact Sidebar'
-                      : 'Open Contact Sidebar'
-                  "
-                  :icon="
-                    $store.state.ContactSidebarOpen
-                      ? 'ArrowRightOnRectangleIcon'
-                      : 'ArrowLeftOnRectangleIcon'
-                  "
-                  hideText />
+                  design="toolbar"
+                  size="xs"
+                  hideText
+                  text="Details"
+                  icon="UserIcon" />
               </JovieTooltip>
             </div>
           </div>
         </header>
+        <div v-if="boardView">
+          <!-- <BoardView :contacts="contacts" /> -->
+          <div
+            class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
+            <div v-for="list in lists" :key="list.id" class="overflow-y-auto">
+              <ListHeader :list="list" />
+
+              <ul role="list" class="flex flex-col space-y-2">
+                <li class="" v-for="contact in contacts" :key="contact.id">
+                  <ContactCard
+                    @contextMenuClicked="
+                      openRightClickMenuContextClick($event, contact)
+                    "
+                    @contextMenuButtonClicked="
+                      openRightClickMenuButton($event, contact)
+                    "
+                    @click="setCurrentContact($event, contact, index)"
+                    @openSidebar="
+                      $emit('openSidebar', { contact: contact, index: index })
+                    "
+                    @selectMultiple="selectMultiple"
+                    :loading="loading"
+                    :userLists="userLists"
+                    @update:currentCell="$emit('updateContact', $event)"
+                    @updateContact="$emit('updateContact', $event)"
+                    @updateListCount="$emit('updateListCount', $event)"
+                    @archive-contacts="
+                      toggleArchiveContacts(element.id, !element.archived)
+                    "
+                    @toggleContactsFromList="toggleContactsFromList"
+                    @checkContactsEnrichable="
+                      $emit(
+                        'checkContactsEnrichable',
+                        this.selectedContacts.length
+                          ? this.selectedContacts
+                          : $event
+                      )
+                    "
+                    class="w-80"
+                    :contact="contact" />
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
         <div
+          v-else
           class="flex h-full w-full justify-between overflow-x-auto scroll-smooth align-middle">
           <div
-            class="flex h-full w-full flex-col overflow-auto bg-white shadow-sm ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
+            class="flex h-full w-full flex-col overflow-auto bg-white ring-1 ring-black ring-opacity-5 dark:bg-jovieDark-900">
             <table
               ref="crmTable"
-              class="block w-full divide-y divide-slate-300 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
+              class="block w-full divide-y divide-slate-200 overflow-x-auto bg-slate-100 dark:divide-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-700">
               <thead
-                class="relative isolate z-20 h-10 w-full items-center overflow-auto">
+                class="relative isolate z-20 w-full items-center overflow-auto">
                 <tr
                   v-if="!headersLoaded"
                   class="sticky top-0 z-50 w-full items-center">
@@ -289,13 +331,13 @@
                   <template #header>
                     <th
                       scope="col"
-                      class="sticky left-0 z-50 flex w-80 items-center border-r-2 border-slate-300 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
+                      class="sticky left-0 z-50 flex h-11 w-96 items-center border-r border-slate-200 bg-slate-100 dark:border-jovieDark-border dark:bg-jovieDark-700">
                       <div
                         class="z-50 items-center border-slate-300 px-2 text-center text-xs font-light tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border">
                         <div class="mx-auto items-center text-center">
                           <input
                             type="checkbox"
-                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
+                            class="mx-auto h-3 w-3 rounded border-slate-300 text-center text-indigo-600 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400"
                             :checked="
                               intermediate ||
                               selectedContacts.length === contactRecords.length
@@ -430,12 +472,10 @@
                       v-show="!element.hide"
                       scope="col"
                       :style="`width: ${element.width}px`"
-                      class="sticky top-0 z-30 table-cell w-full items-center border border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter dark:border-jovieDark-border dark:text-jovieDark-400">
+                      class="sticky top-0 z-30 table-cell w-full items-center border-x border-slate-300 text-left text-xs font-medium tracking-wider text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-400">
                       <DataGridColumnHeader
                         :class="[
-                          index == currentCell.column
-                            ? 'bg-slate-200 dark:bg-jovieDark-700 '
-                            : 'bg-slate-100 dark:bg-jovieDark-600 ',
+                          index == currentCell.column ? 'font-bold  ' : ' ',
                           'w-full',
                         ]"
                         @updateColumnWidth="updateColumnWidth($event)"
@@ -453,7 +493,7 @@
                   <template #footer>
                     <th
                       scope="col"
-                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border border-slate-300 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus:border-transparent focus:outline-none focus:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
                       <div @click="openCustomFieldModal()" class="w-40">
                         <!-- <CustomFieldsMenu
                                               class=""
@@ -474,7 +514,7 @@
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
               <draggable
-                class="list-group relative isolate z-0 h-full divide-y divide-slate-300 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
                 :list="contactRecords"
                 ghost-class="ghost-row"
                 group="contacts"
@@ -491,6 +531,7 @@
                     @contextMenuButtonClicked="
                       openRightClickMenuButton($event, contact)
                     "
+                    @selectMultiple="selectMultiple"
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -513,7 +554,6 @@
                     v-if="element"
                     @update:currentCell="$emit('updateContact', $event)"
                     @click="setCurrentContact($event, element, index)"
-                    @mouseover="setCurrentContact($event, element, index)"
                     @openSidebar="
                       $emit('openSidebar', { contact: element, index: index })
                     "
@@ -524,7 +564,12 @@
                     "
                     @toggleContactsFromList="toggleContactsFromList"
                     @checkContactsEnrichable="
-                      $emit('checkContactsEnrichable', $event)
+                      $emit(
+                        'checkContactsEnrichable',
+                        this.selectedContacts.length
+                          ? this.selectedContacts
+                          : $event
+                      )
                     " />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
@@ -536,9 +581,6 @@
               <span class="flex" @click="$emit('addContact')">
                 <PlusIcon class="mr-2 h-4 w-4" />
                 Add new contact
-              </span>
-              <span>
-                <ButtonGroup @click="$emit('export')" :text="'Export'" />
               </span>
             </div>
             <div
@@ -614,6 +656,41 @@
     :open="openMergeSuggestion"
     :suggestion="mergeSuggestion" />
 </template>
+
+<script setup>
+const lists = [
+  {
+    name: 'Lead',
+    color: 'blue',
+    count: 1,
+  },
+  {
+    name: 'Contacted',
+    color: 'green',
+    count: 2,
+  },
+  {
+    name: 'Qualified',
+    color: 'pink',
+    count: 3,
+  },
+  {
+    name: 'Lead',
+    color: 'blue',
+    count: 4,
+  },
+  {
+    name: 'Contacted',
+    color: 'green',
+    count: 5,
+  },
+  {
+    name: 'Qualified',
+    color: 'pink',
+    count: 6,
+  },
+];
+</script>
 
 <script>
 import RightClickMenu from '../components/RightClickMenu.vue';
@@ -691,6 +768,10 @@ import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
 import { debounce } from 'lodash';
 import RightClickMenuVue from './RightClickMenu.vue';
+import ViewToggle from './ViewToggle.vue';
+import BoardView from './BoardView.vue';
+import ListHeader from './ListHeader.vue';
+import ContactCard from './ContactCard.vue';
 
 export default {
   name: 'DataGrid',
@@ -702,6 +783,9 @@ export default {
     DataGridCellTextInput,
     DataGridHeaderContent,
     CustomFieldsMenu,
+    BoardView,
+    ListHeader,
+    ContactCard,
     ArchiveBoxIcon,
     KeyboardShortcut,
     MagnifyingGlassIcon,
@@ -714,6 +798,7 @@ export default {
     InputLists,
     EnvelopeIcon,
     ArrowSmallLeftIcon,
+    ViewToggle,
     LockClosedIcon,
     Switch,
     ShareMenu,
@@ -784,6 +869,7 @@ export default {
         confirmationMethod: null,
         title: 'Hiiiii',
         open: false,
+        boardView: false,
         primaryButtonText: 'custom',
         description: 'hellooo hello hello',
         loading: false,
@@ -930,8 +1016,13 @@ export default {
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
       event.preventDefault();
-      this.previousContact();
-      this.handleCellNavigation('ArrowUp');
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        this.previousContact();
+        this.handleCellNavigation('ArrowUp');
+      }
     });
 
     this.$mousetrap.bind('/', () => {
@@ -955,6 +1046,10 @@ export default {
         this.handleCellNavigation('ArrowRight');
       }
     });
+    this.$mousetrap.bind(['command+b', 'ctrl+b'], () => {
+      event.preventDefault();
+      this.boardView = !this.boardView;
+    });
     this.$mousetrap.bind('left', () => {
       event.preventDefault();
       if (this.openMergeSuggestion) {
@@ -965,8 +1060,13 @@ export default {
     });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
-      this.nextContact();
-      this.handleCellNavigation('ArrowDown');
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        this.nextContact();
+        this.handleCellNavigation('ArrowDown');
+      }
     });
     this.$mousetrap.bind('space', () => {
       this.toggleContactSidebar();
@@ -1101,6 +1201,26 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    selectMultiple(contact) {
+      const contactIndex = this.contactRecords.indexOf(contact);
+
+      if (this.selectedContacts.length) {
+        const minSelectedIndex = this.contactRecords.findIndex(
+          (contact) => contact.id === this.selectedContacts[0]
+        );
+        const indexDiff = contactIndex - minSelectedIndex;
+        this.selectedContacts = [];
+
+        for (let i = 0; i <= Math.abs(indexDiff); i++) {
+          const selectedContactId =
+            this.contactRecords[minSelectedIndex + i * Math.sign(indexDiff)].id;
+          this.selectedContacts.push(selectedContactId);
+        }
+      } else {
+        this.selectedContacts.push(contact.id);
+      }
+    },
+
     openRightClickMenu(contact) {
       console.log('open menu for ' + contact.full_name);
 
@@ -1347,55 +1467,60 @@ export default {
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
-      const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
-        this.visibleColumns.includes(column.key)
-      );
+      if (
+        !this.openMergeSuggestion &&
+        !this.$store.state.crmPage.showCustomFieldsModal
+      ) {
+        const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
+          this.visibleColumns.includes(column.key)
+        );
 
-      switch (event) {
-        case 'ArrowRight':
-          while (true) {
-            if (this.currentCell.column === this.otherColumns.length - 1) {
-              break;
+        switch (event) {
+          case 'ArrowRight':
+            while (true) {
+              if (this.currentCell.column === this.otherColumns.length - 1) {
+                break;
+              }
+              this.currentCell.column += 1;
+              this.scrollToFocusCell();
+              if (
+                this.visibleColumns.includes(
+                  this.otherColumns[this.currentCell.column].key
+                )
+              ) {
+                break;
+              }
             }
-            this.currentCell.column += 1;
-            this.scrollToFocusCell();
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
-              break;
+            break;
+          case 'ArrowLeft':
+            while (true) {
+              if (this.currentCell.column <= firstVisibleColumnIndex) {
+                break;
+              }
+              this.currentCell.column -= 1;
+              this.scrollToFocusCell();
+              if (
+                this.visibleColumns.includes(
+                  this.otherColumns[this.currentCell.column].key
+                )
+              ) {
+                break;
+              }
             }
-          }
-          break;
-        case 'ArrowLeft':
-          while (true) {
-            if (this.currentCell.column <= firstVisibleColumnIndex) {
-              break;
+            break;
+          case 'ArrowUp':
+            if (this.currentCell.row > 0) {
+              this.currentCell.row -= 1;
+              this.scrollToFocusCell();
             }
-            this.currentCell.column -= 1;
-            this.scrollToFocusCell();
-            if (
-              this.visibleColumns.includes(
-                this.otherColumns[this.currentCell.column].key
-              )
-            ) {
-              break;
+            break;
+          case 'ArrowDown':
+            if (this.currentCell.row < this.contactRecords.length - 1) {
+              this.currentCell.row += 1;
+              this.scrollToFocusCell();
             }
-          }
-          break;
-        case 'ArrowUp':
-          if (this.currentCell.row > 0) {
-            this.currentCell.row -= 1;
-            this.scrollToFocusCell();
-          }
-          break;
-        case 'ArrowDown':
-          if (this.currentCell.row < this.contactRecords.length - 1) {
-            this.currentCell.row += 1;
-            this.scrollToFocusCell();
-          }
-          break;
+            break;
+        }
       }
     },
     /* handleCellNavigation(event) {
@@ -1762,6 +1887,9 @@ export default {
       this.currentRow = row;
     },
     toggleArchiveContacts(ids, archived) {
+      if (this.selectedContacts.length) {
+        ids = this.selectedContacts;
+      }
       this.$store
         .dispatch('toggleArchiveContacts', {
           contact_ids: ids,
@@ -1781,6 +1909,7 @@ export default {
               title: 'Successful',
               text: response.message,
             });
+            this.closeRightClickMenu();
             this.$emit('crmCounts');
           } else {
             this.$notify({
@@ -1908,7 +2037,7 @@ export default {
     refresh(contact) {
       let imports = {};
       this.networks.forEach((network) => {
-        imports[network] = contact[`${network}_handler`];
+        imports[network] = contact[`${network}_data`][`${network}_handler`];
       });
       if (!Object.keys(imports).length) return;
       this.adding = true;

@@ -164,6 +164,7 @@ class ImportController extends Controller
     {
         $filePath = null;
         $mappedColumns = json_decode($request->mappedColumns);
+        $lists = json_decode($request->lists);
         if ($request->input('key')) {
             Storage::disk('s3')->copy(
                 ('tmp/' . $request->input('key')),
@@ -181,6 +182,7 @@ class ImportController extends Controller
                 $user->currentTeam->id,
                 true,
                 $request->autoEnrich,
+                $lists
             );
         }
 
@@ -190,7 +192,8 @@ class ImportController extends Controller
     public function importContact(Request $request)
     {
         $request->validate([
-            'first_name' => 'required'
+            // check if the any network form the creators model has a value in the request then make it nullable otherwise make it required
+            'first_name' => array_intersect(Creator::NETWORKS, array_keys(array_filter($request->all()))) ? 'nullable' : 'required',
         ]);
         try {
             $data = $request->all();
@@ -200,7 +203,7 @@ class ImportController extends Controller
             $data['full_name'] = $data['first_name'] ? ($data['first_name'] . ' ' . $data['last_name'] ?? null) : null;
             $contact = Contact::saveContact($data, $request->list_id)->first();
 
-            if ($user->currentTeam->autoEnrichImportEnabled()) {
+            if ($user->currentTeam->autoEnrichImportEnabled() || $data['enrich'] ) {
                 $contact->enrichContact();
             }
 
@@ -252,6 +255,7 @@ class ImportController extends Controller
             'email1' => 'Email 1',
             'email2' => 'Email 2',
             'phone' => 'Phone',
+            'socials' => 'Socials',
         ];
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam($id);

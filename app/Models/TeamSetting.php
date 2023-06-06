@@ -17,6 +17,10 @@ class TeamSetting extends Model
         'value',
     ];
 
+    protected $casts = [
+        'value' => 'boolean',
+    ];
+
     const SETTINGS = [
         'auto_enrich_import' => [
             'default' => false,
@@ -65,6 +69,7 @@ class TeamSetting extends Model
         }
         return $defaultSettings;
     }
+
     public static function getSetting($key)
     {
         $setting = self::where('key', $key)->first();

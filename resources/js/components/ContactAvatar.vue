@@ -76,20 +76,22 @@
           <span
             v-if="editable"
             class="mx-auto hidden h-full w-full items-center rounded-full group-hover:block">
-            <PencilIcon
-              class="mx-auto h-1/3 w-1/3 items-center text-white/50 dark:text-jovieDark-300/50" />
+            <label :for="`profile_pic_url_${contact.id}`">
+              <PencilIcon
+                class="mx-auto h-1/3 w-1/3 items-center text-white/50 dark:text-jovieDark-300/50" />
+              <input
+                :disabled="updating || !editable"
+                type="file"
+                :ref="`profile_pic_url_${contact.id}`"
+                @change="fileChanged($event)"
+                name="profile_pic_url"
+                :id="`profile_pic_url_${contact.id}`"
+                style="display: none" />
+            </label>
           </span>
         </span>
       </span>
     </label>
-    <input
-      :disabled="updating || !editable"
-      type="file"
-      :ref="`profile_pic_url_${contact.id}`"
-      @change="fileChanged($event)"
-      name="profile_pic_url"
-      :id="`profile_pic_url_${contact.id}`"
-      style="display: none" />
   </div>
 </template>
 
@@ -143,23 +145,28 @@ export default {
   },
   methods: {
     fileChanged(e) {
-      let self = this;
-      this.uploadProgress = 0;
-      const src = URL.createObjectURL(e.target.files[0]);
-      Vapor.store(e.target.files[0], {
-        visibility: 'public-read',
-        progress: (progress) => {
-          this.uploadProgress = Math.round(progress * 100);
-        },
-      }).then((response) => {
-        if (response.uuid) {
-          this.$nextTick(() => {
-            self.$emit('updateAvatar', response.uuid);
-          });
-        }
-        document.getElementById(`profile_pic_url_img_${this.contact.id}`).src =
-          src;
-      });
+      if (!this.editable) {
+        return; // Exit the method if editable is false
+      } else {
+        let self = this;
+        this.uploadProgress = 0;
+        const src = URL.createObjectURL(e.target.files[0]);
+        Vapor.store(e.target.files[0], {
+          visibility: 'public-read',
+          progress: (progress) => {
+            this.uploadProgress = Math.round(progress * 100);
+          },
+        }).then((response) => {
+          if (response.uuid) {
+            this.$nextTick(() => {
+              self.$emit('updateAvatar', response.uuid);
+            });
+          }
+          document.getElementById(
+            `profile_pic_url_img_${this.contact.id}`
+          ).src = src;
+        });
+      }
     },
   },
 };

@@ -10,7 +10,7 @@
     <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
     <div class="flex">
       <div
-        class="overflow-none top-0 z-30 mx-auto flex h-screen w-[268px] flex-col justify-between overflow-auto border-r border-slate-100 bg-white py-4 dark:border-jovieDark-border dark:bg-jovieDark-900">
+        class="overflow-none top-0 z-30 mx-auto flex h-screen w-[268px] flex-col justify-between overflow-auto border-r border-slate-200 bg-white py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
         <div>
           <slot name="header">
             <div class="w-full flex-col px-2">
@@ -35,13 +35,11 @@
                     :searchable="false">
                     <template #triggerButton>
                       <div
-                        class="flex w-full items-center justify-between rounded-md px-2 py-1 hover:bg-slate-200 dark:hover:bg-jovieDark-700">
+                        class="flex w-full items-center justify-between rounded px-2 py-1 hover:bg-slate-150 dark:hover:bg-jovieDark-700">
                         <div class="group/teammenu flex items-center space-x-1">
                           <InitialBox
-                            :name="
-                              currentUser.current_team.emoji ||
-                              currentUser.current_team.name
-                            "
+                            :emoji="currentUser.current_team.emoji"
+                            :name="currentUser.current_team.name"
                             :height="18" />
                           <div
                             class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
@@ -59,27 +57,21 @@
                     <template #menuTop>
                       <div class="">
                         <div
-                          class="border-b border-slate-200 px-4 pb-1 pt-2 text-center text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
-                          Your workspaces:
+                          class="border-b border-slate-200 px-4 pb-1 pt-2 text-xs font-semibold text-slate-700 dark:border-jovieDark-border dark:text-jovieDark-300">
+                          {{ currentUser.email }}
                         </div>
                       </div>
                     </template>
                     <template #menuBottom>
-                      <router-link
-                        to="/accounts"
-                        class="group rounded-md px-1 py-1 text-center text-sm font-medium hover:bg-slate-200 hover:text-slate-700 dark:hover:bg-jovieDark-border dark:hover:text-slate-300"
-                        :class="[
-                          active
-                            ? 'bg-white px-1 py-2 text-slate-800 dark:bg-jovieDark-700 dark:text-jovieDark-200'
-                            : 'text-sm text-slate-700 dark:text-jovieDark-300',
-                          'group flex w-full items-center px-2 py-2 text-xs  ',
-                        ]">
-                        <PlusCircleIcon
-                          :active="active"
-                          class="mr-2 h-4 w-4 text-slate-500 dark:text-jovieDark-300"
-                          aria-hidden="true" />
-                        Create workspace
-                      </router-link>
+                      <DropdownMenuItem separator />
+                      <JovieMenuItem
+                        component="SettingsWorkspace"
+                        icon="CogIcon"
+                        name="Workspace settings" />
+                      <JovieMenuItem
+                        component="SettingsWorkspace"
+                        icon="PlusCircleIcon"
+                        name="Create or join a workspace" />
                     </template>
                   </JovieDropdownMenu>
                 </div>
@@ -101,17 +93,12 @@
                     </template>
                     <template #menuTop>
                       <div
-                        class="mt-2 flex w-full cursor-default justify-between px-4">
-                        <div>
+                        class="flex w-full cursor-default justify-between px-4">
+                        <div class="flex w-full items-center justify-between">
                           <p
-                            class="justify-between text-xs font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
+                            class="justify-between truncate text-sm font-medium text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-200">
                             {{ currentUser.first_name }}
                             {{ currentUser.last_name }}
-                          </p>
-
-                          <p
-                            class="text-2xs font-medium text-slate-400 group-hover:text-slate-700">
-                            {{ currentUser.email }}
                           </p>
                         </div>
                         <div>
@@ -142,7 +129,7 @@
                         name="Help"
                         icon="ChatBubbleLeftIcon" />
                       <div
-                        class="my-1 border-t border-slate-200 dark:border-jovieDark-border"></div>
+                        class="border-t border-slate-200 dark:border-jovieDark-border"></div>
                       <DropdownMenuItem
                         :shortcutKey="
                           $store.state.platform === 'mac'
@@ -152,13 +139,6 @@
                         @click="$store.dispatch('logout')"
                         name="Logout"
                         icon="ArrowLeftOnRectangleIcon" />
-
-                      <div class="flex justify-end">
-                        <span
-                          class="text-right text-[8px] text-slate-400 dark:text-jovieDark-400">
-                          {{ $store.state.jovieVersion }}
-                        </span>
-                      </div>
                     </template>
                   </JovieDropdownMenu>
                 </div>
@@ -215,6 +195,7 @@ import {
   WrenchScrewdriverIcon,
 } from '@heroicons/vue/24/solid';
 import ContactAvatar from './ContactAvatar.vue';
+import JovieMenuItem from './JovieMenuItem.vue';
 
 import { Float } from '@headlessui-float/vue';
 import { LightBulbIcon, SparklesIcon } from '@heroicons/vue/24/outline';
@@ -232,6 +213,7 @@ export default {
     ContactAvatar,
     InitialBox,
     CogIcon,
+    JovieMenuItem,
     DropdownMenuItem,
     BoltIcon,
     LifebuoyIcon,

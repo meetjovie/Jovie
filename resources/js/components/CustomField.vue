@@ -39,27 +39,28 @@
       @blur="$emit('blur')" />
   </template>
   <template v-if="type === 'checkbox'">
-      <label
-        class="flex cursor-text items-center justify-between px-2 py-0.5 pl-5 text-xs font-medium text-slate-400 transition-all"
-        >{{ name }}</label
-      >
-      <div class="relative flex items-start">
-        <div class="flex h-5 items-center">
-          <input
-            :id="name"
-            :value="modelValue"
-            :name="name"
-            v-model="customFieldModel"
-            @change="$emit('update:modelValue', ($event.target.value === 'true' ? 1 : 0)); $emit('blur')"
-            type="checkbox"
-            class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" />
-        </div>
-        <div class="ml-3 text-sm">
-          <label :for="name" class="font-medium text-gray-700">
-            Yes
-          </label>
-        </div>
+    <label
+      class="flex cursor-text items-center justify-between px-2 py-0.5 pl-5 text-xs font-medium text-slate-400 transition-all"
+      >{{ name }}</label
+    >
+    <div class="relative flex items-start">
+      <div class="flex h-5 items-center">
+        <input
+          :id="name"
+          :value="modelValue"
+          :name="name"
+          v-model="customFieldModel"
+          @change="
+            $emit('update:modelValue', $event.target.value === 'true' ? 1 : 0);
+            $emit('blur');
+          "
+          type="checkbox"
+          class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus-visible:ring-indigo-500" />
       </div>
+      <div class="ml-3 text-sm">
+        <label :for="name" class="font-medium text-gray-700"> Yes </label>
+      </div>
+    </div>
   </template>
   <template v-else-if="type === 'date'">
     <label
@@ -74,8 +75,7 @@
       icon="CalendarDaysIcon"
       v-model="customFieldModel"
       @update:modelValue="$emit('update:modelValue', $event)"
-      @blur="$emit('blur')"
-    />
+      @blur="$emit('blur')" />
   </template>
   <template v-else-if="type === 'select' || type === 'multi_select'">
     <label
@@ -139,16 +139,16 @@ export default {
       date: {},
     };
   },
-    computed: {
-        customFieldModel: {
-            get() {
-                return this.modelValue;
-            },
-            set(val) {
-                this.$emit('update:modelValue', val);
-            },
-        },
+  computed: {
+    customFieldModel: {
+      get() {
+        return this.modelValue;
+      },
+      set(val) {
+        this.$emit('update:modelValue', val);
+      },
     },
+  },
   mounted() {
     if (
       (this.type === 'select' || this.type === 'multi_select') &&

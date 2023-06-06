@@ -4,15 +4,16 @@
       <div class="flex h-full w-full">
         <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
-            <div class="mt-4">
-              <div class="flex items-center text-xs">
-                <div class="mx-auto inline-flex w-full px-4">
+            <div class="">
+              <div class="flex items-center px-4 py-4 text-xs">
+                <div
+                  class="mx-auto inline-flex w-full divide-x rounded border border-slate-200 shadow active:shadow-none dark:border-jovieDark-border">
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="rouned-md group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 antialiased hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                     <PlusIcon
-                      class="mr-1 h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
+                      class="mr-1 h-4 w-4 items-center rounded text-xs text-slate-600 dark:text-slate-400"
                       aria-hidden="true" />
                     New Contact
                   </button>
@@ -20,18 +21,18 @@
                   <Menu>
                     <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border bg-slate-50 px-2 py-1 text-xs font-semibold text-slate-600 shadow-sm hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
                       </MenuButton>
                       <transition
-                        enter-active-class="transition ease-out duration-100"
-                        enter-from-class="transform opacity-0 scale-95"
-                        enter-to-class="transform opacity-100 scale-100"
-                        leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100"
-                        leave-to-class="transform opacity-0 scale-95">
+                        enter-active="transition ease-out duration-100"
+                        enter-from="transform opacity-0 scale-95"
+                        enter-to="transform opacity-100 scale-100"
+                        leave-active="transition ease-in duration-75"
+                        leave-from="transform opacity-100 scale-100"
+                        leave-to="transform opacity-0 scale-95">
                         <MenuItems
                           class="z-10 mt-2 w-52 origin-top-right rounded border border-slate-300 bg-white/60 px-1 py-1 shadow-lg ring-1 ring-black ring-opacity-5 backdrop-blur-2xl backdrop-saturate-150 backdrop-filter focus-visible:outline-none dark:border-jovieDark-border dark:bg-jovieDark-900/60">
                           <div class="py-1">
@@ -60,9 +61,9 @@
               </div>
 
               <Menu v-slot="{ open }">
-                <MenuItems static>
+                <MenuItems class="overflow-auto" static>
                   <div class="flex w-full flex-col space-y-1 px-2">
-                    <MenuItem class="w-full" v-slot="{ active }" as="div">
+                    <!--  <MenuItem class="w-full" v-slot="{ active }" as="div">
                       <button
                         @click="setFiltersType('all')"
                         class="group mt-4 flex h-8 w-full items-center justify-between rounded px-1 text-left tracking-wide focus:outline-none focus:ring-0"
@@ -108,14 +109,32 @@
                             class="hidden h-3 w-3 text-slate-400 active:text-white group-hover:block"></PlusIcon>
                         </div>
                       </button>
-                    </MenuItem>
+                    </MenuItem> -->
+                    <JovieMenuItem
+                      :routerLink="false"
+                      @toggle-click="toggleContactMenuOpen"
+                      @button-click="setFiltersType('all')"
+                      class="w-full"
+                      :selected="filters.type == 'all'"
+                      name="All Contacts"
+                      :hasToggle="
+                        counts.archived > 0 ||
+                        counts.favourites > 0 ||
+                        counts.birthday > 0 ||
+                        counts.duplicates > 0
+                      "
+                      :collapsed="!contactMenuOpen"
+                      icon="UserGroupIcon"
+                      :count="counts.total"
+                      description="All contacts" />
                     <TransitionRoot
+                      appear
                       :show="contactMenuOpen"
-                      transition="transition ease-out duration-300"
-                      enter-from="transform opacity-0 scale-95"
-                      enter-to="transform opacity-100 scale-100"
-                      leave-from="transform opacity-100 scale-100"
-                      leave-to="transform opacity-0 scale-95">
+                      enter-from="opacity-0 -z-10 translate-y-full"
+                      enter-to="opacity-100 translate-y-0"
+                      leave="transform duration-300 transition ease-out"
+                      leave-from="opacity-100 translate-y-0"
+                      leave-to="opacity-0 -z-10 -translate-y-full">
                       <div class="flex flex-col space-y-1 pl-4">
                         <template v-for="item in menuItems">
                           <JovieMenuItem
@@ -549,13 +568,12 @@
           leave-from="-translate-x-0"
           leave-to="translate-x-full">
           <aside
-            class="z-30 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
+            class="isolate z-50 hidden h-full w-80 border-l border-slate-200 dark:border-jovieDark-border xl:block">
             <ContactSidebar
-              v-if="currentContact"
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
-              :contactData="currentContact" />
+              :contactData="currentContact ?? $store.state.crmRecords[0] ?? null" />
           </aside>
         </TransitionRoot>
       </div>
@@ -770,7 +788,7 @@ export default {
       taskLoading: false,
       contactsMeta: {},
       /*  activeCreator: [], */
-      currentContact: [],
+      currentContact: null,
       innerWidth: window.innerWidth,
 
       lists: [],
@@ -1292,13 +1310,12 @@ export default {
       this.currentContact = contact;
     },
     setFiltersType(type) {
-
       this.loading = true;
       this.filters.type = this.filters.type == type ? 'all' : type;
       if (this.filters.type != 'list') {
         if (this.filters.list) {
           let channelName = `presence-userOnUserlist.${
-              this.currentUser.current_team.id
+            this.currentUser.current_team.id
           }.${this.filters.list ?? 0}`;
           Echo.leave(channelName);
         }
@@ -1488,7 +1505,7 @@ export default {
             this.userLists.forEach((list) => {
               this.counts[`list_${list.id}`] = list.contacts_count;
             });
-            this.getCrmContacts();
+            // this.getCrmContacts();
           }
         })
         .catch((error) => {

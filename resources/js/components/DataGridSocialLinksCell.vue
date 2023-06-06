@@ -1,6 +1,10 @@
 <template>
   <div>
-    <JovieDropdownMenu size="xl" :searchable="false" placement="bottom-start">
+    <JovieDropdownMenu
+      :disabled="socialMediaProfileUrl == ''"
+      size="xl"
+      :searchable="false"
+      placement="bottom-start">
       <template #triggerButton>
         <div
           v-for="(social, index) in socialLinks"
@@ -103,8 +107,10 @@ export default {
       socialURLEditing: false,
       socialMediaProfileUrl: '',
       currentNetwork: null,
+      open: false,
     };
   },
+
   methods: {
     editSocialNetworkURL(network) {
       this.setNetwork(network);

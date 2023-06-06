@@ -10,7 +10,7 @@
           ? 'bg-slate-100 text-sm font-semibold text-slate-900 dark:bg-jovieDark-border dark:text-jovieDark-100'
           : '',
       ]"
-      class="group mt-4 flex h-8 w-full items-center justify-between rounded px-1 text-left tracking-wide focus:outline-none focus:ring-0">
+      class="group mt-4 flex h-8 w-full items-center justify-between rounded px-1 text-left tracking-wide focus-visible:outline-none focus-visible:ring-0">
       <div class="flex items-center text-xs tracking-wide">
         <slot name="icon"></slot>
         <span class="ml-1">{{ label }}</span>

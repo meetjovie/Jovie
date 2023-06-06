@@ -11,7 +11,7 @@
         class="flex w-full justify-between px-2">
         <div
           class="group my-0 -ml-1 line-clamp-1 inline-flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-2xs font-medium leading-5 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200">
-          <ColorDot class="mr-1" color="slate" />
+          <ColorDot class="mr-1" :color="color(contact[attributekey])" />
           {{ contact[attributekey] ?? 'Choose one' }}
         </div>
         <div class="items-center">
@@ -44,7 +44,7 @@
               <div v-for="option in options" :key="option">
                 <DropdownMenuItem
                   :name="option"
-                  colorDot="slate"
+                  :colorDot="color(option)"
                   checkable
                   :checked="option == contact[attributekey]"
                   @click="
@@ -146,6 +146,23 @@ export default {
     };
   },
   methods: {
+    color(gender) {
+      if (gender) {
+        gender = gender.toLowerCase()
+      }
+      switch (gender) {
+        case 'male':
+          return 'blue';
+        case 'female':
+          return 'pink';
+        case 'other':
+          return 'purple';
+        case 'unknown':
+          return 'indigo';
+        default:
+          return 'slate';
+      }
+    },
     logIt() {
       console.log('logIt');
       this.$refs.menuButton.$el.click();

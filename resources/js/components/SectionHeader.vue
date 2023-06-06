@@ -17,7 +17,10 @@
       </p>
     </div>
     <div v-if="callToAction" class="py-4">
-      <ButtonGroup style="compact" :text="callToAction" />
+      <ButtonGroup
+        @click="handleClick()"
+        style="compact"
+        :text="callToAction" />
     </div>
   </div>
 </template>
@@ -27,6 +30,11 @@ export default {
   name: 'SectionHeader',
   components: {
     ButtonGroup,
+  },
+  methods: {
+    handleClick() {
+      this.$emit('ctaClick');
+    },
   },
   props: {
     callToAction: {
