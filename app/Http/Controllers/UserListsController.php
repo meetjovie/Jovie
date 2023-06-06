@@ -143,18 +143,8 @@ class UserListsController extends Controller
 
     public function createList(Request $request)
     {
-        if (!empty($request->template_id)) {
-            $template = Template::find($request->template_id);
-        } else {
-            $template = Template::first();
-        }
-
-        $name = $template->name;
-        if (!empty($request->name)) {
-            $name = $request->name;
-        }
-
-        $list = UserList::firstOrCreateList(Auth::id(), $name, $template, null, $request->emoji);
+        $name = "New list";
+        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $request->emoji);
 
         return response()->json([
             'status' => true,

@@ -659,7 +659,7 @@
     :open="openMergeSuggestion"
     :suggestion="mergeSuggestion" />
 
-    <ModalPopup :open="true" customContent >
+    <ModalPopup :open="selectTemplateModelOpen" customContent >
         <template #content>
             <TemplateModal />
         </template>
@@ -789,7 +789,7 @@ export default {
   name: 'DataGrid',
   components: {
     CheckboxInput,
-      TemplateModal,
+    TemplateModal,
     MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
@@ -948,6 +948,7 @@ export default {
       currentSort: 'asc',
       currentSortBy: '',
       headers: [],
+      selectTemplateModelOpen: false,
       disableDrag: false,
       mergeSuggestion: [],
       suggestingMerge: false,

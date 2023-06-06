@@ -241,7 +241,7 @@ export default {
     handleClick() {
       this.$emit('button-click');
     },
-    handleIconClikc() {
+    handleIconClick() {
       this.$emit('icon-click');
     },
     handleToggle() {

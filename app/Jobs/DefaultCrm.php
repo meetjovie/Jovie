@@ -39,8 +39,7 @@ class DefaultCrm
      */
     public function handle()
     {
-        $defaultTemplate = Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
-        $list = UserList::firstOrCreateList($this->userId, 'Welcome to Jovie', $defaultTemplate, $this->teamId, '👋');
+        $list = UserList::firstOrCreateList($this->userId, 'Welcome to Jovie', $this->teamId, '👋');
         $handlers = [
             'timwhite',
             'therock',

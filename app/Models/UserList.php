@@ -66,7 +66,7 @@ class UserList extends Model implements Auditable
         return $this->belongsTo(Template::class)->with(['templateFields', 'templateStages', 'templateSettings']);
     }
 
-    public static function firstOrCreateList($userId, $listName, $template, $teamId = null, $emoji = null, $updating = false)
+    public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null, $updating = false)
     {
         $team = null;
         if ($teamId) {
@@ -93,7 +93,6 @@ class UserList extends Model implements Auditable
                 'user_id' => $userId,
                 'name' => $listName,
                 'team_id' => $user->currentTeam->id,
-                'template_id' => $template->id
             ];
 
             if ($emoji) {
@@ -128,6 +127,9 @@ class UserList extends Model implements Auditable
                     'hide' => $header['hide'] ?? false
                 ]);
             }
+
+            self::setTemplate($list->id);
+
             return $list;
         }
         return new UserList();
@@ -276,8 +278,21 @@ class UserList extends Model implements Auditable
         }
     }
 
-    public static function getListStages($userList = null){
+    public static function getListStages($userList = null)
+    {
         $template = $userList ? self::find($userList)->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
         return $template->templateStages()->select('name', 'color', 'order', 'id')->orderBy('order')->get();
+    }
+
+    public static function setTemplate($listId, $templateId = null)
+    {
+        $templateId = $templateId ?? Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first()->id;
+        $list = UserList::find($listId);
+        if ($list) {
+            $list->template_id = $templateId;
+            $list->save();
+            return true;
+        }
+        return false;
     }
 }
