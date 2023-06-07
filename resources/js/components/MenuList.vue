@@ -21,7 +21,7 @@
       <div class="flex items-center overflow-auto">
         <div
           v-if="draggable"
-          class="group mx-auto overflow-y-scroll rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
+          class="group mx-auto rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
           <PlusIcon
             v-if="!creatingList"
             @click="createList()"
@@ -37,7 +37,7 @@
       <draggable
         v-model="menuItemsList"
         group="lists"
-        class="flex select-none flex-col space-y-1 overflow-y-scroll"
+        class="flex select-none flex-col space-y-1"
         ghost-class="ghost-card"
         itemKey="id"
         @change="$emit('sort')">
