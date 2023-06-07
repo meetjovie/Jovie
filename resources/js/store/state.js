@@ -7,7 +7,7 @@ export default {
   creatorsDBCount: '3M',
   CRMSidebarOpen: false,
   CRMSidebarStatus: 'open',
-  sidebarStatus: 'float',
+  sidebarStatus: 'open',
   ContactSidebarOpen: false,
   crmRecords: [],
   showImportProgress: false,
