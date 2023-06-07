@@ -1,6 +1,6 @@
 <template>
   <!--  :class="[{ '-mt-20': $store.state.CRMSidebarOpen }, '-mt-10']" -->
-  <div class="flex">
+  <div @mouseleave="handleMouseLeave()" class="flex">
     <div
       :class="[
         {
@@ -8,15 +8,15 @@
             sidebarStatus == 'hidden',
         },
         {
-          'fixed bottom-2 left-2 top-10 z-50 h-full rounded border pb-4 shadow-xl':
+          'fixed bottom-2 left-2 top-10 z-50 h-1/2 rounded border pb-4 shadow-xl':
             sidebarStatus == 'float',
         },
         'flex h-screen w-[268px] flex-col  justify-between overflow-auto border-r border-slate-200 bg-white py-2 dark:border-jovieDark-border dark:bg-jovieDark-900',
       ]"
-      class="overflow-none z-30 mx-auto flex w-[268px] flex-col justify-between overflow-auto border-r border-slate-200 bg-white py-2 transition-all dark:border-jovieDark-border dark:bg-jovieDark-900">
+      class="overflow-none z-30 mx-auto flex w-[268px] flex-col justify-between overflow-auto border-r border-slate-200 bg-white py-2 transition-all duration-1000 dark:border-jovieDark-border dark:bg-jovieDark-900">
       <div>
         <slot name="header">
-          <div class="w-full flex-col px-2">
+          <div @click="setSidebarOpen()" class="w-full flex-col px-2">
             <div class="items-center" @click="navigateBack()" v-if="menu">
               <div
                 class="items-cemter flex cursor-pointer text-lg font-medium tracking-wide text-slate-900 hover:text-slate-700 dark:text-jovieDark-400 dark:hover:text-white">
@@ -331,12 +331,23 @@ export default {
       await UserService.logout();
       this.$store.dispatch('logout');
     },
+    setSidebarOpen() {
+      this.$store.commit('setSidebarStatus', 'open');
+    },
     toggleShowSupportModal() {
       //emit event to parent
       this.$emit('toggleShowSupportModal');
     },
     navigateBack() {
       this.$router.push({ name: 'Home' });
+    },
+    handleMouseLeave() {
+      //if the store.state.sidebarStatus is not 'open' then wait half a second and then set the store.state.sidebarStatus to hidden else do nothing
+      if (this.$store.state.sidebarStatus !== 'open') {
+        setTimeout(() => {
+          this.$store.commit('setSidebarStatus', 'hidden');
+        }, 500);
+      }
     },
   },
 };

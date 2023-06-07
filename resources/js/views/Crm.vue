@@ -963,6 +963,14 @@ export default {
     this.$mousetrap.bind(['enter'], () => {
       this.$router.push('/overview');
     });
+    //bind [ key to set store.state.sidebarStatus to open or hidden depending on the current state
+    this.$mousetrap.bind(['['], () => {
+      if (this.$store.state.sidebarStatus == 'open' || 'float') {
+        this.$store.state.sidebarStatus = 'hidden';
+      } else {
+        this.$store.state.sidebarStatus = 'open';
+      }
+    });
 
     // this.getNotifications();
     // setInterval(() => {

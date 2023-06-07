@@ -12,6 +12,7 @@ export default {
   },
   setSidebarStatus(state, payload) {
     state.sidebarStatus = payload;
+    console.log('sidebarStatus: ', state.sidebarStatus);
   },
   switchTeam(state, payload) {
     state.AuthState.user.current_team = payload;

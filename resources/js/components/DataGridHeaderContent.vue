@@ -1,11 +1,13 @@
 <template>
   <div class="flex w-full items-center">
     <div class="flex h-10 items-center justify-between px-8">
-      <IdentificationIcon
-        @click="toggleSidebarMenu('open')"
-        @mouseover="toggleSidebarMenu('float')"
-        @mouseleave="toggleSidebarMenu('hidden')"
-        class="mr-2 hidden h-4 w-4 items-center rounded-md text-blue-400 lg:block" />
+      <Bars3Icon
+        @click="toggleSidebarStatus('open')"
+        @mouseover="toggleSidebarStatus('float')"
+        :class="
+          $store.state.sidebarStatus === 'open' ? 'block lg:hidden' : 'block'
+        "
+        class="mr-2 h-4 w-4 items-center rounded-md text-blue-400" />
       <div v-if="!list" class="w-8 items-center">
         <JovieSpinner spinnerSize="xs" class="" v-if="taskLoading" />
         <component
@@ -43,7 +45,7 @@ import {
   HeartIcon,
   UserIcon,
   ArchiveBoxIcon,
-  IdentificationIcon,
+  Bars3Icon,
 } from '@heroicons/vue/24/solid';
 import JovieSpinner from './JovieSpinner.vue';
 import UserListEditable from './Crm/UserListEditable.vue';
@@ -80,7 +82,12 @@ export default {
     ButtonGroup,
     ArchiveBoxIcon,
     JovieSpinner,
-    IdentificationIcon,
+    Bars3Icon,
+  },
+  methods: {
+    toggleSidebarStatus(status) {
+      this.$store.commit('setSidebarStatus', status);
+    },
   },
   computed: {
     icon() {
@@ -114,9 +121,7 @@ export default {
         return this.subheader[this.header] ?? '';
       }
     },
-    toggleSidebarMenu(status) {
-      this.$store.commit('setSidebarMenu', status);
-    },
+
     headerText() {
       if (this.header.includes('favourites')) {
         return 'Favorited';
