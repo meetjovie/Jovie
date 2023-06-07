@@ -1,6 +1,11 @@
 <template>
   <div class="flex w-full items-center">
     <div class="flex h-10 items-center justify-between px-8">
+      <IdentificationIcon
+        @click="toggleSidebarMenu('open')"
+        @mouseover="toggleSidebarMenu('float')"
+        @mouseleave="toggleSidebarMenu('hidden')"
+        class="mr-2 hidden h-4 w-4 items-center rounded-md text-blue-400 lg:block" />
       <div v-if="!list" class="w-8 items-center">
         <JovieSpinner spinnerSize="xs" class="" v-if="taskLoading" />
         <component
@@ -38,9 +43,11 @@ import {
   HeartIcon,
   UserIcon,
   ArchiveBoxIcon,
+  IdentificationIcon,
 } from '@heroicons/vue/24/solid';
 import JovieSpinner from './JovieSpinner.vue';
 import UserListEditable from './Crm/UserListEditable.vue';
+import ButtonGroup from './ButtonGroup.vue';
 
 export default {
   props: {
@@ -70,8 +77,10 @@ export default {
     UserGroupIcon,
     HeartIcon,
     UserIcon,
+    ButtonGroup,
     ArchiveBoxIcon,
     JovieSpinner,
+    IdentificationIcon,
   },
   computed: {
     icon() {
@@ -104,6 +113,9 @@ export default {
         console.log(this.subheader[this.header]);
         return this.subheader[this.header] ?? '';
       }
+    },
+    toggleSidebarMenu(status) {
+      this.$store.commit('setSidebarMenu', status);
     },
     headerText() {
       if (this.header.includes('favourites')) {

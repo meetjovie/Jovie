@@ -55,59 +55,59 @@ import {
 } from '@heroicons/vue/24/outline';
 
 export default {
-    name: 'ActionListGrid',
-    props: {
-        actions: {
-            type: Array,
-            default: [
-                {
-                    title: 'Sales Pipline',
-                    description: 'Keep track of your leads and opportunities.',
+  name: 'ActionListGrid',
+  props: {
+    actions: {
+      type: Array,
+      default: [
+        {
+          title: 'Sales Pipline',
+          description: 'Keep track of your leads and opportunities.',
 
-                    emoji: '👋',
-                    icon: ClockIcon,
-                    iconForeground: 'text-teal-700',
-                    iconBackground: 'bg-teal-50',
-                },
-                {
-                    title: 'Influencer Marketing Campaign',
-                    description: 'Find and hire influencers for your next campaign.',
-                    emoji: '📣',
-                    href: '#',
-                    icon: CheckBadgeIcon,
-                    iconForeground: 'text-purple-700',
-                    iconBackground: 'bg-purple-50',
-                },
-                {
-                    title: 'Personal CRM',
-                    description: 'Keep track of your friends and family.',
-                    emoji: '👨‍💼',
-                    href: '#',
-                    icon: UsersIcon,
-                    iconForeground: 'text-sky-700',
-                    iconBackground: 'bg-sky-50',
-                },
-                {
-                    title: 'Startup Fundraising',
-                    description: 'Manage your seed round fundraising.',
-                    emoji: '📈',
-                    href: '#',
-                    icon: BanknotesIcon,
-                    iconForeground: 'text-yellow-700',
-                    iconBackground: 'bg-yellow-50',
-                },
-            ]
-        }
+          emoji: '👋',
+          icon: ClockIcon,
+          iconForeground: 'text-teal-700',
+          iconBackground: 'bg-teal-50',
+        },
+        {
+          title: 'Influencer Marketing Campaign',
+          description: 'Find and hire influencers for your next campaign.',
+          emoji: '📣',
+          href: '#',
+          icon: CheckBadgeIcon,
+          iconForeground: 'text-purple-700',
+          iconBackground: 'bg-purple-50',
+        },
+        {
+          title: 'Personal CRM',
+          description: 'Keep track of your friends and family.',
+          emoji: '👨‍💼',
+          href: '#',
+          icon: UsersIcon,
+          iconForeground: 'text-sky-700',
+          iconBackground: 'bg-sky-50',
+        },
+        {
+          title: 'Startup Fundraising',
+          description: 'Manage your seed round fundraising.',
+          emoji: '📈',
+          href: '#',
+          icon: BanknotesIcon,
+          iconForeground: 'text-yellow-700',
+          iconBackground: 'bg-yellow-50',
+        },
+      ],
     },
-    data() {
-        return {
-            selectedAction: null,
-        }
+  },
+  data() {
+    return {
+      selectedAction: null,
+    };
+  },
+  methods: {
+    actionSelected(action) {
+      this.selectedAction = action;
     },
-    methods: {
-        actionSelected(action) {
-            this.selectedAction = action;
-        }
-    }
-}
+  },
+};
 </script>

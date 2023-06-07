@@ -2,7 +2,9 @@
   <div class="h-full w-full bg-white dark:bg-jovieDark-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
-        <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
+        <JovieSidebar
+          :sidebarStatus="$store.state.sidebarStatus"
+          @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div class="">
               <div class="flex items-center px-4 py-4 text-xs">
@@ -504,8 +506,9 @@
             </div>
           </template>
         </JovieSidebar>
+
         <div
-          class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
+          class="h-full w-full overflow-hidden transition-[width] duration-1000 ease-in-out">
           <div class="mx-auto h-full w-full">
             <AlertBanner
               v-if="limitExceedBy > 0 && totalAvailable"
@@ -522,6 +525,7 @@
               @addContactFromSocial="openImportContactModal(true)"
               @updateContact="updateContact"
               @crmCounts="crmCounts"
+              @toggleSidebarMenu="toggleSidebarMenu"
               :counts="counts"
               @updateListCount="updateListCount"
               @pageChanged="pageChanged"
@@ -573,7 +577,9 @@
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
-              :contactData="currentContact ?? $store.state.crmRecords[0] ?? null" />
+              :contactData="
+                currentContact ?? $store.state.crmRecords[0] ?? null
+              " />
           </aside>
         </TransitionRoot>
       </div>
@@ -784,8 +790,10 @@ export default {
       showSuccessModal: false,
       showSupportModal: false,
       showUpgradeModal: false,
+      sidebarOpen: true,
       loading: false,
       taskLoading: false,
+      sidebarStatus: 'hidden',
       contactsMeta: {},
       /*  activeCreator: [], */
       currentContact: null,
@@ -1243,6 +1251,10 @@ export default {
     },
     toggleShowSupportModal() {
       this.showSupportModal = !this.showSupportModal;
+    },
+    toggleSidebarMenu(status) {
+      //toggle sidebarStatus between hidden, float, and open
+      this.sidebarStatus = status;
     },
     getNotifications() {
       ImportService.getNotifications().then((response) => {

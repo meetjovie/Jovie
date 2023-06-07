@@ -5,6 +5,7 @@
         <header
           class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
+            @toggleSidebarMenu="toggleSidebarMenu($event)"
             :loading="loading"
             :taskLoading="taskLoading"
             :header="header"
@@ -230,7 +231,7 @@
                   size="xs"
                   hideText
                   text="Details"
-                  icon="UserIcon" />
+                  icon="IdentificationIcon" />
               </JovieTooltip>
             </div>
           </div>
@@ -602,7 +603,12 @@
                       <MenuItems class="space-y-2" static>
                         <div v-for="item in menuItems" :key="item.name">
                           <JovieMenuItem
-                              v-if="! (item.name == 'Select a template' && !filters.list)"
+                            v-if="
+                              !(
+                                item.name == 'Select a template' &&
+                                !filters.list
+                              )
+                            "
                             class="rounded py-2"
                             :active="active"
                             :icon="item.icon"
@@ -657,11 +663,11 @@
     :open="openMergeSuggestion"
     :suggestion="mergeSuggestion" />
 
-    <ModalPopup :open="true" customContent >
-        <template #content>
-            <TemplateModal />
-        </template>
-    </ModalPopup>
+  <ModalPopup :open="true" customContent>
+    <template #content>
+      <TemplateModal />
+    </template>
+  </ModalPopup>
 </template>
 
 <script setup>
@@ -779,12 +785,12 @@ import ViewToggle from './ViewToggle.vue';
 import BoardView from './BoardView.vue';
 import ListHeader from './ListHeader.vue';
 import ContactCard from './ContactCard.vue';
-import TemplateModal from "./TemplateModal.vue";
+import TemplateModal from './TemplateModal.vue';
 
 export default {
   name: 'DataGrid',
   components: {
-      TemplateModal,
+    TemplateModal,
     MergeContactsModal,
     DropdownMenuItem,
     DataGridCell,
@@ -1024,9 +1030,7 @@ export default {
       //route push to chrome-extension
       this.$router.push({ name: 'Chrome Extension' });
     },
-      openSelectTemplateModal() {
-
-      }
+    openSelectTemplateModal() {},
   },
   mounted() {
     this.suggestContactsMerge([], true);
@@ -1218,6 +1222,10 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    toggleSidebarMenu(event) {
+      //emit event to toggle sidebar menu
+      this.$emit('toggleSidebarMenu', event);
+    },
     selectMultiple(contact) {
       const contactIndex = this.contactRecords.indexOf(contact);
 
