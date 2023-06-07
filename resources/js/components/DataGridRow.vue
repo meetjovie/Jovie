@@ -1,10 +1,10 @@
 <template>
   <tr
-    @contextmenu="handleContextMenu($event, contact)"
-    class="group h-11 w-full flex-row items-center overflow-y-visible">
+    @contextmenu.prevent="handleContextMenu($event, contact)"
+    class="group/rowhover group h-11 w-full flex-row items-center overflow-y-visible">
     <div
-      @click.prevent="toggleRow(contact.id)"
-      v-if="ctrlDown"
+      @click.prevent="toggleRow($event, contact.id)"
+      v-if="overlay"
       class="absolute z-50 h-14 w-full"></div>
     <div
       :class="[
@@ -14,9 +14,9 @@
             : 'bg-indigo-50 dark:bg-indigo-700'
           : currentContact.id === contact.id
           ? 'bg-slate-100 dark:bg-jovieDark-600'
-          : 'bg-slate-50 dark:bg-jovieDark-800',
+          : 'group/rowhover bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 group-hover/rowhover:dark:bg-jovieDark-700',
       ]"
-      class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-300 dark:border-jovieDark-border">
+      class="sticky left-0 isolate z-40 h-12 w-full items-center border-r-2 border-slate-200 dark:border-jovieDark-border">
       <div
         class="flex h-full w-full items-center justify-between"
         freezeColumn
@@ -38,7 +38,7 @@
                 name="`checkbox_contact`"
                 :value="contact.id"
                 v-model="selectedContactsModel"
-                class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus:border-none focus:outline-none focus:ring-0 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400 sm:left-6" />
+                class="h-3 w-3 rounded border-slate-300 text-indigo-600 focus-visible:border-none focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-indigo-500 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-indigo-400 sm:left-6" />
             </span>
             <span
               class="text-xs font-semibold text-slate-500 group-hover:hidden dark:text-jovieDark-400"
@@ -143,14 +143,14 @@
         :class="[
           selectedContactsModel.includes(contact.id)
             ? currentContact.id === contact.id
-              ? 'bg-indigo-100 dark:bg-indigo-600'
-              : 'bg-indigo-50 dark:bg-indigo-700'
+              ? 'bg-indigo-100  dark:bg-indigo-600'
+              : 'bg-indigo-50  dark:bg-indigo-700'
             : currentContact.id === contact.id
-            ? 'bg-slate-100 dark:bg-jovieDark-600'
-            : 'bg-slate-50 dark:bg-jovieDark-800',
+            ? 'bg-slate-100  dark:bg-jovieDark-600'
+            : 'bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
-        @mouseover="setCurrentCell(columnIndex)"
+        @click="setCurrentCell(columnIndex)"
         :userLists="userLists"
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -204,7 +204,7 @@ export default {
   data() {
     return {
       row: 0,
-      ctrlDown: false,
+      overlay: false,
     };
   },
   mounted() {
@@ -230,15 +230,17 @@ export default {
   },
   methods: {
     onKeyDown(event) {
-      if (event.ctrlKey || event.metaKey) {
-        this.ctrlDown = true;
+      if (event.ctrlKey || event.metaKey || event.key === 'Shift') {
+        this.overlay = true;
       }
     },
-    onKeyUp(event) {
-      this.ctrlDown = false;
+    onKeyUp() {
+      this.overlay = false;
     },
-    toggleRow(id) {
-      if (this.selectedContactsModel.includes(id)) {
+    toggleRow(event, id) {
+      if (event.shiftKey) {
+        this.$emit('selectMultiple', this.contact);
+      } else if (this.selectedContactsModel.includes(id)) {
         this.selectedContactsModel.splice(
           this.selectedContactsModel.indexOf(id),
           1

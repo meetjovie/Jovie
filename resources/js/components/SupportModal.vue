@@ -14,8 +14,7 @@
       </TransitionChild>
 
       <div class="fixed inset-0 z-40 my-2 overflow-y-auto rounded-md px-8">
-        <div
-          class="flex min-h-full items-end justify-center text-center sm:items-center">
+        <div class="flex items-end justify-center text-center sm:items-center">
           <TransitionChild
             as="template"
             enter="ease-out duration-300"
@@ -25,7 +24,7 @@
             leave-from="opacity-100 translate-x-0"
             leave-to="opacity-0 translate-x-100">
             <DialogPanel
-              class="absolute right-4 top-4 mb-12 flex h-full transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-jovieDark-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
+              class="absolute right-4 top-4 mb-12 mr-8 flex transform flex-col justify-between overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all dark:bg-jovieDark-800 sm:mb-4 sm:w-full sm:max-w-lg sm:p-6">
               <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                 <button
                   type="button"
@@ -45,7 +44,7 @@
                     aria-hidden="true" />
                 </div> -->
                 <div
-                  class="mt-3 text-center dark:text-gray-300 sm:text-left sm:dark:ml-4 sm:dark:mt-0">
+                  class="text-center dark:text-gray-300 sm:text-left sm:dark:ml-4 sm:dark:mt-0">
                   <DialogTitle
                     as="h3"
                     class="text-lg font-medium leading-6 text-gray-900 dark:text-jovieDark-300"
@@ -60,7 +59,7 @@
                 </div>
               </div>
               <ul
-                class="mt-8 h-full space-y-2 text-slate-700 dark:text-jovieDark-200">
+                class="mt-4 h-full space-y-2 text-slate-700 dark:text-jovieDark-200">
                 <li v-for="(item, itemIdx) in items" :key="itemIdx">
                   <div
                     v-if="item.visible"
@@ -126,7 +125,7 @@
               </div>
 
               <div
-                class="mt-8 items-center justify-between border-t border-slate-300 py-6 dark:border-jovieDark-border sm:flex sm:flex-row-reverse">
+                class="mt-4 w-full items-center justify-between border-t border-slate-300 py-2 dark:border-jovieDark-border sm:flex sm:flex-row-reverse">
                 <button
                   type="button"
                   class="inline-flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-2 py-0.5 text-2xs font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 sm:ml-3 sm:w-auto"
@@ -141,6 +140,11 @@
                     class="mr-2 rounded-full bg-indigo-600 p-1 dark:bg-indigo-400"></div>
                   Changelog
                 </router-link>
+              </div>
+              <div class="flex justify-end">
+                <span class="text-2xs text-slate-200 dark:text-jovieDark-200">
+                  {{ $store.state.jovieVersion }}</span
+                >
               </div>
             </DialogPanel>
           </TransitionChild>

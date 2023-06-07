@@ -24,6 +24,7 @@
     </div>
     <div>
       <JovieDropdownMenu
+        tooltip
         :createIfNotFound="!isSelect"
         @createItem="createList($event)"
         :placement="'bottom-start'"
@@ -40,10 +41,10 @@
             class="group cursor-pointer items-center rounded-full border border-transparent px-2 py-1 hover:border-slate-300 hover:bg-slate-50 dark:hover:border-jovieDark-border dark:hover:bg-jovieDark-900">
             <div class="flex items-center">
               <PlusIcon
-                class="h-3 w-3 text-slate-400 group-hover:text-slate-700" />
+                class="h-3 w-3 text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-100 group-hover:dark:text-jovieDark-100" />
               <span
                 v-show="lists.length === 0"
-                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-100 dark:group-hover:text-slate-700">
+                class="ml-1 text-2xs font-light text-slate-400 group-hover:text-slate-700 dark:text-jovieDark-100 dark:group-hover:text-jovieDark-100">
                 {{ isSelect ? 'Select' : 'Add to a list' }}
               </span>
             </div>

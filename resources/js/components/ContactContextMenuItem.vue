@@ -4,7 +4,6 @@
       <DropdownMenuItem
         v-if="contactMethod == 'email'"
         name="Email"
-        color="text-purple-600 dark:text-purple-400"
         @click="emailContact(contact.emails[0])"
         :disabled="contact.emails && !contact.emails.length"
         icon="EnvelopeIcon" />
@@ -12,27 +11,23 @@
       <DropdownMenuItem
         v-if="contactMethod == 'phone'"
         name="Call"
-        color="text-blue-600 dark:text-blue-400"
         @click="callContact(contact.phones[0])"
         :disabled="contact.phones && !contact.phones.length"
         icon="PhoneIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'sms'"
         name="Send SMS"
-        color="text-blue-600 dark:text-blue-400"
         @click="textContact(contact.phones[0])"
         :disabled="contact.phones && !contact.phones.length"
         icon="ChatBubbleLeftEllipsisIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'calendar'"
         name="Create Calendar Event"
-        color="text-indigo-600 dark:text-indigo-400"
         @click="createCalendarEvent(contact)"
         icon="CalendarDaysIcon" />
       <DropdownMenuItem
         v-if="contactMethod == 'twitter'"
         name="DM on Twitter"
-        color="text-twitter-600 dark:text-twitter-400"
         @click="sendTwitterDM(contact)"
         :disabled="!contact.twitter && !contact.twitter"
         icon="ChatBubbleLeftEllipsisIcon" />
@@ -40,14 +35,13 @@
       <DropdownMenuItem
         v-if="contactMethod == 'instagram'"
         name="Instagram DM"
-        color="text-instagram-600 dark:text-instagram-400"
         @click="instagramDMContact(contact.instagram || contact.instagram)"
         :disabled="!contact.instgaram && !contact.instagram"
         icon="ChatBubbleLeftEllipsisIcon" />
+
       <DropdownMenuItem
         v-if="contactMethod == 'whatsapp'"
         name="Whatsapp"
-        color="text-social-whatsapp"
         @click="whatsappContact(contact.phones[0])"
         :disabled="contact.phones && !contact.phones.length"
         icon="ChatBubbleOvalLeftEllipsisIcon" />
@@ -55,7 +49,6 @@
       <DropdownMenuItem
         v-if="contactMethod == 'verify'"
         name="Verify Email"
-        color="text-slate-400 hover:text-slate-900"
         @click="verifyEmail(contact.emails[0])"
         :disabled="!contact.emails.length"
         icon="CheckCircleIcon" />

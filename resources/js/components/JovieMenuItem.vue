@@ -1,10 +1,11 @@
 <template>
   <MenuItem
     @dblclick="enableEditName(id)"
+    v-if="parseInt(count) || !count"
     @keyup.enter="handleClick()"
     @mouseover="lockMenuButton()"
     @drop="handleDrop(id)"
-    class="group/menuItem focus:border-none focus:outline-none focus:ring-0"
+    class="group/menuItem focus-visible:border-none focus-visible:outline-none focus-visible:ring-0"
     v-slot="{ active }">
     <component
       :is="routerLink ? 'router-link' : 'div'"
@@ -17,7 +18,7 @@
           active || selected
             ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200 '
             : 'text-slate-900 dark:text-jovieDark-100',
-          'group flex h-8 w-full items-center justify-between rounded px-2 text-xs focus:border-none  focus:outline-none focus:ring-0  active:shadow ',
+          'group flex h-8 w-full cursor-pointer items-center justify-between rounded px-2 text-xs focus-visible:border-none  focus-visible:outline-none focus-visible:ring-0   ',
         ]">
         <div class="flex items-center">
           <div v-if="draggable" class="flex h-4 w-6 items-center">
@@ -25,21 +26,31 @@
               class="hidden h-3 w-3 cursor-grab text-slate-400 active:cursor-grabbing active:text-slate-700 group-hover/menuItem:block dark:text-jovieDark-400 active:dark:text-jovieDark-300" />
           </div>
           <div class="flex w-6 items-center space-x-2">
+            <ChevronRightIcon
+              @click="handleToggle()"
+              v-if="hasToggle"
+              :class="[collapsed ? '' : 'rotate-90 transform']"
+              class="h-4 w-4 cursor-pointer rounded text-slate-700 transition-transform duration-300 ease-in-out dark:text-jovieDark-400"
+              aria-hidden="true" />
             <EmojiPickerModal
-              v-if="emoji"
+              v-else-if="emoji"
               class=""
               xs
               @emojiSelected="emojiSelected"
               :currentEmoji="emoji" />
+
+            <InitialBox :name="intials" v-else-if="initials" />
             <component
-              v-if="icon"
+              v-else-if="icon"
+              @click="handleIconClik()"
               :is="icon"
               :class="`${iconColor}`"
               class="h-4 w-4"
               aria-hidden="true" />
           </div>
         </div>
-        <div class="line-clamp-1 flex w-full text-left">
+        <div
+          class="line-clamp-1 flex w-full text-left font-medium text-slate-700 dark:text-jovieDark-100">
           <span v-if="!editingName || !editable" class="line-clamp-1">{{
             name
           }}</span>
@@ -56,7 +67,7 @@
                 : 'text-slate-900 dark:text-jovieDark-100',
               ' ',
             ]"
-            class="rounded-md text-xs font-light text-slate-700 focus:border-slate-100/0 focus:outline-none focus:ring-0 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
+            class="rounded-md text-xs font-light text-slate-700 focus-visible:border-slate-100/0 focus-visible:outline-none focus-visible:ring-0 group-hover/list:text-slate-800 dark:border-jovieDark-border dark:bg-jovieDark-900 dark:text-jovieDark-300 dark:group-hover/list:text-slate-200" />
         </div>
 
         <div class="h-4 w-4 items-center rounded">
@@ -108,21 +119,26 @@ import {
   SparklesIcon,
   ArrowPathIcon,
   CloudArrowUpIcon,
+  ChevronRightIcon,
   GlobeAltIcon,
   CreditCardIcon,
+  UserGroupIcon,
+  ChevronDownIcon,
   Bars3Icon,
   UserIcon,
   EllipsisHorizontalIcon,
   DocumentDuplicateIcon,
   HeartIcon,
+  UsersIcon,
   TrashIcon,
   CogIcon,
+  PlusCircleIcon,
   CakeIcon,
   LockClosedIcon,
   ArchiveBoxIcon,
 } from '@heroicons/vue/24/solid';
 import UserService from '../services/api/user.service';
-
+import InitialBox from './InitialBox.vue';
 export default {
   components: {
     MenuItem,
@@ -132,11 +148,18 @@ export default {
     EmojiPickerModal,
     JovieDropdownMenu,
     DropdownMenuItem,
+
+    InitialBox,
     EllipsisHorizontalIcon,
+    ChevronRightIcon,
+    UserGroupIcon,
+    PlusCircleIcon,
+    ChevronDownIcon,
     CakeIcon,
     ArchiveBoxIcon,
     CogIcon,
     TrashIcon,
+    UsersIcon,
     UserPlusIcon,
     DocumentDuplicateIcon,
     HeartIcon,
@@ -218,6 +241,12 @@ export default {
     handleClick() {
       this.$emit('button-click');
     },
+    handleIconClikc() {
+      this.$emit('icon-click');
+    },
+    handleToggle() {
+      this.$emit('toggle-click');
+    },
     handleSubmenuClick(id) {
       // console.log(item, id)
       //log the name of the current component and the item that was clicked
@@ -295,6 +324,10 @@ export default {
       required: false,
       default: false,
     },
+    intials: {
+      type: String,
+      required: false,
+    },
     id: {
       type: Number,
       required: false,
@@ -319,6 +352,16 @@ export default {
       default: false,
     },
     disableRouterLink: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    hasToggle: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    collapsed: {
       type: Boolean,
       required: false,
       default: false,

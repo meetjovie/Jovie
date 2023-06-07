@@ -1,7 +1,7 @@
 <template>
   <section
     tabindex="-1"
-    class="relative mx-auto my-20 max-w-7xl px-4 focus:outline-none sm:px-3 md:px-5">
+    class="relative mx-auto my-20 max-w-7xl px-4 focus-visible:outline-none sm:px-3 md:px-5">
     <h2 class="sr-only">Testimonials</h2>
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
       <!--  <figure

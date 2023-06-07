@@ -30,7 +30,7 @@ class ImportFromSocialAndAddTOCrm implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($handle, $network, $params)
+    public function __construct($handle, $network, $params = [])
     {
         $this->handle = $handle;
         $this->network = $network;

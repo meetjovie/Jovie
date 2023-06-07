@@ -13,7 +13,7 @@
             name="comment"
             v-model="comment"
             id="comment"
-            class="block w-full resize-none border-0 py-3 focus:ring-0 sm:text-sm"
+            class="block w-full resize-none border-0 py-3 focus-visible:ring-0 sm:text-sm"
             placeholder="Add your comment..." />
 
           <!-- Spacer element to match the height of the toolbar -->
@@ -70,7 +70,7 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0">
                     <ListboxOptions
-                      class="absolute z-10 -ml-6 mt-1 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus:outline-none sm:ml-auto sm:w-64 sm:text-sm">
+                      class="absolute z-10 -ml-6 mt-1 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black ring-opacity-5 focus-visible:outline-none sm:ml-auto sm:w-64 sm:text-sm">
                       <ListboxOption
                         as="template"
                         v-for="mood in moods"
@@ -113,7 +113,7 @@
               @click="$emit('addComment', comment)"
               :disabled="loading || !comment"
               type="button"
-              class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2">
               Post comment
             </button>
           </div>

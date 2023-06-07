@@ -29,7 +29,7 @@
         <template #triggerButton>
           <div class="flex w-full justify-between">
             <div
-              class="text-medium group flex h-full w-full items-center justify-between py-2 pl-1 pr-2 tracking-wider">
+              class="text-medium group flex h-full w-full items-center justify-between px-2 py-2 tracking-wider">
               <div
                 @contextmenu.prevent="openMenu()"
                 class="text-medium flex w-full items-center tracking-wider">
@@ -70,37 +70,8 @@
             </div>
           </div>
         </template>
-        <!-- <template #menuItem="{ item, nameKey }">
-                  <div
-                    class="group mt-1 flex w-full cursor-pointer items-center rounded-md px-2 py-1 text-xs text-slate-600 dark:text-jovieDark-200"
-                    :class="{
-                      'bg-slate-200 text-slate-700 dark:bg-jovieDark-500 dark:text-jovieDark-100':
-                        active,
-                    }">
-                    <div class="flex items-center">
-                      <div v-if="item.emoji" class="mr-2 text-xs font-bold">
-                        {{ item.emoji }}
-                      </div>
-                      <div
-                        v-else-if="item.icon"
-                        class="mr-2 items-center text-xs font-bold">
-                        <component :is="item.icon" class="h-3 w-3" />
-                      </div>
-                      <div v-else></div>
 
-                      <div class="text-xs font-normal tracking-wider">
-                        {{ item[nameKey] }}
-                        <CustomFieldsMenu
-                          :currentField="column"
-                          @getHeaders="$emit('getHeaders')" />
-                      </div>
-                    </div>
-                  </div>
-                </template> -->
         <template #menuBottom v-if="column.custom">
-          <!-- <CustomFieldsMenu
-                      :currentField="column"
-                      @getHeaders="$emit('getHeaders')" /> -->
           <DropdownMenuItem
             @click="$emit('editField', column)"
             icon="PencilIcon"

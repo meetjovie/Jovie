@@ -40,6 +40,15 @@
         Pick an emoji for your workspace
       </div>
     </SectionWrapper>
+    <SectionWrapper
+      header="Danger zone"
+      subheader="If you want to permanently delete your workspace and all of its data, including all lists, contacts, and settings, you can do so below."
+      ><ButtonGroup
+        @click="deleteTeam(currentUser.currentTeam, index)"
+        text="Delete this workspace"
+        design="danger"
+        class="mt-4"
+    /></SectionWrapper>
   </div>
 </template>
 
@@ -71,6 +80,37 @@ export default {
     this.getSubscriptionStats();
   },
   methods: {
+    deleteTeam(team, index) {
+      this.loading.deleting = true;
+      TeamService.deleteTeam(team.id)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            if (
+              this.currentUser.current_team.id ==
+              this.currentUser.teams[index].id
+            ) {
+              this.$store.commit('switchTeam', null);
+            }
+            this.currentUser.teams.splice(index, 1);
+            this.$notify({
+              title: 'Success',
+              text: 'Team deleted successfully',
+              type: 'success',
+              group: 'user',
+            });
+          }
+        })
+        .catch((error) => {
+          error = error.response;
+          if (error.status == 422) {
+            this.errors = error.data.errors;
+          }
+        })
+        .finally(() => {
+          this.loading.deleting = false;
+        });
+    },
     getSubscriptionStats() {
       userService
         .subscriptionStats()

@@ -1,21 +1,22 @@
 <template>
   <Menu
     as="div"
-    v-slot="{ open }"
+    v-slot="{ open, close }"
     class="relative z-10 inline-block w-full items-center text-left">
     <Float portal :offset="0" shift :placement="placement">
       <MenuButton class="w-full cursor-pointer" @click="open" ref="menuButton">
-        <slot name="triggerButton"> Button Goes Here</slot>
+        <slot :open="open" name="triggerButton">Button Goes Here</slot>
       </MenuButton>
 
       <TransitionRoot
-        :show="open"
-        enter-active-class="transition duration-100 ease-out"
-        enter-from-class="transform scale-95 opacity-0"
-        enter-to-class="transform scale-100 opacity-100"
-        leave-active-class="transition duration-75 ease-in"
-        leave-from-class="transform scale-100 opacity-100"
-        leave-to-class="transform scale-95 opacity-0">
+        :show="open && !disabled"
+        appear
+        enter="transition duration-400 ease-out"
+        enter-from="transform scale-95 opacity-0"
+        enter-to="transform scale-100 opacity-100"
+        leave="transition duration-75 ease-in"
+        leave-from="transform scale-100 opacity-100"
+        leave-to="transform scale-95 opacity-0">
         <MenuItems static @focus="focusMenuSearch()" as="div">
           <GlassmorphismContainer
             :class="[
@@ -37,7 +38,7 @@
                     ref="menuSearchInput"
                     v-model="searchQuery"
                     :placeholder="searchText"
-                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus:border-transparent focus:ring-0 focus:ring-transparent focus:ring-offset-0" />
+                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0" />
                   <!-- <div
                   v-if="item.shortcut"
                   class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
@@ -56,6 +57,7 @@
                 <template v-for="item in filteredItems" :key="item[nameKey]">
                   <router-link v-if="item.route" :to="item.route">
                     <DropdownMenuItem
+                      :tooltip="tooltip"
                       :name="item[nameKey]"
                       :icon="item.icon"
                       :colorDot="item.color"
@@ -67,6 +69,7 @@
                   </router-link>
                   <DropdownMenuItem
                     v-else
+                    :tooltip="tooltip"
                     :name="item[nameKey]"
                     :icon="item.icon"
                     :colorDot="item.color"
@@ -256,6 +259,10 @@ export default {
       type: String,
       default: '',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     size: {
       type: String,
       default: 'md',
@@ -271,6 +278,10 @@ export default {
     searchable: {
       type: Boolean,
       default: true,
+    },
+    tooltip: {
+      type: Boolean,
+      default: false,
     },
     numbered: {
       type: Boolean,

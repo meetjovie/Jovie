@@ -3,7 +3,7 @@
     type="button"
     :disabled="disabled"
     @click="trackClick()"
-    class="group inline-flex items-center overflow-hidden font-medium capitalize first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:scale-95 active:shadow-none"
+    class="group inline-flex items-center overflow-hidden font-medium capitalize first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:scale-95 active:shadow-none"
     :class="[
       success
         ? 'bg-green-500'
@@ -16,25 +16,25 @@
       design === 'secondary'
         ? 'bg-white'
         : design === 'toolbar'
-        ? 'bg-white'
+        ? ' border border-slate-200 bg-white text-slate-500 dark:border-jovieDark-border dark:text-jovieDark-300'
         : '',
       //if toolbar then bg color white
 
-      { 'px-2 py-0 text-xs': size == 'xs' },
+      { 'px-2 py-0.5 text-xs': size == 'xs' },
       { 'px-2 py-1 text-sm': size == 'sm' },
       { 'px-4  py-3 text-base': size == 'base' },
       { 'px-4 py-2 text-lg': size == 'md' },
       { 'px-6 py-3 text-xl': size == 'hero' },
       {
-        'border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed  disabled:opacity-30 dark:border-jovieDark-border   dark:bg-jovieDark-800 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700  ':
+        'line-clamp-1  border-slate-300 bg-white text-slate-600 shadow-sm hover:bg-slate-50 disabled:cursor-not-allowed  disabled:opacity-30 dark:border-jovieDark-border   dark:bg-jovieDark-800 dark:text-jovieDark-200 dark:hover:bg-jovieDark-700  ':
           design == 'secondary',
       },
       {
-        'group flex cursor-pointer items-center rounded-md  p-4 hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-700':
+        'group flex cursor-pointer items-center rounded shadow hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-jovieDark-900 dark:hover:bg-jovieDark-700':
           design == 'toolbar',
       },
       {
-        '  line-clamp-1 font-medium text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none  focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
+        '  line-clamp-1 bg-indigo-500 font-medium  text-white shadow-sm hover:bg-indigo-600 focus-visible:outline-none focus-visible:ring-2  focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 active:bg-indigo-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-slate-300':
           design == 'primary',
       },
       {
@@ -45,9 +45,7 @@
         'bg-red-500 text-white dark:bg-red-500 dark:text-white':
           design == 'danger',
       },
-      {
-        'bg-indigo-500 text-white active:bg-indigo-600': design == 'primary',
-      },
+
       //add auth design
       {
         'rounded border border-slate-200 shadow-sm hover:bg-slate-50 dark:border-jovieDark-border dark:text-white dark:hover:bg-jovieDark-800':
@@ -95,16 +93,21 @@
       v-else-if="icon"
       :is="icon"
       :class="[
+        //if hidetext mr-0 else mr-2
         {
-          'dark:group-hover:text-slate h-5 w-5 text-slate-400 group-hover:text-slate-600 dark:text-jovieDark-400 dark:group-hover:text-jovieDark-200':
+          'mx-2': hideText,
+        },
+
+        {
+          'dark:group-hover:text-slate h-3 w-3 text-slate-400 group-hover:text-slate-600 dark:text-jovieDark-400 dark:group-hover:text-jovieDark-200':
             design == 'toolbar',
         },
-        { 'absolute -ml-1 mr-3 h-5 w-5': design == 'secondary' },
+        { ' mr-2 h-4 w-4': design == 'secondary' || 'primary' },
       ]"
       aria-hidden="true" />
     <p
       v-if="text"
-      class="mx-auto line-clamp-1 flex items-center text-center text-sm"
+      class="text-wider mx-auto line-clamp-1 flex items-center text-center text-xs font-medium"
       :class="[
         { 'text-2xs': size == 'xs' },
         { 'text-xs': size == 'sm' },
@@ -112,7 +115,11 @@
       ]">
       {{ text }}<slot></slot>
     </p>
-    <div v-if="loader" class="ml-2 transition-all">
+    <div
+      v-if="loader"
+      enter-active-class="translate-x-2"
+      leave-active-class="translate-x-2"
+      class="translate-x-2 transition-all duration-300">
       <JovieSpinner class="mr-2" :spinnerColor="loaderColor" />
     </div>
     <div v-else-if="success">
@@ -122,6 +129,11 @@
     <div v-else-if="error">
       <XCircleIcon class="h-5 w-5 text-white transition-all" />
     </div>
+    <div v-else-if="hasMenu">
+      <ChevronDownIcon
+        class="ml-1 h-3 w-3 text-slate-500 transition-all dark:text-jovieDark-100" />
+    </div>
+
     <div v-else></div>
   </button>
 </template>
@@ -131,16 +143,21 @@ import {
   EnvelopeIcon,
   MagnifyingGlassIcon,
   NoSymbolIcon,
+  UserPlusIcon,
   PlusCircleIcon,
+  SparklesIcon,
   ArrowRightOnRectangleIcon,
   ArrowLeftOnRectangleIcon,
   DocumentDuplicateIcon,
   MinusCircleIcon,
   MinusIcon,
+  UserGroupIcon,
+  ChevronDownIcon,
   AdjustmentsHorizontalIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   PlusIcon,
+  UserIcon,
   ChevronRightIcon,
   XCircleIcon,
   CheckCircleIcon,
@@ -203,6 +220,10 @@ export default {
       type: String,
       default: 'primary',
     },
+    hasMenu: {
+      type: Boolean,
+      default: false,
+    },
     hideText: {
       type: Boolean,
       default: false,
@@ -223,11 +244,16 @@ export default {
     ArrowRightIcon,
     NoSymbolIcon,
     PlusIcon,
+    SparklesIcon,
     CheckCircleIcon,
     AdjustmentsHorizontalIcon,
     MinusIcon,
+    UserIcon,
+    ChevronDownIcon,
     PlusCircleIcon,
+    UserPlusIcon,
     MinusCircleIcon,
+    UserGroupIcon,
     ChevronRightIcon,
     ArrowRightOnRectangleIcon,
     ArrowLeftOnRectangleIcon,

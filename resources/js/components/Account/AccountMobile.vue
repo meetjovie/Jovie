@@ -35,7 +35,7 @@
             id="country"
             name="country"
             autocomplete="country"
-            class="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
+            class="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-600 sm:text-sm">
             <template v-for="item in countries">
               <option :value="item.value">{{ item.name }}</option>
             </template>
@@ -46,7 +46,7 @@
           type="text"
           name="search"
           id="search"
-          class="block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+          class="block w-full rounded-md border-0 py-1.5 pr-14 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-600 sm:text-sm sm:leading-6" />
         <div class="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
           <kbd
             v-if="!disableOtp"

@@ -27,10 +27,10 @@
             <Combobox @update:modelValue="onSelect">
               <div class="relative">
                 <MagnifyingGlassIcon
-                  class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-slate-900 text-opacity-40"
+                  class="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-slate-900 text-opacity-40"
                   aria-hidden="true" />
                 <ComboboxInput
-                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-slate-900 placeholder-slate-500 focus:ring-0 sm:text-sm"
+                  class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-slate-900 placeholder-slate-500 focus-visible:ring-0 sm:text-sm"
                   placeholder="Search..."
                   @change="query = $event.target.value" />
               </div>
@@ -42,7 +42,7 @@
                 <li class="p-2">
                   <h2
                     v-if="query === ''"
-                    class="mt-4 mb-2 px-3 text-xs font-semibold text-slate-900">
+                    class="mb-2 mt-4 px-3 text-xs font-semibold text-slate-900">
                     Recent searches
                   </h2>
                   <ul class="text-sm text-slate-700">
@@ -114,7 +114,7 @@
 
               <div
                 v-if="query !== '' && filteredProjects.length === 0"
-                class="py-14 px-6 text-center sm:px-14">
+                class="px-6 py-14 text-center sm:px-14">
                 <FolderIcon
                   class="mx-auto h-6 w-6 text-slate-900 text-opacity-40"
                   aria-hidden="true" />

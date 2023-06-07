@@ -38,11 +38,24 @@
               <div
               v-else
               class="h-18 w-18 object-fit mt-2 aspect-square animate-pulse rounded-full border-4 border-slate-200 object-center dark:border-jovieDark-border"></div> -->
-            <ContactAvatar editable :height="24" :contact="contact" />
+            <ContactAvatar
+              @updateAvatar="
+                this.$emit('updateContact', {
+                  id: contact.id,
+                  index: contact.index,
+                  key: 'profile_pic_url',
+                  value: $event,
+                })
+              "
+              editable
+              :height="24"
+              :contact="contact" />
           </div>
           <div class="col-span-2 mt-6 pl-1 pr-2">
             <input
-              @blur="$emit('updateContact')"
+              ref="fullNameInput"
+              @blur="updateContactName"
+              @keyup.enter="updateContactName"
               v-model="contact.full_name"
               placeholder="Name"
               class="line-clamp-1 w-full rounded-md border border-slate-300 border-opacity-0 px-1 text-lg font-bold text-slate-700 transition placeholder:text-slate-300/0 hover:border-opacity-100 hover:bg-slate-100 hover:placeholder:text-slate-500 dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-300 dark:text-jovieDark-300 dark:hover:bg-jovieDark-800" />
@@ -150,7 +163,7 @@
         <hr
           class="border border-slate-100 text-slate-300 dark:border-jovieDark-border dark:text-jovieDark-700" />
 
-        <div class="px-4 py-2">
+        <div v-if="!compact" class="px-4 py-2">
           <ButtonGroup
             v-if="!contact.id"
             :text="buttonText"
@@ -414,7 +427,7 @@
             </div> -->
       <div
         class="relative mt-2 bg-white px-2 py-2 dark:bg-jovieDark-900"
-        v-if="contact.id">
+        v-if="contact.id && !compact">
         <TextAreaInput
           ref="noteInput"
           v-model="contact.description"
@@ -654,6 +667,10 @@ export default {
         meta: {},
       },
     },
+    compact: {
+      type: Boolean,
+      default: false,
+    },
     jovie: {
       type: Boolean,
       default: false,
@@ -705,11 +722,20 @@ export default {
       socialMediaProfileUrl: '',
       currentNetwork: '',
       ignoreFieldIdForNonDisplay: [],
-        displayAbleFields: [],
-        nonDisplayAbleFields: []
+      displayAbleFields: [],
+      nonDisplayAbleFields: [],
     };
   },
   methods: {
+    updateContactName() {
+      this.$refs.fullNameInput.blur();
+      this.$emit('updateContact', {
+        id: this.contact.id,
+        index: this.contact.index,
+        key: `full_name`,
+        value: this.contact.full_name,
+      });
+    },
     addNonDisplayableField(id) {
       this.ignoreFieldIdForNonDisplay.push(id);
       this.setFieldsForDisplay();

@@ -8,7 +8,7 @@
         height < 14 ? 'text-[8px]' : 'text-xs',
         'text-white',
       ]"
-      >{{ firstLetter }}</span
+      >{{ emoji || firstLetter }}</span
     >
   </div>
 </template>
@@ -19,6 +19,11 @@ export default {
     name: {
       type: String,
       required: true,
+    },
+    emoji: {
+      type: String,
+      required: false,
+      default: null,
     },
     height: {
       type: Number,

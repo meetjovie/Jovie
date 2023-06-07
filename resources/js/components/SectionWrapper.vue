@@ -4,6 +4,7 @@
     <SectionHeader
       :border="false"
       size="lg"
+      @ctaClick="handleClick()"
       :callToAction="callToAction"
       :header="header"
       :subheader="subheader" />
@@ -18,6 +19,11 @@ export default {
   name: 'SectionWrapper',
   components: {
     SectionHeader,
+  },
+  methods: {
+    handleClick() {
+      this.$emit('ctaClick');
+    },
   },
   props: {
     callToAction: {

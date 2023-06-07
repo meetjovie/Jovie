@@ -84,7 +84,7 @@
           v-if="label"
           :for="name"
           :id="id"
-          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus:left-0 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:font-medium dark:bg-jovieDark-800 dark:text-jovieDark-300"
+          class="absolute -top-2.5 left-0 ml-3 block cursor-text bg-white px-1 text-xs font-medium text-slate-500 transition-all peer-placeholder-shown:top-2.5 peer-placeholder-shown:text-sm peer-placeholder-shown:font-medium peer-placeholder-shown:text-slate-400 peer-focus-visible:-top-2.5 peer-focus-visible:left-0 peer-focus-visible:text-xs peer-focus-visible:font-medium dark:bg-jovieDark-800 dark:text-jovieDark-300"
           >{{ label }}</label
         >
       </div>
