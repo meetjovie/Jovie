@@ -85,7 +85,6 @@
                 <Menu v-slot="{ open }" class="items-center">
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
-
                       <ButtonGroup
                         :design="'toolbar'"
                         :text="'Display'"
@@ -604,11 +603,16 @@
                       <MenuItems class="space-y-2" static>
                         <div v-for="item in menuItems" :key="item.name">
                           <JovieMenuItem
-                              v-if="! (item.name == 'Select a template' && !filters.list)"
+                            v-if="
+                              !(
+                                item.name == 'Select a template' &&
+                                !filters.list
+                              )
+                            "
                             class="rounded py-2"
                             :active="active"
                             :icon="item.icon"
-                            @click="item.action"
+                            @button-click="item.action"
                             :name="item.name" />
                         </div>
                       </MenuItems>
@@ -659,11 +663,15 @@
     :open="openMergeSuggestion"
     :suggestion="mergeSuggestion" />
 
-    <ModalPopup :open="selectTemplateModelOpen" customContent >
-        <template #content>
-            <TemplateModal />
-        </template>
-    </ModalPopup>
+  <ModalPopup v-if="filters.list" :open="selectTemplateModelOpen" customContent>
+    <template #content>
+      <TemplateModal
+        :templates="templates"
+        :list="filters.list"
+        @updated="listTemplateUpdated"
+        @cancel="closeSelectTemplateModal" />
+    </template>
+  </ModalPopup>
 </template>
 
 <script setup>
@@ -783,7 +791,7 @@ import ViewToggle from './ViewToggle.vue';
 import BoardView from './BoardView.vue';
 import ListHeader from './ListHeader.vue';
 import ContactCard from './ContactCard.vue';
-import TemplateModal from "./TemplateModal.vue";
+import TemplateModal from './TemplateModal.vue';
 
 export default {
   name: 'DataGrid',
@@ -940,6 +948,7 @@ export default {
       date: null,
       selectedContacts: [],
       currentContact: [],
+      templates: [],
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
@@ -1022,11 +1031,9 @@ export default {
       //route push to chrome-extension
       this.$router.push({ name: 'Chrome Extension' });
     },
-      openSelectTemplateModal() {
-
-      }
   },
   mounted() {
+    this.getTemplates();
     this.suggestContactsMerge([], true);
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
@@ -1221,6 +1228,29 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    getTemplates() {
+      TemplateService.getTemplates()
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.templates = [];
+            this.templates = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log('error', error);
+        });
+    },
+    openSelectTemplateModal() {
+      this.selectTemplateModelOpen = true;
+    },
+    closeSelectTemplateModal() {
+      this.selectTemplateModelOpen = false;
+    },
+    listTemplateUpdated() {
+      this.closeSelectTemplateModal();
+      this.$emit('getHeaders');
+    },
     selectMultiple(contact) {
       const contactIndex = this.contactRecords.indexOf(contact);
 

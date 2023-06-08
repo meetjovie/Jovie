@@ -3,7 +3,7 @@
     class="divide-y divide-slate-200 overflow-hidden rounded-lg bg-gray-200 shadow dark:divide-jovieDark-border dark:bg-jovieDark-800 sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
     <div
       v-for="(action, actionIdx) in actions"
-      :key="action.title"
+      :key="action.name"
       @click="actionSelected(action)"
       :class="[
         actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
@@ -16,7 +16,7 @@
       ]">
       <div>
         <span class="inline-flex rounded-lg p-3 text-xl ring-4 ring-white">
-          {{ action.emoji }}
+          {{ action.icon }}
         </span>
       </div>
       <div class="mt-8">
@@ -25,7 +25,7 @@
           <a :href="action.href" class="focus:outline-none">
             <!-- Extend touch target to entire panel -->
             <span class="absolute inset-0" aria-hidden="true" />
-            {{ action.title }}
+            {{ action.name }}
           </a>
         </h3>
         <p class="mt-2 text-sm text-gray-500">
@@ -55,59 +55,60 @@ import {
 } from '@heroicons/vue/24/outline';
 
 export default {
-    name: 'ActionListGrid',
-    props: {
-        actions: {
-            type: Array,
-            default: [
-                {
-                    title: 'Sales Pipline',
-                    description: 'Keep track of your leads and opportunities.',
+  name: 'ActionListGrid',
+  props: {
+    actions: {
+      type: Array,
+      default: [
+        {
+          title: 'Sales Pipline',
+          description: 'Keep track of your leads and opportunities.',
 
-                    emoji: '👋',
-                    icon: ClockIcon,
-                    iconForeground: 'text-teal-700',
-                    iconBackground: 'bg-teal-50',
-                },
-                {
-                    title: 'Influencer Marketing Campaign',
-                    description: 'Find and hire influencers for your next campaign.',
-                    emoji: '📣',
-                    href: '#',
-                    icon: CheckBadgeIcon,
-                    iconForeground: 'text-purple-700',
-                    iconBackground: 'bg-purple-50',
-                },
-                {
-                    title: 'Personal CRM',
-                    description: 'Keep track of your friends and family.',
-                    emoji: '👨‍💼',
-                    href: '#',
-                    icon: UsersIcon,
-                    iconForeground: 'text-sky-700',
-                    iconBackground: 'bg-sky-50',
-                },
-                {
-                    title: 'Startup Fundraising',
-                    description: 'Manage your seed round fundraising.',
-                    emoji: '📈',
-                    href: '#',
-                    icon: BanknotesIcon,
-                    iconForeground: 'text-yellow-700',
-                    iconBackground: 'bg-yellow-50',
-                },
-            ]
-        }
+          emoji: '👋',
+          icon: ClockIcon,
+          iconForeground: 'text-teal-700',
+          iconBackground: 'bg-teal-50',
+        },
+        {
+          title: 'Influencer Marketing Campaign',
+          description: 'Find and hire influencers for your next campaign.',
+          emoji: '📣',
+          href: '#',
+          icon: CheckBadgeIcon,
+          iconForeground: 'text-purple-700',
+          iconBackground: 'bg-purple-50',
+        },
+        {
+          title: 'Personal CRM',
+          description: 'Keep track of your friends and family.',
+          emoji: '👨‍💼',
+          href: '#',
+          icon: UsersIcon,
+          iconForeground: 'text-sky-700',
+          iconBackground: 'bg-sky-50',
+        },
+        {
+          title: 'Startup Fundraising',
+          description: 'Manage your seed round fundraising.',
+          emoji: '📈',
+          href: '#',
+          icon: BanknotesIcon,
+          iconForeground: 'text-yellow-700',
+          iconBackground: 'bg-yellow-50',
+        },
+      ],
     },
-    data() {
-        return {
-            selectedAction: null,
-        }
+  },
+  data() {
+    return {
+      selectedAction: null,
+    };
+  },
+  methods: {
+    actionSelected(action) {
+      this.selectedAction = action.id;
+      this.$emit('selected', this.selectedAction);
     },
-    methods: {
-        actionSelected(action) {
-            this.selectedAction = action;
-        }
-    }
-}
+  },
+};
 </script>

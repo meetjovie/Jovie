@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Template;
-use http\Env\Request;
+use App\Models\UserList;
+use Illuminate\Http\Request;
 
 class TemplateController extends Controller
 {
@@ -19,12 +20,25 @@ class TemplateController extends Controller
 
     public function setTemplate(Request $request)
     {
-        $data = $request->all();
-        $template = Template::find($data['template_id']);
+        $data = $request->validate([
+            'list_id' => 'required|integer',
+            'template_id' => 'required',
+        ]);
+
+        $template = UserList::setTemplate($data['list_id'], $data['template_id']);
+
+        if ($template) {
+            return response()->json([
+                'status' => true,
+                'data' => $template,
+                'message' => 'List template successfully updated.'
+            ], 200);
+        }
+
         return response()->json([
-            'status' => true,
-            'data' => $template,
-            'message' => 'Success'
-        ], 200);
+            'status' => false,
+            'data' => null,
+            'message' => "Couldn't update list template"
+        ], 403);
     }
 }

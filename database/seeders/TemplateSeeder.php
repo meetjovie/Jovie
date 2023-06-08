@@ -26,6 +26,7 @@ class TemplateSeeder extends Seeder
 
         $template = Template::create([
             'name' => Template::DEFAULT_TEMPLATE_NAME,
+            'icon' => '🤗',
             'description' => 'the default template of jovie lists',
         ]);
 
@@ -116,6 +117,7 @@ class TemplateSeeder extends Seeder
 
         $template = Template::create([
             'name' => 'Custom Wala',
+            'icon' => '🤓',
             'description' => 'the default template of jovie lists',
         ]);
 

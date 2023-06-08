@@ -9,11 +9,11 @@
     v-slot="{ active }">
     <component
       :is="routerLink ? 'router-link' : 'div'"
-      @click="handleClick()"
       class="w-full"
       active-class="bg-slate-100  w-full dark:bg-jovieDark-500 rounded dark:text-jovieDark-200"
       :to="{ name: component }">
       <div
+        @click="handleClick()"
         :class="[
           active || selected
             ? 'bg-slate-100 dark:bg-jovieDark-500 dark:text-jovieDark-200 '
@@ -239,6 +239,7 @@ export default {
         });
     },
     handleClick() {
+      console.log('asdadasd');
       this.$emit('button-click');
     },
     handleIconClick() {

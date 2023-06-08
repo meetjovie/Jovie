@@ -291,8 +291,8 @@ class UserList extends Model implements Auditable
         if ($list) {
             $list->template_id = $templateId;
             $list->save();
-            return true;
+            return $list;
         }
-        return false;
+        return null;
     }
 }
