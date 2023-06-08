@@ -24,16 +24,8 @@
           class="group mx-auto overflow-y-scroll rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
           <PlusIcon
             v-if="!creatingList"
-            @click="chooseTemplatePopup.open = !chooseTemplatePopup.open"
+            @click="createList"
             class="h-4 w-4"></PlusIcon>
-          <ListTemplateChoicePopup
-            :loading="chooseTemplatePopup.loading"
-            @primaryButtonClick="createList"
-            :open="chooseTemplatePopup.open"
-            :primaryButtonText="chooseTemplatePopup.primaryButtonText"
-            :description="chooseTemplatePopup.description"
-            @cancelButtonClick="cancelNewList"
-            :title="chooseTemplatePopup.title" />
           <JovieSpinner
             spinnerSize="xs"
             spinnerColor="neutral"
@@ -342,7 +334,6 @@ import { PinIcon, PinnedIcon } from 'vue-tabler-icons';
 import JovieSpinner from './../components/JovieSpinner.vue';
 import JovieMenuItem from './../components/JovieMenuItem.vue';
 import { Float } from '@headlessui-float/vue';
-import ListTemplateChoicePopup from './ListTemplateChoicePopup.vue';
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -585,7 +576,6 @@ export default {
     },
     createList(newList) {
       this.creatingList = true;
-      console.log("NEWLY CREATED LIST:::::::::::::::::::::", newList)
       UserService.createList(newList)
         .then((response) => {
           response = response.data;
@@ -845,7 +835,6 @@ export default {
     },
   },
   components: {
-    ListTemplateChoicePopup,
     UserListEditable,
     ChevronRightIcon,
     JovieMenuItem,
