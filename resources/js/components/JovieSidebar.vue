@@ -8,12 +8,11 @@
             sidebarStatus == 'hidden',
         },
         {
-          'fixed bottom-2 left-2 top-10 z-50 h-1/2 rounded border pb-4 shadow-xl':
+          'fixed bottom-2 left-2 top-10 z-50 h-3/4 rounded border pb-4 shadow-xl':
             sidebarStatus == 'float',
         },
         'flex h-screen w-[268px] flex-col  justify-between overflow-auto border-r border-slate-200 bg-white py-2 dark:border-jovieDark-border dark:bg-jovieDark-900',
-      ]"
-      class="overflow-none z-30 mx-auto flex w-[268px] flex-col justify-between overflow-auto border-r border-slate-200 bg-white py-2 transition-all duration-1000 dark:border-jovieDark-border dark:bg-jovieDark-900">
+      ]">
       <div>
         <slot name="header">
           <div @click="setSidebarOpen()" class="w-full flex-col px-2">

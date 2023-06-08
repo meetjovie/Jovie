@@ -508,7 +508,7 @@
         </JovieSidebar>
 
         <div
-          class="h-full w-full overflow-hidden transition-[width] duration-1000 ease-in-out">
+          class="h-full w-full overflow-hidden transition-all duration-1000 ease-in-out">
           <div class="mx-auto h-full w-full">
             <AlertBanner
               v-if="limitExceedBy > 0 && totalAvailable"

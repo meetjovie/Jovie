@@ -10,7 +10,7 @@
       ]">
       <div class="mx-auto max-w-7xl px-3 py-3 text-center sm:px-6 lg:px-8">
         <div class="inline-flex pr-16 sm:px-16 sm:text-center">
-          <p class="text-sm font-medium text-white">
+          <p class="text-xs font-medium text-white">
             <span class="md:hidden"> {{ mobiletitle }} </span>
             <span class="hidden md:inline">
               {{ title }}
