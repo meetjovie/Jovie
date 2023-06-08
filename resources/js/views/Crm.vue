@@ -7,15 +7,15 @@
           @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div class="">
-              <div class="flex items-center px-4 py-4 text-xs">
+              <div class="flex items-center px-2 py-4 text-xs">
                 <div
                   class="mx-auto inline-flex w-full divide-x rounded border border-slate-200 shadow active:shadow-none dark:border-jovieDark-border">
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 antialiased hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 antialiased hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-100 hover:dark:bg-jovieDark-600">
                     <PlusIcon
-                      class="mr-1 h-4 w-4 items-center rounded text-xs text-slate-600 dark:text-slate-400"
+                      class="mr-1 h-4 w-4 items-center rounded text-xs text-slate-600 dark:text-slate-200"
                       aria-hidden="true" />
                     New Contact
                   </button>
@@ -211,7 +211,7 @@
                   :mobiletitle="`Install Jovie Chrome Extension`"
                   :title="`Install Chrome Extension`"
                   :cta="`Install Extension`"
-                  :subtitle="`Eeasily add contacts from any website.`"
+                  :subtitle="`Easily add contacts from any website.`"
                   ctaLink="chrome-extension" />
               </div>
 

@@ -5,7 +5,7 @@
     <span
       :class="[
         'items-center',
-        height < 14 ? 'text-[8px]' : 'text-xs',
+        height <= 14 ? 'text-[8px]' : 'text-2xs',
         'text-white',
       ]"
       >{{ emoji || firstLetter }}</span

@@ -3,10 +3,10 @@
     <div
       class="bgred-500 group flex h-full cursor-pointer items-center justify-between rounded py-1">
       <div
-        class="flex cursor-pointer items-center rounded py-0.5 pl-1 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
+        class="flex cursor-pointer items-center rounded py-0.5 pl-0 pr-2 text-xs font-medium tracking-wider text-slate-800 hover:text-slate-900 dark:text-jovieDark-200 dark:hover:bg-jovieDark-800 dark:hover:bg-jovieDark-border dark:hover:text-slate-100">
         <div
           @click="toggleShowMenu()"
-          class="group/openMenu mx-auto mr-1 rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
+          class="group/openMenu mx-auto mr-0 rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
           <ChevronDownIcon
             v-if="showMenu"
             class="group/openMenu-hover:text-slate-800 group/openMenu-hover:dark:text-jovieDark-200 mt-0.5 h-4 w-4 text-slate-700 dark:text-jovieDark-300" />

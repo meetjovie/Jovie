@@ -11,7 +11,7 @@
           'fixed bottom-2 left-2 top-10 z-50 h-3/4 rounded border pb-4 shadow-xl':
             sidebarStatus == 'float',
         },
-        'flex h-screen w-[268px] flex-col  justify-between overflow-auto border-r border-slate-200 bg-white py-2 dark:border-jovieDark-border dark:bg-jovieDark-900',
+        'flex h-screen w-[268px] flex-col justify-between overflow-auto border-r border-slate-200 bg-white px-3 py-3 dark:border-jovieDark-border dark:bg-jovieDark-900',
       ]">
       <div>
         <slot name="header">
@@ -37,14 +37,14 @@
                   :searchable="false">
                   <template #triggerButton>
                     <div
-                      class="flex w-full items-center justify-between rounded px-2 py-1 hover:bg-slate-150 dark:hover:bg-jovieDark-700">
-                      <div class="group/teammenu flex items-center space-x-1">
+                      class="flex w-full items-center justify-between rounded px-1 py-1 hover:bg-slate-150 dark:hover:bg-jovieDark-700">
+                      <div class="group/teammenu flex items-center space-x-2">
                         <InitialBox
                           :emoji="currentUser.current_team.emoji"
                           :name="currentUser.current_team.name"
                           :height="18" />
                         <div
-                          class="line-clamp-1 items-center text-2xs font-medium text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-300 dark:group-hover:text-slate-200">
+                          class="line-clamp-1 items-center text-sm font-light tracking-wider text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-100 dark:group-hover:text-slate-200">
                           {{
                             currentUser.current_team
                               ? currentUser.current_team.name
