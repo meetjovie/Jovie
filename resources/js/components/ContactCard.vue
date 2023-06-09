@@ -1,7 +1,7 @@
 <template>
   <div
     @contextmenu.prevent="handleContextMenu($event, contact)"
-    class="h-36 divide-y divide-gray-200 overflow-hidden rounded border border-slate-200 bg-white shadow hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
+    class="h-36 divide-y divide-gray-200 overflow-hidden rounded border border-slate-200 bg-white shadow-md hover:bg-slate-50 dark:border-jovieDark-border dark:bg-jovieDark-800">
     <div
       @click="$emit('openSidebar', { contact: contact })"
       class="flex w-full items-center justify-between">

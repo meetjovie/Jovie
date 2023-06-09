@@ -5,7 +5,7 @@
     <ActionPanel
       v-if="!onboarding"
       title="Delete Account"
-      buttonstyle="danger"
+      buttonStyle="danger"
       description="This is permanent and cannot be undone."
       buttonText="Delete"
       @action-click="toggleDeleteModal()" />

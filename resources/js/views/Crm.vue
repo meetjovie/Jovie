@@ -13,7 +13,7 @@
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 antialiased hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-100 hover:dark:bg-jovieDark-600">
+                    class="group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 antialiased hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-600 dark:text-jovieDark-100 hover:dark:bg-jovieDark-500">
                     <PlusIcon
                       class="mr-1 h-4 w-4 items-center rounded text-xs text-slate-600 dark:text-slate-200"
                       aria-hidden="true" />
@@ -23,7 +23,7 @@
                   <Menu>
                     <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-600 dark:text-jovieDark-300 hover:dark:bg-jovieDark-500">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />

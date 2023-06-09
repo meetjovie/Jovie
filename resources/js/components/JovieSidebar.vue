@@ -44,7 +44,7 @@
                           :name="currentUser.current_team.name"
                           :height="18" />
                         <div
-                          class="line-clamp-1 items-center text-sm font-light tracking-wider text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-100 dark:group-hover:text-slate-200">
+                          class="line-clamp-1 items-center text-sm font-normal tracking-wider text-slate-700 group-hover:text-slate-800 dark:text-jovieDark-100 dark:group-hover:text-slate-200">
                           {{
                             currentUser.current_team
                               ? currentUser.current_team.name

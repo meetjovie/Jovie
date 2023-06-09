@@ -79,7 +79,7 @@
                 <ShareMenu :contacts="activeUsersOnList" />
               </div>
 
-              <ViewToggle v-if="currentUser.isAdmin" v-model="boardView" />
+              <ViewToggle v-if="currentUser.is_admin" v-model="boardView" />
             </div>
             <div class="ml-4 flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">

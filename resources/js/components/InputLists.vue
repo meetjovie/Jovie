@@ -5,9 +5,9 @@
         <div
           class="mr-1 flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-xs font-medium text-slate-800 hover:bg-slate-50 dark:border-jovieDark-border dark:text-jovieDark-200 dark:hover:bg-jovieDark-900">
           <div class="flex w-full items-center">
-            <span class="mr-1 text-[8px]"> {{ item.emoji }}</span>
+            <span class="mr-1 items-center text-[2xs]"> {{ item.emoji }}</span>
             <span
-              class="w-18 select-none items-center truncate text-ellipsis text-2xs"
+              class="w-24 select-none items-center truncate text-ellipsis text-2xs"
               >{{ item[nameKey] }}</span
             >
           </div>

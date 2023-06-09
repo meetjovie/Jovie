@@ -15,7 +15,7 @@
     </div>
   </MenuItem>
   <MenuItem disabled v-else-if="separator">
-    <div class="inset-0 flex items-center" aria-hidden="true">
+    <div class="inset-0 flex items-center py-1" aria-hidden="true">
       <div
         class="w-full border-t border-gray-300 dark:border-jovieDark-border" />
     </div>
@@ -95,7 +95,7 @@
         </MenuButton>
         <MenuItems class="">
           <GlassmorphismContainer
-            class="w-40 px-2 py-1.5 text-xs text-slate-500 dark:text-jovieDark-200">
+            class="w-40 bg-slate-50/60 bg-clip-padding px-2 py-2 text-2xs font-semibold text-slate-500 shadow-lg saturate-200 backdrop-blur-md backdrop-filter dark:border-jovieDark-border dark:bg-jovieDark-600/60 dark:text-jovieDark-200">
             Add to list
             <MenuItem disabled>
               <div class="inset-0 flex items-center" aria-hidden="true">
