@@ -1,7 +1,6 @@
 <template>
   <MenuItem disabled v-if="searchBox" v-slot="{ active }" as="div">
-    <div
-      class="relative flex items-center border-b border-slate-300 dark:border-jovieDark-border">
+    <div class="relative flex items-center">
       <input
         tabindex="0"
         @input="$emit('search-query', $event.target.value)"

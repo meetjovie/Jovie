@@ -114,6 +114,7 @@
                                 placeholder: 'Add columns...',
                               }" />
                           </div>
+                          <DropdownMenuItem separator />
                           <DropdownMenuItem
                             disabled
                             name="Name"
