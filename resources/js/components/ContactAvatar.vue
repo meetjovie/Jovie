@@ -11,25 +11,26 @@
             ? `ring-${contact.color}-300 dark:ring-${contact.color}-500`
             : 'ring-slate-100 dark:ring-slate-500',
         ]"
-        class="0 group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">
+        class="group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">
         <span
           :class="[
-            //if height is less than 8 text-sm
-            height < 8
+            height < 6
+              ? 'text-[6px]'
+              : height >= 6 && height < 8
               ? 'text-2xs'
-              : height > 8 && height < 12
-              ? 'text-sm'
-              : height > 12 && height < 16
+              : height >= 8 && height < 12
+              ? 'text-xs'
+              : height >= 12 && height < 16
               ? 'text-base'
-              : height > 16 && height < 24
+              : height >= 16 && height < 24
               ? 'text-lg'
-              : height > 24 && height < 32
-              ? 'text-xl'
-              : height > 32 && height < 40
-              ? 'text-2xl'
-              : height > 40 && height < 48
+              : height >= 24 && height < 32
               ? 'text-3xl'
-              : 'text-sm',
+              : height >= 32 && height < 40
+              ? 'text-3xl'
+              : height >= 40 && height < 48
+              ? 'text-5xl'
+              : 'text-[8px]',
           ]"
           class="relative inline-block">
           <span

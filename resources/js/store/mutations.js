@@ -10,6 +10,10 @@ export default {
   setAddedToWaitList(state) {
     state.addedToWaitList = true;
   },
+  setSidebarStatus(state, payload) {
+    state.sidebarStatus = payload;
+    console.log('sidebarStatus: ', state.sidebarStatus);
+  },
   switchTeam(state, payload) {
     state.AuthState.user.current_team = payload;
   },
@@ -34,10 +38,10 @@ export default {
   setChromeExtensionInstalled(state, payload) {
     state.chromeExtensionInstalled = payload;
   },
-    setShowCustomFieldModal(state, payload) {
-        state.crmPage.showCustomFieldsModal = false
-        setTimeout(() => {
-            state.crmPage.showCustomFieldsModal = true
-        }, 100)
-    }
+  setShowCustomFieldModal(state, payload) {
+    state.crmPage.showCustomFieldsModal = false;
+    setTimeout(() => {
+      state.crmPage.showCustomFieldsModal = true;
+    }, 100);
+  },
 };

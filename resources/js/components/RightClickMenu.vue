@@ -19,6 +19,13 @@
               style="z-index: 9999"
               class="z-10 mt-2 w-48 origin-top-right px-1 py-1 ring-1 ring-black ring-opacity-5 focus-visible:outline-none">
               <div class="py-1">
+                <DropdownMenuItem
+                  @click="$emit('checkContactsEnrichable', contact.id)"
+                  :name="'Enrich'"
+                  icon="SparklesIcon" />
+
+                <DropdownMenuItem separator />
+
                 <ContactContextMenuItem
                   :contact="contact"
                   :contactMethods="[
@@ -52,6 +59,8 @@
                       true
                     )
                   " />
+                <DropdownMenuItem separator />
+
                 <DropdownMenuItem
                   v-if="currentUser.is_admin"
                   name="Refresh"
@@ -64,23 +73,11 @@
                       ? 'Unarchive'
                       : 'Archive'
                   "
+                  danger
                   icon="ArchiveBoxIcon"
                   @blur="$emit('updateContact')"
                   @click="
                     $emit('archive-contacts', contact.id, !contact.archived)
-                  " />
-                <DropdownMenuItem
-                  v-if="filters.list"
-                  name="Remove from list"
-                  icon="TrashIcon"
-                  danger
-                  @click="
-                    $emit(
-                      'toggleContactsFromList',
-                      contact.id,
-                      filters.list,
-                      true
-                    )
                   " />
               </div>
             </GlassmorphismContainer>

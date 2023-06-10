@@ -28,7 +28,7 @@
     <slot></slot>
 
     <div @click.self="setFocus()" v-if="!freezeColumn">
-      <div class="mx-auto flex justify-center" v-if="column.type == 'rating'">
+      <div class="mx-auto flex w-20" v-if="column.type == 'rating'">
         <star-rating
           class="mx-auto"
           :star-size="12"
@@ -103,18 +103,16 @@
           </div>
         </div>
       </div>
-      <Suspense
+      <div
+        class="scrollbar:!w-1.5 scrollbar:!h-1.5 scrollbar:bg-transparent scrollbar-track:!bg-slate-100 scrollbar-thumb:!rounded scrollbar-thumb:!bg-slate-300 scrollbar-track:!rounded dark:scrollbar-track:!bg-jovieDark-500/[0.16] dark:scrollbar-thumb:!bg-jovieDark-500/50 lg:supports-scrollbars:pr-2 w-80 overflow-x-scroll"
         v-else-if="column.type == 'multi_select' && column.name == 'Lists'">
-        <template #default>
-          <InputLists
-            @updateLists="$emit('updateContactLists', $event)"
-            :contactId="contact.id ?? 0"
-            :listItems="userLists"
-            :lists="contact.user_lists"
-            :currentList="contact.current_list" />
-        </template>
-        <template #fallback> Loading...</template>
-      </Suspense>
+        <InputLists
+          @updateLists="$emit('updateContactLists', $event)"
+          :contactId="contact.id ?? 0"
+          :listItems="userLists"
+          :lists="contact.user_lists"
+          :currentList="contact.current_list" />
+      </div>
       <CheckboxInput
         v-else-if="column.type == 'checkbox'"
         :name="`checkbox_${fieldId}_${contact.id}`"

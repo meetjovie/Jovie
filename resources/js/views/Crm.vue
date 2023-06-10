@@ -2,18 +2,20 @@
   <div class="h-full w-full bg-white dark:bg-jovieDark-900">
     <div id="crm" class="mx-auto flex h-full w-full min-w-full">
       <div class="flex h-full w-full">
-        <JovieSidebar @toggleShowSupportModal="toggleShowSupportModal()">
+        <JovieSidebar
+          :sidebarStatus="$store.state.sidebarStatus"
+          @toggleShowSupportModal="toggleShowSupportModal()">
           <template #main>
             <div class="">
-              <div class="flex items-center px-4 py-4 text-xs">
+              <div class="flex items-center px-2 py-4 text-xs">
                 <div
                   class="mx-auto inline-flex w-full divide-x rounded border border-slate-200 shadow active:shadow-none dark:border-jovieDark-border">
                   <button
                     @click="openImportContactModal()"
                     type="button"
-                    class="group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 antialiased hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                    class="group relative mx-auto inline-flex w-full cursor-pointer items-center justify-start rounded-l border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600 antialiased hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-600 dark:text-jovieDark-100 hover:dark:bg-jovieDark-500">
                     <PlusIcon
-                      class="mr-1 h-4 w-4 items-center rounded text-xs text-slate-600 dark:text-slate-400"
+                      class="mr-1 h-4 w-4 items-center rounded text-xs text-slate-600 dark:text-slate-200"
                       aria-hidden="true" />
                     New Contact
                   </button>
@@ -21,7 +23,7 @@
                   <Menu>
                     <Float portal :offset="2" placement="bottom-end">
                       <MenuButton
-                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-border dark:text-jovieDark-300 hover:dark:bg-jovieDark-600">
+                        class="rouned-md group mx-auto flex cursor-pointer items-center justify-between rounded-r border-slate-200 bg-white px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-100 active:scale-y-95 active:shadow-none dark:border-jovieDark-border dark:bg-jovieDark-600 dark:text-jovieDark-300 hover:dark:bg-jovieDark-500">
                         <ChevronDownIcon
                           class="h-3 w-3 items-center rounded text-xs text-purple-600 dark:text-purple-400"
                           aria-hidden="true" />
@@ -209,7 +211,7 @@
                   :mobiletitle="`Install Jovie Chrome Extension`"
                   :title="`Install Chrome Extension`"
                   :cta="`Install Extension`"
-                  :subtitle="`Eeasily add contacts from any website.`"
+                  :subtitle="`Easily add contacts from any website.`"
                   ctaLink="chrome-extension" />
               </div>
 
@@ -504,8 +506,9 @@
             </div>
           </template>
         </JovieSidebar>
+
         <div
-          class="h-full w-full overflow-hidden transition-all duration-200 ease-in-out">
+          class="h-full w-full overflow-hidden transition-all duration-1000 ease-in-out">
           <div class="mx-auto h-full w-full">
             <AlertBanner
               v-if="limitExceedBy > 0 && totalAvailable"
@@ -521,6 +524,7 @@
               @addContactFromSocial="openImportContactModal(true)"
               @updateContact="updateContact"
               @crmCounts="crmCounts"
+              @toggleSidebarMenu="toggleSidebarMenu"
               :counts="counts"
               @updateListCount="updateListCount"
               @pageChanged="pageChanged"
@@ -573,8 +577,9 @@
               @updateContact="updateContact"
               @getHeaders="getHeaders"
               :jovie="true"
-              :list="filters.list"
-              :contactData="currentContact" />
+              :contactData="
+                currentContact ?? $store.state.crmRecords[0] ?? null
+              " />
           </aside>
         </TransitionRoot>
       </div>
@@ -786,8 +791,10 @@ export default {
       showSuccessModal: false,
       showSupportModal: false,
       showUpgradeModal: false,
+      sidebarOpen: true,
       loading: false,
       taskLoading: false,
+      sidebarStatus: 'hidden',
       contactsMeta: {},
       /*  activeCreator: [], */
       currentContact: null,
@@ -957,6 +964,14 @@ export default {
     //enter key opens overview page
     this.$mousetrap.bind(['enter'], () => {
       this.$router.push('/overview');
+    });
+    //bind [ key to set store.state.sidebarStatus to open or hidden depending on the current state
+    this.$mousetrap.bind(['['], () => {
+      if (this.$store.state.sidebarStatus == 'open' || 'float') {
+        this.$store.state.sidebarStatus = 'hidden';
+      } else {
+        this.$store.state.sidebarStatus = 'open';
+      }
     });
 
     // this.getNotifications();
@@ -1246,6 +1261,10 @@ export default {
     },
     toggleShowSupportModal() {
       this.showSupportModal = !this.showSupportModal;
+    },
+    toggleSidebarMenu(status) {
+      //toggle sidebarStatus between hidden, float, and open
+      this.sidebarStatus = status;
     },
     getNotifications() {
       ImportService.getNotifications().then((response) => {

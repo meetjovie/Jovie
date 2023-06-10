@@ -15,7 +15,8 @@
         'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 dark:bg-jovieDark-900',
       ]">
       <div>
-        <span class="inline-flex rounded-lg p-3 text-xl ring-4 ring-white">
+        <span
+          class="inline-flex rounded-lg p-3 text-xl ring-2 ring-white dark:ring-jovieDark-border">
           {{ action.icon }}
         </span>
       </div>

@@ -1,6 +1,13 @@
 <template>
   <div class="flex w-full items-center">
     <div class="flex h-10 items-center justify-between px-8">
+      <Bars3Icon
+        @click="toggleSidebarStatus('open')"
+        @mouseover="toggleSidebarStatus('float')"
+        :class="
+          $store.state.sidebarStatus === 'open' ? 'block lg:hidden' : 'block'
+        "
+        class="mr-2 h-4 w-4 items-center rounded-md text-blue-400" />
       <div v-if="!list" class="w-8 items-center">
         <JovieSpinner spinnerSize="xs" class="" v-if="taskLoading" />
         <component
@@ -38,9 +45,11 @@ import {
   HeartIcon,
   UserIcon,
   ArchiveBoxIcon,
+  Bars3Icon,
 } from '@heroicons/vue/24/solid';
 import JovieSpinner from './JovieSpinner.vue';
 import UserListEditable from './Crm/UserListEditable.vue';
+import ButtonGroup from './ButtonGroup.vue';
 
 export default {
   props: {
@@ -70,8 +79,15 @@ export default {
     UserGroupIcon,
     HeartIcon,
     UserIcon,
+    ButtonGroup,
     ArchiveBoxIcon,
     JovieSpinner,
+    Bars3Icon,
+  },
+  methods: {
+    toggleSidebarStatus(status) {
+      this.$store.commit('setSidebarStatus', status);
+    },
   },
   computed: {
     icon() {
@@ -105,6 +121,7 @@ export default {
         return this.subheader[this.header] ?? '';
       }
     },
+
     headerText() {
       if (this.header.includes('favourites')) {
         return 'Favorited';

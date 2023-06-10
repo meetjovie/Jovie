@@ -26,19 +26,19 @@
               { 'w-80': size == 'xl' },
               { 'w-96': size == '2xl' },
             ]"
-            class="z-30 mt-2 max-h-96 origin-top-right items-center divide-y divide-slate-100 overflow-auto rounded-lg pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none dark:divide-jovieDark-border">
+            class="z-30 mt-2 max-h-96 origin-top-right items-center divide-slate-100 overflow-auto rounded-lg pb-2 pt-1 shadow-lg ring-1 ring-black ring-opacity-5 focus-visible:outline-none dark:divide-jovieDark-border">
             <slot name="menuTop"></slot>
             <div v-if="searchable" class="sticky top-0 px-1">
               <MenuItem
                 as="div"
-                class="border-b border-slate-200 dark:border-jovieDark-border">
+                class="border-slate-200 dark:border-jovieDark-border">
                 <div class="relative flex items-center">
                   <input
                     tabindex="0"
                     ref="menuSearchInput"
                     v-model="searchQuery"
                     :placeholder="searchText"
-                    class="w-full border-0 border-none border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0" />
+                    class="w-full border-transparent bg-transparent px-1 py-2 text-xs font-medium text-slate-600 outline-0 ring-0 placeholder:font-light placeholder:text-slate-400 focus-visible:border-transparent focus-visible:ring-0 focus-visible:ring-transparent focus-visible:ring-offset-0" />
                   <!-- <div
                   v-if="item.shortcut"
                   class="absolute inset-y-0 right-0 flex py-2 pr-1.5">
@@ -157,7 +157,7 @@
                   v-if="searchQuery"
                   disabled
                   @click.prevent="searchQuery = ''"
-                  class="group mt-1 flex w-full cursor-pointer items-center border-t border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200">
+                  class="group mt-1 flex w-full cursor-pointer items-center border-slate-200 px-2 py-1 text-xs text-slate-600 hover:text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200">
                   <div class="mx-auto flex items-center text-center">
                     <div
                       class="text-center text-2xs font-semibold text-slate-300 dark:text-jovieDark-100">

@@ -1,10 +1,10 @@
 <template>
   <div class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
-    <div v-for="list in lists" :key="list.id" class="relativ eoverflow-y-auto">
+    <div v-for="list in lists" :key="list.id" class="overflow-y-auto">
       <ListHeader :list="list" />
 
       <ul role="list" class="mt-14 flex flex-col space-y-2">
-        <li class="" v-for="contact in contacts" :key="contact.id">
+        <li class="w-96" v-for="contact in contacts" :key="contact.id">
           <ContactCard
             @contextMenuClicked="handleContextMenu($event, contact)"
             @contextMenuButtonClicked="handleContextMenuButton($event, contact)"

@@ -5,6 +5,7 @@
         <header
           class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
+            @toggleSidebarMenu="toggleSidebarMenu($event)"
             :loading="loading"
             :taskLoading="taskLoading"
             :header="header"
@@ -78,7 +79,7 @@
                 <ShareMenu :contacts="activeUsersOnList" />
               </div>
 
-              <ViewToggle v-if="currentUser.isAdmin" v-model="boardView" />
+              <ViewToggle v-if="currentUser.is_admin" v-model="boardView" />
             </div>
             <div class="ml-4 flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
@@ -113,6 +114,7 @@
                                 placeholder: 'Add columns...',
                               }" />
                           </div>
+                          <DropdownMenuItem separator />
                           <DropdownMenuItem
                             disabled
                             name="Name"
@@ -231,7 +233,7 @@
                   size="xs"
                   hideText
                   text="Details"
-                  icon="UserIcon" />
+                  icon="IdentificationIcon" />
               </JovieTooltip>
             </div>
           </div>
@@ -1250,6 +1252,10 @@ export default {
     listTemplateUpdated() {
       this.closeSelectTemplateModal();
       this.$emit('getHeaders');
+      },
+    toggleSidebarMenu(event) {
+      //emit event to toggle sidebar menu
+      this.$emit('toggleSidebarMenu', event);
     },
     selectMultiple(contact) {
       const contactIndex = this.contactRecords.indexOf(contact);

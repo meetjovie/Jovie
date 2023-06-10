@@ -50,7 +50,7 @@
           </div>
         </div>
         <div
-          class="line-clamp-1 flex w-full text-left font-medium text-slate-700 dark:text-jovieDark-100">
+          class="line-clamp-1 flex w-full text-left font-normal tracking-wide text-slate-700 dark:text-jovieDark-200">
           <span v-if="!editingName || !editable" class="line-clamp-1">{{
             name
           }}</span>
@@ -84,7 +84,7 @@
               { hidden: menuButtonlocked },
               { 'group-hover/menuItem:hidden': menuItems },
             ]"
-            class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-300 dark:group-hover:text-slate-100"
+            class="text-xs font-light text-slate-700 group-hover:text-slate-900 dark:text-jovieDark-200 dark:group-hover:text-slate-100"
             >{{ count }}</span
           >
           <JovieDropdownMenu
