@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use League\Csv\Exception;
 use OwenIt\Auditing\Contracts\Auditable;
 use Throwable;
 
@@ -99,10 +100,14 @@ class UserList extends Model implements Auditable
                 $data['emoji'] = $emoji;
                 $data['updating'] = $updating;
             }
-            if (empty($data['emoji'])) {
-                $gptClient = new GPTService();
-                $emoji = $gptClient->getEmoji($listName);
-                $data['emoji'] = $emoji;
+            try {
+                if (empty($data['emoji'])) {
+                    $gptClient = new GPTService();
+                    $emoji = $gptClient->getEmoji($listName);
+                    $data['emoji'] = $emoji;
+                }
+            } catch (Exception $e) {
+
             }
             $list = UserList::create($data);
             $syncData = [];
