@@ -2,7 +2,6 @@
   <div class="flex h-full w-full flex-col overflow-hidden">
     <div class="flex h-full w-full flex-col">
       <div class="flex h-full flex-col justify-between">
-          <h1>{{ this.$store.state.preventCellNavigation }}</h1>
         <header
           class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
