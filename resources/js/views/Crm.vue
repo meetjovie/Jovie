@@ -949,10 +949,14 @@ export default {
     this.crmCounts();
     //c sets openCreatorModal to true
     this.$mousetrap.bind(['c'], () => {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.showContactModal = true;
     });
     //? sets openSupportModal to true
     this.$mousetrap.bind(['?'], () => {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.showSupportModal = true;
     });
     //shift+c redirect the page to /import
@@ -1160,8 +1164,12 @@ export default {
               this.enrichContacts(response.data);
             };
             this.enrichContactsPopup.cancelEditMethod = () => {
+              this.$store.state.preventCellNavigation =
+                !this.$store.state.preventCellNavigation;
               this.enrichContactsPopup.open = false;
             };
+            this.$store.state.preventCellNavigation =
+              !this.$store.state.preventCellNavigation;
             this.enrichContactsPopup.open = true;
             this.enrichContactsPopup.primaryButtonText = 'Enrich';
             this.enrichContactsPopup.title = 'Enrich Contacts';
@@ -1198,6 +1206,8 @@ export default {
       }
       this.importFromSocial = fromSocial;
       this.$nextTick(() => {
+        this.$store.state.preventCellNavigation =
+          !this.$store.state.preventCellNavigation;
         this.showContactModal = true;
       });
     },
@@ -1258,6 +1268,8 @@ export default {
       );
     },
     toggleShowSupportModal() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.showSupportModal = !this.showSupportModal;
     },
     toggleSidebarMenu(status) {
@@ -1279,16 +1291,22 @@ export default {
       });
     },
     closeImportContactModal() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.showContactModal = false;
       this.currentImportingList = null;
     },
     closeUpgradeModal() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.showUpgradeModal = !this.showUpgradeModal;
     },
     onResize() {
       this.windowWidth = window.innerWidth;
     },
     openUpgradeModal() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.showUpgradeModal = true;
     },
 

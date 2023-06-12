@@ -2,6 +2,7 @@
   <div class="flex h-full w-full flex-col overflow-hidden">
     <div class="flex h-full w-full flex-col">
       <div class="flex h-full flex-col justify-between">
+          <h1>{{ this.$store.state.preventCellNavigation }}</h1>
         <header
           class="flex w-full items-center justify-between border-b border-slate-200 bg-white px-2 py-2 dark:border-jovieDark-border dark:bg-jovieDark-900">
           <DataGridHeaderContent
@@ -1038,10 +1039,7 @@ export default {
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
       event.preventDefault();
-      if (
-        !this.openMergeSuggestion &&
-        !this.$store.state.crmPage.showCustomFieldsModal
-      ) {
+      if (!this.$store.state.preventCellNavigation) {
         this.previousContact();
         this.handleCellNavigation('ArrowUp');
       }
@@ -1082,10 +1080,7 @@ export default {
     });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
-      if (
-        !this.openMergeSuggestion &&
-        !this.$store.state.crmPage.showCustomFieldsModal
-      ) {
+      if (!this.$store.state.preventCellNavigation) {
         this.nextContact();
         this.handleCellNavigation('ArrowDown');
       }
@@ -1358,6 +1353,8 @@ export default {
             } else {
               this.openMergeSuggestion = true;
             }
+              this.$store.state.preventCellNavigation =
+                  !this.$store.state.preventCellNavigation;
             let modal = document.querySelector('#suggestion-modal');
             if (modal) {
               document
@@ -1394,6 +1391,8 @@ export default {
         });
     },
     closeMergeSuggestions() {
+        this.$store.state.preventCellNavigation =
+            !this.$store.state.preventCellNavigation;
       this.openMergeSuggestion = false;
       this.mergeSuggestions = [];
     },
@@ -1429,13 +1428,19 @@ export default {
       }
     },
     openCustomFieldModal() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.$store.commit('setShowCustomFieldModal');
     },
     closeEditFieldPopup() {
+        this.$store.state.preventCellNavigation =
+            !this.$store.state.preventCellNavigation;
       this.$store.state.crmPage.showCustomFieldsModal = false;
       this.currentEditingField = null;
     },
     editCustomFieldsModal(column) {
+        this.$store.state.preventCellNavigation =
+            !this.$store.state.preventCellNavigation;
       this.$store.state.crmPage.showCustomFieldsModal = true;
       this.currentEditingField = column;
     },
@@ -1493,10 +1498,7 @@ export default {
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
-      if (
-        !this.openMergeSuggestion &&
-        !this.$store.state.crmPage.showCustomFieldsModal
-      ) {
+      if (!this.$store.state.preventCellNavigation) {
         const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
           this.visibleColumns.includes(column.key)
         );
