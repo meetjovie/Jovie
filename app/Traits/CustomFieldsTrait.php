@@ -11,7 +11,7 @@ trait CustomFieldsTrait
 {
     public function getFieldsByTeam($teamId)
     {
-        return CustomField::query()->where('team_id', $teamId)->with('customFieldOptions')->get();
+        return CustomField::query()->where('team_id', $teamId)->orWhereNull('team_id')->with('customFieldOptions')->get();
     }
 
     public function getDefaultValue(CustomField $customField)

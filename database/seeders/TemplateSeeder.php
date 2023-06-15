@@ -182,8 +182,6 @@ class TemplateSeeder extends Seeder
         foreach ($customFields as $customField) {
             $field = CustomField::create(
                 [
-                    'user_id' => 1,
-                    'team_id' => 1,
                     'name' => $customField['name'],
                     'code' => $customField['code'],
                     'description' => $customField['description'],
@@ -360,8 +358,6 @@ class TemplateSeeder extends Seeder
         foreach ($customFields as $customField) {
             $field = CustomField::create(
                 [
-                    'user_id' => 1,
-                    'team_id' => 1,
                     'name' => $customField['name'],
                     'code' => $customField['code'],
                     'description' => $customField['description'],
