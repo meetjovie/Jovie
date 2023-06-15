@@ -10,7 +10,7 @@ class TemplateController extends Controller
 {
     public function index()
     {
-        $templates = Template::all()->toArray();
+        $templates = Template::where('name', '<>', Template::DEFAULT_TEMPLATE_NAME)->get();
         return response()->json([
             'status' => true,
             'data' => $templates,
