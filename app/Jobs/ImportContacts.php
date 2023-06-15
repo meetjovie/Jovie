@@ -160,7 +160,7 @@ class ImportContacts implements ShouldQueue
                     }
                 }
 
-                $contact = Contact::saveContact($contact, $this->payload->list->id)->first();
+                $contact = Contact::saveContact($contact, $this->payload->list)->first();
 
                 $mappedColumns = get_object_vars($this->payload->mappedColumns);
                 $customKeys = array_filter(array_keys($mappedColumns), function ($key) {
@@ -185,7 +185,7 @@ class ImportContacts implements ShouldQueue
 
             if ($this->page >= ceil($this->payload->totalRecords / Import::PER_PAGE) - 1) {
                 if ($this->payload->list && count($this->payload->list)) {
-                    $lists = UserList::query()->whereIn('id', $this->payload->list)->first();
+                    $lists = UserList::query()->whereIn('id', $this->payload->list)->get();
                     foreach ($lists as $list) {
                         $list->importing = false;
                         $list->save();
@@ -198,9 +198,10 @@ class ImportContacts implements ShouldQueue
                 }
             }
         } catch (\Exception $e) {
-            SendSlackNotification::dispatch(
-                ('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine())
-            );
+            Log::info('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine());
+//            SendSlackNotification::dispatch(
+//                ('Error in importing contacts. ' . $e->getMessage() . '----' . $e->getFile() . '-----' . $e->getLine())
+//            );
         }
     }
 
