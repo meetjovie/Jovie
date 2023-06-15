@@ -267,14 +267,7 @@
                       toggleArchiveContacts(element.id, !element.archived)
                     "
                     @toggleContactsFromList="toggleContactsFromList"
-                    @checkContactsEnrichable="
-                      $emit(
-                        'checkContactsEnrichable',
-                        this.selectedContacts.length
-                          ? this.selectedContacts
-                          : $event
-                      )
-                    "
+                    @checkContactsEnrichable="checkContactEnrichable"
                     class="w-80"
                     :contact="contact" />
                 </li>
@@ -651,6 +644,7 @@
     @refresh="refresh"
     @archive-contacts="toggleArchiveContacts"
     @toggleContactsFromList="toggleContactsFromList"
+    @checkContactsEnrichable="checkContactsEnrichable"
     :show="rightClickMenuOpen"
     :filters="filters"
     :x="rightClickMenuCoordinates.x"
@@ -1217,6 +1211,12 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    checkContactsEnrichable(event) {
+      this.$emit(
+        'checkContactsEnrichable',
+        this.selectedContacts.length ? this.selectedContacts : event
+      );
+    },
     toggleSidebarMenu(event) {
       //emit event to toggle sidebar menu
       this.$emit('toggleSidebarMenu', event);
@@ -1352,8 +1352,8 @@ export default {
             } else {
               this.openMergeSuggestion = true;
             }
-              this.$store.state.preventCellNavigation =
-                  !this.$store.state.preventCellNavigation;
+            this.$store.state.preventCellNavigation =
+              !this.$store.state.preventCellNavigation;
             let modal = document.querySelector('#suggestion-modal');
             if (modal) {
               document
@@ -1390,8 +1390,8 @@ export default {
         });
     },
     closeMergeSuggestions() {
-        this.$store.state.preventCellNavigation =
-            !this.$store.state.preventCellNavigation;
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.openMergeSuggestion = false;
       this.mergeSuggestions = [];
     },
@@ -1432,14 +1432,14 @@ export default {
       this.$store.commit('setShowCustomFieldModal');
     },
     closeEditFieldPopup() {
-        this.$store.state.preventCellNavigation =
-            !this.$store.state.preventCellNavigation;
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.$store.state.crmPage.showCustomFieldsModal = false;
       this.currentEditingField = null;
     },
     editCustomFieldsModal(column) {
-        this.$store.state.preventCellNavigation =
-            !this.$store.state.preventCellNavigation;
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.$store.state.crmPage.showCustomFieldsModal = true;
       this.currentEditingField = column;
     },
