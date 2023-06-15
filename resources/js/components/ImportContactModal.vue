@@ -37,13 +37,6 @@
                         :list="list"
                         v-model="socialMediaProfileUrl"
                         @finishImport="closeModal" />
-                      <div class="float-right mt-3 p-2">
-                        <ButtonGroup
-                          @click="$emit('closeModal')"
-                          design="secondary"
-                          class="border"
-                          text="Close" />
-                      </div>
                     </div>
                     <div class="" v-else>
                       <form action="#" class="relative">
