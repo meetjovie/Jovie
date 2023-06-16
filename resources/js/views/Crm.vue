@@ -526,6 +526,7 @@
               @updateContact="updateContact"
               @crmCounts="crmCounts"
               @toggleSidebarMenu="toggleSidebarMenu"
+              @setFilterList="setFilterList"
               :counts="counts"
               @updateListCount="updateListCount"
               @pageChanged="pageChanged"
@@ -693,10 +694,12 @@ import KBShortcut from '../components/KBShortcut.vue';
 import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
+import InputLists from "../components/InputLists.vue";
 
 export default {
   name: 'CRM',
   components: {
+      InputLists,
     FaceSmileIcon,
     ModalPopup,
     DropdownMenuItem,
