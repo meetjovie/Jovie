@@ -117,6 +117,7 @@ class ImportContacts implements ShouldQueue
                 $contact['phones'] = isset($this->payload->mappedColumns->phone) ? $row[$this->payload->mappedColumns->phone] : null;
                 $contact['website'] = isset($this->payload->mappedColumns->website) ? $row[$this->payload->mappedColumns->website] : null;
                 $contact['gender'] = isset($this->payload->mappedColumns->gender) ? $row[$this->payload->mappedColumns->gender] : null;
+                $contact['offer'] = isset($this->payload->mappedColumns->offer) ? floatval($row[$this->payload->mappedColumns->offer]) : null;
 
                 if (empty($contact['gender'])) {
                     $genderResponse = self::getUserGender($contact['full_name']);
