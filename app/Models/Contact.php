@@ -807,6 +807,11 @@ class Contact extends Model implements Auditable
         foreach ($contacts as &$contact) {
             $overrideableData = null;
             $overrideAll = $data['override'] ?? false;
+            if (!empty($contact->first_name)) {
+                unset($contactData['full_name']);
+                unset($contactData['first_name']);
+                unset($contactData['last_name']);
+            }
             if ($contact->last_enriched_at && !$overrideAll) {
                 $overrideableData = self::getOverrideableDataForContactDuringEnrich($contactData);
             }

@@ -1,98 +1,96 @@
 <template>
   <div :class="'h-' + height + ' w-' + height + ' relative flex-shrink-0'">
-    <label :for="`profile_pic_url_${contact.id}`">
+    <span
+      :class="[
+        loading ? 'animate-pulse' : '',
+        height < 24 ? 'ring-2' : 'ring-4',
+        loading ? 'bg-slate-200 dark:bg-jovieDark-500' : '',
+
+        contact.color
+          ? `ring-${contact.color}-300 dark:ring-${contact.color}-500`
+          : 'ring-slate-100 dark:ring-slate-500',
+      ]"
+      class="group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">
       <span
         :class="[
-          loading ? 'animate-pulse' : '',
-          height < 24 ? 'ring-2' : 'ring-4',
-          loading ? 'bg-slate-200 dark:bg-jovieDark-500' : '',
-
-          contact.color
-            ? `ring-${contact.color}-300 dark:ring-${contact.color}-500`
-            : 'ring-slate-100 dark:ring-slate-500',
+          height < 6
+            ? 'text-[6px]'
+            : height >= 6 && height < 8
+            ? 'text-2xs'
+            : height >= 8 && height < 12
+            ? 'text-xs'
+            : height >= 12 && height < 16
+            ? 'text-base'
+            : height >= 16 && height < 24
+            ? 'text-lg'
+            : height >= 24 && height < 32
+            ? 'text-3xl'
+            : height >= 32 && height < 40
+            ? 'text-3xl'
+            : height >= 40 && height < 48
+            ? 'text-5xl'
+            : 'text-[8px]',
         ]"
-        class="group inline-flex h-full w-full items-center justify-center rounded-full bg-slate-300 dark:bg-jovieDark-600">
+        class="relative inline-block">
         <span
-          :class="[
-            height < 6
-              ? 'text-[6px]'
-              : height >= 6 && height < 8
-              ? 'text-2xs'
-              : height >= 8 && height < 12
-              ? 'text-xs'
-              : height >= 12 && height < 16
-              ? 'text-base'
-              : height >= 16 && height < 24
-              ? 'text-lg'
-              : height >= 24 && height < 32
-              ? 'text-3xl'
-              : height >= 32 && height < 40
-              ? 'text-3xl'
-              : height >= 40 && height < 48
-              ? 'text-5xl'
-              : 'text-[8px]',
-          ]"
-          class="relative inline-block">
+          v-if="updating"
+          class="font-medium capitalize leading-none text-white"
+          >{{ uploadProgress }}%
+        </span>
+        <img
+          v-else-if="hasProfilePic"
+          class="'h-full object-center' w-full rounded-full object-cover"
+          :class="[editable ? 'block group-hover:hidden' : '']"
+          :ref="`profile_pic_url_img_${contact.id}`"
+          :id="`profile_pic_url_img_${contact.id}`"
+          :src="contact.profile_pic_url"
+          @error="imageLoadError = true"
+          :alt="
+            contact.full_name
+              ? contact.full_name + ' Profile Picture'
+              : 'Profile Picture'
+          " />
+        <span
+          v-else-if="contact.full_name || contact.first_name"
+          :class="[editable ? 'block group-hover:hidden' : '']"
+          class="font-medium capitalize leading-none text-white">
           <span
-            v-if="updating"
+            v-if="!updating"
             class="font-medium capitalize leading-none text-white"
-            >{{ uploadProgress }}%
-          </span>
-          <img
-            v-else-if="hasProfilePic"
-            class="'h-full object-center' w-full rounded-full object-cover"
-            :class="[editable ? 'block group-hover:hidden' : '']"
-            :ref="`profile_pic_url_img_${contact.id}`"
-            :id="`profile_pic_url_img_${contact.id}`"
-            :src="contact.profile_pic_url"
-            @error="imageLoadError = true"
-            :alt="
-              contact.full_name
-                ? contact.full_name + ' Profile Picture'
-                : 'Profile Picture'
-            " />
-          <span
-            v-else-if="contact.full_name || contact.first_name"
-            :class="[editable ? 'block group-hover:hidden' : '']"
-            class="font-medium capitalize leading-none text-white">
-            <span
-              v-if="!updating"
-              class="font-medium capitalize leading-none text-white"
-              >{{ intials }}</span
-            >
-          </span>
-          <img
-            v-else
-            class="rounded-full object-cover object-center"
-            :class="[editable ? 'block group-hover:hidden' : '']"
-            :ref="`profile_pic_url_img_${contact.id}`"
-            :id="`profile_pic_url_img_${contact.id}`"
-            :src="defaultImage"
-            @error="imageLoadError = true"
-            :alt="
-              contact.full_name
-                ? contact.full_name + ' Profile Picture'
-                : 'Profile Picture'
-            " />
-          <span
-            v-if="editable"
-            class="mx-auto hidden h-full w-full items-center rounded-full group-hover:block">
-            <label :for="`profile_pic_url_${contact.id}`">
-              <PencilIcon
-                class="mx-auto h-1/3 w-1/3 items-center text-white/50 dark:text-jovieDark-300/50" />
-              <input
-                :disabled="updating || !editable"
-                type="file"
-                :ref="`profile_pic_url_${contact.id}`"
-                @change="fileChanged($event)"
-                name="profile_pic_url"
-                :id="`profile_pic_url_${contact.id}`"
-                style="display: none" />
-            </label>
-          </span>
+            >{{ intials }}</span
+          >
+        </span>
+        <img
+          v-else
+          class="rounded-full object-cover object-center"
+          :class="[editable ? 'block group-hover:hidden' : '']"
+          :ref="`profile_pic_url_img_${contact.id}`"
+          :id="`profile_pic_url_img_${contact.id}`"
+          :src="defaultImage"
+          @error="imageLoadError = true"
+          :alt="
+            contact.full_name
+              ? contact.full_name + ' Profile Picture'
+              : 'Profile Picture'
+          " />
+        <span
+          v-if="editable"
+          class="mx-auto hidden h-full w-full items-center rounded-full group-hover:block">
+          <label :for="`profile_pic_url_${contact.id}`">
+            <PencilIcon
+              class="mx-auto h-1/3 w-1/3 items-center text-white/50 dark:text-jovieDark-300/50" />
+            <input
+              :disabled="updating || !editable"
+              type="file"
+              :ref="`profile_pic_url_${contact.id}`"
+              @change="fileChanged($event)"
+              name="profile_pic_url"
+              :id="`profile_pic_url_${contact.id}`"
+              style="display: none" />
+          </label>
         </span>
       </span>
-    </label>
+    </span>
   </div>
 </template>
 

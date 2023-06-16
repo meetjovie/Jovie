@@ -34,4 +34,5 @@ export default {
   },
   currentlyDraggedContact: null,
   overviewList: null,
+  preventCellNavigation: false,
 };

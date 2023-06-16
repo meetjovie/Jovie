@@ -268,14 +268,7 @@
                       toggleArchiveContacts(element.id, !element.archived)
                     "
                     @toggleContactsFromList="toggleContactsFromList"
-                    @checkContactsEnrichable="
-                      $emit(
-                        'checkContactsEnrichable',
-                        this.selectedContacts.length
-                          ? this.selectedContacts
-                          : $event
-                      )
-                    "
+                    @checkContactsEnrichable="checkContactEnrichable"
                     class="w-80"
                     :contact="contact" />
                 </li>
@@ -652,6 +645,7 @@
     @refresh="refresh"
     @archive-contacts="toggleArchiveContacts"
     @toggleContactsFromList="toggleContactsFromList"
+    @checkContactsEnrichable="checkContactsEnrichable"
     :show="rightClickMenuOpen"
     :filters="filters"
     :x="rightClickMenuCoordinates.x"
@@ -1040,10 +1034,7 @@ export default {
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
       event.preventDefault();
-      if (
-        !this.openMergeSuggestion &&
-        !this.$store.state.crmPage.showCustomFieldsModal
-      ) {
+      if (!this.$store.state.preventCellNavigation) {
         this.previousContact();
         this.handleCellNavigation('ArrowUp');
       }
@@ -1084,10 +1075,7 @@ export default {
     });
     this.$mousetrap.bind('down', () => {
       event.preventDefault();
-      if (
-        !this.openMergeSuggestion &&
-        !this.$store.state.crmPage.showCustomFieldsModal
-      ) {
+      if (!this.$store.state.preventCellNavigation) {
         this.nextContact();
         this.handleCellNavigation('ArrowDown');
       }
@@ -1253,6 +1241,12 @@ export default {
       this.closeSelectTemplateModal();
       this.$emit('getHeaders');
       },
+    checkContactsEnrichable(event) {
+      this.$emit(
+        'checkContactsEnrichable',
+        this.selectedContacts.length ? this.selectedContacts : event
+      );
+    },
     toggleSidebarMenu(event) {
       //emit event to toggle sidebar menu
       this.$emit('toggleSidebarMenu', event);
@@ -1388,6 +1382,8 @@ export default {
             } else {
               this.openMergeSuggestion = true;
             }
+            this.$store.state.preventCellNavigation =
+              !this.$store.state.preventCellNavigation;
             let modal = document.querySelector('#suggestion-modal');
             if (modal) {
               document
@@ -1424,6 +1420,8 @@ export default {
         });
     },
     closeMergeSuggestions() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.openMergeSuggestion = false;
       this.mergeSuggestions = [];
     },
@@ -1459,13 +1457,19 @@ export default {
       }
     },
     openCustomFieldModal() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.$store.commit('setShowCustomFieldModal');
     },
     closeEditFieldPopup() {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.$store.state.crmPage.showCustomFieldsModal = false;
       this.currentEditingField = null;
     },
     editCustomFieldsModal(column) {
+      this.$store.state.preventCellNavigation =
+        !this.$store.state.preventCellNavigation;
       this.$store.state.crmPage.showCustomFieldsModal = true;
       this.currentEditingField = column;
     },
@@ -1523,10 +1527,7 @@ export default {
     },
     handleCellNavigation(event) {
       // Get the index of the first visible column
-      if (
-        !this.openMergeSuggestion &&
-        !this.$store.state.crmPage.showCustomFieldsModal
-      ) {
+      if (!this.$store.state.preventCellNavigation) {
         const firstVisibleColumnIndex = this.otherColumns.findIndex((column) =>
           this.visibleColumns.includes(column.key)
         );
