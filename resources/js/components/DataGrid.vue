@@ -2028,6 +2028,10 @@ export default {
       this.resetChecked();
     },
     toggleContactSidebar() {
+        if (! this.contactRecords.length) {
+            this.$store.state.ContactSidebarOpen = false;
+            return
+        }
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
