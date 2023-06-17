@@ -6,6 +6,7 @@ use App\Models\Creator;
 use App\Models\CreatorSocialLink;
 use App\Models\Youtube;
 use App\Traits\ApifyYoutubeTrait;
+use App\Traits\SocialScrapperTrait;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -21,7 +22,7 @@ use PHPUnit\Exception;
 class YoutubeImport implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    use ApifyYoutubeTrait;
+    use ApifyYoutubeTrait, SocialScrapperTrait;
 
     private $youtube;
 
@@ -145,7 +146,7 @@ class YoutubeImport implements ShouldQueue
                     if (is_null($this->channelId)) {
                         $this->getYoutubeIdOrChannelUsername($videos[0]->channelUrl);
                     }
-                    $youtube->full_name = $videos[0]->channelName;
+                    $youtube->full_name = $this->remove_emoji($videos[0]->channelName);
                     $youtube->channel_url = $youtube->channel_url ?? $this->channelId;
                     $youtube->channel_vanity_url = $youtube->channel_vanity_url ?? $this->channelUsername;
                     $youtube->followers = $videos[0]->numberOfSubscribers;

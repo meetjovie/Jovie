@@ -164,12 +164,12 @@ class TiktokImport implements ShouldQueue
                 }
             }
         }
-        $creator->first_name = ucfirst(strtolower(($this->meta['firstName'] ?? null) ?: $creator->first_name)) ?: null;
-        $creator->last_name = ucfirst(strtolower(($this->meta['lastName'] ?? null) ?: $creator->last_name)) ?: null;
+        $creator->first_name = $this->remove_emoji(ucfirst(strtolower(($this->meta['firstName'] ?? null) ?: $creator->first_name))) ?: null;
+        $creator->last_name = $this->remove_emoji(ucfirst(strtolower(($this->meta['lastName'] ?? null) ?: $creator->last_name))) ?: null;
         $creator->city = $this->meta['city'] ?? $creator->city;
         $creator->country = $this->meta['country'] ?? $creator->country;
         $creator->wiki_id = $this->meta['wikiId'] ?? $creator->wiki_id;
-        $creator->full_name = $user->name;
+        $creator->full_name = $this->remove_emoji($user->name);
         $creator->tags = Creator::getTags($this->tags, $creator);
 
         $gender = strtolower($this->meta['gender'] ?? null);
