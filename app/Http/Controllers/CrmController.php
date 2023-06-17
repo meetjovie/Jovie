@@ -428,7 +428,6 @@ class CrmController extends Controller
                         }
                     } elseif (isset($modified['old']) ) {
                         $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
-                        $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
                     } else {
                         if (is_array($modified['new']))
                         {

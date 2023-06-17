@@ -767,6 +767,10 @@ class Contact extends Model implements Auditable
             return false;
         }
 
+        if (is_null(Auth::user())) {
+            Auth::loginUsingId($data['user_id']);
+        }
+
         $contactData = self::getFillableData($data);
 
         if (isset($data['override']) && $data['override']) {
@@ -979,6 +983,10 @@ class Contact extends Model implements Auditable
     {
         if (is_null($userId) || is_null($teamId)) {
             return false;
+        }
+
+        if (is_null(Auth::user())) {
+            Auth::loginUsingId($userId);
         }
 
         $user = User::query()->where('id', $userId)->first();
