@@ -9,7 +9,6 @@
     v-slot="{ active }">
     <component
       :is="routerLink ? 'router-link' : 'div'"
-      @click="handleClick()"
       class="w-full"
       active-class="bg-slate-100  w-full dark:bg-jovieDark-500 rounded dark:text-jovieDark-200"
       :to="{ name: component }">
@@ -50,6 +49,7 @@
           </div>
         </div>
         <div
+            @click="handleClick()"
           class="line-clamp-1 flex w-full text-left font-normal tracking-wide text-slate-700 dark:text-jovieDark-200">
           <span v-if="!editingName || !editable" class="line-clamp-1">{{
             name

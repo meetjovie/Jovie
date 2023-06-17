@@ -139,7 +139,7 @@
     </ul>
     <ul v-if="showMenu && !draggable" class="">
       <div v-for="item in menuItemsList" :key="item.id">
-        <MenuItem @click="$emit('setFilterList', item.id)" v-slot="{ active }">
+        <MenuItem v-slot="{ active }">
           <div
             :class="[
               selectedList == item.id
@@ -157,7 +157,7 @@
                 aria-hidden="true" />
             </div>
 
-            <div class="flex w-full items-center">
+            <div class="flex w-full items-center" @click="$emit('setFilterList', item.id)">
               <!-- <div
                 @click="openEmojiPicker(item)"
                 :class="{
