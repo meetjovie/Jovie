@@ -946,7 +946,9 @@ export default {
     },
   },
   async mounted() {
-    await this.getUserLists();
+      console.log('Echo.connector.channels');
+      console.log(Echo.connector.channels);
+      await this.getUserLists();
     await this.getHeaders();
     this.getCrmContacts();
     this.crmCounts();
@@ -983,7 +985,7 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
-    if (!this.$store.state.crmEventsRegistered) {
+    // if (!this.$store.state.crmEventsRegistered) {
       this.listenEvents(
         `notification.${this.currentUser.current_team.id}`,
         'Notification',
@@ -1126,7 +1128,7 @@ export default {
       );
 
       this.$store.state.crmEventsRegistered = true;
-    }
+    // }
 
     this.getNotifications();
 
@@ -1134,6 +1136,9 @@ export default {
       window.addEventListener('resize', this.onResize());
     });
   },
+    beforeUnmount() {
+      Echo.leaveAllChannels();
+    },
   methods: {
     toggleMergeSuggestion(checkExists) {
       this.suggestionExists = checkExists;
