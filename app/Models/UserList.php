@@ -280,7 +280,8 @@ class UserList extends Model implements Auditable
 
     public static function getListStages($userList = null)
     {
-        $template = $userList ? self::find($userList)->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        $userList = self::find($userList);
+        $template = $userList ? $userList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
         return $template->templateStages()->select('name', 'color', 'order', 'id')->orderBy('order')->get();
     }
 
