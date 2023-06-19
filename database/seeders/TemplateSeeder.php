@@ -12,6 +12,7 @@ use App\Models\TemplateField;
 use App\Models\TemplateHeader;
 use App\Models\TemplateSetting;
 use App\Models\TemplateStage;
+use App\Models\UserList;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -83,8 +84,8 @@ class TemplateSeeder extends Seeder
 
         $ignored = HeaderAttribute::IGNORED_DEFAULT_HEADERS;
         foreach (array_filter(HeaderAttribute::DEFAULT_HEADERS, function ($header) use ($ignored) {
-                     return !in_array($header['id'], $ignored);
-                 }) as $HEADER) {
+            return !in_array($header['id'], $ignored);
+        }) as $HEADER) {
             TemplateHeader::create([
                 'template_id' => $template->id,
                 'header_id' => $HEADER['id'],
@@ -110,7 +111,7 @@ class TemplateSeeder extends Seeder
         $stages = [
             [
                 'name' => 'Contacted',
-                'color' => '#94a3b8',
+                'color' => '#6366F1',
                 'order' => 0,
             ],
             [
@@ -130,7 +131,7 @@ class TemplateSeeder extends Seeder
             ],
             [
                 'name' => 'Negotiating',
-                'color' => '#f7eb5a',
+                'color' => '#A855F7',
                 'order' => 4,
             ],
             [
@@ -157,6 +158,13 @@ class TemplateSeeder extends Seeder
                 ]);
             }
         }
+
+
+        TemplateSetting::create([
+            'template_id' => $template->id,
+            'setting_id' => 1,
+            'default_value' => true
+        ]);
 
         foreach (FieldAttribute::DEFAULT_FIELDS as $FIELD) {
             if (in_array($FIELD['id'], [4, 2, 5])) {
@@ -186,6 +194,7 @@ class TemplateSeeder extends Seeder
                     'code' => $customField['code'],
                     'description' => $customField['description'],
                     'type' => $customField['type'],
+                    'icon' => $customField['icon'],
                 ]
             );
             TemplateHeader::create([
@@ -212,7 +221,7 @@ class TemplateSeeder extends Seeder
         $stages = [
             [
                 'name' => 'Contacted',
-                'color' => '#94a3b8',
+                'color' => '#6366F1',
                 'order' => 0,
             ],
             [
@@ -232,7 +241,7 @@ class TemplateSeeder extends Seeder
             ],
             [
                 'name' => 'Negotiating',
-                'color' => '#f7eb5a',
+                'color' => '#A855F7',
                 'order' => 4,
             ],
             [
@@ -364,7 +373,7 @@ class TemplateSeeder extends Seeder
                     'type' => $customField['type'],
                 ]
             );
-            if (in_array($customField['type'],['select','multi_select']) && isset($customField['options'])) {
+            if (in_array($customField['type'], ['select', 'multi_select']) && isset($customField['options'])) {
                 foreach ($customField['options'] as $index => $option) {
                     CustomFieldOption::create(
                         [
@@ -387,5 +396,10 @@ class TemplateSeeder extends Seeder
                 ]
             );
         }
+
+
+
+        $defaultTemplateId = Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first()->id;
+        UserList::whereNull('template_id')->update(['template_id' => $defaultTemplateId]);
     }
 }

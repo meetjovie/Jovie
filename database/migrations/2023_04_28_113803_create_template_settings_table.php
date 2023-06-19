@@ -19,6 +19,7 @@ return new class extends Migration
             $table->uuid('user_id')->nullable();
             $table->uuid('team_id')->nullable();
             $table->uuid('setting_id');
+            $table->string('default_value')->nullable();
             $table->timestamps();
         });
     }

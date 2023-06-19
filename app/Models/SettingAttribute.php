@@ -44,6 +44,7 @@ class SettingAttribute extends Model
 
     public static function getSettings($userList = null)
     {
+        $template = null;
         if ($userList) {
             $template = UserList::find($userList)->template->templateSettings;
             $templateSettings = $template->pluck('setting_id');
@@ -70,6 +71,8 @@ class SettingAttribute extends Model
             });
             if (count($data)) {
                 $setting['value'] = array_values($data)[0]['value'] == 0;
+            }else if($template && $template->where('setting_id', $setting['id'])->first()){
+                $setting['value'] =  $template->where('setting_id', $setting['id'])->first()->default_value;
             }
             $allSettings[] = $setting;
         }
@@ -86,7 +89,6 @@ class SettingAttribute extends Model
                 'user_list_id' => $userList
             ],
             [
-                'type' => $data['type'],
                 'value' => $data['value'],
             ]
         );
