@@ -508,18 +508,22 @@
               </thead>
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
-              <draggable
-                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
-                :list="contactRecords"
-                ghost-class="ghost-row"
-                group="contacts"
-                :sort="false"
-                itemKey="id"
-                tag="tbody"
-                :multiple="true"
-                @start.prevent="startDrag">
-                <template #item="{ element, index }" :key="element.id">
+<!--              <draggable-->
+<!--                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"-->
+<!--                :list="contactRecords"-->
+<!--                ghost-class="ghost-row"-->
+<!--                group="contacts"-->
+<!--                :sort="false"-->
+<!--                :drag="false"-->
+<!--                itemKey="id"-->
+<!--                tag="tbody"-->
+<!--                :multiple="true"-->
+<!--                @end="dragEnd"-->
+<!--                @start.prevent="startDrag">-->
+                <template v-for="( element, index ) in contactRecords" :key="element.id">
                   <DataGridRow
+                    @mouseover="handleMouseOver(index)"
+                    @mouseup="handleMouseUp(index)"
                     @contextMenuClicked="
                       openRightClickMenuContextClick($event, contact)
                     "
@@ -528,6 +532,11 @@
                     "
                     @setFilterList="$emit('setFilterList', $event)"
                     @selectMultiple="selectMultiple"
+                    @enableActiveColumnCells="enableActiveColumnCells"
+                    @setCurrentCell="selectedRows = []"
+                    :selectActiveColumnCells="selectActiveColumnCells"
+                    :selectedRows="selectedRows"
+                    :selectedColumn="selectedColumn"
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -569,7 +578,7 @@
                     " />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
-              </draggable>
+<!--              </draggable>-->
             </table>
             <div
               v-if="contactRecords.length < 50 && contactRecords.length > 0"
@@ -876,6 +885,9 @@ export default {
   ],
   data() {
     return {
+        selectedRows: [],
+        selectedColumn: null,
+      selectActiveColumnCells: false,
       confirmationPopup: {
         confirmationMethod: null,
         title: 'Hiiiii',
@@ -961,6 +973,7 @@ export default {
       contactIds: null,
       disableDragging: false,
       rightClickMenuContact: {},
+      hoveredElement: null,
     };
   },
   props: [
@@ -1212,6 +1225,34 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+      handleMouseOver(index) {
+          this.hoveredElement = index
+      },
+      handleMouseUp(index) {
+          this.selectedRows.push(index)
+          this.selectCellRange(index)
+      },
+      selectCellRange(index){
+          let minSelectedIndex = this.selectedRows[0]
+
+          const indexDiff = index - minSelectedIndex;
+          this.selectedRows = [];
+
+          for (let i = 0; i <= Math.abs(indexDiff); i++) {
+              const selectedContactId = minSelectedIndex + i * Math.sign(indexDiff);
+              this.selectedRows.push(selectedContactId);
+          }
+          this.selectActiveColumnCells = false
+      },
+      enableActiveColumnCells(event) {
+          this.selectActiveColumnCells = true
+          this.selectedColumn = event.column
+          this.selectedRows.push(event.row)
+      },
+      dragEnd(e) {
+          console.log(JSON.parse(e.to), 'slknedkscmx')
+          console.log(e)
+      },
     checkContactsEnrichable(event) {
       this.$emit(
         'checkContactsEnrichable',

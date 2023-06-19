@@ -1,6 +1,8 @@
 <template>
   <tr
     @contextmenu.prevent="handleContextMenu($event, contact)"
+    @mouseover="handleMouseOver"
+    @mouseout="handleMouseOut"
     class="group/rowhover group h-11 w-full flex-row items-center overflow-y-visible">
     <div
       @click.prevent="toggleRow($event, contact.id)"
@@ -134,7 +136,6 @@
         </div>
       </div>
     </div>
-
     <template
       v-for="(column, columnIndex) in otherColumns"
       :key="`${row}_${columnIndex}`">
@@ -148,9 +149,11 @@
             : currentContact.id === contact.id
             ? 'bg-slate-100  dark:bg-jovieDark-600'
             : 'bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
+            selectedColumn == column.id && showSelectionBorder ? 'border-dashed border-2 border-black' : '',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @click="setCurrentCell(columnIndex)"
+        @enterCopyDrag="enterCopyDrag"
         @setFilterList="$emit('setFilterList', $event)"
         :userLists="userLists"
         :visibleColumns="visibleColumns"
@@ -159,10 +162,12 @@
         :contact="contact"
         :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
         :cellActive="
-          currentCell.row == row && currentCell.column == columnIndex
+          (currentCell.row == row && currentCell.column == columnIndex) ||
+          (selectedRows.includes(this.row) && selectedColumn == column.id)
             ? `active_cell_${currentCell.row}_${currentCell.column}`
             : ''
         "
+        :lastActive="!selectedRows.includes(this.row + 1)"
         :currentCell="currentCell"
         :networks="networks"
         :stages="stages"
@@ -188,12 +193,12 @@ import {
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
 import JovieSpinner from './JovieSpinner.vue';
-import InputLists from "./InputLists.vue";
+import InputLists from './InputLists.vue';
 
 export default {
   name: 'DataGridRow',
   components: {
-      InputLists,
+    InputLists,
     JovieSpinner,
     DataGridCell,
     ContactContextMenu,
@@ -206,8 +211,8 @@ export default {
   },
   data() {
     return {
-      row: 0,
       overlay: false,
+      showSelectionBorder: false,
     };
   },
   mounted() {
@@ -232,6 +237,21 @@ export default {
     },
   },
   methods: {
+    handleMouseOver() {
+        if (this.selectActiveColumnCells) {
+            this.showSelectionBorder = true
+        }
+    },
+      handleMouseOut() {
+        this.showSelectionBorder = false
+      },
+    enterCopyDrag(column) {
+      console.log(this.contact);
+      this.$emit('enableActiveColumnCells', {
+        row: this.row,
+        column: column.id,
+      });
+    },
     onKeyDown(event) {
       if (event.ctrlKey || event.metaKey || event.key === 'Shift') {
         this.overlay = true;
@@ -289,6 +309,7 @@ export default {
     setCurrentCell(columnIndex) {
       this.currentCell.row = this.row;
       this.currentCell.column = columnIndex;
+      this.$emit('setCurrentCell');
     },
     updateContactLists({ list, add = false }) {
       if (add) {
@@ -318,6 +339,11 @@ export default {
     },
   },
   props: {
+    selectedRows: {
+      type: Array,
+      default: [],
+    },
+    selectedColumn: null,
     userLists: Array,
     currentCell: Object,
     networks: Array,
@@ -328,7 +354,10 @@ export default {
     currentContact: Object,
     contact: Object,
     selectedContacts: Array,
-    row: Number,
+    row: {
+      type: Number,
+      default: 0,
+    },
     column: Number,
     freezeColumn: Boolean,
     width: String,
@@ -342,6 +371,9 @@ export default {
     ringColor: {
       type: String,
       default: 'red',
+    },
+    selectActiveColumnCells: {
+      default: false,
     },
   },
 };

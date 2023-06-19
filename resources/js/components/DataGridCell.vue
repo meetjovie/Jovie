@@ -1,6 +1,6 @@
 <template>
   <td
-    class="isolate border-collapse items-center overflow-auto whitespace-nowrap border border-slate-200 text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
+    class="isolate border-collapse items-center overflow-auto overflow-visible whitespace-nowrap border border-slate-200 text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
     ref="cell_area"
     :class="[
       cellActive ? 'ring-2 ring-inset' : '',
@@ -27,7 +27,7 @@
     ">
     <slot></slot>
 
-    <div @click.self="setFocus()" v-if="!freezeColumn">
+    <div @click.self="setFocus()" v-if="!freezeColumn" class="static">
       <div class="mx-auto flex w-20" v-if="column.type == 'rating'">
         <star-rating
           class="mx-auto"
@@ -133,6 +133,17 @@
         >Data Type:
         {{ column.type }}
       </span>
+
+      <button
+        class="absolute bottom-0 right-0 cursor-crosshair bg-blue-500"
+        @mousedown="$emit('enterCopyDrag', column)"
+        v-if="
+          ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(
+            column.type
+          ) && cellActive && lastActive
+        ">
+        <PlusIcon class="h-4 w-4 text-white" />
+      </button>
     </div>
   </td>
 </template>
@@ -149,6 +160,7 @@ import InputLists from './InputLists.vue';
 import JovieDatePicker from './JovieDatePicker.vue';
 import CustomField from './CustomField.vue';
 import ContactSelectMenu from './ContactSelectMenu.vue';
+import { PlusIcon } from '@heroicons/vue/24/solid';
 
 export default {
   name: 'DataGridCell',
@@ -164,6 +176,7 @@ export default {
     VueTailwindDatepicker,
     CustomField,
     ContactSelectMenu,
+    PlusIcon,
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
@@ -291,6 +304,10 @@ export default {
     modelValue: {},
     currentCell: Object,
     cellActive: Boolean | String,
+    lastActive: {
+        type: Boolean,
+        default: false
+    },
     networks: Array,
     stages: Array,
     userColor: {
