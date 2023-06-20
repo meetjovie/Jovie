@@ -79,7 +79,7 @@
                 <ShareMenu :contacts="activeUsersOnList" />
               </div>
 
-              <ViewToggle v-if="currentUser.is_admin" v-model="boardView" />
+              <ViewToggle v-model="boardView" />
             </div>
             <div class="ml-4 flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
@@ -238,42 +238,7 @@
           </div>
         </header>
         <div v-if="boardView">
-          <!-- <BoardView :contacts="contacts" /> -->
-          <div
-            class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
-            <div v-for="list in lists" :key="list.id" class="overflow-y-auto">
-              <ListHeader :list="list" />
-
-              <ul role="list" class="flex flex-col space-y-2">
-                <li class="" v-for="contact in contacts" :key="contact.id">
-                  <ContactCard
-                    @contextMenuClicked="
-                      openRightClickMenuContextClick($event, contact)
-                    "
-                    @contextMenuButtonClicked="
-                      openRightClickMenuButton($event, contact)
-                    "
-                    @click="setCurrentContact($event, contact, index)"
-                    @openSidebar="
-                      $emit('openSidebar', { contact: contact, index: index })
-                    "
-                    @selectMultiple="selectMultiple"
-                    :loading="loading"
-                    :userLists="userLists"
-                    @update:currentCell="$emit('updateContact', $event)"
-                    @updateContact="$emit('updateContact', $event)"
-                    @updateListCount="$emit('updateListCount', $event)"
-                    @archive-contacts="
-                      toggleArchiveContacts(element.id, !element.archived)
-                    "
-                    @toggleContactsFromList="toggleContactsFromList"
-                    @checkContactsEnrichable="checkContactEnrichable"
-                    class="w-80"
-                    :contact="contact" />
-                </li>
-              </ul>
-            </div>
-          </div>
+          <BoardView :listId="this.filters.list" />
         </div>
         <div
           v-else
@@ -2028,10 +1993,10 @@ export default {
       this.resetChecked();
     },
     toggleContactSidebar() {
-        if (! this.contactRecords.length) {
-            this.$store.state.ContactSidebarOpen = false;
-            return
-        }
+      if (!this.contactRecords.length) {
+        this.$store.state.ContactSidebarOpen = false;
+        return;
+      }
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
