@@ -1,9 +1,10 @@
 <template>
   <tr
     @contextmenu.prevent="handleContextMenu($event, contact)"
-    @mouseover="handleMouseOver"
-    @mouseout="handleMouseOut"
-    class="group/rowhover group h-11 w-full flex-row items-center overflow-y-visible">
+    :class="{
+      'group/rowhover': !selectActiveColumnCells,
+    }"
+    class="group h-11 w-full flex-row items-center overflow-y-visible">
     <div
       @click.prevent="toggleRow($event, contact.id)"
       v-if="overlay"
@@ -51,6 +52,7 @@
               {{ rowCounter(row) }}
             </span>
           </div>
+
           <div
             class="hidden w-8 cursor-pointer items-center px-2 text-slate-400 dark:text-jovieDark-400 lg:block"
             @click="
@@ -76,6 +78,10 @@
                 stroke-width="2"
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
+          </div>
+          <div class="handle">
+            <Bars3BottomLeftIcon
+              class="h-4 w-4 cursor-pointer rounded-full text-slate-400/0 transition-all active:scale-95 active:bg-slate-200 group-hover:text-slate-400 dark:text-jovieDark-300/0 dark:active:bg-slate-800 group-hover:dark:text-jovieDark-300" />
           </div>
         </div>
 
@@ -149,7 +155,9 @@
             : currentContact.id === contact.id
             ? 'bg-slate-100  dark:bg-jovieDark-600'
             : 'bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
-            selectedColumn == column.id && showSelectionBorder ? 'border-dashed border-2 border-black' : '',
+          selectedColumn == column.key && hoveredElements.includes(this.row)
+            ? 'border-2 border-dashed border-gray-400'
+            : '',
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @click="setCurrentCell(columnIndex)"
@@ -163,7 +171,7 @@
         :fieldId="`${otherColumns[columnIndex].id}_${otherColumns[columnIndex].key}`"
         :cellActive="
           (currentCell.row == row && currentCell.column == columnIndex) ||
-          (selectedRows.includes(this.row) && selectedColumn == column.id)
+          (selectedRows.includes(this.row) && selectedColumn == column.key)
             ? `active_cell_${currentCell.row}_${currentCell.column}`
             : ''
         "
@@ -191,6 +199,7 @@ import {
   ArrowTopRightOnSquareIcon,
   XMarkIcon,
   SparklesIcon,
+  Bars3BottomLeftIcon,
 } from '@heroicons/vue/24/outline';
 import JovieSpinner from './JovieSpinner.vue';
 import InputLists from './InputLists.vue';
@@ -208,11 +217,11 @@ export default {
     EllipsisVerticalIcon,
     XMarkIcon,
     SparklesIcon,
+    Bars3BottomLeftIcon,
   },
   data() {
     return {
       overlay: false,
-      showSelectionBorder: false,
     };
   },
   mounted() {
@@ -237,19 +246,11 @@ export default {
     },
   },
   methods: {
-    handleMouseOver() {
-        if (this.selectActiveColumnCells) {
-            this.showSelectionBorder = true
-        }
-    },
-      handleMouseOut() {
-        this.showSelectionBorder = false
-      },
     enterCopyDrag(column) {
       console.log(this.contact);
       this.$emit('enableActiveColumnCells', {
         row: this.row,
-        column: column.id,
+        column: column.key,
       });
     },
     onKeyDown(event) {
@@ -340,6 +341,10 @@ export default {
   },
   props: {
     selectedRows: {
+      type: Array,
+      default: [],
+    },
+    hoveredElements: {
       type: Array,
       default: [],
     },

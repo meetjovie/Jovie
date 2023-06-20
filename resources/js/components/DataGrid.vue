@@ -508,19 +508,19 @@
               </thead>
               <!--                {{ columns.map(c => c.name ) }}-->
               <!--                {{ visibleColumns }}-->
-<!--              <draggable-->
-<!--                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"-->
-<!--                :list="contactRecords"-->
-<!--                ghost-class="ghost-row"-->
-<!--                group="contacts"-->
-<!--                :sort="false"-->
-<!--                :drag="false"-->
-<!--                itemKey="id"-->
-<!--                tag="tbody"-->
-<!--                :multiple="true"-->
-<!--                @end="dragEnd"-->
-<!--                @start.prevent="startDrag">-->
-                <template v-for="( element, index ) in contactRecords" :key="element.id">
+              <draggable
+                class="list-group relative isolate z-0 h-full divide-y divide-slate-200 overflow-y-scroll bg-slate-50 dark:divide-jovieDark-border dark:bg-jovieDark-700"
+                :list="contactRecords"
+                ghost-class="ghost-row"
+                group="contacts"
+                :sort="false"
+                handle=".handle"
+                itemKey="id"
+                tag="tbody"
+                :multiple="true"
+                @end="dragEnd"
+                @start.prevent="startDrag">
+                <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
                     @mouseover="handleMouseOver(index)"
                     @mouseup="handleMouseUp(index)"
@@ -536,6 +536,7 @@
                     @setCurrentCell="selectedRows = []"
                     :selectActiveColumnCells="selectActiveColumnCells"
                     :selectedRows="selectedRows"
+                    :hoveredElements="hoveredElements"
                     :selectedColumn="selectedColumn"
                     :loading="loading"
                     :ref="`gridRow_${index}`"
@@ -578,7 +579,7 @@
                     " />
                 </template>
                 <!--   @contextmenu.prevent="openContextMenu(index, element)" -->
-<!--              </draggable>-->
+              </draggable>
             </table>
             <div
               v-if="contactRecords.length < 50 && contactRecords.length > 0"
@@ -885,8 +886,8 @@ export default {
   ],
   data() {
     return {
-        selectedRows: [],
-        selectedColumn: null,
+      selectedRows: [],
+      selectedColumn: null,
       selectActiveColumnCells: false,
       confirmationPopup: {
         confirmationMethod: null,
@@ -973,7 +974,7 @@ export default {
       contactIds: null,
       disableDragging: false,
       rightClickMenuContact: {},
-      hoveredElement: null,
+      hoveredElements: [],
     };
   },
   props: [
@@ -1225,34 +1226,45 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
-      handleMouseOver(index) {
-          this.hoveredElement = index
-      },
-      handleMouseUp(index) {
-          this.selectedRows.push(index)
-          this.selectCellRange(index)
-      },
-      selectCellRange(index){
-          let minSelectedIndex = this.selectedRows[0]
+    handleMouseOver(index) {
+      if (this.selectActiveColumnCells) {
+        let minSelectedIndex = this.selectedRows[0];
 
-          const indexDiff = index - minSelectedIndex;
-          this.selectedRows = [];
+        const indexDiff = index - minSelectedIndex;
+        this.hoveredElements = [];
 
-          for (let i = 0; i <= Math.abs(indexDiff); i++) {
-              const selectedContactId = minSelectedIndex + i * Math.sign(indexDiff);
-              this.selectedRows.push(selectedContactId);
-          }
-          this.selectActiveColumnCells = false
-      },
-      enableActiveColumnCells(event) {
-          this.selectActiveColumnCells = true
-          this.selectedColumn = event.column
-          this.selectedRows.push(event.row)
-      },
-      dragEnd(e) {
-          console.log(JSON.parse(e.to), 'slknedkscmx')
-          console.log(e)
-      },
+        for (let i = 1; i <= Math.abs(indexDiff); i++) {
+          const hoveredContactId = minSelectedIndex + i * Math.sign(indexDiff);
+          this.hoveredElements.push(hoveredContactId);
+        }
+      }
+    },
+    handleMouseUp(index) {
+      this.hoveredElements = [];
+      this.selectedRows.push(index);
+      this.selectCellRange(index);
+    },
+    selectCellRange(index) {
+      let minSelectedIndex = this.selectedRows[0];
+
+      const indexDiff = index - minSelectedIndex;
+      this.selectedRows = [];
+
+      for (let i = 0; i <= Math.abs(indexDiff); i++) {
+        const selectedContactId = minSelectedIndex + i * Math.sign(indexDiff);
+        this.selectedRows.push(selectedContactId);
+      }
+      this.selectActiveColumnCells = false;
+    },
+    enableActiveColumnCells(event) {
+      this.selectActiveColumnCells = true;
+      this.selectedColumn = event.column;
+      this.selectedRows.push(event.row);
+    },
+    dragEnd(e) {
+      console.log(JSON.parse(e.to), 'slknedkscmx');
+      console.log(e);
+    },
     checkContactsEnrichable(event) {
       this.$emit(
         'checkContactsEnrichable',
@@ -2069,10 +2081,10 @@ export default {
       this.resetChecked();
     },
     toggleContactSidebar() {
-        if (! this.contactRecords.length) {
-            this.$store.state.ContactSidebarOpen = false;
-            return
-        }
+      if (!this.contactRecords.length) {
+        this.$store.state.ContactSidebarOpen = false;
+        return;
+      }
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
