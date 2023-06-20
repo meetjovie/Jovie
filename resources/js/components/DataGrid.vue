@@ -238,7 +238,9 @@
           </div>
         </header>
         <div v-if="boardView">
-          <BoardView :listId="this.filters.list" />
+          <BoardView
+            :lists="stagedContacts.lists"
+            :contacts="stagedContacts.contacts" />
         </div>
         <div
           v-else
@@ -850,6 +852,7 @@ export default {
         description: 'hellooo hello hello',
         loading: false,
       },
+      boardView: false,
       contextMenuTrigger: '',
       currentCell: {
         row: 0,
@@ -940,6 +943,7 @@ export default {
     'subheader',
     'header',
     'counts',
+    'stagedContacts',
     'columns',
     'headersLoaded',
     'suggestMerge',
@@ -952,6 +956,9 @@ export default {
       handler: function () {
         localStorage.setItem('settings', JSON.stringify(this.settings));
       },
+    },
+    boardView(enabled) {
+      this.$emit('viewSwitched', enabled);
     },
     suggestMerge() {
       this.suggestContactsMerge();

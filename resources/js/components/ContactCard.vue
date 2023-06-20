@@ -96,6 +96,7 @@ import {
   EllipsisVerticalIcon,
 } from '@heroicons/vue/24/outline';
 export default {
+  name: 'ContactCard',
   components: {
     ContactAvatar,
     DataGridSocialLinksCell,

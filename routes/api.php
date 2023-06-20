@@ -105,6 +105,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/move-creator/{creatorId}', [\App\Http\Controllers\CrmController::class, 'moveCreator']);
     Route::get('/export-crm-creators', [\App\Http\Controllers\CrmController::class, 'exportCrm']);
 
+    Route::get('/staged-contacts', [\App\Http\Controllers\CrmController::class, 'stagedContacts']);
+
     Route::get('/get-extension-creator', [\App\Http\Controllers\CrmController::class, 'getExtensionCreator'])->withoutMiddleware('state.csrf');
     Route::post('/save-to-crm', [\App\Http\Controllers\CrmController::class, 'saveToCrm'])->withoutMiddleware('state.csrf');
 

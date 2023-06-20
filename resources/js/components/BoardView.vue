@@ -1,10 +1,10 @@
 <template>
   <div class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
-    <div v-for="list in lists" :key="list.id" class="overflow-y-auto">
+    <div v-for="(list, listIndex) in lists" :key="listIndex" class="overflow-y-auto">
       <ListHeader :list="list" />
 
       <ul role="list" class="mt-14 flex flex-col space-y-2">
-        <li class="w-96" v-for="contact in contacts" :key="contact.id">
+        <li class="w-96" v-for="contact in contacts[listIndex]" :key="contact.id">
           <ContactCard
             @contextMenuClicked="handleContextMenu($event, contact)"
             @contextMenuButtonClicked="handleContextMenuButton($event, contact)"
@@ -20,18 +20,12 @@
   </div>
 </template>
 <script>
-import userService from '../services/api/user.service';
-import contactService from '../services/api/contact.service';
-
+import ListHeader from './ListHeader.vue';
+import ContactCard from './ContactCard.vue';
 export default {
-  data() {
-    return {
-      contacts: [],
-      lists: [],
-    };
-  },
-  mounted() {
-    this.getStagedContacts();
+  components: {
+    ListHeader: ListHeader,
+    ContactCard: ContactCard,
   },
   methods: {
     handleMenuButton(event, contact) {
@@ -54,31 +48,14 @@ export default {
       console.log('context menu clicked ' + contact.full_name);
       this.$emit('contextMenuClicked', contact, coordinates);
     },
-    updateStage: function (event, stage) {
-      if (event.added) {
-        let contact = event.added.element;
-        contact.stage = stage;
-        userService.updateContact(contact);
-      }
-    },
-    getStagedContacts() {
-      contactService
-        .getStagedContacts()
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.lists = response.stages;
-            this.contacts = response.contacts;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
   },
   props: {
-    listId: {
-      type: Number,
+    lists: {
+      type: Array,
+      required: true,
+    },
+    contacts: {
+      type: Array,
       required: true,
     },
   },

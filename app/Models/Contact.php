@@ -611,7 +611,7 @@ class Contact extends Model implements Auditable
         return $contact->full_name ?: ($contact->first_name ? ($contact->first_name . ' ' . $contact->last_name) : null);
     }
 
-    public static function getContacts($params)
+    public static function getContacts($params, $staged = false)
     {
         $contacts = Contact::query()->with('userLists')
             ->select('contacts.*')
@@ -670,6 +670,8 @@ class Contact extends Model implements Auditable
             $orderBy = $params['sort'];
         }
 
+        $contacts = $contacts->orderByDesc('last_enriched_at');
+
         if (!empty($orderBy)) {
             $orderBy = "contacts." . $orderBy;
             $contacts = $contacts->orderByRaw("lower($orderBy) $order");
@@ -677,7 +679,18 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->orderByDesc('contacts.id');
         }
 
-        $contacts = $contacts->paginate(15);
+        if($staged){
+            $contacts = $contacts->get()->groupBy('stage');
+            $contactArrays = [];
+
+            foreach (Crm::stages() as $stage => $group) {
+                $contactArrays[$stage] = isset($contacts[$stage]) ? $contacts[$stage]->toArray() : [];
+            }
+            return $contactArrays;
+        }else{
+            $contacts = $contacts->paginate(15);
+        }
+
 
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam($params['team_id']);
