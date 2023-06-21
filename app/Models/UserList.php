@@ -66,6 +66,11 @@ class UserList extends Model implements Auditable
         return $this->belongsTo(Template::class)->with(['templateFields', 'templateStages', 'templateSettings']);
     }
 
+    public function headerAttributes()
+    {
+        return $this->hasMany(HeaderAttribute::class);
+    }
+
     public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null, $updating = false)
     {
         $team = null;
@@ -116,10 +121,11 @@ class UserList extends Model implements Auditable
             $customFieldIds = CustomField::query()->get()->toArray();
             $defaultIds = HeaderAttribute::DEFAULT_HEADERS;
             $headers = array_merge($customFieldIds, $defaultIds);
+
             foreach ($headers as $k => $header) {
                 HeaderAttribute::create([
                     'header_id' => $header['id'],
-                    'type' => (is_numeric($header) ? 'default' : 'custom'),
+                    'type' => (is_numeric($header['id']) ? 'default' : 'custom'),
                     'order' => $k,
                     'team_id' => $user->currentTeam->id,
                     'user_id' => $user->id,
@@ -287,13 +293,35 @@ class UserList extends Model implements Auditable
 
     public static function setTemplate($listId, $templateId = null)
     {
-        $templateId = $templateId ?? Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first()->id;
-        $list = UserList::find($listId);
-        if ($list) {
-            $list->template_id = $templateId;
-            $list->save();
-            return $list;
+        if ($templateId) {
+            $template = Template::find($templateId);
+        } else {
+            $template = Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->with('templateHeaders')->first();
         }
-        return null;
+        $list = UserList::find($listId);
+
+        if ($list && $templateId) {
+            $list->template_id = $template->id;
+            $templateHeaders = $template->templateHeaders->pluck('header_id')->toArray();
+            $list->headerAttributes()->delete();
+            $list->save();
+            $user = auth()->user();
+            foreach ($templateHeaders as $k => $header) {
+                HeaderAttribute::create([
+                    'header_id' => $header,
+                    'type' => (is_numeric($header) ? 'default' : 'custom'),
+                    'order' => $k,
+                    'team_id' => $user->currentTeam->id,
+                    'user_id' => $user->id,
+                    'user_list_id' => $list->id,
+                    'hide' => false
+                ]);
+            }
+        } else {
+            $list->template_id = $template->id;
+            $list->save();
+        }
+
+        return $list;
     }
 }

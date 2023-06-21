@@ -183,20 +183,9 @@ class HeaderAttribute extends Model
             'width' => '40',
             'type' => 'text',
         ],
-        [
-            'id' => 16,
-            'name' => 'Location',
-            'key' => 'address',
-            'icon' => 'Bars3BottomLeftIcon',
-            'hide' => true,
-            'default' => true,
-            'breakpoint' => '2xl',
-            'width' => '40',
-            'type' => 'text',
-        ],
     ];
 
-    const IGNORED_DEFAULT_HEADERS = [15,16];
+    const IGNORED_DEFAULT_HEADERS = [15];
 
     const FULL_NAME_HEADER = [
         'name' => 'Name',
