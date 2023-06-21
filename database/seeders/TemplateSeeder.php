@@ -150,13 +150,36 @@ class TemplateSeeder extends Seeder
             ]);
         }
 
-        foreach (HeaderAttribute::DEFAULT_HEADERS as $HEADER) {
-            if (in_array($HEADER['id'], [7, 8, 5, 9, 15])) {
+        $customField = [
+                'name' => 'Closing Price',
+                'code' => 'closing_price',
+                'description' => 'Closing price for influencer outreach',
+                'icon' => 'CurrencyDollarIcon',
+                'type' => 'currency',
+        ];
+
+        $field = CustomField::create(
+            [
+                'name' => $customField['name'],
+                'code' => $customField['code'],
+                'description' => $customField['description'],
+                'type' => $customField['type'],
+                'icon' => $customField['icon'],
+            ]
+        );
+
+        TemplateField::create(
+            [
+                'template_id' => $template->id,
+                'field_id' => $field->id,
+            ]
+        );
+
+        foreach ([7, 8, $field->id, 5, 9, 15] as $headerId) {
                 TemplateHeader::create([
                     'template_id' => $template->id,
-                    'header_id' => $HEADER['id'],
+                    'header_id' => $headerId,
                 ]);
-            }
         }
 
 
@@ -177,38 +200,6 @@ class TemplateSeeder extends Seeder
             }
         }
 
-        $customFields = [
-            [
-                'name' => 'Closing Price',
-                'code' => 'closing_price',
-                'description' => 'Closing price for influencer outreach',
-                'icon' => 'CurrencyDollarIcon',
-                'type' => 'currency',
-            ]
-        ];
-
-        foreach ($customFields as $customField) {
-            $field = CustomField::create(
-                [
-                    'name' => $customField['name'],
-                    'code' => $customField['code'],
-                    'description' => $customField['description'],
-                    'type' => $customField['type'],
-                    'icon' => $customField['icon'],
-                ]
-            );
-            TemplateHeader::create([
-                'template_id' => $template->id,
-                'header_id' => $field->id,
-            ]);
-
-            TemplateField::create(
-                [
-                    'template_id' => $template->id,
-                    'field_id' => $field->id,
-                ]
-            );
-        }
 
 
         // Template # 2
