@@ -240,6 +240,7 @@
         <div v-if="boardView">
           <BoardView
             :lists="stagedContacts.lists"
+            @updateContact="$emit('updateContact', $event)"
             :contacts="stagedContacts.contacts" />
         </div>
         <div

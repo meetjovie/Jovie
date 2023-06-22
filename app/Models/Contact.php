@@ -683,7 +683,7 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->get()->groupBy('stage');
             $contactArrays = [];
 
-            foreach (Crm::stages() as $stage => $group) {
+            foreach (Crm::dummyStages() as $stage => $group) {
                 $contactArrays[$stage] = isset($contacts[$stage]) ? $contacts[$stage]->toArray() : [];
             }
             return $contactArrays;
