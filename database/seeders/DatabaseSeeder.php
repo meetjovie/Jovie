@@ -47,5 +47,9 @@ class DatabaseSeeder extends Seeder
             'credits' => 10000000
         ]);
         $user->attachTeam($team);
+
+        $this->call([
+            DefaultCreators::class,
+        ]);
     }
 }

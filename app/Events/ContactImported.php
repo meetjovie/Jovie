@@ -58,6 +58,7 @@ class ContactImported implements ShouldBroadcast, ShouldBroadcastNow
     public function broadcastWith()
     {
         $contact = Contact::getContacts(['id' => $this->contactId, 'team_id' => $this->teamId])->first();
+        unset($contact['instagram_data']);
         $contact = base64_encode(json_encode($contact));
         return ['status' => true, 'data' => [
             'contact' => $contact,
