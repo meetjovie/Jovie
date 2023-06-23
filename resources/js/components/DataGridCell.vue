@@ -194,12 +194,12 @@ export default {
         classes += 'ring-2 ring-inset border-slate-200 ';
       }
 
-      if (this.cellActive && this.lastActive) {
+      if (this.cellActive && this.selectedRows.length && this.lastActive) {
         classes +=
           'border-t-0 border-x-2 border-b-2 border-blue-500 dark:border-blue-300 ';
       }
 
-      if (this.cellActive && this.firstActive) {
+      if (this.cellActive && this.selectedRows.length && this.firstActive) {
         classes +=
           'border-b-0 border-x-2 border-t-2 border-blue-500 dark:border-blue-300 ';
       }
