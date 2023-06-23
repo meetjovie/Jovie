@@ -151,6 +151,7 @@
         ]"
         :ref="`gridCell_${currentCell.row}_${columnIndex}`"
         @click="setCurrentCell(columnIndex)"
+        @setFilterList="$emit('setFilterList', $event)"
         :userLists="userLists"
         :visibleColumns="visibleColumns"
         :settings="settings"
@@ -187,10 +188,12 @@ import {
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
 import JovieSpinner from './JovieSpinner.vue';
+import InputLists from "./InputLists.vue";
 
 export default {
   name: 'DataGridRow',
   components: {
+      InputLists,
     JovieSpinner,
     DataGridCell,
     ContactContextMenu,

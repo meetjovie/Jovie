@@ -43,7 +43,7 @@ class GPTService
             preg_match_all($pattern, $completion, $matches);
             $emoji = $matches[0][0];
             return $emoji ?? false;
-        } catch (\Exception $exception) {
+        } catch (\Exception $e) {
             return '📄';
         }
     }

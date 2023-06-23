@@ -525,6 +525,7 @@
               @updateContact="updateContact"
               @crmCounts="crmCounts"
               @toggleSidebarMenu="toggleSidebarMenu"
+              @setFilterList="setFilterList"
               :counts="counts"
               @updateListCount="updateListCount"
               @pageChanged="pageChanged"
@@ -694,10 +695,12 @@ import KBShortcut from '../components/KBShortcut.vue';
 import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
+import InputLists from "../components/InputLists.vue";
 
 export default {
   name: 'CRM',
   components: {
+      InputLists,
     FaceSmileIcon,
     ModalPopup,
     DropdownMenuItem,
@@ -945,7 +948,9 @@ export default {
     },
   },
   async mounted() {
-    await this.getUserLists();
+      console.log('Echo.connector.channels');
+      console.log(Echo.connector.channels);
+      await this.getUserLists();
     await this.getHeaders();
     this.getCrmContacts();
     this.crmCounts();
@@ -982,7 +987,7 @@ export default {
     // setInterval(() => {
     //   this.getNotifications();
     // }, 5000);
-    if (!this.$store.state.crmEventsRegistered) {
+    // if (!this.$store.state.crmEventsRegistered) {
       this.listenEvents(
         `notification.${this.currentUser.current_team.id}`,
         'Notification',
@@ -1125,13 +1130,17 @@ export default {
       );
 
       this.$store.state.crmEventsRegistered = true;
-    }
+    // }
+
     this.getNotifications();
 
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize());
     });
   },
+    beforeUnmount() {
+      Echo.leaveAllChannels();
+    },
   methods: {
     toggleMergeSuggestion(checkExists) {
       this.suggestionExists = checkExists;

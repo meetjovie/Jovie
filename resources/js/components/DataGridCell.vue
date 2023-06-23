@@ -108,6 +108,7 @@
         v-else-if="column.type == 'multi_select' && column.name == 'Lists'">
         <InputLists
           @updateLists="$emit('updateContactLists', $event)"
+          @setFilterList="$emit('setFilterList', $event)"
           :contactId="contact.id ?? 0"
           :listItems="userLists"
           :lists="contact.user_lists"

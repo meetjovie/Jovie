@@ -50,6 +50,7 @@
           </div>
         </div>
         <div
+            @click="handleClick()"
           class="line-clamp-1 flex w-full text-left font-normal tracking-wide text-slate-700 dark:text-jovieDark-200">
           <span v-if="!editingName || !editable" class="line-clamp-1">{{
             name

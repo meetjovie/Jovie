@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\DefaultCreators;
 
 class DatabaseSeeder extends Seeder
 {
@@ -48,5 +49,9 @@ class DatabaseSeeder extends Seeder
             'credits' => 10000000
         ]);
         $user->attachTeam($team);
+
+        $this->call([
+            DefaultCreators::class,
+        ]);
     }
 }
