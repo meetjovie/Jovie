@@ -12,10 +12,10 @@
     <div
       :class="[
         selectedContactsModel.includes(contact.id)
-          ? currentContact.id === contact.id
+          ? currentContact.id === contact.id || selectedRows.includes(row)
             ? 'bg-indigo-100 dark:bg-indigo-600'
             : 'bg-indigo-50 dark:bg-indigo-700'
-          : currentContact.id === contact.id
+          : currentContact.id === contact.id || selectedRows.includes(row)
           ? 'bg-slate-100 dark:bg-jovieDark-600'
           : 'group/rowhover bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 group-hover/rowhover:dark:bg-jovieDark-700',
       ]"
@@ -149,10 +149,10 @@
         class="relative z-30"
         :class="[
           selectedContactsModel.includes(contact.id)
-            ? currentContact.id === contact.id
+            ? currentContact.id === contact.id || selectedRows.includes(row)
               ? 'bg-indigo-100  dark:bg-indigo-600'
               : 'bg-indigo-50  dark:bg-indigo-700'
-            : currentContact.id === contact.id
+            : currentContact.id === contact.id || selectedRows.includes(row)
             ? 'bg-slate-100  dark:bg-jovieDark-600'
             : 'bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
           selectedColumn == column.key && hoveredElements.includes(this.row)
@@ -176,6 +176,8 @@
             : ''
         "
         :lastActive="!selectedRows.includes(this.row + 1)"
+        :firstActive="!selectedRows.includes(this.row - 1)"
+        :selectedRows="selectedRows"
         :currentCell="currentCell"
         :networks="networks"
         :stages="stages"

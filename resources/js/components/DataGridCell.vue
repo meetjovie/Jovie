@@ -1,24 +1,9 @@
 <template>
+  <!--    {{ cellActive && selectedRows.length && !firstActive && !lastActive }}-->
   <td
-    class="isolate border-collapse items-center overflow-auto overflow-visible whitespace-nowrap border border-slate-200 text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
+    class="isolate border-collapse items-center overflow-auto overflow-visible whitespace-nowrap border text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
     ref="cell_area"
-    :class="[
-      cellActive ? 'ring-2 ring-inset' : '',
-      userColor === 'red' ? 'ring-red-500 dark:ring-red-300' : '',
-      userColor === 'green' ? 'ring-green-500 dark:ring-green-300' : '',
-      userColor === 'blue' ? 'ring-blue-500 dark:ring-blue-300' : '',
-      userColor === 'yellow' ? 'ring-yellow-500 dark:ring-yellow-300' : '',
-      userColor === 'indigo' ? 'ring-indigo-500 dark:ring-indigo-300' : '',
-      userColor === 'purple' ? 'ring-purple-500 dark:ring-purple-300' : '',
-      userColor === 'pink' ? 'ring-pink-500 dark:ring-pink-300' : '',
-      userColor === 'orange' ? 'ring-orange-500 dark:ring-orange-300' : '',
-      userColor === 'rose' ? 'ring-rose-500 dark:ring-rose-300' : '',
-      userColor === 'fuchsia' ? 'ring-fuchsia-500 dark:ring-fuchsia-300' : '',
-      userColor === 'sky' ? 'ring-sky-500 dark:ring-sky-300' : '',
-      userColor === 'cyan' ? 'ring-cyan-500 dark:ring-cyan-300' : '',
-      userColor === 'teal' ? 'ring-teal-500 dark:ring-teal-300' : '',
-      userColor === 'emerald' ? 'ring-emerald-500 dark:ring-emerald-300' : '',
-    ]"
+    :class="getCellStyles()"
     :key="rerenderKey"
     v-if="
       freezeColumn ||
@@ -140,7 +125,9 @@
         v-if="
           ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(
             column.type
-          ) && cellActive && lastActive
+          ) &&
+          cellActive &&
+          lastActive
         ">
         <PlusIcon class="h-4 w-4 text-white" />
       </button>
@@ -200,6 +187,91 @@ export default {
     this.date.endDate = this.localModelValue;
   },
   methods: {
+    getCellStyles() {
+      let classes = '';
+
+      if (this.cellActive && !(this.selectedRows.length > 1)) {
+        classes += 'ring-2 ring-inset border-slate-200 ';
+      }
+
+      if (this.cellActive && this.lastActive) {
+        classes +=
+          'border-t-0 border-x-2 border-b-2 border-blue-500 dark:border-blue-300 ';
+      }
+
+      if (this.cellActive && this.firstActive) {
+        classes +=
+          'border-b-0 border-x-2 border-t-2 border-blue-500 dark:border-blue-300 ';
+      }
+
+      if (
+        this.cellActive &&
+        this.selectedRows.length &&
+        !this.firstActive &&
+        !this.lastActive
+      ) {
+        classes +=
+          'border-y-0 border-x-2 border-blue-500 dark:border-blue-300 ';
+      }
+
+      if (this.userColor === 'red') {
+        classes += 'ring-red-500 dark:ring-red-300 ';
+      }
+
+      if (this.userColor === 'green') {
+        classes += 'ring-green-500 dark:ring-green-300 ';
+      }
+
+      if (this.userColor === 'blue') {
+        classes += 'ring-blue-500 dark:ring-blue-300 ';
+      }
+
+      if (this.userColor === 'yellow') {
+        classes += 'ring-yellow-500 dark:ring-yellow-300 ';
+      }
+
+      if (this.userColor === 'indigo') {
+        classes += 'ring-indigo-500 dark:ring-indigo-300 ';
+      }
+
+      if (this.userColor === 'purple') {
+        classes += 'ring-purple-500 dark:ring-purple-300 ';
+      }
+
+      if (this.userColor === 'pink') {
+        classes += 'ring-pink-500 dark:ring-pink-300 ';
+      }
+
+      if (this.userColor === 'orange') {
+        classes += 'ring-orange-500 dark:ring-orange-300 ';
+      }
+
+      if (this.userColor === 'rose') {
+        classes += 'ring-rose-500 dark:ring-rose-300 ';
+      }
+
+      if (this.userColor === 'fuchsia') {
+        classes += 'ring-fuchsia-500 dark:ring-fuchsia-300 ';
+      }
+
+      if (this.userColor === 'sky') {
+        classes += 'ring-sky-500 dark:ring-sky-300 ';
+      }
+
+      if (this.userColor === 'cyan') {
+        classes += 'ring-cyan-500 dark:ring-cyan-300 ';
+      }
+
+      if (this.userColor === 'teal') {
+        classes += 'ring-teal-500 dark:ring-teal-300 ';
+      }
+
+      if (this.userColor === 'emerald') {
+        classes += 'ring-emerald-500 dark:ring-emerald-300 ';
+      }
+
+      return classes;
+    },
     updateData(value = null) {
       this.$nextTick(() => {
         this.$emit('update:modelValue', this.localModelValue);
@@ -305,8 +377,16 @@ export default {
     currentCell: Object,
     cellActive: Boolean | String,
     lastActive: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
+    },
+    firstActive: {
+      type: Boolean,
+      default: false,
+    },
+    selectedRows: {
+      type: Array,
+      default: [],
     },
     networks: Array,
     stages: Array,
