@@ -9,6 +9,7 @@
         <AccountMobile
           @verified="verifyMobile"
           :phone="$store.state.AuthState.user.phone"
+          :country_code="$store.state.AuthState.user.country_code"
           @disableContinue="disableContinue" />
         <AccountPassword
           v-if="setPasswordCheck"
