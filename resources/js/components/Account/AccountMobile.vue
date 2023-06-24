@@ -10,7 +10,8 @@
             id="country"
             name="country"
             autocomplete="country"
-            @change="countryCode = $event.target.value"
+            v-model="countryCode"
+            @change="changeCountryCode"
             class="h-full rounded-md border-0 bg-transparent py-0 pl-3 pr-7 text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-600 sm:text-sm">
             <template v-for="item in countries">
               <option :value="item.code">{{ item.name }}</option>
@@ -33,7 +34,9 @@
           >
         </div>
       </div>
-      <div v-if="errors?.number" class="mt-2 text-xs text-red-600 dark:text-red-300">
+      <div
+        v-if="errors?.number"
+        class="mt-2 text-xs text-red-600 dark:text-red-300">
         {{ errors.number[0] }}
       </div>
     </div>
@@ -59,6 +62,9 @@ export default {
     phone: {
       required: false,
     },
+    country_code: {
+      required: false,
+    },
   },
   components: { OTPInput, ButtonGroup, InputGroup },
   data() {
@@ -66,8 +72,8 @@ export default {
       errors: {},
       updating: false,
       disableOtp: false,
-      number: null,
       oldNumber: null,
+      number: null,
       code: null,
       countryCode: null,
       showOtpInput: false,
@@ -217,7 +223,33 @@ export default {
   },
   watch: {
     number(val) {
-      if (this.oldNumber !== val) {
+      this.verifyOldNumber(val)
+    },
+    phone: {
+      handler: function (val) {
+        this.number = val;
+        this.oldNumber = this.country_code + val;
+      },
+      immediate: true,
+    },
+    country_code: {
+      handler: function (val) {
+        if (val) {
+          this.countryCode = val;
+        } else {
+          this.countryCode = this.countries[0].code;
+        }
+      },
+      immediate: true,
+    },
+  },
+  methods: {
+    changeCountryCode(event) {
+      this.countryCode = event.target.value;
+      this.verifyOldNumber(this.number)
+    },
+    verifyOldNumber(number) {
+      if (this.oldNumber !== this.countryCode + number) {
         this.$emit('disableContinue');
         this.disableOtp = false;
       } else {
@@ -225,18 +257,11 @@ export default {
         this.$emit('verified', this.number);
       }
     },
-    phone: {
-      handler: function (val) {
-        this.number = this.oldNumber = val;
-      },
-      immediate: true,
-    },
-  },
-  methods: {
     getOtp() {
       this.showOtpInput = this.updating = true;
       let data = {};
-      data.number = this.countryCode + this.number;
+      data.country_code = this.countryCode;
+      data.phone = this.number;
       TwillioService.getOtp(data)
         .then((response) => {
           this.service = response.data;
@@ -245,6 +270,7 @@ export default {
           if (error.response.status === 422) {
             this.errors = error.response.data.errors;
           } else {
+            this.errors = [];
             this.$notify({
               group: 'user',
               type: 'error',
@@ -263,7 +289,8 @@ export default {
       let data = {};
       data.service = this.service;
       data.code = this.code;
-      data.number = this.countryCode + this.number;
+      data.country_code = this.countryCode;
+      data.phone = this.number;
       TwillioService.verifyOtp(data)
         .then((response) => {
           if (response.data.status === 'approved') {
@@ -277,7 +304,8 @@ export default {
             this.showOtpInput = false;
             this.disableOtp = true;
             this.oldNumber = this.number;
-            this.$store.state.AuthState.user.phone = this.number;
+            this.$store.state.AuthState.user.phone = this.phone;
+            this.$store.state.AuthState.user.country_code = this.country_code;
             this.$emit('verified', this.number);
           }
         })

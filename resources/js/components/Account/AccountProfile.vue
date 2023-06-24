@@ -97,7 +97,9 @@
               placeholder="Email"
               type="text" />
 
-            <AccountMobile :phone="$store.state.AuthState.user.phone" />
+            <AccountMobile
+              :phone="$store.state.AuthState.user.phone"
+              :country_code="$store.state.AuthState.user.country_code" />
             <!-- Title -->
 
             <InputGroup
