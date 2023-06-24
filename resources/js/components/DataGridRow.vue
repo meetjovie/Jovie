@@ -12,10 +12,10 @@
     <div
       :class="[
         selectedContactsModel.includes(contact.id)
-          ? currentContact.id === contact.id || selectedRows.includes(row)
+          ? currentContact.id === contact.id
             ? 'bg-indigo-100 dark:bg-indigo-600'
             : 'bg-indigo-50 dark:bg-indigo-700'
-          : currentContact.id === contact.id || selectedRows.includes(row)
+          : currentContact.id === contact.id
           ? 'bg-slate-100 dark:bg-jovieDark-600'
           : 'group/rowhover bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 group-hover/rowhover:dark:bg-jovieDark-700',
       ]"
@@ -149,10 +149,12 @@
         class="relative z-30"
         :class="[
           selectedContactsModel.includes(contact.id)
-            ? currentContact.id === contact.id || selectedRows.includes(row)
+            ? currentContact.id === contact.id ||
+              (selectedRows.includes(this.row) && selectedColumn == column.key)
               ? 'bg-indigo-100  dark:bg-indigo-600'
               : 'bg-indigo-50  dark:bg-indigo-700'
-            : currentContact.id === contact.id || selectedRows.includes(row)
+            : currentContact.id === contact.id ||
+              (selectedRows.includes(this.row) && selectedColumn == column.key)
             ? 'bg-slate-100  dark:bg-jovieDark-600'
             : 'bg-white group-hover/rowhover:bg-slate-100 dark:bg-jovieDark-800 dark:hover:bg-jovieDark-700 group-hover/rowhover:dark:bg-jovieDark-700',
           selectedColumn == column.key && hoveredElements.includes(this.row)

@@ -1228,33 +1228,36 @@ export default {
   methods: {
     handleMouseOver(index) {
       if (this.selectActiveColumnCells) {
-        let minSelectedIndex = this.selectedRows[0];
-
-        const indexDiff = index - minSelectedIndex;
+        let firstSelectedIndex = this.selectedRows[0];
+        const indexDiff = index - firstSelectedIndex;
         this.hoveredElements = [];
 
         for (let i = 1; i <= Math.abs(indexDiff); i++) {
-          const hoveredContactId = minSelectedIndex + i * Math.sign(indexDiff);
-          this.hoveredElements.push(hoveredContactId);
+          if (this.selectedRows.includes(index)) {
+            return;
+          } else {
+            const hoveredContactId =
+              firstSelectedIndex + i * Math.sign(indexDiff);
+            this.hoveredElements.push(hoveredContactId);
+          }
         }
       }
     },
     handleMouseUp(index) {
+      this.selectActiveColumnCells = false;
       this.hoveredElements = [];
-      this.selectedRows.push(index);
-      this.selectCellRange(index);
+      if (!this.selectedRows.includes(index)) {
+        this.selectedRows.push(index);
+        this.selectCellRange(index);
+      }
     },
     selectCellRange(index) {
-      let minSelectedIndex = this.selectedRows[0];
-
-      const indexDiff = index - minSelectedIndex;
-      this.selectedRows = [];
-
+      let firstSelectedIndex = this.selectedRows[0];
+      const indexDiff = index - firstSelectedIndex;
       for (let i = 0; i <= Math.abs(indexDiff); i++) {
-        const selectedContactId = minSelectedIndex + i * Math.sign(indexDiff);
+        const selectedContactId = firstSelectedIndex + i * Math.sign(indexDiff);
         this.selectedRows.push(selectedContactId);
       }
-      this.selectActiveColumnCells = false;
     },
     enableActiveColumnCells(event) {
       this.selectActiveColumnCells = true;
@@ -1279,15 +1282,16 @@ export default {
       const contactIndex = this.contactRecords.indexOf(contact);
 
       if (this.selectedContacts.length) {
-        const minSelectedIndex = this.contactRecords.findIndex(
+        const firstSelectedIndex = this.contactRecords.findIndex(
           (contact) => contact.id === this.selectedContacts[0]
         );
-        const indexDiff = contactIndex - minSelectedIndex;
+        const indexDiff = contactIndex - firstSelectedIndex;
         this.selectedContacts = [];
 
         for (let i = 0; i <= Math.abs(indexDiff); i++) {
           const selectedContactId =
-            this.contactRecords[minSelectedIndex + i * Math.sign(indexDiff)].id;
+            this.contactRecords[firstSelectedIndex + i * Math.sign(indexDiff)]
+              .id;
           this.selectedContacts.push(selectedContactId);
         }
       } else {
