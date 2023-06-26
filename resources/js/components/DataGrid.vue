@@ -542,6 +542,7 @@
                     :currentContact="currentContact"
                     :selectedContacts="selectedContacts"
                     @updateSelectedContacts="selectedContacts = $event"
+                    :active-users-on-list="activeUsersOnList"
                     :contact="element"
                     @refresh="refresh(element)"
                     :row="index"
@@ -979,6 +980,7 @@ export default {
     'headersLoaded',
     'suggestMerge',
     'activeUsersOnList',
+    'listChannel',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
@@ -986,6 +988,17 @@ export default {
       deep: true,
       handler: function () {
         localStorage.setItem('settings', JSON.stringify(this.settings));
+      },
+    },
+    currentCell: {
+      deep: true,
+      handler: function (val) {
+        if (this.listChannel) {
+          this.listChannel.whisper('client-oncell', {
+            cell: val,
+            userId: this.currentUser.id,
+          });
+        }
       },
     },
     suggestMerge() {
@@ -2028,10 +2041,10 @@ export default {
       this.resetChecked();
     },
     toggleContactSidebar() {
-        if (! this.contactRecords.length) {
-            this.$store.state.ContactSidebarOpen = false;
-            return
-        }
+      if (!this.contactRecords.length) {
+        this.$store.state.ContactSidebarOpen = false;
+        return;
+      }
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },

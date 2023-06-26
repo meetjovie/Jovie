@@ -166,6 +166,7 @@
         :currentCell="currentCell"
         :networks="networks"
         :stages="stages"
+        :active-users-on-list="activeUsersOnList"
         :column="otherColumns[columnIndex]"
         @updateContact="$emit('updateContact', $event)"
         @updateContactLists="updateContactLists"
@@ -188,12 +189,12 @@ import {
   SparklesIcon,
 } from '@heroicons/vue/24/outline';
 import JovieSpinner from './JovieSpinner.vue';
-import InputLists from "./InputLists.vue";
+import InputLists from './InputLists.vue';
 
 export default {
   name: 'DataGridRow',
   components: {
-      InputLists,
+    InputLists,
     JovieSpinner,
     DataGridCell,
     ContactContextMenu,
@@ -339,6 +340,7 @@ export default {
     otherColumns: Array,
     columnIndex: Number,
     contactsMeta: Object,
+    activeUsersOnList: Object,
     ringColor: {
       type: String,
       default: 'red',

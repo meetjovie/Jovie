@@ -4,20 +4,20 @@
     ref="cell_area"
     :class="[
       cellActive ? 'ring-2 ring-inset' : '',
-      userColor === 'red' ? 'ring-red-500 dark:ring-red-300' : '',
-      userColor === 'green' ? 'ring-green-500 dark:ring-green-300' : '',
-      userColor === 'blue' ? 'ring-blue-500 dark:ring-blue-300' : '',
-      userColor === 'yellow' ? 'ring-yellow-500 dark:ring-yellow-300' : '',
-      userColor === 'indigo' ? 'ring-indigo-500 dark:ring-indigo-300' : '',
-      userColor === 'purple' ? 'ring-purple-500 dark:ring-purple-300' : '',
-      userColor === 'pink' ? 'ring-pink-500 dark:ring-pink-300' : '',
-      userColor === 'orange' ? 'ring-orange-500 dark:ring-orange-300' : '',
-      userColor === 'rose' ? 'ring-rose-500 dark:ring-rose-300' : '',
-      userColor === 'fuchsia' ? 'ring-fuchsia-500 dark:ring-fuchsia-300' : '',
-      userColor === 'sky' ? 'ring-sky-500 dark:ring-sky-300' : '',
-      userColor === 'cyan' ? 'ring-cyan-500 dark:ring-cyan-300' : '',
-      userColor === 'teal' ? 'ring-teal-500 dark:ring-teal-300' : '',
-      userColor === 'emerald' ? 'ring-emerald-500 dark:ring-emerald-300' : '',
+      userColor == 'red' ? 'ring-red-500 dark:ring-red-300' : '',
+      userColor == 'green' ? 'ring-green-500 dark:ring-green-300' : '',
+      userColor == 'blue' ? 'ring-blue-500 dark:ring-blue-300' : '',
+      userColor == 'yellow' ? 'ring-yellow-500 dark:ring-yellow-300' : '',
+      userColor == 'indigo' ? 'ring-indigo-500 dark:ring-indigo-300' : '',
+      userColor == 'purple' ? 'ring-purple-500 dark:ring-purple-300' : '',
+      userColor == 'pink' ? 'ring-pink-500 dark:ring-pink-300' : '',
+      userColor == 'orange' ? 'ring-orange-500 dark:ring-orange-300' : '',
+      userColor == 'rose' ? 'ring-rose-500 dark:ring-rose-300' : '',
+      userColor == 'fuchsia' ? 'ring-fuchsia-500 dark:ring-fuchsia-300' : '',
+      userColor == 'sky' ? 'ring-sky-500 dark:ring-sky-300' : '',
+      userColor == 'cyan' ? 'ring-cyan-500 dark:ring-cyan-300' : '',
+      userColor == 'teal' ? 'ring-teal-500 dark:ring-teal-300' : '',
+      userColor == 'emerald' ? 'ring-emerald-500 dark:ring-emerald-300' : '',
     ]"
     :key="rerenderKey"
     v-if="
@@ -170,6 +170,7 @@ export default {
     return {
       showContactStageMenu: [],
       date: {},
+      activeUserColor: null,
       genderOptions: ['Male', 'Female', 'Other', 'Unknown'],
       rerenderKey: 0,
     };
@@ -179,6 +180,26 @@ export default {
       deep: true,
       handler: function (val) {
         this.rerenderKey += 1;
+      },
+    },
+    activeUsersOnList: {
+      deep: true,
+      handler: function (val) {
+        let activeUserOnCell = val.filter((obj) => {
+          if (obj.activeOn) {
+            return (
+              obj.activeOn !==
+              {
+                row: this.row,
+                column: this.columnIndex,
+              }
+            );
+          }
+          return false;
+        });
+        if (activeUserOnCell.length) {
+          this.activeUserColor = activeUserOnCell[0].color;
+        }
       },
     },
   },
@@ -229,6 +250,10 @@ export default {
   computed: {
     colorClass() {
       return `bg-${this.color}-100 dark:bg-${this.color}-700`;
+    },
+    userColor() {
+      console.log(this.activeUserColor);
+      return this.activeUserColor;
     },
     localModelValue: {
       get() {
@@ -290,13 +315,14 @@ export default {
     },
     modelValue: {},
     currentCell: Object,
+    activeUsersOnList: Object,
     cellActive: Boolean | String,
     networks: Array,
     stages: Array,
-    userColor: {
-      type: String,
-      default: 'blue',
-    },
+    // userColor: {
+    //   type: String,
+    //   default: 'blue',
+    // },
   },
 };
 </script>
