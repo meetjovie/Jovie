@@ -55,6 +55,9 @@ export default {
     delete data.id;
     return axios.post(`${baseApiUrl}/update-contact/${id}`, data);
   },
+  async updateCopiedContactColumns(data) {
+    return axios.post(`${baseApiUrl}/update-copied-contact-columns`, data);
+  },
   async getPublicProfile(data) {
     return axios.get(`${baseUrlWeb}/public-profiles/`, {
       params: data,

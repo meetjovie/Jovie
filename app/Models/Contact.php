@@ -889,6 +889,11 @@ class Contact extends Model implements Auditable
         return self::uploadFileFromTempUuid($uuid, Creator::CREATORS_MEDIA_PATH, $oldPath);
     }
 
+    public static function updateCopiedContactColumns($params)
+    {
+        return Contact::query()->whereIn('id', $params['ids'])->update([$params['key'] => $params['value']]);
+    }
+
     public static function updateContact($data, $id, $merge = false)
     {
         $contact = Contact::query()->where('id', $id)->first();

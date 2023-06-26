@@ -541,6 +541,7 @@
               @updateFiltersContact="updateFiltersContact"
               @suggestionExists="toggleMergeSuggestion"
               @updateCrmCount="crmCounts"
+              @updateCopiedContactColumns="updateCopiedContactColumns"
               :header="
                 filters.type === 'list'
                   ? filters.currentList
@@ -1626,6 +1627,15 @@ export default {
             this.contacts[params.index] = response.data;
             this.currentContact = response.data;
           }
+          this.crmCounts();
+        }
+      });
+    },
+    updateCopiedContactColumns(params) {
+      // console.log(params)
+      this.$store.dispatch('updateCopiedContactColumns', params).then((response) => {
+        response = response.data;
+        if (response.status) {
           this.crmCounts();
         }
       });

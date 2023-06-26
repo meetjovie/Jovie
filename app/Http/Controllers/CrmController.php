@@ -72,6 +72,15 @@ class CrmController extends Controller
         ]);
     }
 
+    public function updateCopiedContactColumns(Request $request)
+    {
+        $params = $request->all();
+        Contact::updateCopiedContactColumns($params);
+        return collect([
+            'status' => true,
+        ]);
+    }
+
     public function toggleContactsFromList(Request $request)
     {
         $list = UserList::where('id', $request->list)->first();

@@ -1244,9 +1244,9 @@ export default {
       }
     },
     handleMouseUp(index) {
-      this.selectActiveColumnCells = false;
       this.hoveredElements = [];
-      if (!this.selectedRows.includes(index)) {
+      if (!this.selectedRows.includes(index) && this.selectActiveColumnCells) {
+        this.selectActiveColumnCells = false;
         this.selectedRows.push(index);
         this.selectCellRange(index);
       }
@@ -1254,10 +1254,23 @@ export default {
     selectCellRange(index) {
       let firstSelectedIndex = this.selectedRows[0];
       const indexDiff = index - firstSelectedIndex;
+      let contactIds = [];
+      let value =
+          this.contactRecords[firstSelectedIndex][this.selectedColumn];
       for (let i = 0; i <= Math.abs(indexDiff); i++) {
-        const selectedContactId = firstSelectedIndex + i * Math.sign(indexDiff);
-        this.selectedRows.push(selectedContactId);
+        const selectedContactIndex =
+          firstSelectedIndex + i * Math.sign(indexDiff);
+        if (!this.selectedRows.includes(selectedContactIndex)) {
+          this.selectedRows.push(selectedContactIndex);
+        }
+        this.contactRecords[selectedContactIndex][this.selectedColumn] = value;
+        contactIds.push(this.contactRecords[selectedContactIndex].id);
       }
+      let contactsToBeEmitted = {};
+      contactsToBeEmitted.ids = contactIds;
+      contactsToBeEmitted.key = this.selectedColumn;
+      contactsToBeEmitted.value = value;
+      this.$emit('updateCopiedContactColumns', contactsToBeEmitted);
     },
     enableActiveColumnCells(event) {
       this.selectActiveColumnCells = true;
