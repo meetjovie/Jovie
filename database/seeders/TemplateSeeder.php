@@ -97,6 +97,7 @@ class TemplateSeeder extends Seeder
                 [
                     'template_id' => $template->id,
                     'field_id' => $FIELD['id'],
+                    'type' => 'default',
                 ]
             );
         }
@@ -172,6 +173,7 @@ class TemplateSeeder extends Seeder
             [
                 'template_id' => $template->id,
                 'field_id' => $field->id,
+                'type' => 'custom',
             ]
         );
 
@@ -195,6 +197,7 @@ class TemplateSeeder extends Seeder
                     [
                         'template_id' => $template->id,
                         'field_id' => $FIELD['id'],
+                        'type' => 'default',
                     ]
                 );
             }
@@ -271,6 +274,7 @@ class TemplateSeeder extends Seeder
                     [
                         'template_id' => $template->id,
                         'field_id' => $FIELD['id'],
+                        'type' => 'default',
                     ]
                 );
             }
@@ -384,6 +388,7 @@ class TemplateSeeder extends Seeder
                 [
                     'template_id' => $template->id,
                     'field_id' => $field->id,
+                    'type' => 'custom',
                 ]
             );
         }

@@ -160,6 +160,103 @@ class Contact extends Model implements Auditable
         'last_enriched_at',
     ];
 
+    const DEFAULT_CONTACTS = [
+        'Influencer Outreach' => [
+            'full_name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'platform_verified' => true,
+            'platform_username' => 'johndoe123',
+            'platform_title' => 'Social Media Influencer',
+            'platform_employer' => 'ABC Company',
+            'platform_employer_link' => 'https://example.com',
+            'category' => 'Influencer',
+            'biography' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'phones' => ['1234567890'],
+            'emails' => ['johndoe@example.com'],
+            'website' => 'https://johndoe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'region' => 'Anytown',
+                'country' => 'USA'
+            ],
+            'gender' => 'male',
+            'dob' => '1990-01-01',
+            'profile_pic_url' => 'https://example.com/profile-pic.jpg',
+            'tags' => ['Social Media', 'Digital Marketer'],
+            'last_contacted' => '2023-06-27',
+            'offer' => 500,
+            'archived' => false,
+            'rating' => 4,
+            'custom_fields' => [
+                'custom_closing_price' => 244
+            ]
+        ],
+
+        'Fund raising' => [
+            'full_name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'platform_verified' => true,
+            'platform_username' => 'johndoe123',
+            'platform_title' => 'Social Media Influencer',
+            'platform_employer' => 'ABC Company',
+            'platform_employer_link' => 'https://example.com',
+            'category' => 'Influencer',
+            'biography' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'phones' => ['1234567890'],
+            'emails' => ['johndoe@example.com'],
+            'website' => 'https://johndoe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'region' => 'Anytown',
+                'country' => 'USA'
+            ],
+            'gender' => 'male',
+            'dob' => '1990-01-01',
+            'profile_pic_url' => 'https://example.com/profile-pic.jpg',
+            'tags' => ['Social Media', 'Digital Marketer'],
+            'last_contacted' => '2023-06-27',
+            'offer' => 500,
+            'archived' => false,
+            'rating' => 4,
+            'custom_fields' => [
+                'custom_type' => '9982d79c-2a2c-4bce-a9b5-0f3b31fd4c94',
+                'custom_meetings_to_date' => "2023-08-27",
+                'custom_value' => 323
+
+            ]
+        ],
+        'Sales' => [
+            'full_name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'platform_verified' => true,
+            'platform_username' => 'johndoe123',
+            'platform_title' => 'Social Media Influencer',
+            'platform_employer' => 'ABC Company',
+            'platform_employer_link' => 'https://example.com',
+            'category' => 'Influencer',
+            'biography' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'phones' => ['1234567890'],
+            'emails' => ['johndoe@example.com'],
+            'website' => 'https://johndoe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'region' => 'Anytown',
+                'country' => 'USA'
+            ],
+            'gender' => 'male',
+            'dob' => '1990-01-01',
+            'profile_pic_url' => 'https://example.com/profile-pic.jpg',
+            'tags' => ['Social Media', 'Digital Marketer'],
+            'last_contacted' => '2023-06-27',
+            'offer' => 500,
+            'archived' => false,
+            'rating' => 4,
+        ]
+    ];
+
     use \OwenIt\Auditing\Auditable;
 
     // ...
@@ -1225,18 +1322,18 @@ class Contact extends Model implements Auditable
                     $customFieldOption = CustomFieldOption::query()->where('id', $value)->first();
                     $customFieldsData[$customField->code] = $customFieldOption->value;
                 } else if ($customField->type == 'multi_select') {
-                        $valueArray = '';
-                        foreach ($value as $key => $option) {
-                            $customFieldOption = CustomFieldOption::query()->where('id', $option)->first();
+                    $valueArray = '';
+                    foreach ($value as $key => $option) {
+                        $customFieldOption = CustomFieldOption::query()->where('id', $option)->first();
 
-                            $valueArray .= ($customFieldOption->value . (count($value) - 1 === $key ? '' : ','));
-                        }
+                        $valueArray .= ($customFieldOption->value . (count($value) - 1 === $key ? '' : ','));
+                    }
                     $customFieldsData[$customField->code] = $valueArray;
                 } else {
                     $customFieldsData[$customField->code] = $cc->getInputValues($customField, $contact->id);
                 }
             }
-                $contact->custom_fields = $customFieldsData;
+            $contact->custom_fields = $customFieldsData;
         }
 
         return [
@@ -1298,4 +1395,28 @@ class Contact extends Model implements Auditable
         }
     }
 
+    public static function addDefaultContactToList($list)
+    {
+        if(empty($list->contacts->toArray())){
+            $defaultContact = self::DEFAULT_CONTACTS[$list->template->name];
+            $defaultContact['user_id'] = $list->user_id;
+            $defaultContact['team_id'] = $list->team_id;
+            $customFields = $defaultContact['custom_fields'] ?? [];
+            unset($defaultContact['custom_fields']);
+            $contact = Contact::saveContact($defaultContact, $list->id)->first();
+            if($contact && !empty($customFields)){
+                $templateFields = $list->template->templateFields;
+                foreach ($templateFields->where('type', 'custom') as $field) {
+                    $customField = CustomField::find($field->field_id);
+                    $data = [
+                        "$customField->code" => $customFields["$customField->code"] ?? null,
+                        'list' => $list->id
+                    ];
+                    Contact::updateContact($data, $contact->id);
+                }
+            }
+            return $contact;
+        }
+        return null;
+    }
 }

@@ -134,8 +134,7 @@ class UserList extends Model implements Auditable
                 ]);
             }
 
-            self::setTemplate($list->id);
-
+            $list = self::setTemplate($list->id);
             return $list;
         }
         return new UserList();
@@ -321,7 +320,9 @@ class UserList extends Model implements Auditable
             $list->template_id = $template->id;
             $list->save();
         }
-
+        if($template->name != Template::DEFAULT_TEMPLATE_NAME){
+            Contact::addDefaultContactToList($list);
+        }
         return $list;
     }
 }

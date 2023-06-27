@@ -19,6 +19,7 @@ return new class extends Migration
             $table->uuid('team_id')->nullable();
             $table->uuid('template_id');
             $table->uuid('field_id');
+            $table->enum('type', ['default', 'custom'])->default('default');
             $table->timestamps();
         });
     }
