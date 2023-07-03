@@ -96,9 +96,12 @@ class CrmController extends Controller
             ],
         ]);
 
-        $validator->withErrors([
-            'ids.exists' => 'Invalid team',
-        ]);
+        if ($validator->fails()) {
+            return collect([
+                'status' => false,
+                'data' => 'Invalid team',
+            ]);
+        }
         $params = $request->all();
         Contact::updateCopiedContactColumns($params);
         return collect([
