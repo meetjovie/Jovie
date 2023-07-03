@@ -172,7 +172,9 @@
         @updateContactLists="updateContactLists"
         @blur="$emit('updateContact', contact)"
         v-model="contact[otherColumns[columnIndex].key]"
-        :row="row">
+        :row="row"
+        :columnIndex="columnIndex"
+      >
       </DataGridCell>
     </template>
   </tr>

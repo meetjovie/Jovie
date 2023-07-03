@@ -948,9 +948,10 @@ export default {
     },
   },
   async mounted() {
-    console.log('Echo.connector.channels');
-    console.log(Echo.connector.channels);
     await this.getUserLists();
+    if (this.filters.list) {
+      this.intializeListChannel();
+    }
     await this.getHeaders();
     this.getCrmContacts();
     this.crmCounts();
@@ -1389,36 +1390,7 @@ export default {
         list = this.userLists.find((l) => l.id === list);
         this.filters.currentList = list ?? null;
         this.$store.state.overviewList = list ?? null;
-        this.listChannel = Echo.join(
-          `userOnUserlist.${this.currentUser.current_team.id}.${
-            this.filters.list ?? 0
-          }`
-        );
-        this.listChannel
-          .here((users) => {
-            this.activeUsersOnList = users;
-            this.activeUsersOnList.forEach((user) => {
-              user.color = this.shareMenuColors.pop();
-            });
-          })
-          .joining((user) => {
-            this.activeUsersOnList.push(user);
-          })
-          .leaving((user) => {
-            this.activeUsersOnList = this.activeUsersOnList.filter(
-              (obj) => obj['id'] !== user.id
-            );
-            this.shareMenuColors.push(user.color);
-          })
-          .error((error) => {
-            console.error(error);
-          });
-        this.listChannel.listenForWhisper('client-oncell', (e) => {
-          let userOnCell = this.activeUsersOnList.filter(
-            (obj) => obj['id'] !== e.userId
-          );
-          userOnCell[0].activeOn = e.cell;
-        });
+        this.intializeListChannel();
       } else {
         this.filters.type = 'all';
         this.filters.currentList = null;
@@ -1426,6 +1398,38 @@ export default {
       }
       this.getHeaders();
       this.getCrmContacts();
+    },
+    intializeListChannel() {
+      this.listChannel = Echo.join(
+        `userOnUserlist.${this.currentUser.current_team.id}.${
+          this.filters.list ?? 0
+        }`
+      );
+      this.listChannel
+        .here((users) => {
+          this.activeUsersOnList = users;
+          this.activeUsersOnList.forEach((user) => {
+            user.color = this.shareMenuColors.pop();
+          });
+        })
+        .joining((user) => {
+          this.activeUsersOnList.push(user);
+        })
+        .leaving((user) => {
+          this.activeUsersOnList = this.activeUsersOnList.filter(
+            (obj) => obj['id'] !== user.id
+          );
+          this.shareMenuColors.push(user.color);
+        })
+        .error((error) => {
+          console.error(error);
+        });
+      this.listChannel.listenForWhisper('client-oncell', (e) => {
+        let userOnCell = this.activeUsersOnList.filter(
+          (obj) => obj['id'] !== e.userId
+        );
+        userOnCell[0].activeOn = e.cell;
+      });
     },
     sortLists(e, listId) {
       UserService.sortLists(

@@ -992,10 +992,11 @@ export default {
     },
     currentCell: {
       deep: true,
-      handler: function (val) {
+      handler: function (newCell, previousCell) {
         if (this.listChannel) {
           this.listChannel.whisper('client-oncell', {
-            cell: val,
+            cell: newCell,
+            previousCell: previousCell,
             userId: this.currentUser.id,
           });
         }
