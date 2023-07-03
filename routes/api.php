@@ -90,6 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // CRM CONTACTS
     Route::get('/crm-contacts', [\App\Http\Controllers\CrmController::class, 'crmContacts']);
     Route::post('/update-contact/{id}', [\App\Http\Controllers\CrmController::class, 'updateContact']);
+    Route::post('/update-copied-contact-columns', [\App\Http\Controllers\CrmController::class, 'updateCopiedContactColumns']);
     Route::post('/toggle-contacts-from-list', [\App\Http\Controllers\CrmController::class, 'toggleContactsFromList']);
     Route::post('/toggle-archive-contacts', [\App\Http\Controllers\CrmController::class, 'toggleArchiveContacts']);
     Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);

@@ -21,7 +21,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use MeiliSearch\Client;
@@ -60,15 +62,47 @@ class CrmController extends Controller
 
     public function updateContact(Request $request, $id)
     {
+        $team_id = Auth::user()->currentTeam->id;
+        $validator = Validator::make(
+            ['id' => $id, 'team_id' => $team_id],
+            ['id' => 'exists:contacts,id,team_id,' . $team_id]
+        );
+        if ($validator->fails()) {
+            return collect([
+                'status' => false,
+                'data' => 'Invalid team',
+            ]);
+        }
         // update creator
         $params = $request->all();
         $params['user_id'] = Auth::id();
-        $params['team_id'] = Auth::user()->currentTeam->id;
+        $params['team_id'] = $team_id;
         Contact::updateContact($params, $id);
         $params['id'] = $id;
         return collect([
             'status' => true,
             'data' => Contact::getContacts($params)->first(),
+        ]);
+    }
+
+    public function updateCopiedContactColumns(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ids' => [
+                'required',
+                Rule::exists('contacts', 'id')->where(function ($query) {
+                    $query->where('team_id', Auth::user()->currentTeam->id);
+                })
+            ],
+        ]);
+
+        $validator->withErrors([
+            'ids.exists' => 'Invalid team',
+        ]);
+        $params = $request->all();
+        Contact::updateCopiedContactColumns($params);
+        return collect([
+            'status' => true,
         ]);
     }
 
