@@ -889,23 +889,10 @@ class Contact extends Model implements Auditable
         return self::uploadFileFromTempUuid($uuid, Creator::CREATORS_MEDIA_PATH, $oldPath);
     }
 
-    public static function updateCopiedContactColumns($params)
+    public static function updateCopiedContactColumns($params, $ids)
     {
-        $cc = new Contact();
-        $team_id = Auth::user()->currentTeam->id;
-        $customFields = $cc->getFieldsByTeam($team_id);
-        if (in_array($params['key'], $customFields->pluck('code')->toArray())) {
-            $data = [
-                $params['key'] => $params['value'],
-                'user_id' => Auth::id(),
-                'team_id' => $team_id,
-            ];
-            $contacts = Contact::query()->whereIn('id', $params['ids'])->get();
-            foreach ($contacts as $contact) {
-                Contact::updateCutomFields($data, $contact, $customFields, $cc);
-            }
-        } else {
-            Contact::query()->whereIn('id', $params['ids'])->update([$params['key'] => $params['value']]);
+        foreach ($ids as $id) {
+            self::updateContact($params, $id);
         }
     }
 

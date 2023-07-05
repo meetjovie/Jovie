@@ -103,7 +103,12 @@ class CrmController extends Controller
             ]);
         }
         $params = $request->all();
-        Contact::updateCopiedContactColumns($params);
+        $ids = $params['ids'];
+        unset($params['ids']);
+        $params = [
+            $params['key'] => $params['value']
+        ];
+        Contact::updateCopiedContactColumns($params, $ids);
         return collect([
             'status' => true,
         ]);
