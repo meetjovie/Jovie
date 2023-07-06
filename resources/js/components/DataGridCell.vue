@@ -194,11 +194,11 @@ export default {
           }
           return false;
         });
-          if (activeUserOnCell) {
-              console.log("ACTIVE USERS ON CELL");
-              console.log(activeUserOnCell);
-              console.log("ACTIVE USERS ON CELL");
-              this.activeUserColor = activeUserOnCell.color;
+        if (activeUserOnCell) {
+          console.log('ACTIVE USERS ON CELL');
+          console.log(activeUserOnCell);
+          console.log('ACTIVE USERS ON CELL');
+          this.activeUserColor = activeUserOnCell.color;
         } else {
           this.activeUserColor = null;
         }
@@ -212,86 +212,32 @@ export default {
   methods: {
     getCellStyles() {
       let classes = '';
+        if (this.userColor && !this.cellActive) {
+            classes += `ring-2 ring-inset ring-${this.userColor}-500 dark:ring-${this.userColor}-300`;
+        } else {
+            if (this.cellActive && !(this.selectedRows.length > 1)) {
+                classes += 'ring-2 ring-inset border-slate-200 ';
+            }
 
-      if (this.cellActive && !(this.selectedRows.length > 1)) {
-        classes += 'ring-2 ring-inset border-slate-200 ';
-      }
+            if (this.cellActive && this.selectedRows.length && this.lastActive) {
+                classes +=
+                    'border-t-0 border-x-2 border-b-2 border-blue-500 dark:border-blue-300 ';
+            }
 
-      if (this.cellActive && this.selectedRows.length && this.lastActive) {
-        classes +=
-          'border-t-0 border-x-2 border-b-2 border-blue-500 dark:border-blue-300 ';
-      }
+            if (this.cellActive && this.selectedRows.length && this.firstActive) {
+                classes +=
+                    'border-b-0 border-x-2 border-t-2 border-blue-500 dark:border-blue-300 ';
+            }
 
-      if (this.cellActive && this.selectedRows.length && this.firstActive) {
-        classes +=
-          'border-b-0 border-x-2 border-t-2 border-blue-500 dark:border-blue-300 ';
-      }
-
-      if (
-        this.cellActive &&
-        this.selectedRows.length &&
-        !this.firstActive &&
-        !this.lastActive
-      ) {
-        classes +=
-          'border-y-0 border-x-2 border-blue-500 dark:border-blue-300 ';
-      }
-
-      if (this.userColor === 'red') {
-        classes += 'ring-red-500 dark:ring-red-300 ';
-      }
-
-      if (this.userColor === 'green') {
-        classes += 'ring-green-500 dark:ring-green-300 ';
-      }
-
-      if (this.userColor === 'blue') {
-        classes += 'ring-blue-500 dark:ring-blue-300 ';
-      }
-
-      if (this.userColor === 'yellow') {
-        classes += 'ring-yellow-500 dark:ring-yellow-300 ';
-      }
-
-      if (this.userColor === 'indigo') {
-        classes += 'ring-indigo-500 dark:ring-indigo-300 ';
-      }
-
-      if (this.userColor === 'purple') {
-        classes += 'ring-purple-500 dark:ring-purple-300 ';
-      }
-
-      if (this.userColor === 'pink') {
-        classes += 'ring-pink-500 dark:ring-pink-300 ';
-      }
-
-      if (this.userColor === 'orange') {
-        classes += 'ring-orange-500 dark:ring-orange-300 ';
-      }
-
-      if (this.userColor === 'rose') {
-        classes += 'ring-rose-500 dark:ring-rose-300 ';
-      }
-
-      if (this.userColor === 'fuchsia') {
-        classes += 'ring-fuchsia-500 dark:ring-fuchsia-300 ';
-      }
-
-      if (this.userColor === 'sky') {
-        classes += 'ring-sky-500 dark:ring-sky-300 ';
-      }
-
-      if (this.userColor === 'cyan') {
-        classes += 'ring-cyan-500 dark:ring-cyan-300 ';
-      }
-
-      if (this.userColor === 'teal') {
-        classes += 'ring-teal-500 dark:ring-teal-300 ';
-      }
-
-      if (this.userColor === 'emerald') {
-        classes += 'ring-emerald-500 dark:ring-emerald-300 ';
-      }
+            if (
+                this.cellActive &&
+                this.selectedRows.length &&
+                !this.firstActive &&
+                !this.lastActive
+            ) {
+                classes += 'border-y-0 border-x-2 border-blue-500 dark:border-blue-300 ';
+            }
+        }
 
       return classes;
     },
