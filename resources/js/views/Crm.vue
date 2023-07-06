@@ -1413,6 +1413,7 @@ export default {
           });
         })
         .joining((user) => {
+          user.color = this.shareMenuColors.pop();
           this.activeUsersOnList.push(user);
         })
         .leaving((user) => {
@@ -1425,10 +1426,10 @@ export default {
           console.error(error);
         });
       this.listChannel.listenForWhisper('client-oncell', (e) => {
-        let userOnCell = this.activeUsersOnList.filter(
-          (obj) => obj['id'] !== e.userId
+        let userOnCell = this.activeUsersOnList.find(
+          (obj) => obj['id'] == e.userId
         );
-        userOnCell[0].activeOn = e.cell;
+        userOnCell.activeOn = e.cell;
       });
     },
     sortLists(e, listId) {

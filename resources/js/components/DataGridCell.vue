@@ -185,17 +185,23 @@ export default {
     activeUsersOnList: {
       deep: true,
       handler: function (val) {
-          let activeUserOnCell = val.filter((obj) => {
+        let activeUserOnCell = val.find((obj) => {
           if (obj.activeOn) {
-              return obj.activeOn.row == this.row && obj.activeOn.column == this.columnIndex;
+            return (
+              obj.activeOn.row == this.row &&
+              obj.activeOn.column == this.columnIndex
+            );
           }
           return false;
         });
-          if (activeUserOnCell.length) {
-            this.activeUserColor = activeUserOnCell[0].color;
-          }else{
-              this.activeUserColor = null;
-          }
+          if (activeUserOnCell) {
+              console.log("ACTIVE USERS ON CELL");
+              console.log(activeUserOnCell);
+              console.log("ACTIVE USERS ON CELL");
+              this.activeUserColor = activeUserOnCell.color;
+        } else {
+          this.activeUserColor = null;
+        }
       },
     },
   },
