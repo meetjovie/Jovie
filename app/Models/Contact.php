@@ -889,6 +889,13 @@ class Contact extends Model implements Auditable
         return self::uploadFileFromTempUuid($uuid, Creator::CREATORS_MEDIA_PATH, $oldPath);
     }
 
+    public static function updateCopiedContactColumns($params, $ids)
+    {
+        foreach ($ids as $id) {
+            self::updateContact($params, $id);
+        }
+    }
+
     public static function updateContact($data, $id, $merge = false)
     {
         $contact = Contact::query()->where('id', $id)->first();
@@ -909,10 +916,15 @@ class Contact extends Model implements Auditable
         }
 
         $contact->save();
-
-        $contact = Contact::query()->where('id', $id)->first();
         $cc = new Contact();
         $customFields = $cc->getFieldsByTeam(Auth::user()->currentTeam->id);
+        Contact::updateCutomFields($data, $contact, $customFields, $cc, $merge);
+
+        return Contact::query()->where('id', $id)->first();
+    }
+
+    public static function updateCutomFields($data, $contact, $customFields, $cc, $merge = false)
+    {
         foreach ($customFields as $customField) {
             if (array_key_exists($customField->code, $data) && !$merge) {
                 $value = $data[$customField->code];
@@ -938,7 +950,6 @@ class Contact extends Model implements Auditable
                 Event::dispatch(AuditCustom::class, [$contact]);
             }
         }
-        return $contact;
     }
 
     public static function updateArchivedStatus($contactIds, $archived)
