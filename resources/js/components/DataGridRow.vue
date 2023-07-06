@@ -183,12 +183,15 @@
         :currentCell="currentCell"
         :networks="networks"
         :stages="stages"
+        :active-users-on-list="activeUsersOnList"
         :column="otherColumns[columnIndex]"
         @updateContact="$emit('updateContact', $event)"
         @updateContactLists="updateContactLists"
         @blur="$emit('updateContact', contact)"
         v-model="contact[otherColumns[columnIndex].key]"
-        :row="row">
+        :row="row"
+        :columnIndex="columnIndex"
+      >
       </DataGridCell>
     </template>
   </tr>
@@ -377,6 +380,7 @@ export default {
     otherColumns: Array,
     columnIndex: Number,
     contactsMeta: Object,
+    activeUsersOnList: Object,
     ringColor: {
       type: String,
       default: 'red',

@@ -559,6 +559,8 @@
               :taskLoading="taskLoading"
               :contactsMeta="contactsMeta"
               :suggestMerge="suggestMerge"
+              :list-channel="listChannel"
+              :active-users-on-list="activeUsersOnList"
               :headersLoaded="headersLoaded">
               <slot header="header"></slot>
             </DataGrid>
@@ -695,12 +697,12 @@ import KBShortcut from '../components/KBShortcut.vue';
 import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
-import InputLists from "../components/InputLists.vue";
+import InputLists from '../components/InputLists.vue';
 
 export default {
   name: 'CRM',
   components: {
-      InputLists,
+    InputLists,
     FaceSmileIcon,
     ModalPopup,
     DropdownMenuItem,
@@ -759,7 +761,6 @@ export default {
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
-
     CloudArrowUpIcon,
     vueMousetrapPlugin: VueMousetrapPlugin,
     ContactTags,
@@ -773,6 +774,7 @@ export default {
   },
   data() {
     return {
+      listChannel: null,
       dropdownmenuitems: [
         {
           name: 'Chrome Extension',
@@ -947,9 +949,10 @@ export default {
     },
   },
   async mounted() {
-      console.log('Echo.connector.channels');
-      console.log(Echo.connector.channels);
-      await this.getUserLists();
+    await this.getUserLists();
+    if (this.filters.list) {
+      this.intializeListChannel();
+    }
     await this.getHeaders();
     this.getCrmContacts();
     this.crmCounts();
@@ -987,148 +990,146 @@ export default {
     //   this.getNotifications();
     // }, 5000);
     // if (!this.$store.state.crmEventsRegistered) {
-      this.listenEvents(
-        `notification.${this.currentUser.current_team.id}`,
-        'Notification',
-        (data) => {
-          this.newNotification = true;
-        }
-      );
-      this.listenEvents(
-        `userListDuplicated.${this.currentUser.current_team.id}`,
-        'UserListDuplicated',
-        async (data) => {
-          this.getUserLists().then(() => {
-            let list = this.userLists.find((list) => list.id == data.list);
-            if (list) {
-              list.updating = null;
-              this.setFilterList(list.id);
-            }
-          });
-        }
-      );
-
-      this.listenEvents(
-        `importListCreated.${this.currentUser.current_team.id}`,
-        'ImportListCreated',
-        async (data) => {
-          this.getUserLists().then(() => {
-            let list = this.userLists.find((list) => list.id == data.list);
-            if (list) {
-              this.setFilterList(list.id);
-            }
-          });
-        }
-      );
-
-      this.listenEvents(
-        `userListImported.${this.currentUser.current_team.id}`,
-        'UserListImported',
-        (data) => {
-          this.getUserLists().then(() => {
-            this.$store.state.showImportProgress = data.remaining;
-            if (!data.remaining) {
-              this.getUserLists();
-            }
-          });
-        }
-      );
-
-      this.listenEvents(
-        `userListImportTriggered.${this.currentUser.current_team.id}`,
-        'UserListImportTriggered',
-        (data) => {
-          this.getUserLists().then(() => {
-            this.$store.state.showImportProgress = data.remaining;
-          });
-        }
-      );
-
-      this.listenEvents(
-        `contactImported.${this.currentUser.current_team.id}`,
-        'ContactImported',
-        (data) => {
-          if (!data.list.length) {
-            this.$store.state.importProgressSingleCount--;
+    this.listenEvents(
+      `notification.${this.currentUser.current_team.id}`,
+      'Notification',
+      (data) => {
+        this.newNotification = true;
+      }
+    );
+    this.listenEvents(
+      `userListDuplicated.${this.currentUser.current_team.id}`,
+      'UserListDuplicated',
+      async (data) => {
+        this.getUserLists().then(() => {
+          let list = this.userLists.find((list) => list.id == data.list);
+          if (list) {
+            list.updating = null;
+            this.setFilterList(list.id);
           }
-          if (
-            (data.list.length && this.filters.type != 'list') ||
-            (!data.list.length && this.filters.type != 'all')
-          ) {
-            return;
-          }
+        });
+      }
+    );
 
-          if (
-            (data.list.length && data.list.includes(this.filters.list)) ||
-            this.filters.type == 'all'
-          ) {
-            let newContact = JSON.parse(window.atob(data.contact));
-            let index = this.contacts.findIndex(
-              (contact) => contact.id == newContact.id
-            );
-            if (index >= 0) {
-              this.contacts[index] = newContact;
-            } else if (!data.updating_existing) {
-              if (this.filters.page === 1 && this.contacts.length == 50) {
-                this.contacts.pop();
-              }
-              if (this.contacts.length) {
-                this.contacts.splice(0, 0, newContact);
-              } else {
-                this.contacts.push(newContact);
-              }
-            }
+    this.listenEvents(
+      `importListCreated.${this.currentUser.current_team.id}`,
+      'ImportListCreated',
+      async (data) => {
+        this.getUserLists().then(() => {
+          let list = this.userLists.find((list) => list.id == data.list);
+          if (list) {
+            this.setFilterList(list.id);
           }
-          this.crmCounts();
+        });
+      }
+    );
+
+    this.listenEvents(
+      `userListImported.${this.currentUser.current_team.id}`,
+      'UserListImported',
+      (data) => {
+        this.getUserLists().then(() => {
+          this.$store.state.showImportProgress = data.remaining;
+          if (!data.remaining) {
+            this.getUserLists();
+          }
+        });
+      }
+    );
+
+    this.listenEvents(
+      `userListImportTriggered.${this.currentUser.current_team.id}`,
+      'UserListImportTriggered',
+      (data) => {
+        this.getUserLists().then(() => {
+          this.$store.state.showImportProgress = data.remaining;
+        });
+      }
+    );
+
+    this.listenEvents(
+      `contactImported.${this.currentUser.current_team.id}`,
+      'ContactImported',
+      (data) => {
+        if (!data.list.length) {
+          this.$store.state.importProgressSingleCount--;
         }
-      );
+        if (
+          (data.list.length && this.filters.type != 'list') ||
+          (!data.list.length && this.filters.type != 'all')
+        ) {
+          return;
+        }
 
-      this.listenEvents(
-        `contactEnriched.${this.currentUser.current_team.id}`,
-        'ContactEnriched',
-        (data) => {
+        if (
+          (data.list.length && data.list.includes(this.filters.list)) ||
+          this.filters.type == 'all'
+        ) {
           let newContact = JSON.parse(window.atob(data.contact));
-          console.log('newContact');
-          console.log(newContact);
           let index = this.contacts.findIndex(
             (contact) => contact.id == newContact.id
           );
-          console.log('index');
-          console.log(index);
-          console.log(this.contacts);
           if (index >= 0) {
             this.contacts[index] = newContact;
-          }
-          console.log(this.contacts);
-        }
-      );
-      this.listenEvents(
-        `listEnriched.${this.currentUser.current_team.id}`,
-        'ListEnriched',
-        (data) => {
-          let index = this.userLists.findIndex(
-            (list) => list.id == data.list.id
-          );
-          if (index >= 0) {
-            this.userLists[index] = data.list;
+          } else if (!data.updating_existing) {
+            if (this.filters.page === 1 && this.contacts.length == 50) {
+              this.contacts.pop();
+            }
+            if (this.contacts.length) {
+              this.contacts.splice(0, 0, newContact);
+            } else {
+              this.contacts.push(newContact);
+            }
           }
         }
-      );
+        this.crmCounts();
+      }
+    );
 
-      this.listenEvents(
-        `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
-        'EnrichedContactDataViewed',
-        (data) => {
-          let index = this.contacts.findIndex(
-            (contact) => contact.id == data.contact_id
-          );
-          if (index >= 0) {
-            this.contacts[index].enriched_viewed = true;
-          }
+    this.listenEvents(
+      `contactEnriched.${this.currentUser.current_team.id}`,
+      'ContactEnriched',
+      (data) => {
+        let newContact = JSON.parse(window.atob(data.contact));
+        console.log('newContact');
+        console.log(newContact);
+        let index = this.contacts.findIndex(
+          (contact) => contact.id == newContact.id
+        );
+        console.log('index');
+        console.log(index);
+        console.log(this.contacts);
+        if (index >= 0) {
+          this.contacts[index] = newContact;
         }
-      );
+        console.log(this.contacts);
+      }
+    );
+    this.listenEvents(
+      `listEnriched.${this.currentUser.current_team.id}`,
+      'ListEnriched',
+      (data) => {
+        let index = this.userLists.findIndex((list) => list.id == data.list.id);
+        if (index >= 0) {
+          this.userLists[index] = data.list;
+        }
+      }
+    );
 
-      this.$store.state.crmEventsRegistered = true;
+    this.listenEvents(
+      `enrichedContactDataViewed.${this.currentUser.current_team.id}`,
+      'EnrichedContactDataViewed',
+      (data) => {
+        let index = this.contacts.findIndex(
+          (contact) => contact.id == data.contact_id
+        );
+        if (index >= 0) {
+          this.contacts[index].enriched_viewed = true;
+        }
+      }
+    );
+
+    this.$store.state.crmEventsRegistered = true;
     // }
 
     this.getNotifications();
@@ -1137,9 +1138,9 @@ export default {
       window.addEventListener('resize', this.onResize());
     });
   },
-    beforeUnmount() {
-      Echo.leaveAllChannels();
-    },
+  beforeUnmount() {
+    Echo.leaveAllChannels();
+  },
   methods: {
     toggleMergeSuggestion(checkExists) {
       this.suggestionExists = checkExists;
@@ -1390,29 +1391,7 @@ export default {
         list = this.userLists.find((l) => l.id === list);
         this.filters.currentList = list ?? null;
         this.$store.state.overviewList = list ?? null;
-        Echo.join(
-          `userOnUserlist.${this.currentUser.current_team.id}.${
-            this.filters.list ?? 0
-          }`
-        )
-          .here((users) => {
-            this.activeUsersOnList = users;
-            this.activeUsersOnList.forEach((user) => {
-              user.color = this.shareMenuColors.pop();
-            });
-          })
-          .joining((user) => {
-            this.activeUsersOnList.push(user);
-          })
-          .leaving((user) => {
-            this.activeUsersOnList = this.activeUsersOnList.filter(
-              (obj) => obj['id'] !== user.id
-            );
-            this.shareMenuColors.push(user.color);
-          })
-          .error((error) => {
-            console.error(error);
-          });
+        this.intializeListChannel();
       } else {
         this.filters.type = 'all';
         this.filters.currentList = null;
@@ -1420,6 +1399,39 @@ export default {
       }
       this.getHeaders();
       this.getCrmContacts();
+    },
+    intializeListChannel() {
+      this.listChannel = Echo.join(
+        `userOnUserlist.${this.currentUser.current_team.id}.${
+          this.filters.list ?? 0
+        }`
+      );
+      this.listChannel
+        .here((users) => {
+          this.activeUsersOnList = users;
+          this.activeUsersOnList.forEach((user) => {
+            user.color = this.shareMenuColors.pop();
+          });
+        })
+        .joining((user) => {
+          user.color = this.shareMenuColors.pop();
+          this.activeUsersOnList.push(user);
+        })
+        .leaving((user) => {
+          this.activeUsersOnList = this.activeUsersOnList.filter(
+            (obj) => obj['id'] !== user.id
+          );
+          this.shareMenuColors.push(user.color);
+        })
+        .error((error) => {
+          console.error(error);
+        });
+      this.listChannel.listenForWhisper('client-oncell', (e) => {
+        let userOnCell = this.activeUsersOnList.find(
+          (obj) => obj['id'] == e.userId
+        );
+        userOnCell.activeOn = e.cell;
+      });
     },
     sortLists(e, listId) {
       UserService.sortLists(

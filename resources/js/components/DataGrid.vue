@@ -552,6 +552,7 @@
                     :currentContact="currentContact"
                     :selectedContacts="selectedContacts"
                     @updateSelectedContacts="selectedContacts = $event"
+                    :active-users-on-list="activeUsersOnList"
                     :contact="element"
                     @refresh="refresh(element)"
                     :row="index"
@@ -993,6 +994,7 @@ export default {
     'headersLoaded',
     'suggestMerge',
     'activeUsersOnList',
+    'listChannel',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
@@ -1000,6 +1002,17 @@ export default {
       deep: true,
       handler: function () {
         localStorage.setItem('settings', JSON.stringify(this.settings));
+      },
+    },
+    currentCell: {
+      deep: true,
+      handler: function (newCell) {
+        if (this.listChannel) {
+          this.listChannel.whisper('client-oncell', {
+            cell: newCell,
+            userId: this.currentUser.id,
+          });
+        }
       },
     },
     suggestMerge() {
