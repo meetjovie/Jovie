@@ -253,12 +253,12 @@
                   class="h-4 w-4 cursor-pointer text-slate-700"
                   aria-hidden="true" />
               </template>
-              <template #menuBottom>
-                <DropdownMenuItem
-                  @click="openCustomFieldModal()"
-                  name="Custom Field"
-                  icon="PlusIcon" />
-              </template>
+<!--              <template #menuBottom>-->
+<!--                <DropdownMenuItem-->
+<!--                  @click="openCustomFieldModal()"-->
+<!--                  name="Custom Field"-->
+<!--                  icon="PlusIcon" />-->
+<!--              </template>-->
             </JovieDropdownMenu>
           </div>
         </div>
