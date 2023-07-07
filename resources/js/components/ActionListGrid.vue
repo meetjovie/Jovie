@@ -3,7 +3,7 @@
     class="divide-y divide-slate-200 overflow-hidden rounded-lg bg-gray-200 shadow dark:divide-jovieDark-border dark:bg-jovieDark-800 sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
     <div
       v-for="(action, actionIdx) in actions"
-      :key="action.title"
+      :key="action.name"
       @click="actionSelected(action)"
       :class="[
         actionIdx === 0 ? 'rounded-tl-lg rounded-tr-lg sm:rounded-tr-none' : '',
@@ -12,12 +12,13 @@
         actionIdx === actions.length - 1
           ? 'rounded-bl-lg rounded-br-lg sm:rounded-bl-none'
           : '',
-        'group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 dark:bg-jovieDark-900',
+        'group relative bg-white p-6 dark:bg-jovieDark-900',
+        (selectedAction && action.id == selectedAction) ? 'ring-2 ring-inset ring-indigo-500' : ''
       ]">
       <div>
         <span
           class="inline-flex rounded-lg p-3 text-xl ring-2 ring-white dark:ring-jovieDark-border">
-          {{ action.emoji }}
+          {{ action.icon }}
         </span>
       </div>
       <div class="mt-8">
@@ -26,7 +27,7 @@
           <a :href="action.href" class="focus:outline-none">
             <!-- Extend touch target to entire panel -->
             <span class="absolute inset-0" aria-hidden="true" />
-            {{ action.title }}
+            {{ action.name }}
           </a>
         </h3>
         <p class="mt-2 text-sm text-gray-500">
@@ -107,7 +108,8 @@ export default {
   },
   methods: {
     actionSelected(action) {
-      this.selectedAction = action;
+      this.selectedAction = action.id;
+      this.$emit('selected', this.selectedAction);
     },
   },
 };

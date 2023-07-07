@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Events\ImportListCreated;
 use App\Models\Contact;
 use App\Models\Creator;
+use App\Models\Template;
 use App\Models\UserList;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;

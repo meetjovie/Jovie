@@ -301,7 +301,7 @@ export default {
           return false;
         }
         return this.settings.find((set) => set.key === 'show_follower_count')
-          .visible;
+          .value;
       } catch (e) {
         return false;
       }

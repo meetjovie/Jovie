@@ -29,6 +29,7 @@ class UserList extends Model implements Auditable
         'user_id',
         'emoji',
         'team_id',
+        'template_id',
         'importing',
         'updating',
     ];
@@ -60,6 +61,16 @@ class UserList extends Model implements Auditable
         return $this->belongsToMany(Contact::class)->withTimestamps();
     }
 
+    public function template()
+    {
+        return $this->belongsTo(Template::class)->with(['templateFields', 'templateStages', 'templateSettings']);
+    }
+
+    public function headerAttributes()
+    {
+        return $this->hasMany(HeaderAttribute::class);
+    }
+
     public static function firstOrCreateList($userId, $listName, $teamId = null, $emoji = null, $updating = false)
     {
         $team = null;
@@ -86,8 +97,9 @@ class UserList extends Model implements Auditable
             $data = [
                 'user_id' => $userId,
                 'name' => $listName,
-                'team_id' => $user->currentTeam->id
+                'team_id' => $user->currentTeam->id,
             ];
+
             if ($emoji) {
                 $data['emoji'] = $emoji;
                 $data['updating'] = $updating;
@@ -109,10 +121,11 @@ class UserList extends Model implements Auditable
             $customFieldIds = CustomField::query()->get()->toArray();
             $defaultIds = HeaderAttribute::DEFAULT_HEADERS;
             $headers = array_merge($customFieldIds, $defaultIds);
+
             foreach ($headers as $k => $header) {
                 HeaderAttribute::create([
                     'header_id' => $header['id'],
-                    'type' => (is_numeric($header) ? 'default' : 'custom'),
+                    'type' => (is_numeric($header['id']) ? 'default' : 'custom'),
                     'order' => $k,
                     'team_id' => $user->currentTeam->id,
                     'user_id' => $user->id,
@@ -120,6 +133,8 @@ class UserList extends Model implements Auditable
                     'hide' => $header['hide'] ?? false
                 ]);
             }
+
+            $list = self::setTemplate($list->id);
             return $list;
         }
         return new UserList();
@@ -167,6 +182,7 @@ class UserList extends Model implements Auditable
     {
         $user = User::with('currentTeam')->where('id', $userId)->first();
         return UserList::query()
+            ->with(['template'])
             ->withCount(['contacts' => function ($query) {
                 $query->where('archived', false);
             }])
@@ -265,5 +281,48 @@ class UserList extends Model implements Auditable
         if (!$countEnriching) {
             ListEnriched::dispatch($listId, $teamId);
         }
+    }
+
+    public static function getListStages($userList = null)
+    {
+        $userList = self::find($userList);
+        $template = $userList ? $userList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        return $template->templateStages()->select('name', 'color', 'order', 'id')->orderBy('order')->get();
+    }
+
+    public static function setTemplate($listId, $templateId = null)
+    {
+        if ($templateId) {
+            $template = Template::find($templateId);
+        } else {
+            $template = Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->with('templateHeaders')->first();
+        }
+        $list = UserList::find($listId);
+
+        if ($list && $templateId) {
+            $list->template_id = $template->id;
+            $templateHeaders = $template->templateHeaders->pluck('header_id')->toArray();
+            $list->headerAttributes()->delete();
+            $list->save();
+            $user = auth()->user();
+            foreach ($templateHeaders as $k => $header) {
+                HeaderAttribute::create([
+                    'header_id' => $header,
+                    'type' => (is_numeric($header) ? 'default' : 'custom'),
+                    'order' => $k,
+                    'team_id' => $user->currentTeam->id,
+                    'user_id' => $user->id,
+                    'user_list_id' => $list->id,
+                    'hide' => false
+                ]);
+            }
+        } else {
+            $list->template_id = $template->id;
+            $list->save();
+        }
+        if($template->name != Template::DEFAULT_TEMPLATE_NAME){
+            Contact::addDefaultContactToList($list);
+        }
+        return $list;
     }
 }

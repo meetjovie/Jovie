@@ -88,7 +88,7 @@ class Contact extends Model implements Auditable
         'enriching',
     ];
 
-    protected $appends = ['stage_name', 'social_links_with_followers', 'overview_media'];
+    protected $appends = ['stage_data', 'social_links_with_followers', 'overview_media'];
 
     const OVERRIDEABLE = [
         'phones',
@@ -160,6 +160,103 @@ class Contact extends Model implements Auditable
         'last_enriched_at',
     ];
 
+    const DEFAULT_CONTACTS = [
+        'Influencer Outreach' => [
+            'full_name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'platform_verified' => true,
+            'platform_username' => 'johndoe123',
+            'platform_title' => 'Social Media Influencer',
+            'platform_employer' => 'ABC Company',
+            'platform_employer_link' => 'https://example.com',
+            'category' => 'Influencer',
+            'biography' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'phones' => ['1234567890'],
+            'emails' => ['johndoe@example.com'],
+            'website' => 'https://johndoe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'region' => 'Anytown',
+                'country' => 'USA'
+            ],
+            'gender' => 'male',
+            'dob' => '1990-01-01',
+            'profile_pic_url' => 'https://example.com/profile-pic.jpg',
+            'tags' => ['Social Media', 'Digital Marketer'],
+            'last_contacted' => '2023-06-27',
+            'offer' => 500,
+            'archived' => false,
+            'rating' => 4,
+            'custom_fields' => [
+                'custom_closing_price' => 244
+            ]
+        ],
+
+        'Fund raising' => [
+            'full_name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'platform_verified' => true,
+            'platform_username' => 'johndoe123',
+            'platform_title' => 'Social Media Influencer',
+            'platform_employer' => 'ABC Company',
+            'platform_employer_link' => 'https://example.com',
+            'category' => 'Influencer',
+            'biography' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'phones' => ['1234567890'],
+            'emails' => ['johndoe@example.com'],
+            'website' => 'https://johndoe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'region' => 'Anytown',
+                'country' => 'USA'
+            ],
+            'gender' => 'male',
+            'dob' => '1990-01-01',
+            'profile_pic_url' => 'https://example.com/profile-pic.jpg',
+            'tags' => ['Social Media', 'Digital Marketer'],
+            'last_contacted' => '2023-06-27',
+            'offer' => 500,
+            'archived' => false,
+            'rating' => 4,
+            'custom_fields' => [
+                'custom_type' => '9982d79c-2a2c-4bce-a9b5-0f3b31fd4c94',
+                'custom_meetings_to_date' => "2023-08-27",
+                'custom_value' => 323
+
+            ]
+        ],
+        'Sales' => [
+            'full_name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'platform_verified' => true,
+            'platform_username' => 'johndoe123',
+            'platform_title' => 'Social Media Influencer',
+            'platform_employer' => 'ABC Company',
+            'platform_employer_link' => 'https://example.com',
+            'category' => 'Influencer',
+            'biography' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+            'phones' => ['1234567890'],
+            'emails' => ['johndoe@example.com'],
+            'website' => 'https://johndoe.com',
+            'address' => [
+                'address' => '123 Main St',
+                'region' => 'Anytown',
+                'country' => 'USA'
+            ],
+            'gender' => 'male',
+            'dob' => '1990-01-01',
+            'profile_pic_url' => 'https://example.com/profile-pic.jpg',
+            'tags' => ['Social Media', 'Digital Marketer'],
+            'last_contacted' => '2023-06-27',
+            'offer' => 500,
+            'archived' => false,
+            'rating' => 4,
+        ]
+    ];
+
     use \OwenIt\Auditing\Auditable;
 
     // ...
@@ -180,8 +277,8 @@ class Contact extends Model implements Auditable
         }
 
         if (Arr::has($data, 'new_values.stage')) {
-            $data['old_values']['stage'] = $this->stages()[$this->getOriginal('stage')];
-            $data['new_values']['stage'] = $this->stages()[$this->getAttribute('stage')];;
+            $data['old_values']['stage'] = $this->getOriginal('stage');
+            $data['new_values']['stage'] = $this->getAttribute('stage');
         }
 
         if (Arr::has($data, 'new_values.customFieldValues')) {
@@ -224,7 +321,7 @@ class Contact extends Model implements Auditable
 
     public function userLists(): BelongsToMany
     {
-        return $this->belongsToMany(UserList::class)->withTimestamps();
+        return $this->belongsToMany(UserList::class)->withTimestamps()->withPivot(['stage']);
     }
 
     public function comments(): HasMany
@@ -295,23 +392,23 @@ class Contact extends Model implements Auditable
     /**
      * Determine the stage of contact.
      */
-    protected function stageName(): Attribute
+
+    protected function stageData(): Attribute
     {
         return new Attribute(
-            get: fn() => $this->stages()[$this->stage ?? 0],
+            get: fn() => $this->contactStage(),
         );
     }
 
-    public static function stages()
+    public function contactStage($listId = null)
     {
-        return [
-            0 => 'Lead',
-            1 => 'Interested',
-            2 => 'Negotiating',
-            3 => 'In Progress',
-            4 => 'Complete',
-            5 => 'Not Interested',
-        ];
+        if ($listId) {
+            $userList = $this->userLists()->where('user_list_id', $listId)->first();
+            $stage = TemplateStage::where('id', $userList->pivot->stage);
+        } else {
+            $stage = TemplateStage::where('id', $this->stage);
+        }
+        return $stage->select('color', 'name', 'id', 'order')->first();
     }
 
     /**
@@ -692,6 +789,11 @@ class Contact extends Model implements Auditable
             foreach ($customFields as $customField) {
                 $contact->{$customField->code} = $cc->getInputValues($customField, $contact->id);
             }
+            if (isset($params['list']) && !empty($params['list'])) {
+                $userList = $contact->userLists()->where('user_list_id', $params['list'])->first();
+                $contact->stage = $userList->pivot->stage;
+            }
+
         }
 
         return $contacts;
@@ -781,8 +883,11 @@ class Contact extends Model implements Auditable
         }
 
         $contact = new Contact();
+        $stageId = UserList::getListStages()->first()->id;
+        $contactData['stage'] = $stageId;
         $contact = self::setContactData($contact, $contactData);
         $contact->save();
+
         if ($listId) {
             Contact::addContactsToList($contact->id, $listId, $data['team_id']);
         } else { // if list is there then import event is dispatched from within it for multiple contacts. else it is dispatched as single without list
@@ -904,6 +1009,12 @@ class Contact extends Model implements Auditable
             $contactData['description_updated_by'] = Auth::id();
             $contactData['description_updated_at'] = Carbon::now();
         }
+        if (isset($contactData['stage']) && isset($data['list'])) {
+            $contact->auditSyncWithoutDetaching('userLists', [$data['list'] => [
+                'stage' => $contactData['stage']
+            ]]);
+            unset($contactData['stage']);
+        }
         $contact = self::setContactData($contact, $contactData);
 
         $user = auth()->user();
@@ -974,7 +1085,14 @@ class Contact extends Model implements Auditable
         $contacts = Contact::query()->select(['id', 'team_id'])->whereIn('id', $contactIds)->get();
         foreach ($contacts as $contact) {
             foreach ($lists as $list) {
-                $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+                if ($updatingExisting) {
+                    $contact->auditSyncWithoutDetaching('userLists', [$list->id]);
+                } else {
+                    $stageId = UserList::getListStages($list->id)->first()->id;
+                    $contact->auditSyncWithoutDetaching('userLists', [$list->id => [
+                        'stage' => $stageId
+                    ]]);
+                }
             }
         }
         foreach ($contactIds as $contactId) {
@@ -1215,18 +1333,18 @@ class Contact extends Model implements Auditable
                     $customFieldOption = CustomFieldOption::query()->where('id', $value)->first();
                     $customFieldsData[$customField->code] = $customFieldOption->value;
                 } else if ($customField->type == 'multi_select') {
-                        $valueArray = '';
-                        foreach ($value as $key => $option) {
-                            $customFieldOption = CustomFieldOption::query()->where('id', $option)->first();
+                    $valueArray = '';
+                    foreach ($value as $key => $option) {
+                        $customFieldOption = CustomFieldOption::query()->where('id', $option)->first();
 
-                            $valueArray .= ($customFieldOption->value . (count($value) - 1 === $key ? '' : ','));
-                        }
+                        $valueArray .= ($customFieldOption->value . (count($value) - 1 === $key ? '' : ','));
+                    }
                     $customFieldsData[$customField->code] = $valueArray;
                 } else {
                     $customFieldsData[$customField->code] = $cc->getInputValues($customField, $contact->id);
                 }
             }
-                $contact->custom_fields = $customFieldsData;
+            $contact->custom_fields = $customFieldsData;
         }
 
         return [
@@ -1288,4 +1406,28 @@ class Contact extends Model implements Auditable
         }
     }
 
+    public static function addDefaultContactToList($list)
+    {
+        if(empty($list->contacts->toArray())){
+            $defaultContact = self::DEFAULT_CONTACTS[$list->template->name];
+            $defaultContact['user_id'] = $list->user_id;
+            $defaultContact['team_id'] = $list->team_id;
+            $customFields = $defaultContact['custom_fields'] ?? [];
+            unset($defaultContact['custom_fields']);
+            $contact = Contact::saveContact($defaultContact, $list->id)->first();
+            if($contact && !empty($customFields)){
+                $templateFields = $list->template->templateFields;
+                foreach ($templateFields->where('type', 'custom') as $field) {
+                    $customField = CustomField::find($field->field_id);
+                    $data = [
+                        "$customField->code" => $customFields["$customField->code"] ?? null,
+                        'list' => $list->id
+                    ];
+                    Contact::updateContact($data, $contact->id);
+                }
+            }
+            return $contact;
+        }
+        return null;
+    }
 }

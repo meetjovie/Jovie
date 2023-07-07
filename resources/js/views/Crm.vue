@@ -393,7 +393,7 @@
                                               class="mx-auto w-full" />
                                           </div>
                                           <div
-                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
+                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -454,7 +454,7 @@
                                             </p>
                                           </div>
                                           <div
-                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
+                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -517,7 +517,6 @@
               :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
               :cta="`Upgrade`"
               ctaLink="Billing" />
-
             <DataGrid
               v-if="columns.length"
               ref="crmTableGrid"
@@ -532,6 +531,7 @@
               @pageChanged="pageChanged"
               @getCrmContacts="getCrmContacts"
               @setCurrentContact="setCurrentContact"
+              @updateSettings="updateSettings"
               @openSidebar="openSidebarContact"
               @getHeaders="getHeaders"
               @checkContactsEnrichable="checkContactsEnrichable"
@@ -620,6 +620,7 @@ import AlertBanner from '../components/AlertBanner.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
 import MenuList from '../components/MenuList.vue';
+import TemplateService from '../services/api/template.service';
 import SupportModal from '../components/SupportModal.vue';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
@@ -822,6 +823,7 @@ export default {
       currentSortBy: 'id',
       currentSortOrder: 'desc',
       columns: [],
+      settings: [],
       activeUsersOnList: [],
       shareMenuColors: [
         'blue',
@@ -1236,6 +1238,7 @@ export default {
     },
     updateUserList(event) {
       this.$refs.crmTableGrid.updateUserList(event);
+      this.getSettings();
     },
     getHeaders() {
       this.headersLoaded = false;
@@ -1629,8 +1632,9 @@ export default {
       });
     },
     updateContact(params) {
-      console.log('paramsparams');
-      console.log(params);
+      if (this.filters.list) {
+        params['list_id'] = this.filters.list;
+      }
       this.$store.dispatch('updateContact', params).then((response) => {
         response = response.data;
         if (response.status) {
@@ -1643,6 +1647,21 @@ export default {
           this.crmCounts();
         }
       });
+    },
+    updateSettings(data) {
+        TemplateService.updateSettings(this.filters.list, data)
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    console.log('UPDATE GOT SETTING', response);
+                }
+            })
+            .catch((error) => {
+                console.log('UPDATE Setting Error', error);
+            })
+            .finally((_) => {
+                console.log('UPDATE Nothing');
+            });
     },
     updateCopiedContactColumns(params) {
       // console.log(params)

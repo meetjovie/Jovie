@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Template;
 use App\Models\User;
 use App\Models\UserList;
 use App\Services\GPTService;
@@ -142,13 +143,8 @@ class UserListsController extends Controller
 
     public function createList(Request $request)
     {
-        $name = 'New List';
-        if (!empty($request->name)) {
-            $name = $request->name;
-        }
-
-        $emoji = $request->emoji;
-        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $emoji);
+        $name = "New list";
+        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $request->emoji);
 
         return response()->json([
             'status' => true,

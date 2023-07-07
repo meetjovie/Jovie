@@ -168,14 +168,15 @@
                               <SwitchLabel>
                                 <DropdownMenuItem
                                   :icon="setting.icon"
-                                  :key="setting.name"
+                                  :key="setting.key"
                                   :name="setting.name"
                                   v-for="setting in settings">
                                   <template #toggle>
                                     <Switch
                                       v-if="setting.type === 'toggle'"
                                       name="columns-visible"
-                                      v-model="setting.visible"
+                                      v-model="setting.value"
+                                      @click="$emit('update-settings', setting)"
                                       as="template"
                                       v-slot="{ checked }">
                                       <button
@@ -486,18 +487,18 @@
                     </th>
                   </template>
                   <template #footer>
-                    <th
-                      scope="col"
-                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
-                      <div @click="openCustomFieldModal()" class="w-40">
-                        <!-- <CustomFieldsMenu
-                                              class=""
-                                              @getHeaders="$emit('getHeaders')" /> -->
-                        <PlusIcon
-                          class="mx-auto h-4 w-4 text-slate-500 dark:text-jovieDark-400"
-                          aria-hidden="true" />
-                      </div>
-                    </th>
+<!--                    <th-->
+<!--                      scope="col"-->
+<!--                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">-->
+<!--                      <div @click="openCustomFieldModal()" class="w-40">-->
+<!--                        &lt;!&ndash; <CustomFieldsMenu-->
+<!--                                              class=""-->
+<!--                                              @getHeaders="$emit('getHeaders')" /> &ndash;&gt;-->
+<!--                        <PlusIcon-->
+<!--                          class="mx-auto h-4 w-4 text-slate-500 dark:text-jovieDark-400"-->
+<!--                          aria-hidden="true" />-->
+<!--                      </div>-->
+<!--                    </th>-->
 
                     <th
                       scope="col"
@@ -618,7 +619,7 @@
                             class="rounded py-2"
                             :active="active"
                             :icon="item.icon"
-                            @click="item.action"
+                            @button-click="item.action"
                             :name="item.name" />
                         </div>
                       </MenuItems>
@@ -670,9 +671,13 @@
     :open="openMergeSuggestion"
     :suggestion="mergeSuggestion" />
 
-  <ModalPopup :open="true" customContent>
+  <ModalPopup v-if="filters.list" :open="selectTemplateModelOpen" customContent>
     <template #content>
-      <TemplateModal />
+      <TemplateModal
+        :templates="templates"
+        :list="filters.list"
+        @updated="listTemplateUpdated"
+        @cancel="closeSelectTemplateModal" />
     </template>
   </ModalPopup>
 </template>
@@ -786,6 +791,8 @@ import SocialIcons from './SocialIcons.vue';
 import draggable from 'vuedraggable';
 import ContactService from '../services/api/contact.service';
 import MergeContactsModal from './MergeContactsModal.vue';
+import TemplateService from '../services/api/template.service';
+import CheckboxInput from './CheckboxInput.vue';
 import { debounce } from 'lodash';
 import RightClickMenuVue from './RightClickMenu.vue';
 import ViewToggle from './ViewToggle.vue';
@@ -797,6 +804,7 @@ import TemplateModal from './TemplateModal.vue';
 export default {
   name: 'DataGrid',
   components: {
+    CheckboxInput,
     TemplateModal,
     MergeContactsModal,
     DropdownMenuItem,
@@ -941,6 +949,7 @@ export default {
       showCustomFieldsModal: false,
       currentEditingField: null,
       contactRecords: [],
+      settings: [],
       tableViewSearchQuery: '',
       searchQuery: '',
       stageSearchQuery: '',
@@ -950,24 +959,16 @@ export default {
       date: null,
       selectedContacts: [],
       currentContact: [],
+      templates: [],
       editingSocialHandle: true,
       searchVisible: false,
       imageLoaded: true,
       open: false,
       subMenuOpen: true,
-
-      settings: [
-        {
-          name: 'Show Follower Counts',
-          key: 'show_follower_count',
-          icon: 'UserGroupIcon',
-          visible: true,
-          type: 'toggle',
-        },
-      ],
       currentSort: 'asc',
       currentSortBy: '',
       headers: [],
+      selectTemplateModelOpen: false,
       disableDrag: false,
       mergeSuggestion: [],
       suggestingMerge: false,
@@ -998,12 +999,12 @@ export default {
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
-    settings: {
-      deep: true,
-      handler: function () {
-        localStorage.setItem('settings', JSON.stringify(this.settings));
-      },
-    },
+    // settings: {
+    //   deep: true,
+    //   handler: function () {
+    //     localStorage.setItem('settings', JSON.stringify(this.settings));
+    //   },
+    // },
     currentCell: {
       deep: true,
       handler: function (newCell) {
@@ -1044,6 +1045,7 @@ export default {
       },
     },
     selectedContacts(val) {
+      this.getSettings();
       this.$emit('updateFiltersContact', val);
     },
     openMergeSuggestion(val) {
@@ -1053,9 +1055,9 @@ export default {
       //route push to chrome-extension
       this.$router.push({ name: 'Chrome Extension' });
     },
-    openSelectTemplateModal() {},
   },
   mounted() {
+    this.getTemplates();
     this.suggestContactsMerge([], true);
     this.$mousetrap.bind('up', () => {
       //prevent the page from scrolling up
@@ -1187,13 +1189,18 @@ export default {
     // if (columns) {
     //   this.columns = columns;
     // }
-    let settings = JSON.parse(localStorage.getItem('settings'));
-    if (settings) {
-      this.settings = settings;
-    }
+    // let settings = JSON.parse(localStorage.getItem('settings'));
+    // if (settings) {
+    //   this.settings = settings;
+    // }
     this.contactRecords = this.contactRecords.length
       ? this.contactRecords
       : this.contacts;
+
+    for (let i = 0; i < this.columns.length; i++) {
+      this.columns[i].visible = !this.columns[i].hide;
+    }
+    this.getSettings();
   },
   computed: {
     sidebarOpen() {
@@ -1239,6 +1246,29 @@ export default {
     window.addEventListener('scroll', this.handleScroll);
   },
   methods: {
+    getTemplates() {
+      TemplateService.getTemplates()
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.templates = [];
+            this.templates = response.data;
+          }
+        })
+        .catch((error) => {
+          console.log('error', error);
+        });
+    },
+    openSelectTemplateModal() {
+      this.selectTemplateModelOpen = true;
+    },
+    closeSelectTemplateModal() {
+      this.selectTemplateModelOpen = false;
+    },
+    listTemplateUpdated() {
+      this.closeSelectTemplateModal();
+      this.$emit('getHeaders');
+      },
     handleMouseOver(index) {
       if (this.selectActiveColumnCells) {
         let firstSelectedIndex = this.selectedRows[0];
@@ -2185,6 +2215,22 @@ export default {
         })
         .finally((_) => {
           this.adding = false;
+        });
+    },
+    getSettings() {
+      TemplateService.getSettings(this.filters.list)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.settings = response.data;
+            console.log('GOT SETTING', response);
+          }
+        })
+        .catch((error) => {
+          console.log('SEtting Error', error);
+        })
+        .finally((_) => {
+          console.log('Nothing');
         });
     },
     isAnyInputFocused() {

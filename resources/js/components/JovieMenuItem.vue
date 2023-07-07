@@ -239,9 +239,10 @@ export default {
         });
     },
     handleClick() {
+      console.log('asdadasd');
       this.$emit('button-click');
     },
-    handleIconClikc() {
+    handleIconClick() {
       this.$emit('icon-click');
     },
     handleToggle() {
