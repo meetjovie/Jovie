@@ -208,7 +208,7 @@
                 <!--  <span
                   class="inline-block h-2 w-2 flex-shrink-0 rounded-full"
                   :class="dotClass"></span> -->
-                <ColorDot :color="colorDot" />
+                <ColorDot :style-color="colorDot" />
               </div>
               <div v-else-if="icon" class="mr-2 items-center text-xs font-bold">
                 <component

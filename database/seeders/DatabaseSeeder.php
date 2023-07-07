@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\DefaultCreators;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,7 +17,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-
         $user = User::create([
             'first_name' => 'Aamish',
             'email' => 'aamishirfan2662@gmail.com',
@@ -31,6 +31,8 @@ class DatabaseSeeder extends Seeder
             'credits' => 10000000
         ]);
         $user->attachTeam($team);
+
+        $this->call(TemplateSeeder::class);
 
         $user = User::create([
             'first_name' => 'Tim',

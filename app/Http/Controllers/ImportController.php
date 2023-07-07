@@ -200,8 +200,8 @@ class ImportController extends Controller
             $user = Auth::user();
             $data['user_id'] = $user->id;
             $data['team_id'] = $user->currentTeam->id;
-            $data['full_name'] = $data['first_name'] ? ($data['first_name'] . ' ' . $data['last_name'] ?? null) : null;
-            $contact = Contact::saveContact($data, $request->list_id)->first();
+            $data['full_name'] = $data['first_name'] ? ($data['first_name']. ' ' . $data['last_name'] ?? null) : null;
+            $contact = Contact::saveContact($data, $data['list_id'])->first();
 
             if ($user->currentTeam->autoEnrichImportEnabled() || $data['enrich'] ) {
                 $contact->enrichContact();

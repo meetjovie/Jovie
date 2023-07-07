@@ -10,9 +10,11 @@
         @click="open"
         class="flex w-full justify-between px-2">
         <div
-          class="group my-0 -ml-1 line-clamp-1 inline-flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-2xs font-medium leading-5 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200">
-          <ColorDot class="mr-1" :color="color(contact.stage_name)" />
-          {{ contact.stage_name }}
+          class="group my-0 -ml-1 inline-flex items-center justify-between rounded-full border border-slate-200 px-2 py-0.5 text-2xs font-medium leading-5 line-clamp-1 dark:border-jovieDark-border dark:bg-jovieDark-800 dark:text-jovieDark-200">
+          <ColorDot
+            class="mr-1"
+            :style-color="contact.stage_data.color" />
+          {{ contact.stage_data.name }}
         </div>
         <div class="items-center">
           <ChevronDownIcon
@@ -55,18 +57,18 @@
             <DropdownMenuItem separator />
 
             <div class="border-slate-200 dark:border-jovieDark-border">
-              <div v-for="(stage, key) in filteredStage" :key="stage">
+              <div v-for="(stage) in filteredStage" :key="stage">
                 <DropdownMenuItem
-                  :name="stage"
-                  :colorDot="color(stage)"
+                  :name="stage.name"
+                  :colorDot="stage.color"
                   checkable
-                  :checked="stage === contact.stage_name"
+                  :checked="stage.id === contact.stage"
                   @click="
                     $emit('updateContact', {
                       id: contact.id,
                       index: index,
                       key: `stage`,
-                      value: key,
+                      value: stage.id,
                     })
                   ">
                 </DropdownMenuItem>
@@ -176,9 +178,7 @@ export default {
   },
   computed: {
     filteredStage() {
-      return this.stages.filter((stage) =>
-        stage.toLowerCase().includes(this.stageSearchQuery.toLowerCase())
-      );
+      return this.stages;
     },
   },
   methods: {

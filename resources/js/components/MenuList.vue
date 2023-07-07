@@ -24,7 +24,7 @@
           class="group mx-auto rounded p-1 text-slate-400 transition-all hover:bg-slate-300 hover:text-slate-50 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600 dark:hover:bg-jovieDark-border dark:hover:text-slate-800">
           <PlusIcon
             v-if="!creatingList"
-            @click="createList()"
+            @click="createList"
             class="h-4 w-4"></PlusIcon>
           <JovieSpinner
             spinnerSize="xs"
@@ -318,6 +318,7 @@
             placeholder="List Name"
             v-model="currentEditingList.name"
             class="text-xs font-medium text-slate-900 group-hover:text-slate-900" />
+
           <ToggleGroup v-model="currentEditingList.pinned" /><span
             class="ml-2 items-center text-xs font-medium text-slate-900 group-hover:text-slate-900"
             >Pinned</span
@@ -363,6 +364,7 @@ import draggable from 'vuedraggable';
 import UserService from '../services/api/user.service';
 import ModalPopup from '../components/ModalPopup.vue';
 import UserListEditable from './Crm/UserListEditable.vue';
+
 export default {
   data() {
     return {
@@ -407,6 +409,14 @@ export default {
         open: false,
         primaryButtonText: null,
         description: '',
+        loading: false,
+      },
+      chooseTemplatePopup: {
+        chooseTemplateMethod: null,
+        title: 'Chose Template',
+        open: false,
+        primaryButtonText: 'Start',
+        description: 'Pick a suitable template for this listing',
         loading: false,
       },
       creatingList: false,
@@ -564,9 +574,9 @@ export default {
           this.editListPopup.loading = false;
         });
     },
-    createList() {
+    createList(newList) {
       this.creatingList = true;
-      UserService.createList()
+      UserService.createList(newList)
         .then((response) => {
           response = response.data;
           if (response.status) {
@@ -678,6 +688,9 @@ export default {
         primaryButtonText: null,
         loading: false,
       };
+    },
+    cancelNewList() {
+      this.chooseTemplatePopup.open = false;
     },
     resetEditPopup() {
       this.editListPopup = {

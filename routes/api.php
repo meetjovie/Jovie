@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\CustomFieldsController;
 use App\Http\Controllers\FieldsController;
+use App\Http\Controllers\TemplateSettingController;
+use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\HeadersController;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -90,6 +92,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // CRM CONTACTS
     Route::get('/crm-contacts', [\App\Http\Controllers\CrmController::class, 'crmContacts']);
     Route::post('/update-contact/{id}', [\App\Http\Controllers\CrmController::class, 'updateContact']);
+    Route::post('/update-copied-contact-columns', [\App\Http\Controllers\CrmController::class, 'updateCopiedContactColumns']);
     Route::post('/toggle-contacts-from-list', [\App\Http\Controllers\CrmController::class, 'toggleContactsFromList']);
     Route::post('/toggle-archive-contacts', [\App\Http\Controllers\CrmController::class, 'toggleArchiveContacts']);
     Route::get('/crm-counts', [\App\Http\Controllers\CrmController::class, 'crmCounts']);
@@ -135,12 +138,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/subscription', [\App\Http\Controllers\Teamwork\SubscriptionsController::class, 'subscribe']);
 
     // FIELDS
-    Route::get('fields/{creatorId}', [FieldsController::class, 'fields']);
+    Route::get('fields', [FieldsController::class, 'fields']);
     Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);
     Route::post('set-field-order/{id}', [FieldsController::class, 'setFieldOrder']);
     Route::delete('custom-field/{id}/delete', [CustomFieldsController::class, 'delete']);
+
+    // Templates
+    Route::get('templates', [TemplateController::class, 'index']);
+    Route::post('update-template', [TemplateController::class, 'setTemplate']);
+    Route::get('template-settings/{userList}', [TemplateSettingController::class, 'index']);
+    Route::post('template-settings/{userList}', [TemplateSettingController::class, 'update']);
 
     // HEADERS
     Route::get('header-fields/{listId?}', [HeadersController::class, 'headerFields']);

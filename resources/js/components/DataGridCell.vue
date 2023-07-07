@@ -1,24 +1,9 @@
 <template>
+  <!--    {{ cellActive && selectedRows.length && !firstActive && !lastActive }}-->
   <td
-    class="isolate border-collapse items-center overflow-auto whitespace-nowrap border border-slate-200 text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
+    class="isolate border-collapse items-center overflow-auto overflow-visible whitespace-nowrap border text-center text-xs font-medium text-slate-600 dark:border-jovieDark-border dark:text-jovieDark-200"
     ref="cell_area"
-    :class="[
-      cellActive ? 'ring-2 ring-inset' : '',
-      userColor === 'red' ? 'ring-red-500 dark:ring-red-300' : '',
-      userColor === 'green' ? 'ring-green-500 dark:ring-green-300' : '',
-      userColor === 'blue' ? 'ring-blue-500 dark:ring-blue-300' : '',
-      userColor === 'yellow' ? 'ring-yellow-500 dark:ring-yellow-300' : '',
-      userColor === 'indigo' ? 'ring-indigo-500 dark:ring-indigo-300' : '',
-      userColor === 'purple' ? 'ring-purple-500 dark:ring-purple-300' : '',
-      userColor === 'pink' ? 'ring-pink-500 dark:ring-pink-300' : '',
-      userColor === 'orange' ? 'ring-orange-500 dark:ring-orange-300' : '',
-      userColor === 'rose' ? 'ring-rose-500 dark:ring-rose-300' : '',
-      userColor === 'fuchsia' ? 'ring-fuchsia-500 dark:ring-fuchsia-300' : '',
-      userColor === 'sky' ? 'ring-sky-500 dark:ring-sky-300' : '',
-      userColor === 'cyan' ? 'ring-cyan-500 dark:ring-cyan-300' : '',
-      userColor === 'teal' ? 'ring-teal-500 dark:ring-teal-300' : '',
-      userColor === 'emerald' ? 'ring-emerald-500 dark:ring-emerald-300' : '',
-    ]"
+    :class="getCellStyles()"
     :key="rerenderKey"
     v-if="
       freezeColumn ||
@@ -27,7 +12,7 @@
     ">
     <slot></slot>
 
-    <div @click.self="setFocus()" v-if="!freezeColumn">
+    <div @click.self="setFocus()" v-if="!freezeColumn" class="static">
       <div class="mx-auto flex w-20" v-if="column.type == 'rating'">
         <star-rating
           class="mx-auto"
@@ -133,6 +118,19 @@
         >Data Type:
         {{ column.type }}
       </span>
+
+      <button
+        class="absolute bottom-0 right-0 cursor-crosshair bg-blue-500"
+        @mousedown="$emit('enterCopyDrag', column)"
+        v-if="
+          ['text', 'email', 'currency', 'number', 'url', 'phone'].includes(
+            column.type
+          ) &&
+          cellActive &&
+          lastActive
+        ">
+        <PlusIcon class="h-4 w-4 text-white" />
+      </button>
     </div>
   </td>
 </template>
@@ -149,6 +147,7 @@ import InputLists from './InputLists.vue';
 import JovieDatePicker from './JovieDatePicker.vue';
 import CustomField from './CustomField.vue';
 import ContactSelectMenu from './ContactSelectMenu.vue';
+import { PlusIcon } from '@heroicons/vue/24/solid';
 
 export default {
   name: 'DataGridCell',
@@ -164,12 +163,14 @@ export default {
     VueTailwindDatepicker,
     CustomField,
     ContactSelectMenu,
+    PlusIcon,
   },
   emits: ['update:modelValue', 'blur', 'move'],
   data() {
     return {
       showContactStageMenu: [],
       date: {},
+      activeUserColor: null,
       genderOptions: ['Male', 'Female', 'Other', 'Unknown'],
       rerenderKey: 0,
     };
@@ -181,12 +182,65 @@ export default {
         this.rerenderKey += 1;
       },
     },
+    activeUsersOnList: {
+      deep: true,
+      handler: function (val) {
+        let activeUserOnCell = val.find((obj) => {
+          if (obj.activeOn) {
+            return (
+              obj.activeOn.row == this.row &&
+              obj.activeOn.column == this.columnIndex
+            );
+          }
+          return false;
+        });
+        if (activeUserOnCell) {
+          console.log('ACTIVE USERS ON CELL');
+          console.log(activeUserOnCell);
+          console.log('ACTIVE USERS ON CELL');
+          this.activeUserColor = activeUserOnCell.color;
+        } else {
+          this.activeUserColor = null;
+        }
+      },
+    },
   },
   mounted() {
     this.date.startDate = this.localModelValue;
     this.date.endDate = this.localModelValue;
   },
   methods: {
+    getCellStyles() {
+      let classes = '';
+        if (this.userColor && !this.cellActive) {
+            classes += `ring-2 ring-inset ring-${this.userColor}-500 dark:ring-${this.userColor}-300`;
+        } else {
+            if (this.cellActive && !(this.selectedRows.length > 1)) {
+                classes += 'ring-2 ring-inset border-slate-200 ';
+            }
+
+            if (this.cellActive && this.selectedRows.length && this.lastActive) {
+                classes +=
+                    'border-t-0 border-x-2 border-b-2 border-blue-500 dark:border-blue-300 ';
+            }
+
+            if (this.cellActive && this.selectedRows.length && this.firstActive) {
+                classes +=
+                    'border-b-0 border-x-2 border-t-2 border-blue-500 dark:border-blue-300 ';
+            }
+
+            if (
+                this.cellActive &&
+                this.selectedRows.length &&
+                !this.firstActive &&
+                !this.lastActive
+            ) {
+                classes += 'border-y-0 border-x-2 border-blue-500 dark:border-blue-300 ';
+            }
+        }
+
+      return classes;
+    },
     updateData(value = null) {
       this.$nextTick(() => {
         this.$emit('update:modelValue', this.localModelValue);
@@ -230,6 +284,9 @@ export default {
     colorClass() {
       return `bg-${this.color}-100 dark:bg-${this.color}-700`;
     },
+    userColor() {
+      return this.activeUserColor;
+    },
     localModelValue: {
       get() {
         return this.modelValue;
@@ -244,7 +301,7 @@ export default {
           return false;
         }
         return this.settings.find((set) => set.key === 'show_follower_count')
-          .visible;
+          .value;
       } catch (e) {
         return false;
       }
@@ -284,19 +341,33 @@ export default {
       default: 'orange',
     },
     row: Number,
+    columnIndex: Number,
     column: {
       type: Object,
       default: {},
     },
     modelValue: {},
     currentCell: Object,
+    activeUsersOnList: Object,
     cellActive: Boolean | String,
+    lastActive: {
+      type: Boolean,
+      default: false,
+    },
+    firstActive: {
+      type: Boolean,
+      default: false,
+    },
+    selectedRows: {
+      type: Array,
+      default: [],
+    },
     networks: Array,
     stages: Array,
-    userColor: {
-      type: String,
-      default: 'blue',
-    },
+    // userColor: {
+    //   type: String,
+    //   default: 'blue',
+    // },
   },
 };
 </script>

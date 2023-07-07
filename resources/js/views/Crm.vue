@@ -393,7 +393,7 @@
                                               class="mx-auto w-full" />
                                           </div>
                                           <div
-                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
+                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -454,7 +454,7 @@
                                             </p>
                                           </div>
                                           <div
-                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
+                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -517,7 +517,6 @@
               :title="`You have reached you contacts limit. You can only access ${currentUser.current_team.current_subscription.contacts}/${totalAvailable} of your imported contacts.`"
               :cta="`Upgrade`"
               ctaLink="Billing" />
-
             <DataGrid
               v-if="columns.length"
               ref="crmTableGrid"
@@ -532,6 +531,7 @@
               @pageChanged="pageChanged"
               @getCrmContacts="getCrmContacts"
               @setCurrentContact="setCurrentContact"
+              @updateSettings="updateSettings"
               @openSidebar="openSidebarContact"
               @getHeaders="getHeaders"
               @checkContactsEnrichable="checkContactsEnrichable"
@@ -541,7 +541,11 @@
               @updateFiltersContact="updateFiltersContact"
               @suggestionExists="toggleMergeSuggestion"
               @updateCrmCount="crmCounts"
+<<<<<<< HEAD
               @viewSwitched="viewSwitched"
+=======
+              @updateCopiedContactColumns="updateCopiedContactColumns"
+>>>>>>> develop
               :header="
                 filters.type === 'list'
                   ? filters.currentList
@@ -560,6 +564,8 @@
               :taskLoading="taskLoading"
               :contactsMeta="contactsMeta"
               :suggestMerge="suggestMerge"
+              :list-channel="listChannel"
+              :active-users-on-list="activeUsersOnList"
               :headersLoaded="headersLoaded">
               <slot header="header"></slot>
             </DataGrid>
@@ -619,6 +625,7 @@ import AlertBanner from '../components/AlertBanner.vue';
 import GlassmorphismContainer from '../components/GlassmorphismContainer.vue';
 import JovieSidebar from '../components/JovieSidebar.vue';
 import MenuList from '../components/MenuList.vue';
+import TemplateService from '../services/api/template.service';
 import SupportModal from '../components/SupportModal.vue';
 
 import DarkModeToggle from '../components/DarkModeToggle.vue';
@@ -697,7 +704,10 @@ import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
 import InputLists from '../components/InputLists.vue';
+<<<<<<< HEAD
 import contactService from '../services/api/contact.service';
+=======
+>>>>>>> develop
 
 export default {
   name: 'CRM',
@@ -761,7 +771,6 @@ export default {
     CheckIcon,
     ArchiveBoxIcon,
     ArrowLeftOnRectangleIcon,
-
     CloudArrowUpIcon,
     vueMousetrapPlugin: VueMousetrapPlugin,
     ContactTags,
@@ -775,6 +784,7 @@ export default {
   },
   data() {
     return {
+      listChannel: null,
       dropdownmenuitems: [
         {
           name: 'Chrome Extension',
@@ -825,6 +835,7 @@ export default {
       currentSortBy: 'id',
       currentSortOrder: 'desc',
       columns: [],
+      settings: [],
       activeUsersOnList: [],
       shareMenuColors: [
         'blue',
@@ -952,9 +963,16 @@ export default {
     },
   },
   async mounted() {
+<<<<<<< HEAD
     console.log('Echo.connector.channels');
     console.log(Echo.connector.channels);
     await this.getUserLists();
+=======
+    await this.getUserLists();
+    if (this.filters.list) {
+      this.intializeListChannel();
+    }
+>>>>>>> develop
     await this.getHeaders();
     this.getCrmContacts();
     this.crmCounts();
@@ -1238,6 +1256,7 @@ export default {
     },
     updateUserList(event) {
       this.$refs.crmTableGrid.updateUserList(event);
+      this.getSettings();
     },
     getHeaders() {
       this.headersLoaded = false;
@@ -1394,29 +1413,7 @@ export default {
         list = this.userLists.find((l) => l.id === list);
         this.filters.currentList = list ?? null;
         this.$store.state.overviewList = list ?? null;
-        Echo.join(
-          `userOnUserlist.${this.currentUser.current_team.id}.${
-            this.filters.list ?? 0
-          }`
-        )
-          .here((users) => {
-            this.activeUsersOnList = users;
-            this.activeUsersOnList.forEach((user) => {
-              user.color = this.shareMenuColors.pop();
-            });
-          })
-          .joining((user) => {
-            this.activeUsersOnList.push(user);
-          })
-          .leaving((user) => {
-            this.activeUsersOnList = this.activeUsersOnList.filter(
-              (obj) => obj['id'] !== user.id
-            );
-            this.shareMenuColors.push(user.color);
-          })
-          .error((error) => {
-            console.error(error);
-          });
+        this.intializeListChannel();
       } else {
         this.filters.type = 'all';
         this.filters.currentList = null;
@@ -1426,6 +1423,39 @@ export default {
       this.getHeaders();
       this.getCrmContacts();
       this.getStagedContacts(this.filters);
+    },
+    intializeListChannel() {
+      this.listChannel = Echo.join(
+        `userOnUserlist.${this.currentUser.current_team.id}.${
+          this.filters.list ?? 0
+        }`
+      );
+      this.listChannel
+        .here((users) => {
+          this.activeUsersOnList = users;
+          this.activeUsersOnList.forEach((user) => {
+            user.color = this.shareMenuColors.pop();
+          });
+        })
+        .joining((user) => {
+          user.color = this.shareMenuColors.pop();
+          this.activeUsersOnList.push(user);
+        })
+        .leaving((user) => {
+          this.activeUsersOnList = this.activeUsersOnList.filter(
+            (obj) => obj['id'] !== user.id
+          );
+          this.shareMenuColors.push(user.color);
+        })
+        .error((error) => {
+          console.error(error);
+        });
+      this.listChannel.listenForWhisper('client-oncell', (e) => {
+        let userOnCell = this.activeUsersOnList.find(
+          (obj) => obj['id'] == e.userId
+        );
+        userOnCell.activeOn = e.cell;
+      });
     },
     sortLists(e, listId) {
       UserService.sortLists(
@@ -1511,6 +1541,7 @@ export default {
     getCrmContacts(filters = {}) {
       this.taskLoading = true;
       let data = JSON.parse(JSON.stringify({ ...filters, ...this.filters }));
+      delete data.currentList;
       if (this.abortController) {
         this.abortController.abort();
       }
@@ -1629,8 +1660,9 @@ export default {
       });
     },
     updateContact(params) {
-      console.log('paramsparams');
-      console.log(params);
+      if (this.filters.list) {
+        params['list_id'] = this.filters.list;
+      }
       this.$store.dispatch('updateContact', params).then((response) => {
         response = response.data;
         if (response.status) {
@@ -1644,19 +1676,29 @@ export default {
         }
       });
     },
-    getStagedContacts(filters) {
-      contactService
-        .getStagedContacts(filters)
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            this.stagedContacts.lists = response.stages;
-            this.stagedContacts.contacts = response.contacts;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    updateSettings(data) {
+        TemplateService.updateSettings(this.filters.list, data)
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    console.log('UPDATE GOT SETTING', response);
+                }
+            })
+            .catch((error) => {
+                console.log('UPDATE Setting Error', error);
+            })
+            .finally((_) => {
+                console.log('UPDATE Nothing');
+            });
+    },
+    updateCopiedContactColumns(params) {
+      // console.log(params)
+      this.$store.dispatch('updateCopiedContactColumns', params).then((response) => {
+        response = response.data;
+        if (response.status) {
+          this.crmCounts();
+        }
+      });
     },
   },
 };

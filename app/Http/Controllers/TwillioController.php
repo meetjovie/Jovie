@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Traits\TwilioTrait;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Twilio\Rest\Client;
 use Twilio\TwiML\MessagingResponse;
 
@@ -14,9 +15,17 @@ class TwillioController extends Controller
     public function getOtp(Request $request)
     {
         $request->validate([
-            'number' => 'required|unique:users,phone,' . $request->user()->id,
+            'phone' => [
+                'required',
+                Rule::unique('users', 'phone')->where(function ($query) use ($request) {
+                    return $query->where('country_code', $request->country_code)
+                        ->where('id', '<>', $request->user()->id);
+                }),
+            ],
+            'country_code' => 'required',
         ]);
-        $verification = $this->generateOtp($request->number);
+        $number = $request->country_code . $request->phone;
+        $verification = $this->generateOtp($number);
         return response([
             "service_sid" => $verification->serviceSid,
             "verification_sid" => $verification->sid,
@@ -26,13 +35,22 @@ class TwillioController extends Controller
     public function verifyOtp(Request $request)
     {
         $request->validate([
-            'number' => 'required|unique:users,phone,' . $request->user()->id,
+            'phone' => [
+                'required',
+                Rule::unique('users', 'phone')->where(function ($query) use ($request) {
+                    return $query->where('country_code', $request->country_code)
+                        ->where('id', '<>', $request->user()->id);
+                }),
+            ],
+            'country_code' => 'required',
             'code' => 'required|digits:6',
             'service' => 'required',
         ]);
-        $verification = $this->verifyTwilioOtp($request->service['service_sid'], $request->number, $request->code);
+        $number = $request->country_code . $request->phone;
+        $verification = $this->verifyTwilioOtp($request->service['service_sid'], $number, $request->code);
         if ($verification->status == 'approved') {
-            $request->user()->phone = $request->number;
+            $request->user()->phone = $request->phone;
+            $request->user()->country_code = $request->country_code;
             $request->user()->save();
         }
         return response([
