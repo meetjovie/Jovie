@@ -515,12 +515,16 @@
                 ghost-class="ghost-row"
                 group="contacts"
                 :sort="false"
+                handle=".handle"
                 itemKey="id"
                 tag="tbody"
                 :multiple="true"
+                @end="dragEnd"
                 @start.prevent="startDrag">
                 <template #item="{ element, index }" :key="element.id">
                   <DataGridRow
+                    @mouseover="handleMouseOver(index)"
+                    @mouseup="handleMouseUp(index)"
                     @contextMenuClicked="
                       openRightClickMenuContextClick($event, contact)
                     "
@@ -529,6 +533,12 @@
                     "
                     @setFilterList="$emit('setFilterList', $event)"
                     @selectMultiple="selectMultiple"
+                    @enableActiveColumnCells="enableActiveColumnCells"
+                    @setCurrentCell="selectedRows = []"
+                    :selectActiveColumnCells="selectActiveColumnCells"
+                    :selectedRows="selectedRows"
+                    :hoveredElements="hoveredElements"
+                    :selectedColumn="selectedColumn"
                     :loading="loading"
                     :ref="`gridRow_${index}`"
                     :id="element.id"
@@ -543,6 +553,7 @@
                     :currentContact="currentContact"
                     :selectedContacts="selectedContacts"
                     @updateSelectedContacts="selectedContacts = $event"
+                    :active-users-on-list="activeUsersOnList"
                     :contact="element"
                     @refresh="refresh(element)"
                     :row="index"
@@ -884,6 +895,9 @@ export default {
   ],
   data() {
     return {
+      selectedRows: [],
+      selectedColumn: null,
+      selectActiveColumnCells: false,
       confirmationPopup: {
         confirmationMethod: null,
         title: 'Hiiiii',
@@ -962,6 +976,7 @@ export default {
       contactIds: null,
       disableDragging: false,
       rightClickMenuContact: {},
+      hoveredElements: [],
     };
   },
   props: [
@@ -980,6 +995,7 @@ export default {
     'headersLoaded',
     'suggestMerge',
     'activeUsersOnList',
+    'listChannel',
   ],
   expose: ['toggleContactsFromList', 'updateUserList'],
   watch: {
@@ -989,6 +1005,17 @@ export default {
     //     localStorage.setItem('settings', JSON.stringify(this.settings));
     //   },
     // },
+    currentCell: {
+      deep: true,
+      handler: function (newCell) {
+        if (this.listChannel) {
+          this.listChannel.whisper('client-oncell', {
+            cell: newCell,
+            userId: this.currentUser.id,
+          });
+        }
+      },
+    },
     suggestMerge() {
       this.suggestContactsMerge();
     },
@@ -1242,6 +1269,61 @@ export default {
       this.closeSelectTemplateModal();
       this.$emit('getHeaders');
       },
+    handleMouseOver(index) {
+      if (this.selectActiveColumnCells) {
+        let firstSelectedIndex = this.selectedRows[0];
+        const indexDiff = index - firstSelectedIndex;
+        this.hoveredElements = [];
+
+        for (let i = 1; i <= Math.abs(indexDiff); i++) {
+          if (this.selectedRows.includes(index)) {
+            return;
+          } else {
+            const hoveredContactId =
+              firstSelectedIndex + i * Math.sign(indexDiff);
+            this.hoveredElements.push(hoveredContactId);
+          }
+        }
+      }
+    },
+    handleMouseUp(index) {
+      this.hoveredElements = [];
+      if (!this.selectedRows.includes(index) && this.selectActiveColumnCells) {
+        this.selectActiveColumnCells = false;
+        this.selectedRows.push(index);
+        this.selectCellRange(index);
+      }
+    },
+    selectCellRange(index) {
+      let firstSelectedIndex = this.selectedRows[0];
+      const indexDiff = index - firstSelectedIndex;
+      let contactIds = [];
+      let value =
+          this.contactRecords[firstSelectedIndex][this.selectedColumn];
+      for (let i = 0; i <= Math.abs(indexDiff); i++) {
+        const selectedContactIndex =
+          firstSelectedIndex + i * Math.sign(indexDiff);
+        if (!this.selectedRows.includes(selectedContactIndex)) {
+          this.selectedRows.push(selectedContactIndex);
+        }
+        this.contactRecords[selectedContactIndex][this.selectedColumn] = value;
+        contactIds.push(this.contactRecords[selectedContactIndex].id);
+      }
+      let contactsToBeEmitted = {};
+      contactsToBeEmitted.ids = contactIds;
+      contactsToBeEmitted.key = this.selectedColumn;
+      contactsToBeEmitted.value = value;
+      this.$emit('updateCopiedContactColumns', contactsToBeEmitted);
+    },
+    enableActiveColumnCells(event) {
+      this.selectActiveColumnCells = true;
+      this.selectedColumn = event.column;
+      this.selectedRows.push(event.row);
+    },
+    dragEnd(e) {
+      console.log(JSON.parse(e.to), 'slknedkscmx');
+      console.log(e);
+    },
     checkContactsEnrichable(event) {
       this.$emit(
         'checkContactsEnrichable',
@@ -1256,15 +1338,16 @@ export default {
       const contactIndex = this.contactRecords.indexOf(contact);
 
       if (this.selectedContacts.length) {
-        const minSelectedIndex = this.contactRecords.findIndex(
+        const firstSelectedIndex = this.contactRecords.findIndex(
           (contact) => contact.id === this.selectedContacts[0]
         );
-        const indexDiff = contactIndex - minSelectedIndex;
+        const indexDiff = contactIndex - firstSelectedIndex;
         this.selectedContacts = [];
 
         for (let i = 0; i <= Math.abs(indexDiff); i++) {
           const selectedContactId =
-            this.contactRecords[minSelectedIndex + i * Math.sign(indexDiff)].id;
+            this.contactRecords[firstSelectedIndex + i * Math.sign(indexDiff)]
+              .id;
           this.selectedContacts.push(selectedContactId);
         }
       } else {
@@ -2058,10 +2141,10 @@ export default {
       this.resetChecked();
     },
     toggleContactSidebar() {
-        if (! this.contactRecords.length) {
-            this.$store.state.ContactSidebarOpen = false;
-            return
-        }
+      if (!this.contactRecords.length) {
+        this.$store.state.ContactSidebarOpen = false;
+        return;
+      }
       this.$store.state.ContactSidebarOpen =
         !this.$store.state.ContactSidebarOpen;
     },
