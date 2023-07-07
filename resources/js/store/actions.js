@@ -29,14 +29,6 @@ export default {
     });
   },
 
-  async updateContact(context, { id, index, network, key, value }) {
-    const data = {
-      id: id,
-    };
-    data[key] = value;
-    return await userService.updateContact(data);
-  },
-
   async updateCopiedContactColumns(context, data) {
     return await userService.updateCopiedContactColumns(data);
   },

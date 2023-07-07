@@ -1649,19 +1649,20 @@ export default {
       });
     },
     updateSettings(data) {
-      TemplateService.updateSettings(this.filters.list, data)
-        .then((response) => {
-          response = response.data;
-          if (response.status) {
-            console.log('UPDATE GOT SETTING', response);
-          }
-        })
-        .catch((error) => {
-          console.log('UPDATE Setting Error', error);
-        })
-        .finally((_) => {
-          console.log('UPDATE Nothing');
-        });
+        TemplateService.updateSettings(this.filters.list, data)
+            .then((response) => {
+                response = response.data;
+                if (response.status) {
+                    console.log('UPDATE GOT SETTING', response);
+                }
+            })
+            .catch((error) => {
+                console.log('UPDATE Setting Error', error);
+            })
+            .finally((_) => {
+                console.log('UPDATE Nothing');
+            });
+    },
     updateCopiedContactColumns(params) {
       // console.log(params)
       this.$store.dispatch('updateCopiedContactColumns', params).then((response) => {
