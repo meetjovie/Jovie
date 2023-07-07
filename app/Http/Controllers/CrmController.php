@@ -66,6 +66,7 @@ class CrmController extends Controller
         $counts = Contact::getCrmCounts();
         $limitExceedBy = Auth::user()->currentTeam->contactsLimitExceeded();
         $totalAvailable = Contact::getAllContactsCount();
+        $stages = isset($params['list']) ? UserList::getListStages($params['list']) : UserList::getListStages();
         return response()->json([
             'status' => true,
             'limit_exceeded_by' => $limitExceedBy,
@@ -73,7 +74,7 @@ class CrmController extends Controller
             'contacts' => $contacts,
             'counts' => $counts,
             'networks' => Creator::NETWORKS,
-            'stages' => Crm::dummyStages(),
+            'stages' => $stages,
         ], 200);
     }
 

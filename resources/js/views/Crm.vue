@@ -701,6 +701,7 @@ import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
 import InputLists from '../components/InputLists.vue';
+import contactService from '../services/api/contact.service';
 
 export default {
   name: 'CRM',
