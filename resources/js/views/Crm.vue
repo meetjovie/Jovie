@@ -541,11 +541,8 @@
               @updateFiltersContact="updateFiltersContact"
               @suggestionExists="toggleMergeSuggestion"
               @updateCrmCount="crmCounts"
-<<<<<<< HEAD
               @viewSwitched="viewSwitched"
-=======
               @updateCopiedContactColumns="updateCopiedContactColumns"
->>>>>>> develop
               :header="
                 filters.type === 'list'
                   ? filters.currentList
@@ -704,10 +701,6 @@ import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
 import InputLists from '../components/InputLists.vue';
-<<<<<<< HEAD
-import contactService from '../services/api/contact.service';
-=======
->>>>>>> develop
 
 export default {
   name: 'CRM',
@@ -963,16 +956,10 @@ export default {
     },
   },
   async mounted() {
-<<<<<<< HEAD
-    console.log('Echo.connector.channels');
-    console.log(Echo.connector.channels);
-    await this.getUserLists();
-=======
     await this.getUserLists();
     if (this.filters.list) {
       this.intializeListChannel();
     }
->>>>>>> develop
     await this.getHeaders();
     this.getCrmContacts();
     this.crmCounts();
