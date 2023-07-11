@@ -393,7 +393,7 @@
                                               class="mx-auto w-full" />
                                           </div>
                                           <div
-                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -454,7 +454,7 @@
                                             </p>
                                           </div>
                                           <div
-                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -1510,6 +1510,20 @@ export default {
         });
       });
     },
+    getStagedContacts(data = null) {
+      contactService
+        .getStagedContacts(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.stagedContacts.lists = response.stages;
+            this.stagedContacts.contacts = response.contacts;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     pageChanged({ page }) {
       this.filters.page = page;
       this.getCrmContacts();
@@ -1665,28 +1679,30 @@ export default {
       });
     },
     updateSettings(data) {
-        TemplateService.updateSettings(this.filters.list, data)
-            .then((response) => {
-                response = response.data;
-                if (response.status) {
-                    console.log('UPDATE GOT SETTING', response);
-                }
-            })
-            .catch((error) => {
-                console.log('UPDATE Setting Error', error);
-            })
-            .finally((_) => {
-                console.log('UPDATE Nothing');
-            });
+      TemplateService.updateSettings(this.filters.list, data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            console.log('UPDATE GOT SETTING', response);
+          }
+        })
+        .catch((error) => {
+          console.log('UPDATE Setting Error', error);
+        })
+        .finally((_) => {
+          console.log('UPDATE Nothing');
+        });
     },
     updateCopiedContactColumns(params) {
       // console.log(params)
-      this.$store.dispatch('updateCopiedContactColumns', params).then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.crmCounts();
-        }
-      });
+      this.$store
+        .dispatch('updateCopiedContactColumns', params)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.crmCounts();
+          }
+        });
     },
   },
 };

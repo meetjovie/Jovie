@@ -9,7 +9,7 @@
         <draggable
           :list="contacts[listIndex]"
           group="people"
-          @change="changeStage($event, listIndex)"
+          @change="changeStage($event, list)"
           itemKey="name">
           <template #item="{ element, index }">
             <div class="w-96">
@@ -49,7 +49,7 @@ export default {
         this.$emit('updateContact', {
           id: evt.added.element.id,
           key: `stage`,
-          value: list,
+          value: list.id,
         });
       }
     },

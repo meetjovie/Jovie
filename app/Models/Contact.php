@@ -776,15 +776,24 @@ class Contact extends Model implements Auditable
             $contacts = $contacts->orderByDesc('contacts.id');
         }
 
-        if($staged){
-            $contacts = $contacts->get()->groupBy('stage');
-            $contactArrays = [];
+        if ($staged) {
+            if (!empty($params['list'])) {
+                $contacts = $contacts->with('userLists')
+                    ->get()
+                    ->groupBy(function ($contact) use ($params) {
+                        return $contact->userLists->find($params['list'])->pivot->stage;
+                    });
+            } else {
+                $contacts = $contacts->get()->groupBy('stage');
+            }
 
-            foreach (Crm::dummyStages() as $stage => $group) {
-                $contactArrays[$stage] = isset($contacts[$stage]) ? $contacts[$stage]->toArray() : [];
+            $contactArrays = [];
+            $stages = isset($params['list']) ? UserList::getListStages($params['list']) : UserList::getListStages();
+            foreach ($stages as $index => $stage) {
+                $contactArrays[$index] = isset($contacts[$stage->id]) ? $contacts[$stage->id]->toArray() : [];
             }
             return $contactArrays;
-        }else{
+        } else {
             $contacts = $contacts->paginate(15);
         }
 
@@ -1421,14 +1430,14 @@ class Contact extends Model implements Auditable
 
     public static function addDefaultContactToList($list)
     {
-        if(empty($list->contacts->toArray())){
+        if (empty($list->contacts->toArray())) {
             $defaultContact = self::DEFAULT_CONTACTS[$list->template->name];
             $defaultContact['user_id'] = $list->user_id;
             $defaultContact['team_id'] = $list->team_id;
             $customFields = $defaultContact['custom_fields'] ?? [];
             unset($defaultContact['custom_fields']);
             $contact = Contact::saveContact($defaultContact, $list->id)->first();
-            if($contact && !empty($customFields)){
+            if ($contact && !empty($customFields)) {
                 $templateFields = $list->template->templateFields;
                 foreach ($templateFields->where('type', 'custom') as $field) {
                     $customField = CustomField::find($field->field_id);
