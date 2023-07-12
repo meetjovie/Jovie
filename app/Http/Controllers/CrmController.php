@@ -53,6 +53,31 @@ class CrmController extends Controller
         ], 200);
     }
 
+    public function stagedContacts(Request $request)
+    {
+        $params = $request->all();
+        $params['user_id'] = Auth::id();
+        $params['team_id'] = Auth::user()->currentTeam->id;
+        if ($request->input('list')) {
+            $params['type'] = 'list';
+            $params['list'] = $request->input('list');
+        }
+        $contacts = Contact::getContacts($params, true);
+        $counts = Contact::getCrmCounts();
+        $limitExceedBy = Auth::user()->currentTeam->contactsLimitExceeded();
+        $totalAvailable = Contact::getAllContactsCount();
+        $stages = isset($params['list']) ? UserList::getListStages($params['list']) : UserList::getListStages();
+        return response()->json([
+            'status' => true,
+            'limit_exceeded_by' => $limitExceedBy,
+            'total_available' => $totalAvailable,
+            'contacts' => $contacts,
+            'counts' => $counts,
+            'networks' => Creator::NETWORKS,
+            'stages' => $stages,
+        ], 200);
+    }
+
     public function crmCounts()
     {
         $counts = Contact::getCrmCounts();
@@ -454,9 +479,8 @@ class CrmController extends Controller
                         foreach ($modified['new'] as $field => $value) {
                             if (is_array($value)) {
                                 $customField = array_key_first($value);
-                                $modificationTexts[] = ("updated " . $customField .  ($modified['old'][$field][$customField] ?  " from <b>" . $modified['old'][$field][$customField] : "") . "</b> to <b>" . $modified['new'][$field][$customField] . "</b>");
-                            }
-                            else {
+                                $modificationTexts[] = ("updated " . $customField . ($modified['old'][$field][$customField] ? " from <b>" . $modified['old'][$field][$customField] : "") . "</b> to <b>" . $modified['new'][$field][$customField] . "</b>");
+                            } else {
                                 $readableField = Str::replace('_', ' ', $field);
                                 $old = is_array($modified['old'][$field]) ? implode(
                                     ', ',
@@ -470,11 +494,10 @@ class CrmController extends Controller
                                 }
                             }
                         }
-                    } elseif (isset($modified['old']) ) {
+                    } elseif (isset($modified['old'])) {
                         $modificationTexts[] = ("updated $key from <b>" . $modified['old'] . "</b> to <b>" . $modified['new'] . "</b>");
                     } else {
-                        if (is_array($modified['new']))
-                        {
+                        if (is_array($modified['new'])) {
                             foreach ($modified['new'] as $new) {
                                 $modificationTexts[] = ("updated $key to <b>" . $new['name'] . "</b>");
                             }

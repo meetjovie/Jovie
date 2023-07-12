@@ -56,6 +56,43 @@ class Crm extends Model
         ];
     }
 
+    public static function dummyStages()
+    {
+        return [
+            [
+                'name' => 'Lead',
+                'color' => '#6366F1',
+                'order' => 0,
+            ],
+            [
+                'name' => 'Interested',
+                'color' => '#22C55E',
+                'order' => 1,
+            ],
+            [
+                'name' => 'Negotiating',
+                'color' => '#3B82F6',
+                'order' => 2,
+            ],
+            [
+                'name' => 'In Progress',
+                'color' => '#EC4899',
+                'order' => 3,
+            ],
+            [
+                'name' => 'Complete',
+                'color' => '#A855F7',
+                'order' => 4,
+            ],
+            [
+                'name' => 'Not Interested',
+                'color' => '#EF4B4B',
+                'order' => 5,
+            ],
+        ];
+    }
+
+
     public function setMetaAttribute($value)
     {
         $this->attributes['meta'] = json_encode($value);

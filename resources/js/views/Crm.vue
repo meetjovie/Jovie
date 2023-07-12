@@ -393,7 +393,7 @@
                                               class="mx-auto w-full" />
                                           </div>
                                           <div
-                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -454,7 +454,7 @@
                                             </p>
                                           </div>
                                           <div
-                                            class="line-clamp-2 mx-auto px-2 font-bold text-slate-300">
+                                            class="mx-auto line-clamp-2 px-2 font-bold text-slate-300">
                                             {{
                                               notification.created_at_formatted
                                             }}
@@ -541,6 +541,7 @@
               @updateFiltersContact="updateFiltersContact"
               @suggestionExists="toggleMergeSuggestion"
               @updateCrmCount="crmCounts"
+              @viewSwitched="viewSwitched"
               @updateCopiedContactColumns="updateCopiedContactColumns"
               :header="
                 filters.type === 'list'
@@ -556,6 +557,7 @@
               :stages="stages"
               :columns="columns"
               :loading="loading"
+              :stagedContacts="stagedContacts"
               :taskLoading="taskLoading"
               :contactsMeta="contactsMeta"
               :suggestMerge="suggestMerge"
@@ -699,6 +701,7 @@ import ModalPopup from '../components/ModalPopup.vue';
 import FieldService from '../services/api/field.service';
 import ImportService from '../services/api/import.service';
 import InputLists from '../components/InputLists.vue';
+import contactService from '../services/api/contact.service';
 
 export default {
   name: 'CRM',
@@ -807,7 +810,10 @@ export default {
       innerWidth: window.innerWidth,
 
       lists: [],
-
+      stagedContacts: {
+        lists: [],
+        contacts: [],
+      },
       query: '',
       filters: {
         list: '',
@@ -1377,6 +1383,7 @@ export default {
       this.filters.currentList = null;
       this.getHeaders();
       this.getCrmContacts();
+      this.getStagedContacts(this.filters);
       this.loading = false;
     },
     setFilterList(list) {
@@ -1399,9 +1406,11 @@ export default {
         this.filters.type = 'all';
         this.filters.currentList = null;
         this.$store.state.overviewList = null;
+        this.getStagedContacts();
       }
       this.getHeaders();
       this.getCrmContacts();
+      this.getStagedContacts(this.filters);
     },
     intializeListChannel() {
       this.listChannel = Echo.join(
@@ -1501,6 +1510,20 @@ export default {
         });
       });
     },
+    getStagedContacts(data = null) {
+      contactService
+        .getStagedContacts(data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.stagedContacts.lists = response.stages;
+            this.stagedContacts.contacts = response.contacts;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     pageChanged({ page }) {
       this.filters.page = page;
       this.getCrmContacts();
@@ -1554,6 +1577,13 @@ export default {
           this.filters.page = response.contacts.current_page;
         }
       });
+    },
+    viewSwitched(enabled) {
+      if (enabled) {
+        this.getStagedContacts(this.filters);
+      } else {
+        this.getCrmContacts(this.filters);
+      }
     },
     crmCounts() {
       if (this.crmCounting) {
@@ -1649,28 +1679,30 @@ export default {
       });
     },
     updateSettings(data) {
-        TemplateService.updateSettings(this.filters.list, data)
-            .then((response) => {
-                response = response.data;
-                if (response.status) {
-                    console.log('UPDATE GOT SETTING', response);
-                }
-            })
-            .catch((error) => {
-                console.log('UPDATE Setting Error', error);
-            })
-            .finally((_) => {
-                console.log('UPDATE Nothing');
-            });
+      TemplateService.updateSettings(this.filters.list, data)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            console.log('UPDATE GOT SETTING', response);
+          }
+        })
+        .catch((error) => {
+          console.log('UPDATE Setting Error', error);
+        })
+        .finally((_) => {
+          console.log('UPDATE Nothing');
+        });
     },
     updateCopiedContactColumns(params) {
       // console.log(params)
-      this.$store.dispatch('updateCopiedContactColumns', params).then((response) => {
-        response = response.data;
-        if (response.status) {
-          this.crmCounts();
-        }
-      });
+      this.$store
+        .dispatch('updateCopiedContactColumns', params)
+        .then((response) => {
+          response = response.data;
+          if (response.status) {
+            this.crmCounts();
+          }
+        });
     },
   },
 };

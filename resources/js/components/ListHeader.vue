@@ -2,7 +2,7 @@
   <div
     class="sticky top-0 z-10 flex items-center justify-between bg-slate-100 py-4 dark:bg-jovieDark-900">
     <div class="items-center text-sm text-slate-600 dark:text-jovieDark-100">
-      <ColorDot class="mr-2" :color="list.color" />
+      <ColorDot class="mr-2" :styleColor="list.color" />
       {{ list.name }}
     </div>
     <div class="flex">
@@ -26,6 +26,7 @@ import ColorDot from './ColorDot.vue';
 import { PlusIcon, EllipsisHorizontalIcon } from '@heroicons/vue/24/solid';
 
 export default {
+  name: 'ListHeader',
   props: {
     list: {
       type: Object,

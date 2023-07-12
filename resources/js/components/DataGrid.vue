@@ -79,7 +79,7 @@
                 <ShareMenu :contacts="activeUsersOnList" />
               </div>
 
-              <ViewToggle v-if="currentUser.is_admin" v-model="boardView" />
+              <ViewToggle v-model="boardView" />
             </div>
             <div class="ml-4 flex items-center space-x-4">
               <div class="group h-full cursor-pointer items-center">
@@ -239,42 +239,10 @@
           </div>
         </header>
         <div v-if="boardView">
-          <!-- <BoardView :contacts="contacts" /> -->
-          <div
-            class="flex h-screen space-x-6 bg-slate-100 px-4 dark:bg-jovieDark-900">
-            <div v-for="list in lists" :key="list.id" class="overflow-y-auto">
-              <ListHeader :list="list" />
-
-              <ul role="list" class="flex flex-col space-y-2">
-                <li class="" v-for="contact in contacts" :key="contact.id">
-                  <ContactCard
-                    @contextMenuClicked="
-                      openRightClickMenuContextClick($event, contact)
-                    "
-                    @contextMenuButtonClicked="
-                      openRightClickMenuButton($event, contact)
-                    "
-                    @click="setCurrentContact($event, contact, index)"
-                    @openSidebar="
-                      $emit('openSidebar', { contact: contact, index: index })
-                    "
-                    @selectMultiple="selectMultiple"
-                    :loading="loading"
-                    :userLists="userLists"
-                    @update:currentCell="$emit('updateContact', $event)"
-                    @updateContact="$emit('updateContact', $event)"
-                    @updateListCount="$emit('updateListCount', $event)"
-                    @archive-contacts="
-                      toggleArchiveContacts(element.id, !element.archived)
-                    "
-                    @toggleContactsFromList="toggleContactsFromList"
-                    @checkContactsEnrichable="checkContactEnrichable"
-                    class="w-80"
-                    :contact="contact" />
-                </li>
-              </ul>
-            </div>
-          </div>
+          <BoardView
+            :lists="stagedContacts.lists"
+            @updateContact="$emit('updateContact', $event)"
+            :contacts="stagedContacts.contacts" />
         </div>
         <div
           v-else
@@ -907,6 +875,7 @@ export default {
         description: 'hellooo hello hello',
         loading: false,
       },
+      boardView: false,
       contextMenuTrigger: '',
       currentCell: {
         row: 0,
@@ -991,6 +960,7 @@ export default {
     'subheader',
     'header',
     'counts',
+    'stagedContacts',
     'columns',
     'headersLoaded',
     'suggestMerge',
@@ -1015,6 +985,9 @@ export default {
           });
         }
       },
+    },
+    boardView(enabled) {
+      this.$emit('viewSwitched', enabled);
     },
     suggestMerge() {
       this.suggestContactsMerge();
