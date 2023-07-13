@@ -26,7 +26,8 @@ router.beforeEach(async (to, from) => {
     } else {
       store.state.isExtension = true;
       if (to.query.creator != undefined) {
-        store.state.extensionQuery = to.href.split('?')[1];
+          store.state.extensionQuery.creator = JSON.parse(to.query.creator);
+          store.state.extensionQuery.creator.profile_pic_url = to.query.image;
       }
       let token = localStorage.getItem('jovie_extension');
       if (token) {

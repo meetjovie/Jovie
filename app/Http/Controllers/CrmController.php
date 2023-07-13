@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\EnrichedContactDataViewed;
 use App\Exports\CrmExport;
+use App\Jobs\ImportFromSocialAndAddTOCrm;
 use App\Models\Contact;
 use App\Models\ContactComment;
 use App\Models\Creator;
@@ -573,11 +574,11 @@ class CrmController extends Controller
     public function getExtensionCreator(Request $request)
     {
         try {
-            $creator = Creator::getCrmCreatorByHandler($request->all());
-            if ($creator) {
+            $contact = Creator::getCrmCreatorByHandler($request->all());
+            if ($contact) {
                 return response()->json([
                     'status' => true,
-                    'creator' => $creator,
+                    'contact' => $contact,
                 ], 200);
             } else {
                 return response()->json([
@@ -788,7 +789,16 @@ class CrmController extends Controller
             }
             $creator->{$request->network . '_last_scrapped_at'} = Carbon::now()->toDateTimeString();
             $creator->save();
-            Creator::addToListAndCrm($creator, null, $user->id, $user->currentTeam->id);
+
+            $params = [
+                'creator_id' => $creator->id,
+                'user_id' => $user->id,
+                'team_id' => $user->currentTeam->id,
+            ];
+
+            ImportFromSocialAndAddTOCrm::dispatch($data[$request->network . '_handler'], $request->network, $params)->onQueue(
+                config('import.'.$request->network.'_queue')
+            );
 
             return response()->json([
                 'status' => true,

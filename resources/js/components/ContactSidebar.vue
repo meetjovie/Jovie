@@ -991,20 +991,15 @@ export default {
         if (this.contactData.id) {
           this.contact = this.contactData;
         } else {
-          let queryParameters = store.state.extensionQuery;
-          let image = queryParameters.split('image=')[1];
-          const urlParameters = new URLSearchParams(queryParameters);
-          let contact = urlParameters.get('contact');
-          contact = JSON.parse(decodeURIComponent(contact));
-
-          let cPromise = new Promise(async (resolve, reject) => {
+            let contact = store.state.extensionQuery.creator;
+            let cPromise = new Promise(async (resolve, reject) => {
             UserService.getCrmContactByHandler({
               network: contact.network,
-              username: contact[`${contact.network}`],
+              username: contact[`${contact.network}_handler`],
             }).then((response) => {
               response = response.data;
               if (response.status) {
-                response.contact.network = contact.network;
+                  response.contact.network = contact.network;
                 resolve(response.contact);
               } else {
                 reject();
@@ -1020,16 +1015,14 @@ export default {
             },
             () => {
               let promise = new Promise(async (resolve, reject) => {
-                if (image && contact.network == 'instagram') {
+                if (contact.profile_pic_url && contact.network == 'instagram') {
                   await this.$store
-                    .dispatch('uploadTempFileFromUrl', image)
+                    .dispatch('uploadTempFileFromUrl', contact.profile_pic_url)
                     .then((response) => {
-                      image = response.url;
-                      contact.profile_pic_url = image;
+                      contact.profile_pic_url = response.url;
                       resolve();
                     });
                 } else {
-                  contact.profile_pic_url = decodeURIComponent(image);
                   resolve();
                 }
               });
@@ -1037,11 +1030,6 @@ export default {
                 if (contact == undefined) {
                   contact = {};
                 }
-                // for (const property in contact) {
-                //   if (property == 'website') {
-                //     contact[property] = decodeURIComponent(contact[property]);
-                //   }
-                // }
 
                 this.contact = contact;
                 console.log('contact from iframe');

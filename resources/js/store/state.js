@@ -15,7 +15,7 @@ export default {
   tooltipsEnabled: false,
   crmEventsRegistered: false,
   isExtension: false,
-  extensionQuery: null,
+  extensionQuery: {},
   theme: 'light',
   chromeExtensionInstalled: false,
   jovieVersion: '0.0.9',
