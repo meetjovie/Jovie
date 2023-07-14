@@ -87,6 +87,7 @@
                   <Float portal class="pr-2" :offset="4" placement="bottom-end">
                     <MenuButton class="inline-flex items-center">
                       <ButtonGroup
+                          @click="tableViewSearchQuery = ''"
                         :design="'toolbar'"
                         :text="'Display'"
                         size="xs"
@@ -1206,7 +1207,9 @@ export default {
       return this.columns.filter((column) => column.key != 'full_name');
     },
     filteredColumnList() {
-      return this.columns.filter((column) => {
+        console.log('this.tableViewSearchQuerythis.tableViewSearchQuery');
+        console.log(this.tableViewSearchQuery);
+        return this.columns.filter((column) => {
         return (
           column.name.toLowerCase().includes(this.tableViewSearchQuery) &&
           column.key !== 'full_name'
