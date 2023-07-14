@@ -143,15 +143,31 @@ class UserListsController extends Controller
 
     public function createList(Request $request)
     {
-        $name = "New list";
-        $list = UserList::firstOrCreateList(Auth::id(), $name, null, $request->emoji);
+        if (!empty($request->name)) {
+            $name = $request->name;
+        } else {
+            $name = "New list";
+        }
+
+        $existingLists = UserList::pluck('name')->all(); // Fetch all existing list names
+        $generatedName = $name;
+        $counter = 1;
+
+        while (in_array($generatedName, $existingLists)) {
+            $generatedName = $name . ' ' . $counter;
+            $counter++;
+        }
+
+        $list = UserList::firstOrCreateList(Auth::id(), $generatedName, null, $request->emoji);
 
         return response()->json([
             'status' => true,
             'message' => 'List Created.',
-            'list' => $list
+            'list' => $list,
+            'generatedName' => $generatedName // Include the generated name in the JSON response
         ], 200);
     }
+
 
     public function updateList(Request $request, $id)
     {
