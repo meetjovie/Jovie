@@ -23,7 +23,9 @@ class FieldsController extends Controller
         $listId = $request->input('list_id');
 
         // global custom fields
-        $customFields = CustomField::query()->with('customFieldOptions')->with('userLists')->whereDoesntHave('userLists');
+        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templates'])->where(function ($query) {
+            $query->whereDoesntHave('userLists')->whereDoesntHave('templates');
+        });
         if ($listId) {
             $customFields = $customFields->orWhereHas('userLists', function ($query) use ($listId) {
                 $query->where('user_list_id', $listId);

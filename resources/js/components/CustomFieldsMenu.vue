@@ -73,6 +73,11 @@
           {{ errors.type[0] }}
         </span>
       </div>
+        <InputLists
+            @updateLists="updateLists"
+            :lists="field.user_lists"
+        />
+        <p class="text-sm">If not list is select, the field will be consider global and will be synced on all lists.</p>
       <ButtonGroup
         class="mt-4"
         :text="currentField ? 'Update Field' : 'Add Field'"
@@ -114,10 +119,12 @@ import DropdownMenuItem from './DropdownMenuItem.vue';
 import ComboboxMenu from './ComboboxMenu.vue';
 import draggable from 'vuedraggable';
 import ModalPopup from './ModalPopup.vue';
+import InputLists from "./InputLists.vue";
 
 export default {
   name: 'CustomFieldsMenu',
   components: {
+      InputLists,
     PlusIcon,
     XMarkIcon,
     Bars2Icon,
@@ -154,6 +161,7 @@ export default {
         type: '',
         description: '',
         options: [],
+        user_lists: [],
       },
       adding: false,
       confirmationPopup: {
@@ -184,6 +192,20 @@ export default {
     this.getCustomFieldTypes();
   },
   methods: {
+      updateLists(payload) {
+          if (payload.add) {
+              if (
+                  !this.field.user_lists.filter((l) => l.id === payload.list.id)
+                      .length
+              ) {
+                  this.field.user_lists.push(payload.list);
+              }
+          } else {
+              this.field.user_lists = this.field.user_lists.filter(
+                  (l) => l.id !== payload.list.id
+              );
+          }
+      },
     resetPopup() {
       this.confirmationPopup = {
         confirmationMethod: null,
@@ -231,6 +253,7 @@ export default {
               type: '',
               description: '',
               options: [],
+              user_lists: [],
             };
             this.$emit('getCrmCreators');
             this.$emit('getFields');
@@ -260,6 +283,7 @@ export default {
     },
     saveCustomField() {
       let data = JSON.parse(JSON.stringify(this.field));
+      data.user_lists = data.user_lists.map(list => list.id)
       data.type = data.type.id;
       if (data.id) {
         this.confirmationPopup = {

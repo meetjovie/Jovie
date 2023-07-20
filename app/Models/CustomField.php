@@ -138,6 +138,11 @@ class CustomField extends Model
 
     public function userLists()
     {
-        return $this->belongsToMany(UserList::class);
+        return $this->belongsToMany(UserList::class)->withTimestamps();
+    }
+
+    public function templates()
+    {
+        return $this->belongsToMany(Template::class, 'template_fields', 'field_id')->where('type', 'custom')->withTimestamps();
     }
 }

@@ -456,18 +456,18 @@
                     </th>
                   </template>
                   <template #footer>
-<!--                    <th-->
-<!--                      scope="col"-->
-<!--                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">-->
-<!--                      <div @click="openCustomFieldModal()" class="w-40">-->
-<!--                        &lt;!&ndash; <CustomFieldsMenu-->
-<!--                                              class=""-->
-<!--                                              @getHeaders="$emit('getHeaders')" /> &ndash;&gt;-->
-<!--                        <PlusIcon-->
-<!--                          class="mx-auto h-4 w-4 text-slate-500 dark:text-jovieDark-400"-->
-<!--                          aria-hidden="true" />-->
-<!--                      </div>-->
-<!--                    </th>-->
+                    <th
+                      scope="col"
+                      class="sticky top-0 z-30 table-cell w-40 cursor-pointer items-center border-x border-slate-200 bg-slate-100 text-left text-xs font-medium tracking-wider text-slate-600 backdrop-blur backdrop-filter hover:bg-slate-300 focus-visible:border-transparent focus-visible:outline-none focus-visible:ring-0 dark:border-jovieDark-border dark:bg-jovieDark-700 dark:text-jovieDark-400 dark:hover:bg-jovieDark-600">
+                      <div @click="openCustomFieldModal()" class="w-40">
+                        <!-- <CustomFieldsMenu
+                                              class=""
+                                              @getHeaders="$emit('getHeaders')" /> -->
+                        <PlusIcon
+                          class="mx-auto h-4 w-4 text-slate-500 dark:text-jovieDark-400"
+                          aria-hidden="true" />
+                      </div>
+                    </th>
 
                     <th
                       scope="col"

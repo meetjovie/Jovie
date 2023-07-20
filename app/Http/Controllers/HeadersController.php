@@ -12,12 +12,16 @@ use App\Models\Template;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
+use function Clue\StreamFilter\fun;
+
 class HeadersController extends Controller
 {
     public function headerFields($listId = null)
     {
         // global custom fields
-        $customFields = CustomField::query()->with('customFieldOptions')->with('userLists')->whereDoesntHave('userLists');
+        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templates'])->where(function ($query) {
+            $query->whereDoesntHave('userLists')->whereDoesntHave('templates');
+        });
         if ($listId) {
             $customFields = $customFields->orWhereHas('userLists', function ($query) use ($listId) {
                 $query->where('user_list_id', $listId);
@@ -26,6 +30,7 @@ class HeadersController extends Controller
         $customFields = $customFields->get();
         foreach ($customFields as &$customField) {
             unset($customField->userLists);
+            unset($customField->templates);
             $customField->custom = true;
             $customField->key = $customField->code;
         }

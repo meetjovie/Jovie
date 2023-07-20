@@ -29,9 +29,11 @@ class CustomFieldsController extends Controller
             'type' => ['required', 'in:' . implode(',', array_map(function ($type) {
                     return $type['id'];
                 }, CustomField::CUSTOM_FIELD_TYPES))],
-            'options' => ['required_if:type,select,multi_select', 'array']
+            'options' => ['required_if:type,select,multi_select', 'array'],
+            'user_lists.*' => 'exists:contacts,id,team_id,' . Auth::user()->currentTeam->id
         ]);
         $data['code'] = null; // works with mutators
+        $data['user_lists'] = $request->user_lists;
         $data['user_id'] = Auth::id();
         $data['team_id'] = Auth::user()->currentTeam->id;
         $data['icon'] = collect(CustomField::CUSTOM_FIELD_TYPES)->where('id', $request->type)->first()['icon'];
@@ -41,6 +43,7 @@ class CustomFieldsController extends Controller
             if (!empty($data['options'])) {
                 $customField->customFieldOptions()->createMany($data['options']);
             }
+            $customField->userLists()->sync($data['user_lists']);
             $teamUsers = Auth::user()->currentTeam->users->pluck('id')->toArray();
             foreach ($teamUsers as $userId) {
                 FieldAttribute::create(['field_id' => $customField->id, 'type' => 'custom', 'order' => 0, 'team_id' => Auth::user()->currentTeam->id, 'user_id' => $userId]);
