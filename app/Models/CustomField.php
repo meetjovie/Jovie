@@ -135,6 +135,10 @@ class CustomField extends Model
     {
         return $this->hasMany(FieldAttribute::class, 'field_id');
     }
+    public function headerAttributes()
+    {
+        return $this->hasMany(HeaderAttribute::class, 'header_id');
+    }
 
     public function userLists()
     {

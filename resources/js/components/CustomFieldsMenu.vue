@@ -73,11 +73,11 @@
           {{ errors.type[0] }}
         </span>
       </div>
-        <InputLists
-            @updateLists="updateLists"
-            :lists="field.user_lists"
-        />
-        <p class="text-sm">If not list is select, the field will be consider global and will be synced on all lists.</p>
+      <InputLists @updateLists="updateLists" :lists="field.user_lists" />
+      <p class="text-sm">
+        If not list is select, the field will be consider global and will be
+        synced on all lists.
+      </p>
       <ButtonGroup
         class="mt-4"
         :text="currentField ? 'Update Field' : 'Add Field'"
@@ -119,12 +119,12 @@ import DropdownMenuItem from './DropdownMenuItem.vue';
 import ComboboxMenu from './ComboboxMenu.vue';
 import draggable from 'vuedraggable';
 import ModalPopup from './ModalPopup.vue';
-import InputLists from "./InputLists.vue";
+import InputLists from './InputLists.vue';
 
 export default {
   name: 'CustomFieldsMenu',
   components: {
-      InputLists,
+    InputLists,
     PlusIcon,
     XMarkIcon,
     Bars2Icon,
@@ -192,20 +192,19 @@ export default {
     this.getCustomFieldTypes();
   },
   methods: {
-      updateLists(payload) {
-          if (payload.add) {
-              if (
-                  !this.field.user_lists.filter((l) => l.id === payload.list.id)
-                      .length
-              ) {
-                  this.field.user_lists.push(payload.list);
-              }
-          } else {
-              this.field.user_lists = this.field.user_lists.filter(
-                  (l) => l.id !== payload.list.id
-              );
-          }
-      },
+    updateLists(payload) {
+      if (payload.add) {
+        if (
+          !this.field.user_lists.filter((l) => l.id === payload.list.id).length
+        ) {
+          this.field.user_lists.push(payload.list);
+        }
+      } else {
+        this.field.user_lists = this.field.user_lists.filter(
+          (l) => l.id !== payload.list.id
+        );
+      }
+    },
     resetPopup() {
       this.confirmationPopup = {
         confirmationMethod: null,
@@ -235,6 +234,7 @@ export default {
       this.confirmationPopup.open = false;
       this.adding = true;
       let data = JSON.parse(JSON.stringify(this.field));
+      data.user_lists = data.user_lists.map((list) => list.id);
       data.type = data.type.id;
       FieldService.updateCustomField(data)
         .then((response) => {
@@ -258,6 +258,7 @@ export default {
             this.$emit('getCrmCreators');
             this.$emit('getFields');
             this.$emit('getHeaders');
+            this.$emit('closeModel');
             close();
           } else {
             this.$notify({
@@ -283,7 +284,7 @@ export default {
     },
     saveCustomField() {
       let data = JSON.parse(JSON.stringify(this.field));
-      data.user_lists = data.user_lists.map(list => list.id)
+      data.user_lists = data.user_lists.map((list) => list.id);
       data.type = data.type.id;
       if (data.id) {
         this.confirmationPopup = {
@@ -298,7 +299,6 @@ export default {
           };
           this.confirmationPopup.open = true;
         });
-        return;
       } else {
         this.adding = true;
         FieldService.saveCustomField(data)
@@ -357,6 +357,7 @@ export default {
                   (type) => type.id === this.currentField.type
                 ),
                 description: this.currentField.description,
+                user_lists: this.currentField.user_lists,
                 options: [],
               };
               this.$nextTick(() => {

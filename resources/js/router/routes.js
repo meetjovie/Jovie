@@ -55,6 +55,11 @@ export const routes = [
         component: () => import(`./../views/SettingsWorkspaceMembers.vue`),
       },
       {
+        name: 'SettingsWorkspaceCustomFields',
+        path: 'custom-fields',
+        component: () => import(`./../views/SettingsWorkspaceCustomFields.vue`),
+      },
+      {
         name: 'SettingsPlan',
         path: 'plan',
         component: () => import(`./../views/SettingsPlan.vue`),

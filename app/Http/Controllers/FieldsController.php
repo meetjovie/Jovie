@@ -62,6 +62,21 @@ class FieldsController extends Controller
         ], 200);
     }
 
+    public function customFields()
+    {
+        return CustomField::query()->with(['customFieldOptions', 'userLists', 'templates'])->where(function ($query) {
+            $query->whereDoesntHave('templates');
+        })->get()->toArray();
+    }
+
+    public function customFieldDelete($id)
+    {
+        $field = CustomField::find($id);
+        $field->customFieldOptions->delete();
+        $field->customFieldValues->delete();
+        $field->delete();
+    }
+
     public function orderFields($fields, $orderedFieldIds)
     {
         return collect($fields)->sortBy(function (&$item) use ($orderedFieldIds) {

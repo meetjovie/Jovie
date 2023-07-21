@@ -139,6 +139,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // FIELDS
     Route::get('fields', [FieldsController::class, 'fields']);
+    Route::get('custom-fields', [FieldsController::class, 'customFields']);
     Route::get('custom-field-types', [CustomFieldsController::class, 'customFieldTypes']);
     Route::post('custom-field', [CustomFieldsController::class, 'store']);
     Route::put('custom-field/{id}', [CustomFieldsController::class, 'update']);

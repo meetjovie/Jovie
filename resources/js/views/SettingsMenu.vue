@@ -61,6 +61,12 @@ export default {
               component: 'SettingsWorkspaceMembers',
             },
             {
+              name: 'Custom Fields',
+              icon: 'UsersIcon',
+              description: 'Custom field settings',
+              component: 'SettingsWorkspaceCustomFields',
+            },
+            {
               name: 'Preferences',
               icon: 'CogIcon',
               component: 'SettingsPreferences',
