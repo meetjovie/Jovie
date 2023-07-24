@@ -19,8 +19,8 @@ class HeadersController extends Controller
     public function headerFields($listId = null)
     {
         // global custom fields
-        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templates'])->where(function ($query) {
-            $query->whereDoesntHave('userLists')->whereDoesntHave('templates');
+        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templatesHeaders'])->where(function ($query) {
+            $query->whereDoesntHave('userLists')->whereDoesntHave('templatesHeaders');
         });
         if ($listId) {
             $customFields = $customFields->orWhereHas('userLists', function ($query) use ($listId) {
@@ -39,12 +39,16 @@ class HeadersController extends Controller
         $userList = UserList::find($listId);
         $template = $userList ? $userList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
         $userListTemplateHeaders = $template->templateHeaders->pluck('header_id')->toArray();
-
-        $headers = array_values(array_filter($defaultHeaders, function ($value) use ($userListTemplateHeaders) {
+        $defaultHeaders = array_values(array_filter($defaultHeaders, function ($value) use ($userListTemplateHeaders) {
             return in_array($value['id'], $userListTemplateHeaders);
         }));
 
-        $headers = array_merge($customFields->toArray(), $headers);
+        // template fields. ignore scopr
+        $templateCustomFields = CustomField::query()->withoutGlobalScopes()->with('templatesHeaders')->whereHas('templatesHeaders', function ($query) use ($template) {
+            $query->where('templates.id', $template->id);
+        })->get();
+
+        $headers = array_merge($customFields->toArray(), $templateCustomFields->toArray(), $defaultHeaders);
         $headerAttributes = HeaderAttribute::getHeaderAttributes(['user_list_id' => $listId]);
         $headerAttributesKeyed = $headerAttributes->keyBy('header_id');
 

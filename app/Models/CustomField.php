@@ -145,8 +145,12 @@ class CustomField extends Model
         return $this->belongsToMany(UserList::class)->withTimestamps();
     }
 
-    public function templates()
+    public function templatesFields()
     {
         return $this->belongsToMany(Template::class, 'template_fields', 'field_id')->where('type', 'custom')->withTimestamps();
+    }
+    public function templatesHeaders()
+    {
+        return $this->belongsToMany(Template::class, 'template_headers', 'header_id')->where('type', 'custom')->withTimestamps();
     }
 }

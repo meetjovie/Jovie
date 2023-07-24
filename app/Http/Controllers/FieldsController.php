@@ -23,8 +23,8 @@ class FieldsController extends Controller
         $listId = $request->input('list_id');
 
         // global custom fields
-        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templates'])->where(function ($query) {
-            $query->whereDoesntHave('userLists')->whereDoesntHave('templates');
+        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templatesFields'])->where(function ($query) {
+            $query->whereDoesntHave('userLists')->whereDoesntHave('templatesFields');
         });
         if ($listId) {
             $customFields = $customFields->orWhereHas('userLists', function ($query) use ($listId) {
@@ -43,11 +43,16 @@ class FieldsController extends Controller
         $template = $UserList ? $UserList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
         $userListTemplateFields = $template->templateFields->pluck('field_id')->toArray();
 
-        $headers = array_values(array_filter($defaultFields, function ($value) use ($userListTemplateFields) {
+        $defaultFields = array_values(array_filter($defaultFields, function ($value) use ($userListTemplateFields) {
             return in_array($value['id'], $userListTemplateFields);
         }));
 
-        $fields = array_merge($customFields->toArray(), $headers);
+        // template fields. ignore scopr
+        $templateCustomFields = CustomField::query()->withoutGlobalScopes()->with('templatesFields')->whereHas('templatesFields', function ($query) use ($template) {
+            $query->where('templates.id', $template->id);
+        })->get();
+
+        $fields = array_merge($customFields->toArray(), $templateCustomFields->toArray(), $defaultFields);
         $fieldAttributes = FieldAttribute::getFieldsAttributes(['user_id' => Auth::id()]);
         $fieldAttributesKeyed = $fieldAttributes->keyBy('field_id');
 
