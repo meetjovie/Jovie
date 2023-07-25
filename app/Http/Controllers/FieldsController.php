@@ -22,13 +22,42 @@ class FieldsController extends Controller
         $creatorId = $request->input('creator_id');
         $listId = $request->input('list_id');
 
-        $customFields = CustomField::query()->with('customFieldOptions')->get();
+        // global custom fields
+        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templatesFields'])->where(function ($query) {
+            $query->whereDoesntHave('userLists')->whereDoesntHave('templatesFields');
+        });
+        if ($listId) {
+            $customFields = $customFields->orWhereHas('userLists', function ($query) use ($listId) {
+                $query->where('user_list_id', $listId);
+            });
+        }
+        $customFields = $customFields->get();
+
         foreach ($customFields as &$customField) {
             $customField->custom = true;
             $customField->input_values = $this->getInputValues($customField, $creatorId);
         }
         $defaultFields = FieldAttribute::DEFAULT_FIELDS;
-        $fields = array_merge($customFields->toArray(), $defaultFields);
+
+        $UserList = UserList::find($listId);
+        $template = $UserList ? $UserList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        $userListTemplateFields = $template->templateFields->pluck('field_id')->toArray();
+
+        $defaultFields = array_values(array_filter($defaultFields, function ($value) use ($userListTemplateFields) {
+            return in_array($value['id'], $userListTemplateFields);
+        }));
+
+        // template fields. ignore scopr
+        $templateCustomFields = CustomField::query()->withoutGlobalScopes()->with('templatesFields')->whereHas('templatesFields', function ($query) use ($template) {
+            $query->where('templates.id', $template->id);
+        })->get();
+
+        foreach ($templateCustomFields as &$customField) {
+            $customField->custom = true;
+            $customField->input_values = $this->getInputValues($customField, $creatorId);
+        }
+
+        $fields = array_merge($customFields->toArray(), $templateCustomFields->toArray(), $defaultFields);
         $fieldAttributes = FieldAttribute::getFieldsAttributes(['user_id' => Auth::id()]);
         $fieldAttributesKeyed = $fieldAttributes->keyBy('field_id');
 
@@ -36,18 +65,26 @@ class FieldsController extends Controller
             $field['hide'] = $fieldAttributesKeyed[$field['id']]['hide'] ?? 0;
         }
 
-        $UserList = UserList::find($listId);
-        $template = $UserList ? $UserList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
-        $userListTemplateFields = $template->templateFields->pluck('field_id')->toArray();
-        $fields = array_values(array_filter($fields, function ($value) use ($userListTemplateFields) {
-            return in_array($value['id'], $userListTemplateFields);
-        }));
-
         $fields = $this->orderFields($fields, $fieldAttributes->pluck('field_id')->toArray());
         return response()->json([
             'status' => true,
             'data' => $fields
         ], 200);
+    }
+
+    public function customFields()
+    {
+        return CustomField::query()->with(['customFieldOptions', 'userLists', 'templates'])->where(function ($query) {
+            $query->whereDoesntHave('templates');
+        })->get()->toArray();
+    }
+
+    public function customFieldDelete($id)
+    {
+        $field = CustomField::find($id);
+        $field->customFieldOptions->delete();
+        $field->customFieldValues->delete();
+        $field->delete();
     }
 
     public function orderFields($fields, $orderedFieldIds)

@@ -135,4 +135,22 @@ class CustomField extends Model
     {
         return $this->hasMany(FieldAttribute::class, 'field_id');
     }
+    public function headerAttributes()
+    {
+        return $this->hasMany(HeaderAttribute::class, 'header_id');
+    }
+
+    public function userLists()
+    {
+        return $this->belongsToMany(UserList::class)->withTimestamps();
+    }
+
+    public function templatesFields()
+    {
+        return $this->belongsToMany(Template::class, 'template_fields', 'field_id')->where('type', 'custom')->withTimestamps();
+    }
+    public function templatesHeaders()
+    {
+        return $this->belongsToMany(Template::class, 'template_headers', 'header_id')->where('type', 'custom')->withTimestamps();
+    }
 }

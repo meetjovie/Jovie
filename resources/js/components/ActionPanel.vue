@@ -19,6 +19,14 @@
             :design="buttonStyle"
             @click="onActionClick"
             :text="buttonText" />
+
+          <div v-if="actionTwo" class="ml-1">
+            <ButtonGroup
+              :loading="loading"
+              :design="buttonTwoStyle"
+              @click="onActionTwoClick"
+              :text="buttonTwoText" />
+          </div>
         </div>
       </div>
     </div>
@@ -26,6 +34,7 @@
 </template>
 <script>
 import ButtonGroup from './ButtonGroup.vue';
+
 export default {
   components: {
     ButtonGroup,
@@ -44,7 +53,16 @@ export default {
       type: String,
       required: false,
     },
+    buttonTwoText: {
+      type: String,
+      required: false,
+    },
     loading: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    actionTwo: {
       type: Boolean,
       required: false,
       default: false,
@@ -54,10 +72,18 @@ export default {
       required: false,
       default: 'compact',
     },
+    buttonTwoStyle: {
+      type: String,
+      required: false,
+      default: 'compact',
+    },
   },
   methods: {
     onActionClick() {
       this.$emit('action-click');
+    },
+    onActionTwoClick() {
+      this.$emit('action-two-click');
     },
   },
 };

@@ -181,6 +181,7 @@ class TemplateSeeder extends Seeder
                 TemplateHeader::create([
                     'template_id' => $template->id,
                     'header_id' => $headerId,
+                    'type' => 'custom',
                 ]);
         }
 
@@ -382,6 +383,7 @@ class TemplateSeeder extends Seeder
             TemplateHeader::create([
                 'template_id' => $template->id,
                 'header_id' => $field->id,
+                'type' => 'custom',
             ]);
 
             TemplateField::create(

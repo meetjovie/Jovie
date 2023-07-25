@@ -12,17 +12,49 @@ use App\Models\Template;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
+use function Clue\StreamFilter\fun;
+
 class HeadersController extends Controller
 {
     public function headerFields($listId = null)
     {
-        $customFields = CustomField::query()->with('customFieldOptions')->get();
+        // global custom fields
+        $customFields = CustomField::query()->with(['customFieldOptions', 'userLists', 'templatesHeaders'])->where(function ($query) {
+            $query->whereDoesntHave('userLists')->whereDoesntHave('templatesHeaders');
+        });
+        if ($listId) {
+            $customFields = $customFields->orWhereHas('userLists', function ($query) use ($listId) {
+                $query->where('user_list_id', $listId);
+            });
+        }
+        $customFields = $customFields->get();
         foreach ($customFields as &$customField) {
+            unset($customField->userLists);
+            unset($customField->templatesHeaders);
             $customField->custom = true;
             $customField->key = $customField->code;
         }
         $defaultHeaders = HeaderAttribute::DEFAULT_HEADERS;
-        $headers = array_merge($customFields->toArray(), $defaultHeaders);
+
+        $userList = UserList::find($listId);
+        $template = $userList ? $userList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
+        $userListTemplateHeaders = $template->templateHeaders->pluck('header_id')->toArray();
+        $defaultHeaders = array_values(array_filter($defaultHeaders, function ($value) use ($userListTemplateHeaders) {
+            return in_array($value['id'], $userListTemplateHeaders);
+        }));
+
+        // template fields. ignore scopr
+        $templateCustomHeaders = CustomField::query()->withoutGlobalScopes()->with('templatesHeaders')->whereHas('templatesHeaders', function ($query) use ($template) {
+            $query->where('templates.id', $template->id);
+        })->get();
+
+        foreach ($templateCustomHeaders as &$customField) {
+            unset($customField->templatesHeaders);
+            $customField->custom = true;
+            $customField->key = $customField->code;
+        }
+
+        $headers = array_merge($customFields->toArray(), $templateCustomHeaders->toArray(), $defaultHeaders);
         $headerAttributes = HeaderAttribute::getHeaderAttributes(['user_list_id' => $listId]);
         $headerAttributesKeyed = $headerAttributes->keyBy('header_id');
 
@@ -30,12 +62,6 @@ class HeadersController extends Controller
             $header['hide'] = $headerAttributesKeyed[$header['id']]['hide'] ?? 0;
             $header['width'] = intval($headerAttributesKeyed[$header['id']]['width'] ?? 160);
         }
-        $UserList = UserList::find($listId);
-        $template = $UserList ? $UserList->template : Template::where('name', Template::DEFAULT_TEMPLATE_NAME)->first();
-        $userListTemplateHeaders = $template->templateHeaders->pluck('header_id')->toArray();
-        $headers = array_values(array_filter($headers, function ($value) use ($userListTemplateHeaders) {
-            return in_array($value['id'], $userListTemplateHeaders);
-        }));
 
         $headerFields = $this->orderFields($headers, $headerAttributes->pluck('header_id')->toArray());
         array_unshift($headerFields, HeaderAttribute::FULL_NAME_HEADER);

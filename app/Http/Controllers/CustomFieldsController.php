@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\CustomField;
+use App\Models\CustomFieldOption;
 use App\Models\FieldAttribute;
 use App\Models\HeaderAttribute;
 use App\Models\UserList;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,9 +31,11 @@ class CustomFieldsController extends Controller
             'type' => ['required', 'in:' . implode(',', array_map(function ($type) {
                     return $type['id'];
                 }, CustomField::CUSTOM_FIELD_TYPES))],
-            'options' => ['required_if:type,select,multi_select', 'array']
+            'options' => ['required_if:type,select,multi_select', 'array'],
+            'user_lists.*' => 'exists:contacts,id,team_id,' . Auth::user()->currentTeam->id
         ]);
         $data['code'] = null; // works with mutators
+        $data['user_lists'] = $request->user_lists;
         $data['user_id'] = Auth::id();
         $data['team_id'] = Auth::user()->currentTeam->id;
         $data['icon'] = collect(CustomField::CUSTOM_FIELD_TYPES)->where('id', $request->type)->first()['icon'];
@@ -41,6 +45,7 @@ class CustomFieldsController extends Controller
             if (!empty($data['options'])) {
                 $customField->customFieldOptions()->createMany($data['options']);
             }
+            $customField->userLists()->sync($data['user_lists']);
             $teamUsers = Auth::user()->currentTeam->users->pluck('id')->toArray();
             foreach ($teamUsers as $userId) {
                 FieldAttribute::create(['field_id' => $customField->id, 'type' => 'custom', 'order' => 0, 'team_id' => Auth::user()->currentTeam->id, 'user_id' => $userId]);
@@ -65,7 +70,7 @@ class CustomFieldsController extends Controller
     public function update(Request $request, $id)
     {
         $customField = CustomField::query()->where('id', $id)->first();
-        if (! $customField) {
+        if (!$customField) {
             return response()->json([
                 'status' => true,
                 'message' => 'This field does not exist for you.',
@@ -78,18 +83,22 @@ class CustomFieldsController extends Controller
             'type' => ['required', 'in:' . implode(',', array_map(function ($type) {
                     return $type['id'];
                 }, CustomField::CUSTOM_FIELD_TYPES))],
-            'options' => ['required_if:type,select,multi_select', 'array']
+            'options' => ['required_if:type,select,multi_select', 'array'],
+            'user_lists' => ['array']
         ]);
+
         DB::transaction(function () use ($data, &$customField, $id) {
             $options = $data['options'];
             unset($data['options']);
+            $oldType = $customField->type;
             $customField->update($data);
-
+            $customField->userLists()->sync($data['user_lists']);
             $oldOptions = $customField->customFieldOptions()->get();
 
-            if (! count($oldOptions)) {
+
+            if (!count($oldOptions) || ($oldType == 'multi_select' && $oldType!= $data['type']) ) {
                 $customField->customFieldValues()->delete();
-                $values = collect($options)->pluck('value')->toArray();
+                $values = collect($options)->pluck('value', 'id')->toArray();
             } else {
                 $values = collect($options)->pluck('value', 'id')->toArray();
                 foreach ($oldOptions as $oldOption) {
@@ -111,8 +120,12 @@ class CustomFieldsController extends Controller
                         'order' => $index,
                     ]);
                 } else {
-                    $customField->customFieldOptions()->where('id', $optionId)->update([
-                        'order' => $index
+
+                    CustomFieldOption::where([
+                        'id' => $optionId,
+                        'custom_field_id' => $customField->id
+                    ])->update([
+                        'order' => $index,
                     ]);
                 }
                 $index++;
@@ -129,7 +142,7 @@ class CustomFieldsController extends Controller
     public function delete($id)
     {
         $customField = CustomField::query()->where('id', $id)->first();
-        if (! $customField) {
+        if (!$customField) {
             return response()->json([
                 'status' => true,
                 'message' => 'This field does not exist for you.',
