@@ -42,6 +42,16 @@
                     'validate',
                   ]">
                 </ContactContextMenuItem>
+                  <DropdownMenuItem
+                      name="Overview"
+                      icon="UserIcon"
+                      danger
+                      @click="
+                    $emit(
+                      'overview',
+                      contact.id,
+                    )
+                  " />
                 <DropdownMenuItem
                   name="AddToList"
                   submenu

@@ -627,6 +627,7 @@
     @archive-contacts="toggleArchiveContacts"
     @toggleContactsFromList="toggleContactsFromList"
     @checkContactsEnrichable="checkContactsEnrichable"
+    @overview="overview"
     :show="rightClickMenuOpen"
     :filters="filters"
     :x="rightClickMenuCoordinates.x"
@@ -1300,6 +1301,9 @@ export default {
       console.log(JSON.parse(e.to), 'slknedkscmx');
       console.log(e);
     },
+      overview(id) {
+        this.$router.push({'name': "Contact Overview", params: {id: id} })
+      },
     checkContactsEnrichable(event) {
       this.$emit(
         'checkContactsEnrichable',
