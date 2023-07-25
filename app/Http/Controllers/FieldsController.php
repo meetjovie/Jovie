@@ -52,6 +52,11 @@ class FieldsController extends Controller
             $query->where('templates.id', $template->id);
         })->get();
 
+        foreach ($templateCustomFields as &$customField) {
+            $customField->custom = true;
+            $customField->input_values = $this->getInputValues($customField, $creatorId);
+        }
+
         $fields = array_merge($customFields->toArray(), $templateCustomFields->toArray(), $defaultFields);
         $fieldAttributes = FieldAttribute::getFieldsAttributes(['user_id' => Auth::id()]);
         $fieldAttributesKeyed = $fieldAttributes->keyBy('field_id');

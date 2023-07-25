@@ -30,7 +30,7 @@ class HeadersController extends Controller
         $customFields = $customFields->get();
         foreach ($customFields as &$customField) {
             unset($customField->userLists);
-            unset($customField->templates);
+            unset($customField->templatesHeaders);
             $customField->custom = true;
             $customField->key = $customField->code;
         }
@@ -44,11 +44,17 @@ class HeadersController extends Controller
         }));
 
         // template fields. ignore scopr
-        $templateCustomFields = CustomField::query()->withoutGlobalScopes()->with('templatesHeaders')->whereHas('templatesHeaders', function ($query) use ($template) {
+        $templateCustomHeaders = CustomField::query()->withoutGlobalScopes()->with('templatesHeaders')->whereHas('templatesHeaders', function ($query) use ($template) {
             $query->where('templates.id', $template->id);
         })->get();
 
-        $headers = array_merge($customFields->toArray(), $templateCustomFields->toArray(), $defaultHeaders);
+        foreach ($templateCustomHeaders as &$customField) {
+            unset($customField->templatesHeaders);
+            $customField->custom = true;
+            $customField->key = $customField->code;
+        }
+
+        $headers = array_merge($customFields->toArray(), $templateCustomHeaders->toArray(), $defaultHeaders);
         $headerAttributes = HeaderAttribute::getHeaderAttributes(['user_list_id' => $listId]);
         $headerAttributesKeyed = $headerAttributes->keyBy('header_id');
 
