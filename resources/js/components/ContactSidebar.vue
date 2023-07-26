@@ -653,7 +653,6 @@ export default {
     },
   },
   async mounted() {
-    // console.log('Sidebar loaded');
     this.$mousetrap.bind('n', () => {
       //prevent default
 
@@ -661,14 +660,19 @@ export default {
     });
     document.onreadystatechange = () => {
       if (document.readyState == 'complete') {
-        console.log('Page completed with image and files!');
         // fetch to next page or some code
         // this.setContactData();
       }
     };
     this.setContactData();
 
-    await this.getFields();
+      if (this.sidebarFields) {
+          this.fields = this.sidebarFields;
+          this.setFieldsForDisplay()
+          this.fieldsLoaded = true;
+      } else {
+          await this.getFields();
+      }
   },
   props: {
     contactData: {
@@ -689,6 +693,9 @@ export default {
       type: Boolean,
       default: false,
     },
+      sidebarFields: {
+          default: null
+      },
   },
   data() {
     return {
@@ -813,10 +820,10 @@ export default {
           if (response.status) {
             this.fields = response.data;
             this.setFieldsForDisplay();
+              this.$emit('setSidebarFields', this.fields)
           }
         })
         .catch((error) => {
-          console.log(error);
           return;
           error = error.response;
           if (error.status == 422) {
@@ -868,10 +875,8 @@ export default {
       this.action();
       //trigger a function using the action prop
 
-      console.log('triggerAction');
     },
     log(event) {
-      console.log(event);
     },
     saveSocialNetworkURL() {
       this.$emit('updateContact', {
@@ -894,14 +899,12 @@ export default {
       });
     },
     openLink(url) {
-      console.log('url');
       //go to the url
 
       //if url is not null
       if (url.length > 0) {
         //else log no url found
       } else {
-        console.log('No url found');
         this.$notify({
           title: 'No url found',
           message: 'This contact does not have a url',
@@ -928,7 +931,6 @@ export default {
           }
         })
         .catch((error) => {
-          console.log(error);
           error = error.response;
           if (error.status == 422) {
             this.errors = error.data.errors;
@@ -952,9 +954,7 @@ export default {
       this.setNetwork(network);
       this.socialURLEditing = true;
       //focus on  id="social_network_url"
-      console.log(this.socialURLEditing);
       /*  this.editingSocialNetworkURL = network;
-                  console.log('editSocialNetworkURL');
 
 
                   this.activeSocialNetworkURLEdit = {
@@ -1010,8 +1010,6 @@ export default {
           cPromise.then(
             (value) => {
               this.contact = value;
-              console.log('contact from iframe DB');
-              console.log(this.contact);
             },
             () => {
               let promise = new Promise(async (resolve, reject) => {
@@ -1032,15 +1030,11 @@ export default {
                 }
 
                 this.contact = contact;
-                console.log('contact from iframe');
-                console.log(this.contact);
               });
             }
           );
         }
       } catch (e) {
-        console.log('eeeeeeeeeeeeeeeeeeeeeeeeeee');
-        console.log(e);
       }
     },
     toggleExpandBio() {

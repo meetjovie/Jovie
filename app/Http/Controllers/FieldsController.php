@@ -48,7 +48,7 @@ class FieldsController extends Controller
         }));
 
         // template fields. ignore scopr
-        $templateCustomFields = CustomField::query()->withoutGlobalScopes()->with('templatesFields')->whereHas('templatesFields', function ($query) use ($template) {
+        $templateCustomFields = CustomField::query()->withoutGlobalScopes()->with(['templatesFields', 'customFieldOptions', 'userLists'])->whereHas('templatesFields', function ($query) use ($template) {
             $query->where('templates.id', $template->id);
         })->get();
 

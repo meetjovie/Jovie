@@ -202,7 +202,7 @@ class CrmController extends Controller
         }
         $contact->enriched_viewed = true;
         $contact->save();
-        EnrichedContactDataViewed::dispatch($contact->id, $contact->team_id);
+//        EnrichedContactDataViewed::dispatch($contact->id, $contact->team_id);
         return response()->json([
             'status' => true,
             'message' => 'Marked Viewed.'

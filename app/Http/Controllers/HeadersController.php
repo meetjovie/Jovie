@@ -44,7 +44,7 @@ class HeadersController extends Controller
         }));
 
         // template fields. ignore scopr
-        $templateCustomHeaders = CustomField::query()->withoutGlobalScopes()->with('templatesHeaders')->whereHas('templatesHeaders', function ($query) use ($template) {
+        $templateCustomHeaders = CustomField::query()->withoutGlobalScopes()->with(['templatesHeaders', 'customFieldOptions', 'userLists'])->whereHas('templatesHeaders', function ($query) use ($template) {
             $query->where('templates.id', $template->id);
         })->get();
 

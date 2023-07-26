@@ -582,7 +582,9 @@
             <ContactSidebar
               @updateContact="updateContact"
               @getHeaders="getHeaders"
+              @setSidebarFields="setSidebarFields($event)"
               :jovie="true"
+              :sidebarFields="sidebarFields"
               :list="filters.list"
               :contactData="
                 currentContact ?? $store.state.crmRecords[0] ?? null
@@ -779,6 +781,7 @@ export default {
   },
   data() {
     return {
+        sidebarFields: null,
       listChannel: null,
       dropdownmenuitems: [
         {
@@ -1151,6 +1154,9 @@ export default {
     Echo.leaveAllChannels();
   },
   methods: {
+      setSidebarFields(e) {
+          this.sidebarFields = e;
+      },
     toggleMergeSuggestion(checkExists) {
       this.suggestionExists = checkExists;
     },
@@ -1395,7 +1401,7 @@ export default {
         Echo.leave(channelName);
         this.activeUsersOnList = [];
       }
-
+      this.sidebarFields = null;
       this.filters.type = 'list';
       this.filters.list = this.filters.list == list ? null : list;
       if (this.filters.list) {
