@@ -289,17 +289,22 @@
                 v-if="fieldsLoaded"
                 class="select-none space-y-4"
                 group="lists"
+                handle=".contact-field-handle"
                 ghost-class="ghost-card"
                 :contact="contact"
                 @end="sortFields"
                 v-model="displayAbleFields">
                 <!-- v-if for contact[element.model] check for default field as they would already be modeled-->
                 <div
-                  class="space-y-6"
+                  class="flex items-center space-y-6"
                   v-for="(element, index) in displayAbleFields"
                   :id="element.id"
                   :data-custom="element.custom"
                   :key="element.id">
+                  <div class="contact-field-handle">
+                    <Bars3Icon
+                      class="h-3 w-3 cursor-grab text-slate-400 active:cursor-grabbing active:text-slate-700 group-hover/menuItem:block dark:text-jovieDark-400 active:dark:text-jovieDark-300" />
+                  </div>
                   <template v-if="element.custom">
                     <CustomField
                       @blur="
@@ -615,10 +620,12 @@ import store from '../store';
 import FieldService from '../services/api/field.service';
 import CustomField from './CustomField.vue';
 import ContactAvatar from '../components/ContactAvatar.vue';
+import { Bars3Icon } from '@heroicons/vue/24/outline';
 
 export default {
   name: 'ContactSidebar',
   components: {
+    Bars3Icon,
     CustomField,
     ContactAvatar,
     JovieDropdownMenu,
@@ -666,13 +673,13 @@ export default {
     };
     this.setContactData();
 
-      if (this.sidebarFields) {
-          this.fields = this.sidebarFields;
-          this.setFieldsForDisplay()
-          this.fieldsLoaded = true;
-      } else {
-          await this.getFields();
-      }
+    if (this.sidebarFields) {
+      this.fields = this.sidebarFields;
+      this.setFieldsForDisplay();
+      this.fieldsLoaded = true;
+    } else {
+      await this.getFields();
+    }
   },
   props: {
     contactData: {
@@ -682,8 +689,8 @@ export default {
       },
     },
     list: {
-        type: Number,
-        default: 0,
+      type: Number,
+      default: 0,
     },
     compact: {
       type: Boolean,
@@ -693,9 +700,9 @@ export default {
       type: Boolean,
       default: false,
     },
-      sidebarFields: {
-          default: null
-      },
+    sidebarFields: {
+      default: null,
+    },
   },
   data() {
     return {
@@ -820,7 +827,7 @@ export default {
           if (response.status) {
             this.fields = response.data;
             this.setFieldsForDisplay();
-              this.$emit('setSidebarFields', this.fields)
+            this.$emit('setSidebarFields', this.fields);
           }
         })
         .catch((error) => {
@@ -874,10 +881,8 @@ export default {
     triggerAction(action, data) {
       this.action();
       //trigger a function using the action prop
-
     },
-    log(event) {
-    },
+    log(event) {},
     saveSocialNetworkURL() {
       this.$emit('updateContact', {
         id: this.contact.id,
@@ -991,15 +996,15 @@ export default {
         if (this.contactData.id) {
           this.contact = this.contactData;
         } else {
-            let contact = store.state.extensionQuery.creator;
-            let cPromise = new Promise(async (resolve, reject) => {
+          let contact = store.state.extensionQuery.creator;
+          let cPromise = new Promise(async (resolve, reject) => {
             UserService.getCrmContactByHandler({
               network: contact.network,
               username: contact[`${contact.network}_handler`],
             }).then((response) => {
               response = response.data;
               if (response.status) {
-                  response.contact.network = contact.network;
+                response.contact.network = contact.network;
                 resolve(response.contact);
               } else {
                 reject();
@@ -1034,8 +1039,7 @@ export default {
             }
           );
         }
-      } catch (e) {
-      }
+      } catch (e) {}
     },
     toggleExpandBio() {
       this.expandBio = !this.expandBio;

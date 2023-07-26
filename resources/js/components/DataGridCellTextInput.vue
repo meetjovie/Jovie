@@ -19,6 +19,7 @@
       :pattern="dataType == 'currency' ? '\\d*' : null"
       :aria-describedby="fieldId"
       @keydown.esc.prevent="handleEscKey"
+      @input="handleInput"
       @change="onBlur" />
     <div
       tabindex="-1"
@@ -35,7 +36,7 @@
 
 <script>
 import EmailValidationIcon from './EmailValidationIcon.vue';
-import { CurrencyDollarIcon } from '@heroicons/vue/24/outline';
+import {CurrencyDollarIcon} from '@heroicons/vue/24/outline';
 
 export default {
   components: {
@@ -54,6 +55,12 @@ export default {
   props: ['modelValue', 'placeholder', 'fieldId', 'dataType', 'value'],
   emits: ['update:modelValue', 'blur'],
   methods: {
+    handleInput(event) {
+      if (this.dataType === 'currency') {
+        // Remove any non-numeric characters and enforce the regex pattern
+        event.target.value = event.target.value.replace(/[^\d.]/g, '');
+      }
+    },
     handleEscKey(event) {
       if (event.key === 'Escape') {
         this.$refs.input.value = this.modelValue;

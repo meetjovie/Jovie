@@ -68,7 +68,19 @@ class ImportContacts implements ShouldQueue
             $mappedColumns = collect($this->payload->mappedColumns);
             $maxColumn = max($mappedColumns->flatten()->toArray());
             $contactIds = [];
+            $columnsToCheck = array_keys($mappedColumns->toArray());
             foreach ($records as $offset => $row) {
+                $rowIsEmpty = true;
+                foreach ($columnsToCheck as $column) {
+                    $mappedColumn = $this->payload->mappedColumns->$column ?? null;
+                    if ($mappedColumn !== null && isset($row[$mappedColumn]) && $row[$mappedColumn] !== "") {
+                        $rowIsEmpty = false;
+                        break;
+                    }
+                }
+                if ($rowIsEmpty) {
+                    continue;
+                }
                 if ($this->page == 0 && $offset == 0) {
                     continue;
                 }
@@ -183,7 +195,6 @@ class ImportContacts implements ShouldQueue
                     $contact->enrichContact();
                 }
             }
-
             if ($this->page >= ceil($this->payload->totalRecords / Import::PER_PAGE) - 1) {
                 if ($this->payload->list && count($this->payload->list)) {
                     $lists = UserList::query()->whereIn('id', $this->payload->list)->get();
