@@ -29,6 +29,7 @@
         <RadioGroup v-model="type" :value="type" :options="items" />
         <ButtonGroup
           @click="setAccountType"
+          :disabled="!type"
           :loading="updating"
           text="Continue"></ButtonGroup>
       </div>
@@ -62,7 +63,7 @@
         </div>
         <ButtonGroup
           @click="setupWorkspace"
-          :loading="updating"
+          :loader="updating"
           text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>
@@ -71,11 +72,9 @@
       header="Personal Workspace"
       subheader="Just you">
       <div class="mt-4 space-y-6">
-        ok
-
         <ButtonGroup
           @click="setupWorkspace"
-          :loading="updating"
+          :loader="updating"
           text="Continue"></ButtonGroup>
       </div>
     </OnboardingStep>

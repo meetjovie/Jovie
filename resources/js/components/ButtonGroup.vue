@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    :disabled="disabled"
+    :disabled="disabled || loader"
     @click="trackClick()"
     class="group inline-flex items-center overflow-hidden font-medium capitalize first:rounded-l-md last:rounded-r-md only-of-type:rounded-md focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 active:scale-95 active:shadow-none"
     :class="[

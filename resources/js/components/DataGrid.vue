@@ -290,7 +290,6 @@
                   ghost-class="ghost-header"
                   tag="tr"
                   @end="sortHeaders"
-                  @start="startHeaderDrag"
                   handle=".drag-head"
                   class="sticky h-8 items-center">
                   <template #header>

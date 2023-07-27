@@ -12,6 +12,7 @@
         type="text"
         placeholder="0"
         :id="'digit' + index"
+        :disabled="loading"
         pattern="[0-9]"
         maxlength="1" />
       <div class="ml-2 h-10 w-10">

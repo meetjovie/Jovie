@@ -258,12 +258,16 @@ export default {
       }
     },
     getOtp() {
-      this.showOtpInput = this.updating = true;
+      if (this.updating) {
+        return;
+      }
+      this.updating = true;
       let data = {};
       data.country_code = this.countryCode;
       data.phone = this.number;
       TwillioService.getOtp(data)
         .then((response) => {
+          this.showOtpInput = true;
           this.service = response.data;
         })
         .catch((error) => {
